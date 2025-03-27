@@ -587,18 +587,18 @@ ul {
     html {
         font-size: 14px;
     }
-    
+
     .hero-content h1 {
         font-size: 2.8rem;
     }
-    
+
     .cta-buttons {
         flex-direction: column;
         gap: 1rem;
         max-width: 250px;
         margin: 0 auto;
     }
-    
+
     #navbar ul {
         position: fixed;
         top: 0;
@@ -609,4 +609,34 @@ ul {
         flex-direction: column;
         padding: 4rem 2rem;
         gap: 2rem;
-        box
+        box .video-container
+
+{
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ensure portfolio cards with videos maintain consistent height */
+.portfolio-card .portfolio-img {
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+}
+
+/* Make portfolio cards with videos handle hover effects properly */
+.portfolio-card:hover .video-container iframe {
+    transform: scale(1.02); /* Subtle zoom for videos on hover */
+    transition: transform 0.5s ease;
+}
