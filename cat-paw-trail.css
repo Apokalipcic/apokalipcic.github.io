@@ -1,0 +1,51 @@
+/* cat-paw-trail.css - Styling for cat paw trail animation */
+
+/* Container for paw prints */
+#paw-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+}
+
+/* Base styles for paw prints */
+.paw-print {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    opacity: 0.8;
+    transition: opacity 2s ease, transform 0.5s ease;
+    pointer-events: none;
+    transform-origin: center;
+    filter: drop-shadow(0 0 1px rgba(74,107,255,0.4));
+}
+
+/* Left and right paw variations */
+.paw-print.left {
+    transform: rotate(-15deg);
+}
+
+.paw-print.right {
+    transform: rotate(15deg);
+}
+
+/* Fade out animation state */
+.paw-print.fade-out {
+    opacity: 0;
+}
+
+/* SVG sizing */
+.paw-print svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Color variations based on #4a6bff */
+.paw-print.variant-1 svg path { fill: #4a6bff; } /* Main color - Blue */
+.paw-print.variant-2 svg path { fill: #6a83ff; } /* Lighter blue */
+.paw-print.variant-3 svg path { fill: #3a53cc; } /* Darker blue */
+.paw-print.variant-4 svg path { fill: #8497ff; } /* Very light blue */

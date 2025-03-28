@@ -357,7 +357,7 @@ ul {
 
 .carousel-container {
     overflow: hidden;
-    padding: 1rem 0;
+    padding: 0.5rem;
 }
 
 .carousel-track {
@@ -396,8 +396,9 @@ ul {
 .portfolio-card-header {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 12px;
-    background-color: #000;
+    background-color: #c2c2c2;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 10;
     position: relative;
@@ -405,12 +406,13 @@ ul {
 
     /* Position icon next to title */
     .portfolio-card-header .portfolio-icon {
-        width: 40px;
-        height: 40px;
-        margin-right: 12px;
-        border-radius: 8px;
-        overflow: hidden;
-        flex-shrink: 0;
+    position: absolute;
+    left: 12px; 
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
     }
 
 .portfolio-icon .app-icon {
@@ -423,9 +425,8 @@ ul {
 .portfolio-card-header .portfolio-title {
     font-family: var(--heading-font);
     font-size: 1.2rem;
-    color: white;
     margin: 0;
-    text-align: left;
+    text-align: center;
 }
 
 /* Video container takes the remaining space */
@@ -448,7 +449,7 @@ ul {
     display: flex;
     justify-content: center;
     padding: 8px;
-    background-color: #000;
+    background-color: #c2c2c2;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 10;
     position: relative;
@@ -905,35 +906,100 @@ ul {
         font-weight: 600;
     }
 
-/* Screenshots gallery */
-.screenshots-gallery {
-    padding: 0 2rem 2rem;
-}
-
-.screenshots-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
-.screenshot {
+/* Screenshot Carousel Styles */
+.screenshots-carousel {
+    margin: 2rem 0;
+    background-color: rgba(245, 245, 245, 0.8); /* Match Game Details background */
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    transition: var(--transition);
+    padding: 1.5rem;
+    border: 1px solid #eaeaea; /* Subtle border like Game Details */
 }
 
-    .screenshot:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        z-index: 2;
-    }
+.screenshots-carousel .section-subtitle {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: #333;
+}
 
-    .screenshot img {
-        width: 100%;
-        height: auto;
-        display: block;
-    }
+.screenshots-carousel .carousel-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+}
+
+.screenshots-carousel .carousel-track {
+    display: flex;
+    gap: 2rem;
+    transition: transform 0.5s ease-in-out;
+}
+
+.screenshots-carousel .carousel-item {
+    min-width: 100%;
+    flex: 0 0 100%;
+}
+
+.screenshot-card {
+    overflow: hidden;
+    border-radius: 8px;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    position: relative;
+    background-color: #000; /* Black background for any image gaps */
+}
+
+.screenshot-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.screenshot-card:hover img {
+    transform: scale(1.03);
+}
+
+/* Carousel Controls - using the same styling as your Mobile Games carousel */
+.screenshots-carousel .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.screenshots-carousel .carousel-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color, #6c63ff);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.screenshots-carousel .carousel-btn:hover {
+    background-color: var(--primary-dark, #5753d9);
+}
+
+.screenshots-carousel .carousel-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+
 
 /* Action buttons */
 .game-jam-actions {
@@ -981,8 +1047,14 @@ ul {
         grid-template-columns: 1fr;
     }
 
-    .screenshots-gallery {
-        padding: 0 1.5rem 1.5rem;
+    .screenshots-carousel .carousel-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .screenshots-carousel .dot {
+        width: 10px;
+        height: 10px;
     }
     .game-details {
         padding: 1.2rem;

@@ -6,6 +6,7 @@
     <title>Maksym Kornilov | Game Developer</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="cat-paw-trail.css">
     <meta name="description" content="Professional portfolio of Maximilian, showcasing web development and design projects.">
 </head>
 <body>
@@ -475,23 +476,49 @@
                     </div>
                 </div>
 
-                <!-- Screenshots gallery -->
-                <div class="screenshots-gallery">
-                    <h2 class="section-subtitle">Screenshots</h2>
-                    <div class="screenshots-container">
-                        <div class="screenshot">
-                            <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_01.png" alt="Forgotten Echoes - Screenshot 1">
-                        </div>
-                        <div class="screenshot">
-                            <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_02.png" alt="Forgotten Echoes - Screenshot 2">
-                        </div>
-                        <div class="screenshot">
-                            <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_03.png" alt="Forgotten Echoes - Screenshot 3">
-                        </div>
-                        <div class="screenshot">
-                            <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_04.png" alt="Forgotten Echoes - Screenshot 4">
+                <!-- Screenshots Carousel -->
+                <div class="screenshots-carousel">
+                    <h4 class="section-subtitle">Screenshots</h4>
+                    <div class="carousel-container">
+                        <div class="carousel-track screenshot-track">
+                            <!-- Screenshot 1 -->
+                            <div class="carousel-item screenshot-item">
+                                <div class="screenshot-card">
+                                    <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_01.png" alt="Forgotten Echoes - Screenshot 1">
+                                </div>
+                            </div>
+                            <!-- Screenshot 2 -->
+                            <div class="carousel-item screenshot-item">
+                                <div class="screenshot-card">
+                                    <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_02.png" alt="Forgotten Echoes - Screenshot 2">
+                                </div>
+                            </div>
+                            <!-- Screenshot 3 -->
+                            <div class="carousel-item screenshot-item">
+                                <div class="screenshot-card">
+                                    <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_03.png" alt="Forgotten Echoes - Screenshot 3">
+                                </div>
+                            </div>
+                            <!-- Screenshot 4 -->
+                            <div class="carousel-item screenshot-item">
+                                <div class="screenshot-card">
+                                    <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_04.png" alt="Forgotten Echoes - Screenshot 4">
+                                </div>
+                            </div>
                         </div>
                     </div>
+        
+                    <div class="carousel-controls">
+                        <button class="carousel-btn prev-btn" aria-label="Previous screenshot">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="carousel-dots">
+                            <!-- Dots will be added dynamically with JavaScript -->
+                        </div>
+                        <button class="carousel-btn next-btn" aria-label="Next screenshot">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
                 </div>
 
                 <!-- Action Buttons -->
@@ -571,5 +598,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="cat-paw-trail.js"></script>
 </body>
 </html>
