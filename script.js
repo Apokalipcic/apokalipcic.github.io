@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (windowWidth < 768) {
                 itemsPerView = 1;
             } else if (windowWidth < 992) {
-                itemsPerView = 2;
+                itemsPerView = 3;
             } else {
-                itemsPerView = 2; // Show maximum of 2 items even on large screens
+                itemsPerView = 3; // Show maximum of 2 items even on large screens
             }
 
             const slideCount = Math.ceil(carouselItems.length / itemsPerView);
