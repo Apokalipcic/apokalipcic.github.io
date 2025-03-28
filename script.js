@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (windowWidth < 992) {
                 itemsPerView = 3;
             } else {
-                itemsPerView = 3; // Show maximum of 2 items even on large screens
+                itemsPerView = 3; // Show maximum of 3 items even on large screens
             }
 
             const slideCount = Math.ceil(carouselItems.length / itemsPerView);
@@ -117,8 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 dot.classList.toggle('active', index === currentSlide);
             });
 
-            // Handle video playback
-            handleVisibleVideos();
+            // No need to handle video playback here - we'll let videos continue playing
         }
 
         // Next slide
@@ -173,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Set link based on project ID
             switch (projectId) {
                 case 'project1':
-                    link.href = "https://www.google.com/search?q=puzzle+games";
+                    link.href = "https://www.google.com";
                     break;
                 case 'project2':
                     link.href = "https://www.google.com/search?q=space+run+game";
@@ -214,65 +213,44 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Function to handle video containers
-        function handleVideoContainers() {
+        // Function to handle video containers - MODIFIED to keep videos playing
+        // Function to handle video containers - MODIFIED to autoplay and keep videos playing
+        function initializeVideoContainers() {
             const videoContainers = document.querySelectorAll('.video-container[data-video-id]');
 
-            // Function to check if an element is visible in view
-            function isInViewport(element) {
-                const rect = element.getBoundingClientRect();
-                return (
-                    rect.top >= 0 &&
-                    rect.left >= 0 &&
-                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-                );
-            }
-
-            // Function to replace thumbnails with iframes for visible videos
-            function handleVisibleVideos() {
+            // Function to load all videos automatically
+            function loadAllVideos() {
                 videoContainers.forEach(container => {
                     const videoId = container.getAttribute('data-video-id');
                     const existingIframe = container.querySelector('iframe');
                     const thumbnail = container.querySelector('.video-thumbnail');
 
-                    if (isInViewport(container)) {
-                        // If visible and doesn't have iframe, replace thumbnail with iframe
-                        if (!existingIframe && thumbnail) {
-                            // Create iframe element
-                            const iframe = document.createElement('iframe');
-                            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0`;
-                            iframe.title = "YouTube video player";
-                            iframe.frameBorder = "0";
-                            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-                            iframe.allowFullscreen = true;
-                            iframe.className = "youtube-video";
+                    // Only create iframe if it doesn't exist yet
+                    if (!existingIframe && thumbnail) {
+                        // Create iframe element
+                        const iframe = document.createElement('iframe');
+                        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0`;
+                        iframe.title = "YouTube video player";
+                        iframe.frameBorder = "0";
+                        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                        iframe.allowFullscreen = true;
+                        iframe.className = "youtube-video";
 
-                            // Hide thumbnail but don't remove it
-                            thumbnail.style.display = 'none';
-                            container.appendChild(iframe);
-                        }
-                    } else {
-                        // If not visible and has iframe, remove iframe and show thumbnail
-                        if (existingIframe && thumbnail) {
-                            existingIframe.remove();
-                            thumbnail.style.display = 'block';
-                        }
+                        // Hide thumbnail
+                        thumbnail.style.display = 'none';
+
+                        // Add iframe to container
+                        container.appendChild(iframe);
                     }
                 });
             }
 
-            // Check initial visibility
-            setTimeout(handleVisibleVideos, 1000);
-
-            // Check on scroll
-            window.addEventListener('scroll', handleVisibleVideos);
-
-            return handleVisibleVideos;
+            // Load videos with slight delay to ensure DOM is ready
+            setTimeout(loadAllVideos, 1000);
         }
 
-        // Initialize video handling and get the function
-        const handleVisibleVideos = handleVideoContainers();
+        // Initialize video containers
+        initializeVideoContainers();
 
         // Add animation to skills bars
         const skillLevels = document.querySelectorAll('.skill-level');
