@@ -1,0 +1,155 @@
+/* loader.css - Styling for cat preloader animation */
+
+#loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90%;
+}
+
+.cat-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin-bottom: 20px;
+}
+
+.sleeping-cat {
+    width: 100%;
+    height: auto;
+    max-width: 280px;
+    object-fit: contain;
+}
+
+.zzz-container {
+    position: absolute;
+    top: 20px;
+    left: 50px;
+    opacity: 0;
+}
+
+.zzz {
+    position: absolute;
+    color: #4a6bff;
+    font-weight: bold;
+    font-size: 24px;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+}
+
+.zzz-1 {
+    animation-name: float-zzz-1;
+    font-size: 24px;
+}
+
+.zzz-2 {
+    animation-name: float-zzz-2;
+    font-size: 32px;
+    animation-delay: 0.4s;
+}
+
+.zzz-3 {
+    animation-name: float-zzz-3;
+    font-size: 40px;
+    animation-delay: 0.8s;
+}
+
+.dreaming-text {
+    font-size: 24px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.dots {
+    display: inline-block;
+    width: 20px;
+    margin-left: 5px;
+    animation: dot-animation 1.5s infinite;
+}
+
+/* Animation for the Zs */
+@keyframes float-zzz-1 {
+    0% { transform: translate(0, 0); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translate(-30px, -80px) rotate(-10deg); opacity: 0; }
+}
+
+@keyframes float-zzz-2 {
+    0% { transform: translate(0, 0); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translate(-15px, -100px) rotate(-5deg); opacity: 0; }
+}
+
+@keyframes float-zzz-3 {
+    0% { transform: translate(0, 0); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translate(5px, -120px) rotate(5deg); opacity: 0; }
+}
+
+/* Animation for the dots */
+@keyframes dot-animation {
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+    100% { content: '.'; }
+}
+
+/* Fade out animation */
+.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .cat-container {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .zzz-1 { font-size: 18px; }
+    .zzz-2 { font-size: 24px; }
+    .zzz-3 { font-size: 30px; }
+    
+    .dreaming-text {
+        font-size: 20px;
+    }
+}
+
+/* Media query for very small screens */
+@media (max-width: 480px) {
+    .cat-container {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .zzz-container {
+        right: 30px;
+    }
+    
+    .zzz-1 { font-size: 14px; }
+    .zzz-2 { font-size: 18px; }
+    .zzz-3 { font-size: 22px; }
+    
+    .dreaming-text {
+        font-size: 16px;
+    }
+}

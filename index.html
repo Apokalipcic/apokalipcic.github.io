@@ -7,15 +7,32 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="cat-paw-trail.css">
+    <link rel="stylesheet" href="loader.css">
     <meta name="description" content="Professional portfolio of Maximilian, showcasing web development and design projects.">
 </head>
 <body>
+    <div id="loader-container">
+        <div class="loader-content">
+            <div class="cat-container">
+                <img src="Images/Elements/Loader/lazy_sleeping_cat_512.png" alt="Sleeping Cat" class="sleeping-cat">
+                <div class="zzz-container">
+                    <div class="zzz zzz-1">Z</div>
+                    <div class="zzz zzz-2">Z</div>
+                    <div class="zzz zzz-3">Z</div>
+                </div>
+            </div>
+            <div class="dreaming-text">
+                <span>Dreaming</span>
+                <span class="dots">.</span>
+            </div>
+        </div>
+    </div>
     <template id="store-badge-template">
         <a href="#" class="store-link" target="_blank">
             <img src="Images/Elements/Icons/googlePlay_Download_Icon_800_240.png" alt="Get it on Google Play" class="store-icon">
         </a>
     </template>
-
+    <div id="main-content" style="display: none;">
     <!-- Header Section with Navigation -->
     <header id="header">
         <div class="container">
@@ -597,6 +614,8 @@
         </div>
     </footer>
 
+    </div>
+    <script src="loader.js"></script>
     <script src="script.js"></script>
     <script src="cat-paw-trail.js"></script>
 </body>
