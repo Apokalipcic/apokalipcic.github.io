@@ -23,6 +23,10 @@
     --box-shadow-hover: 0 8px 28px rgba(0,0,0,0.15);
     /* Transitions */
     --transition: all 0.3s ease;
+
+    --gamejam-color: #ff6b4a; /* Orange-red that contrasts with the blue */
+    --gamejam-dark: #e25a3a;
+    --gamejam-light: rgba(255, 107, 74, 0.05);
 }
 
 html {
@@ -669,6 +673,337 @@ ul {
     margin-top: 2rem;
 }
 
+/* ===== Game Jams ===== */
+.game-jams-section {
+    background-color: var(--light-color);
+    position: relative;
+}
+
+    .game-jams-section .underline {
+        background-color: var(--gamejam-color); /* Change underline to Game Jam color */
+    }
+
+.game-jam-project {
+    margin-top: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+}
+
+    .game-jam-project:hover {
+        box-shadow: var(--box-shadow-hover);
+        transform: translateY(-5px);
+    }
+
+.game-jam-title {
+    font-family: var(--heading-font);
+    font-size: 1.8rem;
+    padding: 1.5rem;
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
+    margin: 0;
+    text-align: center;
+    background-color: rgba(255, 107, 74, 0.03);
+}
+
+/* Analytics section */
+.game-analytics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.2rem;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.analytics-item {
+    min-width: 80px;
+}
+
+.analytics-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.analytics-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* Project info box inside game jam card */
+.game-jam-info-box {
+    padding: 1rem 1.5rem;
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Main content area */
+.game-jam-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+/* Video container */
+.game-jam-video-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+    .game-jam-video-container .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+    }
+
+    .game-jam-video-container .video-thumbnail {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+        .game-jam-video-container .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .game-jam-video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+
+/* Game - details */
+.game-details {
+    margin: 2rem auto;
+    max-width: 900px;
+    padding: 1.5rem;
+    background-color: var(--light-color);
+    border-radius: 8px;
+}
+
+.details-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.details-column {
+    flex: 1;
+    min-width: 300px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.details-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.details-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+/* Results Table Styles */
+.ratings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+    .ratings-table th,
+    .ratings-table td {
+        padding: 0.6rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .ratings-table th {
+        background-color: #f3f3f3;
+        text-align: left;
+        font-weight: 600;
+        color: var(--secondary-color);
+    }
+
+    .ratings-table td {
+        color: var(--text-light);
+    }
+
+        .ratings-table td:nth-child(2),
+        .ratings-table td:nth-child(3) {
+            text-align: center;
+        }
+
+    .ratings-table tr.highlight-row td {
+        color: var(--primary-color);
+        font-weight: bold;
+        background-color: rgba(74, 107, 255, 0.05);
+    }
+
+/* Contribution List Styles */
+.contributions-list {
+    padding: 0;
+    margin: 0;
+}
+
+.contribution-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+    list-style: none;
+}
+
+    .contribution-item:last-child {
+        margin-bottom: 0;
+    }
+
+.contribution-bullet {
+    color: var(--gamejam-color);
+    margin-top: 0.2rem;
+}
+
+    .contribution-bullet::after {
+        content: "•";
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+.contribution-text {
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+    .contribution-text strong {
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+
+/* Screenshots gallery */
+.screenshots-gallery {
+    padding: 0 2rem 2rem;
+}
+
+.screenshots-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.screenshot {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+    .screenshot:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        z-index: 2;
+    }
+
+    .screenshot img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+/* Action buttons */
+.game-jam-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 2rem 2rem;
+    flex-wrap: wrap;
+}
+
+/* Responsive design */
+@media screen and (max-width: 992px) {
+    .game-jam-title {
+        font-size: 1.6rem;
+    }
+
+    .analytics-value {
+        font-size: 1.2rem;
+    }
+
+    .analytics-label {
+        font-size: 0.85rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .game-jam-title {
+        font-size: 1.5rem;
+        padding: 1.2rem;
+    }
+
+    .game-analytics {
+        gap: 1.5rem;
+    }
+
+    .analytics-item {
+        min-width: 70px;
+    }
+
+    .game-jam-content {
+        padding: 1.5rem;
+    }
+
+    .contributions-list {
+        grid-template-columns: 1fr;
+    }
+
+    .screenshots-gallery {
+        padding: 0 1.5rem 1.5rem;
+    }
+    .game-details {
+        padding: 1.2rem;
+    }
+
+    .details-container {
+        gap: 1.5rem;
+    }
+
+    .details-column {
+        padding: 1rem;
+    }
+
+    .ratings-table th,
+    .ratings-table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+}
+
 /* ===== FOOTER ===== */
 #footer {
     background-color: var(--secondary-color);
@@ -795,5 +1130,27 @@ ul {
     .carousel-item {
         flex: 0 0 80%; /* Take up most of the screen on very small devices */
         margin: 0 auto;
+    }
+
+    .game-analytics {
+        gap: 1rem;
+    }
+
+    .analytics-item {
+        min-width: 60px;
+        flex-basis: calc(33.333% - 1rem);
+    }
+
+    .analytics-value {
+        font-size: 1.1rem;
+    }
+
+    .ratings-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .contribution-item {
+        margin-bottom: 1rem;
     }
 }

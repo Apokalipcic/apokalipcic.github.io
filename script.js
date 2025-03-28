@@ -292,4 +292,36 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(animateSkills, 1000);
         }
     }
+
+    function initializeGameJamVideos() {
+        const gameJamVideoContainers = document.querySelectorAll('.game-jam-video-container .video-container[data-video-id]');
+
+        gameJamVideoContainers.forEach(container => {
+            const videoId = container.getAttribute('data-video-id');
+            const thumbnail = container.querySelector('.video-thumbnail');
+
+            if (thumbnail) {
+                thumbnail.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Create iframe element
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
+                    iframe.title = "YouTube video player";
+                    iframe.frameBorder = "0";
+                    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                    iframe.allowFullscreen = true;
+                    iframe.className = "youtube-video";
+
+                    // Hide thumbnail
+                    thumbnail.style.display = 'none';
+
+                    // Add iframe to container
+                    container.appendChild(iframe);
+                });
+            }
+        });
+    }
+
+    initializeGameJamVideos();
 });
