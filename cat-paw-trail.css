@@ -2,14 +2,14 @@
 
 /* Container for paw prints */
 #paw-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
     z-index: 999;
-    overflow: hidden;
+    overflow: visible; /* Changed from hidden to visible */
 }
 
 /* Base styles for paw prints */
@@ -17,7 +17,7 @@
     position: absolute;
     width: 30px;
     height: 30px;
-    opacity: 0.8;
+    opacity: 0.9;
     transition: opacity 2s ease, transform 0.5s ease;
     pointer-events: none;
     transform-origin: center;

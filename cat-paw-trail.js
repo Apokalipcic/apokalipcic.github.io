@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const pawContainer = document.createElement('div');
     pawContainer.id = 'paw-container';
     pawContainer.style.cssText = `
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         pointer-events: none;
         z-index: 999;
-        overflow: hidden;
+        overflow: visible;
     `;
     document.body.appendChild(pawContainer);
 
@@ -30,12 +30,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const PLACEMENT_DISTANCE = 60; // Distance between paw prints in pixels
     let lastPlacementTime = 0;
     const MIN_PLACEMENT_INTERVAL = 100; // Minimum time between placements in ms
+    
+    // Add scroll position tracking
+    let scrollTop = window.scrollY || document.documentElement.scrollTop;
+    let scrollLeft = window.scrollX || document.documentElement.scrollLeft;
 
     // Handle mouse movement
     document.addEventListener('mousemove', function(e) {
         const currentTime = Date.now();
-        const currentX = e.clientX;
-        const currentY = e.clientY;
+        
+        // Get current scroll position
+        const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
+        const currentScrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        
+        // Calculate cursor position in the page (not just viewport)
+        const currentX = e.clientX + currentScrollLeft;
+        const currentY = e.clientY + currentScrollTop;
         
         // Calculate distance from last paw placement
         const distanceMoved = Math.sqrt(Math.pow(currentX - lastX, 2) + Math.pow(currentY - lastY, 2));
@@ -64,12 +74,60 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update position tracking
         lastX = currentX;
         lastY = currentY;
+        scrollTop = currentScrollTop;
+        scrollLeft = currentScrollLeft;
+    });
+    
+    // Handle scrolling as cursor movement
+    window.addEventListener('scroll', function() {
+        const currentTime = Date.now();
+        
+        // Get current scroll position
+        const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
+        const currentScrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        
+        // Calculate how much we scrolled
+        const scrollDeltaX = currentScrollLeft - scrollLeft;
+        const scrollDeltaY = currentScrollTop - scrollTop;
+        
+        // Only proceed if we actually scrolled
+        if (scrollDeltaX === 0 && scrollDeltaY === 0) return;
+        
+        // Use last known mouse position + current scroll position
+        const currentX = lastX + scrollDeltaX;
+        const currentY = lastY + scrollDeltaY;
+        
+        // Calculate distance from last paw placement
+        const distanceMoved = Math.sqrt(Math.pow(scrollDeltaX, 2) + Math.pow(scrollDeltaY, 2));
+        
+        // Add to the cumulative distance
+        lastPlacementDistance += distanceMoved;
+        
+        // Only place a paw if we've moved enough distance AND enough time has passed
+        if (lastPlacementDistance >= PLACEMENT_DISTANCE && currentTime - lastPlacementTime > MIN_PLACEMENT_INTERVAL) {
+            // Calculate direction from scroll
+            const angle = Math.atan2(scrollDeltaY, scrollDeltaX) * 180 / Math.PI;
+            
+            // Create paw at current calculated position
+            createPawPrint(currentX, currentY, isLeftPaw, angle);
+            
+            // Toggle paw side for alternating left-right pattern
+            isLeftPaw = !isLeftPaw;
+            
+            // Reset placement tracking
+            lastPlacementDistance = 0;
+            lastPlacementTime = currentTime;
+        }
+        
+        // Update position tracking
+        lastX = currentX;
+        lastY = currentY;
+        scrollTop = currentScrollTop;
+        scrollLeft = currentScrollLeft;
     });
 
     // Create a paw print at the specified position
     function createPawPrint(x, y, isLeft, directionAngle) {
-        const baseAngle = 90;
-
         const paw = document.createElement('div');
         
         // Randomly choose a color variant
@@ -81,9 +139,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // Insert the SVG
         paw.innerHTML = pawSVG;
         
-        // Position the paw
+        // Position the paw - use absolute positioning relative to the document
+        // Subtract current scroll to properly position in viewport
+        const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
+        const currentScrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        
+        paw.style.position = 'absolute'; // Changed from absolute to fixed
         paw.style.left = `${x - 15}px`;
         paw.style.top = `${y - 15}px`;
+        
+        // Adjust for SVG's natural orientation (90 degree offset)
+        const baseAngle = 90;
         
         // Calculate proper rotation: base angle + direction + left/right tilt
         const tiltAngle = isLeft ? -10 : 10;  // Left or right paw tilt
@@ -91,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
         paw.style.transform = `rotate(${finalAngle}deg)`;
         
         // Slightly adjust size for variety
-        const sizeVariation = 0.8 + Math.random() * 0.4; // 80% to 120% of original size
+        const sizeVariation = 0.8 + Math.random() * 0.3; // 80% to 110% of original size
         paw.style.transform += ` scale(${sizeVariation})`;
         
         // Add paw to container
