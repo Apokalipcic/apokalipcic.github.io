@@ -74,13 +74,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 let gameUrl = "#";
                 switch (projectId) {
                     case 'project1':
-                        gameUrl = "https://www.google.com";
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.BalloonBurst";
                         break;
                     case 'project2':
-                        gameUrl = "https://www.google.com/search?q=space+run+game";
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.Tornado.io";
                         break;
                     case 'project3':
-                        gameUrl = "https://www.google.com/search?q=ghost+run+game";
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.ColorDash_Project";
                         break;
                     case 'project4':
                         gameUrl = "https://www.google.com/search?q=dragon+quest+game";
@@ -212,57 +212,15 @@ document.addEventListener('DOMContentLoaded', function () {
             goToSlide(0);
         });
 
-        // Setup portfolio card clickable areas
-        const portfolioCards = document.querySelectorAll('.portfolio-card');
-        portfolioCards.forEach(card => {
-            const projectId = card.getAttribute('data-project');
-            const cardHeader = card.querySelector('.portfolio-card-header');
-
-            // Set the game URL based on project ID
-            let gameUrl = "#";
-            switch (projectId) {
-                case 'project1':
-                    gameUrl = "https://www.google.com";
-                    break;
-                case 'project2':
-                    gameUrl = "https://www.google.com/search?q=space+run+game";
-                    break;
-                case 'project3':
-                    gameUrl = "https://www.google.com/search?q=ghost+run+game";
-                    break;
-                case 'project4':
-                    gameUrl = "https://www.google.com/search?q=dragon+quest+game";
-                    break;
-                case 'project5':
-                    gameUrl = "https://www.google.com/search?q=speed+racer+game";
-                    break;
-                case 'project6':
-                    gameUrl = "https://www.google.com/search?q=chess+master+game";
-                    break;
-                default:
-                    gameUrl = "#portfolio";
-                    break;
-            }
-
-            // Make header clickable to open the game page
-            if (cardHeader) {
-                cardHeader.style.cursor = 'pointer';
-                cardHeader.addEventListener('click', function (e) {
-                    window.open(gameUrl, '_blank');
-                    e.stopPropagation();
-                });
-            }
-
-            // Prevent video clicks from navigating
-            const videoContainers = card.querySelectorAll('.video-container');
-            videoContainers.forEach(container => {
-                container.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                });
+        // Prevent video clicks from navigating
+        const videoContainers = document.querySelectorAll('.video-container');
+        videoContainers.forEach(container => {
+            container.addEventListener('click', function (e) {
+                e.stopPropagation();
             });
         });
 
-        // Function to handle video containers - MODIFIED to keep videos playing
+        // Function to handle video containers
         function initializeVideoContainers() {
             const videoContainers = document.querySelectorAll('.video-container[data-video-id]');
 
