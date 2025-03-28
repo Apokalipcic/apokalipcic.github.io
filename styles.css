@@ -680,7 +680,7 @@ ul {
 }
 
     .game-jams-section .underline {
-        background-color: var(--gamejam-color); /* Change underline to Game Jam color */
+        background-color: var(--primary-color); /* Change underline to Game Jam color */
     }
 
 .game-jam-project {
@@ -885,7 +885,7 @@ ul {
     }
 
 .contribution-bullet {
-    color: var(--gamejam-color);
+    color: var(--primary-color);
     margin-top: 0.2rem;
 }
 
