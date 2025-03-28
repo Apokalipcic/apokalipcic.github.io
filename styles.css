@@ -168,15 +168,33 @@ ul {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem 2rem;
+        padding: 0.8rem 2rem;
     }
 
 /* Updated logo styling - ADD THIS */
-.logo a {
+.logo {
+    display: block;
+}
+
+    .logo a {
+        display: flex;
+        align-items: center; /* This ensures vertical centering */
+        font-family: var(--heading-font);
+        color: var(--secondary-color);
+    }
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+}
+
+.logo-text {
     display: flex;
     flex-direction: column;
-    font-family: var(--heading-font);
-    color: var(--secondary-color);
     line-height: 1.2;
 }
 
@@ -190,6 +208,16 @@ ul {
     font-weight: 400;
     color: var(--text-light);
 }
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+    flex-shrink: 0; /* Don't allow image to shrink */
+}
+
 
 /* Social icons styling - ADD THIS */
 .social-icons {
@@ -224,10 +252,10 @@ ul {
     align-items: center;
 }
 
-#navbar ul {
-    display: flex;
-    gap: 1.5rem;
-}
+    #navbar ul {
+        display: flex;
+        gap: 1.5rem;
+    }
 
 .nav-link {
     color: var(--text-color);
@@ -272,8 +300,8 @@ ul {
 
 /* ===== HERO SECTION ===== */
 #hero {
-    height: 100vh;
-    display: flex;
+    /*height: 100vh;*/
+    /*display: row;*/
     align-items: center;
     background-color: var(--light-color);
     position: relative;
@@ -340,17 +368,18 @@ ul {
     margin: 0;
 }
 
-/* Smartphone-style portfolio card */
+/* UPDATED: Smartphone-style portfolio card */
 .portfolio-card {
     position: relative;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--box-shadow);
     transition: var(--transition);
-    aspect-ratio: 9/16;
-    border: 7px solid #000;
+    border: 7px solid #aaa;
     background-color: #000;
-    height: 620px; /* Fallback height if aspect-ratio isn't supported */
+    display: flex;
+    flex-direction: column;
+    height: 620px;
     cursor: pointer;
 }
 
@@ -359,13 +388,48 @@ ul {
         box-shadow: var(--box-shadow-hover);
     }
 
-/* Portfolio image/video container */
+/* NEW: Always visible header at the top */
+.portfolio-card-header {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background-color: #000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    position: relative;
+}
+
+    /* Position icon next to title */
+    .portfolio-card-header .portfolio-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+.portfolio-icon .app-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.portfolio-card-header .portfolio-title {
+    font-family: var(--heading-font);
+    font-size: 1.2rem;
+    color: white;
+    margin: 0;
+    text-align: left;
+}
+
+/* Video container takes the remaining space */
 .portfolio-img {
     position: relative;
     width: 100%;
-    height: 100%;
+    flex-grow: 1;
     overflow: hidden;
-    border-radius: 15px;
 }
 
     .portfolio-img img {
@@ -375,79 +439,65 @@ ul {
         transition: transform 0.5s ease;
     }
 
-/* Info overlay (hidden by default, shown on hover) */
+/* NEW: Footer with app store link */
+.portfolio-card-footer {
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    background-color: #000;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    position: relative;
+}
+
+.store-link {
+    display: block;
+    max-width: 120px;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+    .store-link:hover {
+        transform: scale(1.05);
+    }
+
+.store-icon {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 1;
+}
+
+.store-link:hover .store-icon {
+    transform: scale(1.05);
+}
+
+/* MODIFIED: Overlay just for tags */
 .portfolio-info {
     position: absolute;
-    top: 0;
+    bottom: 50px; /* Position above the footer */
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
     color: white;
     opacity: 0;
     transition: opacity 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     padding: 1rem;
-    border-radius: 15px;
     z-index: 5;
+    pointer-events: none;
 }
 
 .portfolio-card:hover .portfolio-info {
     opacity: 1;
 }
 
-/* Top section of the overlay with icon and title */
-.portfolio-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-/* Updated portfolio icon styling for custom app icons */
-.portfolio-icon {
-    background-color: var(--primary-color);
-    color: white;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden; /* Ensure the image doesn't overflow the circular container */
-}
-
-    .portfolio-icon .app-icon {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Changed from 'contain' to 'cover' */
-    }
-
-/* Optional: Add a subtle border around the icon to make it pop */
-.portfolio-icon {
-    border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-    /* Optional: Add a slight shadow to the icon for depth */
-    .portfolio-icon .app-icon {
-        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-    }
-
-.portfolio-title {
-    text-align: right;
-    margin: 0;
-    font-family: var(--heading-font);
-    font-size: 1.6rem;
-    max-width: 70%;
-}
-
-/* Bottom section with tags */
+/* Center the tags */
 .portfolio-tags {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.5rem;
+    margin-bottom: 10px;
 }
 
     .portfolio-tags span {
@@ -457,16 +507,6 @@ ul {
         border-radius: 1rem;
         font-size: 0.8rem;
     }
-
-/* Card link styling */
-.card-link {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100%;
-    color: inherit;
-    text-decoration: none;
-}
 
 /* Carousel controls */
 .carousel-controls {
@@ -518,7 +558,8 @@ ul {
     /*width: 100%;*/
     height: 100%;
     overflow: hidden;
-    border-radius: 15px;
+    border-radius: 0;
+    z-index: 2;
 }
 
     .video-container iframe {
@@ -527,7 +568,7 @@ ul {
         left: 0;
         width: 100% !important;
         height: 100% !important;
-        border-radius: 15px;
+        border-radius: 0;
         z-index: 1;
         object-fit: cover;
     }
@@ -544,7 +585,7 @@ ul {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 15px;
+        border-radius: 0;
     }
 
 .play-button {
@@ -742,6 +783,11 @@ ul {
         align-items: flex-start;
         gap: 0.75rem;
         padding: 1rem 1.5rem;
+    }
+
+    .profile-picture {
+        width: 36px;
+        height: 36px;
     }
 }
 

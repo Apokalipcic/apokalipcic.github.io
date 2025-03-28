@@ -9,13 +9,22 @@
     <meta name="description" content="Professional portfolio of Maximilian, showcasing web development and design projects.">
 </head>
 <body>
+    <template id="store-badge-template">
+        <a href="#" class="store-link" target="_blank">
+            <img src="Images/Elements/Icons/googlePlay_Download_Icon_800_240.png" alt="Get it on Google Play" class="store-icon">
+        </a>
+    </template>
+
     <!-- Header Section with Navigation -->
     <header id="header">
         <div class="container">
             <div class="logo">
                 <a href="#hero">
-                    <span class="logo-name">Maksym Kornilov</span>
-                    <span class="logo-role">Game Developer</span>
+                    <img src="Images/Elements/Icons/seriousCat_PP.png" alt="Maksym Kornilov" class="profile-picture">
+                    <div class="logo-text">
+                        <span class="logo-name">Maksym Kornilov</span>
+                        <span class="logo-role">Game Developer</span>
+                    </div>
                 </a>
             </div>
             <nav id="navbar">
@@ -81,8 +90,16 @@
                         <!-- Portfolio Item 1 (Local Image) -->
                         <div class="carousel-item">
                             <div class="portfolio-card" data-project="project1">
+                                <!-- Always visible header with icon and title -->
+                                <div class="portfolio-card-header">
+                                    <div class="portfolio-icon">
+                                        <img src="Images/Elements/App Icons/baloonBurst_Icon.png" alt="Balloon Burst Icon" class="app-icon">
+                                    </div>
+                                    <h3 class="portfolio-title">Balloon Burst</h3>
+                                </div>
+
+                                <!-- Video container -->
                                 <div class="portfolio-img video-container" data-video-id="3Y_GZrYku70">
-                                    <!-- Initially show the thumbnail -->
                                     <a href="https://www.youtube.com/watch?v=3Y_GZrYku70" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
                                         <img src="https://img.youtube.com/vi/3Y_GZrYku70/maxresdefault.jpg" alt="Video thumbnail">
                                         <div class="play-button">
@@ -91,13 +108,13 @@
                                     </a>
                                     <!-- The iframe will be inserted here via JavaScript when the item is visible -->
                                 </div>
+
+                                <!-- Google Play link at bottom -->
+                                <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                </div>
+
+                                <!-- Hover overlay just for tags -->
                                 <div class="portfolio-info">
-                                    <div class="portfolio-top">
-                                        <div class="portfolio-icon">
-                                            <img src="Images/Elements/App Icons/baloonBurst_Icon.png" alt="Puzzle Quest Icon" class="app-icon">
-                                        </div>
-                                        <h3 class="portfolio-title">Balloon Burst</h3>
-                                    </div>
                                     <div class="portfolio-tags">
                                         <span>Unity</span>
                                         <span>Mobile</span>
@@ -110,8 +127,16 @@
                         <!-- Portfolio Item 2 (YouTube Video) -->
                         <div class="carousel-item">
                             <div class="portfolio-card" data-project="project2">
+                                <!-- Always visible header with icon and title -->
+                                <div class="portfolio-card-header">
+                                    <div class="portfolio-icon">
+                                        <img src="Images/Elements/App Icons/tornado_Icon.png" alt="Tornado.io Icon" class="app-icon">
+                                    </div>
+                                    <h3 class="portfolio-title">Tornado.io</h3>
+                                </div>
+
+                                <!-- Video container -->
                                 <div class="portfolio-img video-container" data-video-id="CUea_Pt3pdI">
-                                    <!-- Initially show the thumbnail -->
                                     <a href="https://www.youtube.com/watch?v=CUea_Pt3pdI" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
                                         <img src="https://img.youtube.com/vi/CUea_Pt3pdI/maxresdefault.jpg" alt="Video thumbnail">
                                         <div class="play-button">
@@ -120,13 +145,13 @@
                                     </a>
                                     <!-- The iframe will be inserted here via JavaScript when the item is visible -->
                                 </div>
+
+                                <!-- Google Play link at bottom -->
+                                <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                </div>
+
+                                <!-- Hover overlay just for tags -->
                                 <div class="portfolio-info">
-                                    <div class="portfolio-top">
-                                        <div class="portfolio-icon">
-                                            <img src="Images/Elements/App Icons/tornado_Icon.png" alt="Space Run Icon" class="app-icon">
-                                        </div>
-                                        <h3 class="portfolio-title">Tornado.io</h3>
-                                    </div>
                                     <div class="portfolio-tags">
                                         <span>Unity</span>
                                         <span>Android</span>
@@ -139,8 +164,16 @@
                         <!-- Portfolio Item 3 (Local Image) -->
                         <div class="carousel-item">
                             <div class="portfolio-card" data-project="project3">
+                                <!-- Always visible header with icon and title -->
+                                <div class="portfolio-card-header">
+                                    <div class="portfolio-icon">
+                                        <img src="Images/Elements/App Icons/colorDash_Icon.png" alt="Color Dash Icon" class="app-icon">
+                                    </div>
+                                    <h3 class="portfolio-title">Color Dash</h3>
+                                </div>
+
+                                <!-- Video container -->
                                 <div class="portfolio-img video-container" data-video-id="xoXclsqdAmA">
-                                    <!-- Initially show the thumbnail -->
                                     <a href="https://www.youtube.com/watch?v=xoXclsqdAmA" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
                                         <img src="https://img.youtube.com/vi/xoXclsqdAmA/maxresdefault.jpg" alt="Video thumbnail">
                                         <div class="play-button">
@@ -149,13 +182,13 @@
                                     </a>
                                     <!-- The iframe will be inserted here via JavaScript when the item is visible -->
                                 </div>
+
+                                <!-- Google Play link at bottom -->
+                                <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                </div>
+
+                                <!-- Hover overlay just for tags -->
                                 <div class="portfolio-info">
-                                    <div class="portfolio-top">
-                                        <div class="portfolio-icon">
-                                            <img src="Images/Elements/App Icons/colorDash_Icon.png" alt="Ghost Run Icon" class="app-icon">
-                                        </div>
-                                        <h3 class="portfolio-title">Color Dash</h3>
-                                    </div>
                                     <div class="portfolio-tags">
                                         <span>Unity</span>
                                         <span>Both</span>

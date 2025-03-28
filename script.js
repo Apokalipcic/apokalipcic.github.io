@@ -47,6 +47,67 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Function to populate store badges from template
+    function populateStoreBadges() {
+        // Get the template
+        const template = document.getElementById('store-badge-template');
+
+        // Exit if template doesn't exist
+        if (!template) return;
+
+        // Find all footers that need the template
+        const footers = document.querySelectorAll('.portfolio-card-footer[data-use-template="store-badge-template"]');
+
+        // For each footer, clone the template content and append it
+        footers.forEach(footer => {
+            // Clone the template content
+            const clone = template.content.cloneNode(true);
+
+            // Get the project ID from the parent portfolio card
+            const projectId = footer.closest('.portfolio-card').getAttribute('data-project');
+
+            // Get the store link from the clone
+            const storeLink = clone.querySelector('.store-link');
+
+            // Set the appropriate URL based on project ID
+            if (storeLink && projectId) {
+                let gameUrl = "#";
+                switch (projectId) {
+                    case 'project1':
+                        gameUrl = "https://www.google.com";
+                        break;
+                    case 'project2':
+                        gameUrl = "https://www.google.com/search?q=space+run+game";
+                        break;
+                    case 'project3':
+                        gameUrl = "https://www.google.com/search?q=ghost+run+game";
+                        break;
+                    case 'project4':
+                        gameUrl = "https://www.google.com/search?q=dragon+quest+game";
+                        break;
+                    case 'project5':
+                        gameUrl = "https://www.google.com/search?q=speed+racer+game";
+                        break;
+                    case 'project6':
+                        gameUrl = "https://www.google.com/search?q=chess+master+game";
+                        break;
+                    default:
+                        gameUrl = "#portfolio";
+                        break;
+                }
+
+                // Update the link href
+                storeLink.href = gameUrl;
+            }
+
+            // Append the clone to the footer
+            footer.appendChild(clone);
+        });
+    }
+
+    // Call the function to populate badges
+    populateStoreBadges();
+
     // Portfolio carousel
     const carouselTrack = document.querySelector('.carousel-track');
     const carouselItems = document.querySelectorAll('.carousel-item');
@@ -116,8 +177,6 @@ document.addEventListener('DOMContentLoaded', function () {
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentSlide);
             });
-
-            // No need to handle video playback here - we'll let videos continue playing
         }
 
         // Next slide
@@ -153,68 +212,57 @@ document.addEventListener('DOMContentLoaded', function () {
             goToSlide(0);
         });
 
-        // Convert portfolio-card to use direct links
+        // Setup portfolio card clickable areas
         const portfolioCards = document.querySelectorAll('.portfolio-card');
         portfolioCards.forEach(card => {
-            // Skip if card already has a direct link
-            if (card.querySelector('.card-link')) return;
-
-            const content = card.innerHTML;
             const projectId = card.getAttribute('data-project');
+            const cardHeader = card.querySelector('.portfolio-card-header');
 
-            // Create a wrapper link
-            const link = document.createElement('a');
-            link.href = "#"; // Default link that will be updated
-            link.className = "card-link";
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
-
-            // Set link based on project ID
+            // Set the game URL based on project ID
+            let gameUrl = "#";
             switch (projectId) {
                 case 'project1':
-                    link.href = "https://www.google.com";
+                    gameUrl = "https://www.google.com";
                     break;
                 case 'project2':
-                    link.href = "https://www.google.com/search?q=space+run+game";
+                    gameUrl = "https://www.google.com/search?q=space+run+game";
                     break;
                 case 'project3':
-                    link.href = "https://www.google.com/search?q=ghost+run+game";
+                    gameUrl = "https://www.google.com/search?q=ghost+run+game";
                     break;
                 case 'project4':
-                    link.href = "https://www.google.com/search?q=dragon+quest+game";
+                    gameUrl = "https://www.google.com/search?q=dragon+quest+game";
                     break;
                 case 'project5':
-                    link.href = "https://www.google.com/search?q=speed+racer+game";
+                    gameUrl = "https://www.google.com/search?q=speed+racer+game";
                     break;
                 case 'project6':
-                    link.href = "https://www.google.com/search?q=chess+master+game";
+                    gameUrl = "https://www.google.com/search?q=chess+master+game";
                     break;
                 default:
-                    link.href = "#portfolio";
+                    gameUrl = "#portfolio";
                     break;
             }
 
-            // Move content into the link
-            link.innerHTML = content;
-
-            // Replace card content with the link
-            card.innerHTML = '';
-            card.appendChild(link);
+            // Make header clickable to open the game page
+            if (cardHeader) {
+                cardHeader.style.cursor = 'pointer';
+                cardHeader.addEventListener('click', function (e) {
+                    window.open(gameUrl, '_blank');
+                    e.stopPropagation();
+                });
+            }
 
             // Prevent video clicks from navigating
             const videoContainers = card.querySelectorAll('.video-container');
             videoContainers.forEach(container => {
                 container.addEventListener('click', function (e) {
-                    if (e.target.closest('iframe') || e.target.closest('.play-button')) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }
+                    e.stopPropagation();
                 });
             });
         });
 
         // Function to handle video containers - MODIFIED to keep videos playing
-        // Function to handle video containers - MODIFIED to autoplay and keep videos playing
         function initializeVideoContainers() {
             const videoContainers = document.querySelectorAll('.video-container[data-video-id]');
 
