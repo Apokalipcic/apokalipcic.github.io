@@ -398,7 +398,7 @@ ul {
 }
 
 /* Position platform icons to the right */
-.game-genre .platform-icons {
+.game-main-info .platform-icons {
   display: flex;
   gap: 6px;
   margin-left: auto;
@@ -625,20 +625,6 @@ ul {
     transform: scale(1.05);
 }
 
-/* MODIFIED: Overlay just for tags */
-.portfolio-info {
-    position: absolute;
-    bottom: 50px; /* Position above the footer */
-    left: 0;
-    width: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    padding: 1rem;
-    z-index: 5;
-    pointer-events: none;
-}
 
 .portfolio-card:hover .portfolio-info {
     opacity: 1;

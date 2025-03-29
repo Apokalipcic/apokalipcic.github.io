@@ -83,13 +83,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.ColorDash_Project";
                         break;
                     case 'project4':
-                        gameUrl = "https://www.google.com/search?q=dragon+quest+game";
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.BoatMaster";
                         break;
                     case 'project5':
-                        gameUrl = "https://www.google.com/search?q=speed+racer+game";
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.AutoTD";
                         break;
                     case 'project6':
-                        gameUrl = "https://www.google.com/search?q=chess+master+game";
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.ColorBlitz";
+                        break;
+                    case 'project7':
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.ConnectRitz";
+                        break;
+                    case 'project8':
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.BurgerMania";
+                        break; 
+                    case 'project9':
+                        gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.JustTanky";
                         break;
                     default:
                         gameUrl = "#portfolio";
