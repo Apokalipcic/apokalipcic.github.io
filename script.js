@@ -117,14 +117,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Call the function to populate badges
     populateStoreBadges();
 
-    // Portfolio carousel
-    const carouselTrack = document.querySelector('.carousel-track');
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const dotsContainer = document.querySelector('.carousel-dots');
+    // *** PORTFOLIO CAROUSEL - MOBILE GAMES SECTION ***
+    function initializePortfolioCarousel() {
+        const carouselTrack = document.querySelector('#Mobile-Games .carousel-track');
+        const carouselItems = document.querySelectorAll('#Mobile-Games .carousel-item');
+        const prevBtn = document.querySelector('#Mobile-Games .prev-btn');
+        const nextBtn = document.querySelector('#Mobile-Games .next-btn');
+        const dotsContainer = document.querySelector('#Mobile-Games .carousel-dots');
 
-    if (carouselTrack && carouselItems.length > 0) {
+        if (!carouselTrack || carouselItems.length === 0) return;
+
         // Create dots based on number of slides
         function createDots() {
             const windowWidth = window.innerWidth;
@@ -134,11 +136,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (windowWidth < 768) {
                 itemsPerView = 1;
             } else if (windowWidth < 992) {
-                itemsPerView = 3;
+                itemsPerView = 2; // Changed from 3 to 2 for medium screens
             } else {
                 itemsPerView = 3; // Show maximum of 3 items even on large screens
             }
 
+            // Calculate total number of slides needed
             const slideCount = Math.ceil(carouselItems.length / itemsPerView);
 
             // Clear existing dots
@@ -182,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
             carouselTrack.style.transform = `translateX(${offset}px)`;
 
             // Update active dot
-            const dots = document.querySelectorAll('.dot');
+            const dots = document.querySelectorAll('#Mobile-Games .dot');
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentSlide);
             });
@@ -225,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Prevent video clicks from navigating
-        const videoContainers = document.querySelectorAll('.video-container');
+        const videoContainers = document.querySelectorAll('#Mobile-Games .video-container');
         videoContainers.forEach(container => {
             container.addEventListener('click', function (e) {
                 e.stopPropagation();
@@ -234,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Function to handle video containers
         function initializeVideoContainers() {
-            const videoContainers = document.querySelectorAll('.video-container[data-video-id]');
+            const videoContainers = document.querySelectorAll('#Mobile-Games .video-container[data-video-id]');
 
             // Function to load all videos automatically
             function loadAllVideos() {
@@ -273,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Game Info Box functionality
         // Function to update game info box visibility based on carousel position
         function updateGameInfoBoxVisibility() {
-            const carouselItems = document.querySelectorAll('.carousel-item');
+            const carouselItems = document.querySelectorAll('#Mobile-Games .carousel-item');
             const windowWidth = window.innerWidth;
             
             // Determine how many items per view based on screen size
@@ -317,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Initialize game info boxes with transitions
         function initGameInfoBoxes() {
-            const gameInfoBoxes = document.querySelectorAll('.game-info-box');
+            const gameInfoBoxes = document.querySelectorAll('#Mobile-Games .game-info-box');
             
             gameInfoBoxes.forEach(box => {
                 box.style.transition = 'all 0.3s ease-in-out';
@@ -333,42 +336,9 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Initialize game info boxes
         initGameInfoBoxes();
-
-        // Add animation to skills bars
-        const skillLevels = document.querySelectorAll('.skill-level');
-        function animateSkills() {
-            skillLevels.forEach(skill => {
-                const targetWidth = skill.style.width;
-                skill.style.width = '0%';
-
-                setTimeout(() => {
-                    skill.style.width = targetWidth;
-                }, 100);
-            });
-        }
-
-        // Use Intersection Observer to trigger skill animation when in view
-        if ('IntersectionObserver' in window) {
-            const skillsSection = document.querySelector('.skills');
-
-            if (skillsSection) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            animateSkills();
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.5 });
-
-                observer.observe(skillsSection);
-            }
-        } else {
-            // Fallback for browsers that don't support Intersection Observer
-            setTimeout(animateSkills, 1000);
-        }
     }
 
+    // Initialize Game Jam Videos
     function initializeGameJamVideos() {
         const gameJamVideoContainers = document.querySelectorAll('.game-jam-video-container .video-container[data-video-id]');
 
@@ -399,11 +369,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    initializeGameJamVideos();
-
+    // *** SCREENSHOTS CAROUSEL - GAME JAM SECTION ***
     function initializeScreenshotCarousel() {
-        const screenshotTrack = document.querySelector('.screenshot-track');
-        const screenshotItems = document.querySelectorAll('.screenshot-item');
+        const screenshotTrack = document.querySelector('.screenshots-carousel .screenshot-track');
+        const screenshotItems = document.querySelectorAll('.screenshots-carousel .screenshot-item');
         const screenshotPrevBtn = document.querySelector('.screenshots-carousel .prev-btn');
         const screenshotNextBtn = document.querySelector('.screenshots-carousel .next-btn');
         const screenshotDotsContainer = document.querySelector('.screenshots-carousel .carousel-dots');
@@ -411,140 +380,137 @@ document.addEventListener('DOMContentLoaded', function () {
         let autoplayInterval;
         const autoplayDelay = 5000; // 5 seconds between slides
         
-        if (screenshotTrack && screenshotItems.length > 0) {
-            // Create dots based on number of slides
-            function createScreenshotDots() {
-                const windowWidth = window.innerWidth;
+        if (!screenshotTrack || screenshotItems.length === 0) return;
+
+        // Create dots based on number of slides
+        function createScreenshotDots() {
+            const windowWidth = window.innerWidth;
+            
+            // Determine how many items per view based on screen size
+            let itemsPerView;
+            if (windowWidth < 768) {
+                itemsPerView = 1;
+            } else {
+                itemsPerView = 1; // Show only 1 screenshot at a time regardless of screen size
+            }
+            
+            const slideCount = Math.ceil(screenshotItems.length / itemsPerView);
+            
+            // Clear existing dots
+            if (screenshotDotsContainer) {
+                screenshotDotsContainer.innerHTML = '';
                 
-                // Determine how many items per view based on screen size
-                let itemsPerView;
-                if (windowWidth < 768) {
-                    itemsPerView = 1;
-                } else {
-                    itemsPerView = 1; // Show only 1 screenshot at a time regardless of screen size
-                }
-                
-                const slideCount = Math.ceil(screenshotItems.length / itemsPerView);
-                
-                // Clear existing dots
-                if (screenshotDotsContainer) {
-                    screenshotDotsContainer.innerHTML = '';
-                    
-                    // Create new dots
-                    for (let i = 0; i < slideCount; i++) {
-                        const dot = document.createElement('span');
-                        dot.classList.add('dot');
-                        if (i === 0) {
-                            dot.classList.add('active');
-                        }
-                        dot.dataset.slide = i;
-                        screenshotDotsContainer.appendChild(dot);
-                        
-                        // Add click event to dots
-                        dot.addEventListener('click', function() {
-                            goToSlide(parseInt(this.dataset.slide));
-                            resetAutoplay(); // Reset autoplay timer when manually changing slides
-                        });
+                // Create new dots
+                for (let i = 0; i < slideCount; i++) {
+                    const dot = document.createElement('span');
+                    dot.classList.add('dot');
+                    if (i === 0) {
+                        dot.classList.add('active');
                     }
-                }
-                
-                return {
-                    itemsPerView,
-                    slideCount
-                };
-            }
-            
-            // Calculate carousel properties
-            let screenshotCarouselProps = createScreenshotDots();
-            let currentScreenshotSlide = 0;
-            
-            // Go to specified slide
-            function goToSlide(slideIndex) {
-                const itemWidth = screenshotItems[0].getBoundingClientRect().width;
-                const gapWidth = 32; // 2rem gap
-                
-                currentScreenshotSlide = slideIndex;
-                const offset = -1 * currentScreenshotSlide * screenshotCarouselProps.itemsPerView * (itemWidth + gapWidth);
-                screenshotTrack.style.transform = `translateX(${offset}px)`;
-                screenshotTrack.style.transition = 'transform 0.5s ease-in-out';
-                
-                // Update active dot
-                const dots = document.querySelectorAll('.screenshots-carousel .dot');
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentScreenshotSlide);
-                });
-            }
-            
-            // Next slide
-            function nextSlide() {
-                if (currentScreenshotSlide >= screenshotCarouselProps.slideCount - 1) {
-                    goToSlide(0);
-                } else {
-                    goToSlide(currentScreenshotSlide + 1);
+                    dot.dataset.slide = i;
+                    screenshotDotsContainer.appendChild(dot);
+                    
+                    // Add click event to dots
+                    dot.addEventListener('click', function() {
+                        goToSlide(parseInt(this.dataset.slide));
+                        resetAutoplay(); // Reset autoplay timer when manually changing slides
+                    });
                 }
             }
             
-            // Previous slide
-            function prevSlide() {
-                if (currentScreenshotSlide <= 0) {
-                    goToSlide(screenshotCarouselProps.slideCount - 1);
-                } else {
-                    goToSlide(currentScreenshotSlide - 1);
-                }
-            }
+            return {
+                itemsPerView,
+                slideCount
+            };
+        }
+        
+        // Calculate carousel properties
+        let screenshotCarouselProps = createScreenshotDots();
+        let currentScreenshotSlide = 0;
+        
+        // Go to specified slide
+        function goToSlide(slideIndex) {
+            const itemWidth = screenshotItems[0].getBoundingClientRect().width;
+            const gapWidth = 32; // 2rem gap
             
-            // Start autoplay
-            function startAutoplay() {
-                stopAutoplay(); // Clear any existing interval first
-                autoplayInterval = setInterval(nextSlide, autoplayDelay);
-            }
+            currentScreenshotSlide = slideIndex;
+            const offset = -1 * currentScreenshotSlide * screenshotCarouselProps.itemsPerView * (itemWidth + gapWidth);
+            screenshotTrack.style.transform = `translateX(${offset}px)`;
+            screenshotTrack.style.transition = 'transform 0.5s ease-in-out';
             
-            // Stop autoplay
-            function stopAutoplay() {
-                if (autoplayInterval) {
-                    clearInterval(autoplayInterval);
-                }
-            }
-            
-            // Reset autoplay - used when manually changing slides
-            function resetAutoplay() {
-                stopAutoplay();
-                startAutoplay();
-            }
-            
-            // Add event listeners for carousel
-            if (screenshotNextBtn) {
-                screenshotNextBtn.addEventListener('click', function() {
-                    nextSlide();
-                    resetAutoplay();
-                });
-            }
-            
-            if (screenshotPrevBtn) {
-                screenshotPrevBtn.addEventListener('click', function() {
-                    prevSlide();
-                    resetAutoplay();
-                });
-            }
-            
-            // Pause autoplay on hover
-            screenshotTrack.addEventListener('mouseenter', stopAutoplay);
-            screenshotTrack.addEventListener('mouseleave', startAutoplay);
-            
-            // Recalculate on window resize
-            window.addEventListener('resize', function() {
-                screenshotCarouselProps = createScreenshotDots();
-                goToSlide(0);
-                resetAutoplay();
+            // Update active dot
+            const dots = document.querySelectorAll('.screenshots-carousel .dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentScreenshotSlide);
             });
-            
-            // Start autoplay
+        }
+        
+        // Next slide
+        function nextSlide() {
+            if (currentScreenshotSlide >= screenshotCarouselProps.slideCount - 1) {
+                goToSlide(0);
+            } else {
+                goToSlide(currentScreenshotSlide + 1);
+            }
+        }
+        
+        // Previous slide
+        function prevSlide() {
+            if (currentScreenshotSlide <= 0) {
+                goToSlide(screenshotCarouselProps.slideCount - 1);
+            } else {
+                goToSlide(currentScreenshotSlide - 1);
+            }
+        }
+        
+        // Start autoplay
+        function startAutoplay() {
+            stopAutoplay(); // Clear any existing interval first
+            autoplayInterval = setInterval(nextSlide, autoplayDelay);
+        }
+        
+        // Stop autoplay
+        function stopAutoplay() {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+            }
+        }
+        
+        // Reset autoplay - used when manually changing slides
+        function resetAutoplay() {
+            stopAutoplay();
             startAutoplay();
         }
+        
+        // Add event listeners for carousel
+        if (screenshotNextBtn) {
+            screenshotNextBtn.addEventListener('click', function() {
+                nextSlide();
+                resetAutoplay();
+            });
+        }
+        
+        if (screenshotPrevBtn) {
+            screenshotPrevBtn.addEventListener('click', function() {
+                prevSlide();
+                resetAutoplay();
+            });
+        }
+        
+        // Pause autoplay on hover
+        screenshotTrack.addEventListener('mouseenter', stopAutoplay);
+        screenshotTrack.addEventListener('mouseleave', startAutoplay);
+        
+        // Recalculate on window resize
+        window.addEventListener('resize', function() {
+            screenshotCarouselProps = createScreenshotDots();
+            goToSlide(0);
+            resetAutoplay();
+        });
+        
+        // Start autoplay
+        startAutoplay();
     }
-
-    // Call the function to initialize the screenshot carousel
-    initializeScreenshotCarousel();
 
     // Animation for skill bars in the About section
     function initializeSkillBars() {
@@ -606,6 +572,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Initialize skill bars
+    // Initialize all components
+    initializePortfolioCarousel();
+    initializeGameJamVideos();
+    initializeScreenshotCarousel();
     initializeSkillBars();
 });
