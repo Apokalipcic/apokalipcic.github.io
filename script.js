@@ -472,4 +472,69 @@ function initializeScreenshotCarousel() {
 // Call the function to initialize the screenshot carousel
 initializeScreenshotCarousel();
 
+// Animation for skill bars in the About section
+function initializeSkillBars() {
+    const skillLevels = document.querySelectorAll('.skill-bar');
+    
+    // Function to check if element is in viewport
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+    
+    // Function to animate skill bars
+    function animateSkills() {
+        skillLevels.forEach(skill => {
+            if (isInViewport(skill)) {
+                const targetWidth = skill.style.width;
+                skill.style.width = '0%';
+                
+                setTimeout(() => {
+                    skill.style.width = targetWidth;
+                }, 200);
+            }
+        });
+    }
+    
+    // Use Intersection Observer if supported
+    if ('IntersectionObserver' in window) {
+        const skillsSection = document.querySelector('.skills-container');
+        
+        if (skillsSection) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateSkills();
+                        // Disconnect after animation to prevent re-triggering
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            // Observe both skill sections
+            document.querySelectorAll('.skills-container').forEach(section => {
+                observer.observe(section);
+            });
+        }
+    } else {
+        // Fallback for browsers that don't support Intersection Observer
+        window.addEventListener('scroll', function() {
+            animateSkills();
+        });
+        
+        // Initial animation
+        setTimeout(animateSkills, 500);
+    }
+}
+
+// Initialize skill bars when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeSkillBars();
+});
+
 });
