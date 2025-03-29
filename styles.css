@@ -625,10 +625,15 @@ ul {
 
 .img-container {
     position: relative;
-    border-radius: 0.5rem;
+    border-radius: 50%;
     overflow: hidden;
     box-shadow: var(--box-shadow);
 }
+
+    .img-container img {
+        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+    }
 
 .about-text h3 {
     font-family: var(--heading-font);

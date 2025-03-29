@@ -1,0 +1,51 @@
+/* deal-with-it.css - Styling for the "Deal With It" sunglasses animation */
+
+/* ==========================================
+   CUSTOMIZATION VARIABLES 
+   Change these to adjust the appearance
+   ========================================== */
+:root {
+    --glasses-width: 250px;           /* Width of glasses when floating */
+    --glasses-width-final: 200px;     /* Width of glasses when landing on face */
+    --glasses-z-index: 9999;          /* Layer level (higher numbers appear on top) */
+    --glasses-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    --glasses-animation-speed: 0.7s;  /* Transition speed for movement */
+    --glasses-animation-type: cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Animation style - bouncy */
+    --glasses-tilt-animation: 3s;     /* How long the floating tilt animation takes */
+}
+
+/* Main glasses styling */
+.deal-with-it-glasses {
+    position: fixed;
+    top: 40vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--glasses-width);
+    height: auto;
+    z-index: var(--glasses-z-index);
+    transition: all var(--glasses-animation-speed) var(--glasses-animation-type);
+    pointer-events: none; /* Prevents glasses from interfering with clicks */
+    opacity: 0; /* Start hidden */
+    filter: drop-shadow(var(--glasses-shadow));
+}
+
+/* When glasses land on the profile picture */
+.deal-with-it-glasses.final-position {
+    top: auto;
+    left: auto;
+    position: absolute;
+    width: var(--glasses-width-final);
+    transform: none;
+}
+
+/* Adding a slight rotation to make the animation more dynamic */
+@keyframes tiltGlasses {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    25% { transform: translateX(-50%) rotate(-5deg); }
+    75% { transform: translateX(-50%) rotate(5deg); }
+    100% { transform: translateX(-50%) rotate(0deg); }
+}
+
+.deal-with-it-glasses:not(.final-position) {
+    animation: tiltGlasses var(--glasses-tilt-animation) infinite ease-in-out;
+}
