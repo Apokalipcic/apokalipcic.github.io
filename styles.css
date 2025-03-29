@@ -349,7 +349,128 @@ ul {
     gap: 1rem;
 }
 
-/* ===== PORTFOLIO SECTION ===== */
+/* ===== Mobile Games SECTION ===== */
+.game-info-box {
+  width: 100%;
+  max-width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  overflow: hidden;
+  border: 1px solid #e0e4e8;
+  margin-bottom: 20px;
+  transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease;
+}
+
+.game-main-info {
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  background: transparent;
+}
+
+/* Make the icon smaller */
+.game-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+/* Adjust the text details */
+.game-main-info .game-details {
+  margin-left: 15px;
+  flex-grow: 1;
+}
+
+.game-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 2px 0;
+  color: #333;
+}
+
+.game-genre {
+  font-size: 13px;
+  color: #777;
+  margin: 0;
+}
+
+/* Position platform icons to the right */
+.game-genre .platform-icons {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.platform {
+  width: 22px;
+  height: 22px;
+}
+
+.platform img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Statistics Section */
+.game-stats {
+  border-top: 1px solid #e0e4e8;
+  padding: 15px 20px;
+}
+
+.stats-label {
+  font-size: 12px;
+  color: #999;
+  margin: 0 0 10px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stat-box {
+  background: #f5f8ff;
+  border: 1px solid #e6eeff;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.stat-name {
+  display: block;
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 15px;
+  font-weight: bold;
+  color: #4a6bff;
+}
+
+/* Platform-specific icons */
+.platform-ios {
+  background-image: url('Images/Elements/Icons/ios_icon.png');
+  background-size: 16px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.platform-android {
+  background-image: url('Images/Elements/Icons/android_icon.png');
+  background-size: 16px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
 .portfolio-carousel {
     position: relative;
     margin-top: 2rem;
@@ -734,7 +855,7 @@ ul {
 
 
 /* Game - details */
-.game-details {
+.game-jam-project .game-details {
     margin: 2rem auto;
     max-width: 900px;
     padding: 1.5rem;
@@ -972,6 +1093,17 @@ ul {
 }
 
 @media screen and (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+  
+      .game-info-box {
+        margin-bottom: 15px;
+      }
+
+        .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
     .game-jam-title {
         font-size: 1.5rem;
         padding: 1.2rem;
@@ -1324,6 +1456,17 @@ ul {
     padding: 20px;
 }
 
+.course-content .btn {
+  display: block;
+  width: fit-content;
+  margin: 1.5rem auto 0; /* This adds top margin and centers horizontally */
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
 .course-title {
     font-size: 1.1rem;
     font-weight: 600;
@@ -1344,10 +1487,14 @@ ul {
     align-items: center;
 }
 
-.platform-icon {
-    width: 18px;
-    height: 18px;
+.course-platform .platform-icon {
+  width: 40px;
+  height: 40px;
+  border: main;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
     margin-right: 5px;
+    object-fit: contain;
 }
 
 .course-year {
@@ -1600,6 +1747,27 @@ ul {
 }
 
 @media screen and (max-width: 480px) {
+      .game-main-info {
+    flex-wrap: wrap;
+  }
+    .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .platform-icons {
+    margin-top: 10px;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .game-details {
+    width: calc(100% - 75px);
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
     .carousel-item {
         flex: 0 0 80%; /* Take up most of the screen on very small devices */
         margin: 0 auto;
