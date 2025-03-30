@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="cat-paw-trail.css">
     <link rel="stylesheet" href="loader.css">
     <link rel="stylesheet" href="Misc/chill-guy.css">
+    <link rel="stylesheet" href="Misc/river-footer.css">
     <meta name="description" content="Professional portfolio of Maximilian, showcasing Game Development for mobile platforms, such as Android, Ios. And some of concepts for RPG and Narrative Design.">
 </head>
 <body>
@@ -1158,13 +1159,52 @@
     </div>
 </section>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+<script src="Misc/river-footer.js"></script>
     <!-- Footer Section -->
-    <footer id="footer">
-        <div class="container">
-            <div class="footer-content">
-            </div>
+<footer class="river-footer">
+    <!-- Lottie River Animation Container -->
+    <div class="river-container" id="river-animation"></div>
+    
+    <!-- Boat Animation -->
+    <div class="boat-container" id="boat-container">
+        <video class="boat-animation" id="boat-video" autoplay loop muted playsinline>
+            <source src="Misc/boatTrans.mp4" type="video/mp4">
+        </video>
+    </div>
+    
+    <!-- Decorative elements -->
+    <div class="seagull seagull-1">
+        <svg width="20" height="10" viewBox="0 0 40 20">
+            <path d="M0,10 Q10,0 20,10 Q30,0 40,10" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="2"
+            />
+        </svg>
+    </div>
+    
+    <div class="seagull seagull-2">
+        <svg width="15" height="7" viewBox="0 0 40 20">
+            <path d="M0,10 Q10,0 20,10 Q30,0 40,10" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="2"
+            />
+        </svg>
+    </div>
+    
+    <!-- Footer Content (Copyright, links, etc.) -->
+    <div class="footer-content">
+        <div class="copyright">
+            © 2025 Your Portfolio
         </div>
-    </footer>
+        <div class="links">
+            <a href="#">Contact</a>
+            <a href="#">GitHub</a>
+        </div>
+    </div>
+</footer>
 
     </div>
     <script src="loader.js"></script>

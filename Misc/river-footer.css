@@ -1,0 +1,107 @@
+/* river-footer.css - Styling for the animated river footer */
+
+/* Footer container */
+.river-footer {
+    position: relative;
+    width: 100%;
+    height: 120px; /* Adjust height as needed */
+    overflow: hidden;
+}
+
+/* River animation container */
+.river-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Boat animation container */
+.boat-container {
+    position: absolute;
+    top: 10px; /* Adjust to position boat on the water */
+    left: -150px; /* Start off-screen */
+    z-index: 2;
+    transition: opacity 0.8s ease-in-out;
+}
+
+/* Boat video styling */
+.boat-animation {
+    width: 150px; /* Adjust based on your boat size */
+    height: auto;
+}
+
+/* Footer content styling */
+.footer-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to right, rgba(30, 58, 138, 0.8), rgba(37, 99, 235, 0.8));
+    color: white;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    box-sizing: border-box;
+}
+
+.footer-content a {
+    color: rgba(219, 234, 254, 0.9);
+    text-decoration: none;
+    margin-left: 15px;
+    transition: color 0.3s ease;
+}
+
+.footer-content a:hover {
+    color: white;
+}
+
+/* Additional elements */
+.seagull {
+    position: absolute;
+    z-index: 2;
+    opacity: 0.8;
+}
+
+.seagull-1 {
+    top: 15px;
+    left: 15%;
+    animation: fly 30s linear infinite;
+}
+
+.seagull-2 {
+    top: 25px;
+    left: 75%;
+    animation: fly 35s linear infinite;
+    animation-delay: 5s;
+}
+
+@keyframes fly {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100vw); }
+}
+
+/* Media queries for better responsiveness */
+@media (max-width: 768px) {
+    .river-footer {
+        height: 100px;
+    }
+    
+    .boat-animation {
+        width: 100px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        padding: 5px 10px;
+        font-size: 0.9em;
+    }
+    
+    .links {
+        margin-top: 3px;
+    }
+}
