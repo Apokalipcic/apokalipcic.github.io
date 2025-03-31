@@ -70,10 +70,11 @@ const CONFIG = {
 
 // Dialog system configuration
 const DIALOG_CONFIG = {
-  defaultDelay: 100,      // Default delay between dialogs
-  defaultDuration: 4000,  // Default duration to show each dialog
-  fadeSpeed: 300,         // Fade transition speed in ms
-  audioEnabled: true      // Global toggle for audio
+  defaultDelay: 100,        // Default delay between dialogs
+  defaultDuration: 4000,    // Default duration to show each dialog
+  fadeSpeed: 300,           // Fade transition speed in ms
+  audioEnabled: true,       // Global toggle for audio
+  interDialogDelay: 300     // Delay between dialogs after audio completes
 };
 
 /********************************************************
@@ -601,74 +602,74 @@ function initDialogSystem() {
   const dialogTriggers = document.querySelectorAll('.dialog-trigger');
   
   // Attach event listeners to triggers
-    dialogTriggers.forEach(trigger => {
-      trigger.addEventListener('click', function(e) {
-        e.preventDefault();
-    
-        // Get dialog group from trigger
-        const dialogGroup = this.getAttribute('data-dialog-group') || 'default';
-    
-        // Get section ID if available
-        const sectionId = this.getAttribute('data-section');
-    
-        // If section ID is available, activate that section
-        if (sectionId) {
-          document.querySelectorAll('.content-section').forEach(section => {
-            section.classList.remove('active');
-          });
+  dialogTriggers.forEach(trigger => {
+    trigger.addEventListener('click', function(e) {
+      e.preventDefault();
       
-          const targetSection = document.getElementById(sectionId);
-          if (targetSection) {
-            targetSection.classList.add('active');
-          }
+      // Get dialog group from trigger
+      const dialogGroup = this.getAttribute('data-dialog-group') || 'default';
       
-          // Update the content title
-          const contentTitle = document.querySelector('.content-title');
-          if (contentTitle) {
-            contentTitle.textContent = this.textContent;
-          }
+      // Get section ID if available
+      const sectionId = this.getAttribute('data-section');
       
-          // Update active navigation link
-          document.querySelectorAll('.nav__link').forEach(link => {
-            link.classList.remove('nav__link--active');
-          });
-          this.classList.add('nav__link--active');
+      // If section ID is available, activate that section
+      if (sectionId) {
+        document.querySelectorAll('.content-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+          targetSection.classList.add('active');
         }
-    
-        // Always show the active call indicator with glitch effect when a dialog is triggered
-        const activeCallIndicator = document.querySelector('.active-call-indicator');
-        if (activeCallIndicator) {
-          // Use showWithGlitch instead of just removing hidden class
-          // First make sure it's hidden (to ensure the effect works properly)
-          activeCallIndicator.classList.add('hidden');
-      
-          // Force a reflow to ensure the hidden state is applied
-          activeCallIndicator.offsetHeight;
-      
-          // Now show it with the glitch effect
-          showWithGlitch(activeCallIndicator);
-      
-          // Update the caller avatar based on the first dialog in the sequence
-          const firstDialog = document.querySelector(`.dialog-data[data-dialog-group="${dialogGroup}"]`);
-          if (firstDialog) {
-            const speaker = firstDialog.getAttribute('data-speaker');
-            updateActiveCallIndicator(speaker);
-          }
+        
+        // Update the content title
+        const contentTitle = document.querySelector('.content-title');
+        if (contentTitle) {
+          contentTitle.textContent = this.textContent;
         }
-    
-        // Play dialogs in sequence
-        playDialogSequence(dialogGroup);
-    
+        
+        // Update active navigation link
+        document.querySelectorAll('.nav__link').forEach(link => {
+          link.classList.remove('nav__link--active');
+        });
+        this.classList.add('nav__link--active');
+      }
+      
+      // Stop any currently playing dialog audio
+      stopCurrentDialogAudio();
+      
+      // Show active call indicator in left sidebar with glitch effect
+      const activeCallIndicator = document.querySelector('.active-call-indicator');
+      if (activeCallIndicator) {
+        // Make sure it's hidden (to ensure the effect works properly)
+        activeCallIndicator.classList.add('hidden');
+        
+        // Force a reflow to ensure the hidden state is applied
+        activeCallIndicator.offsetHeight;
+        
+        // Now show it with the glitch effect
+        showWithGlitch(activeCallIndicator);
+        
+        // Update the caller avatar based on the first dialog in the sequence
+        const firstDialog = document.querySelector(`.dialog-data[data-dialog-group="${dialogGroup}"]`);
+        if (firstDialog) {
+          const speaker = firstDialog.getAttribute('data-speaker');
+          updateActiveCallIndicator(speaker);
+        }
+      }
+      
+      // Play dialogs in sequence and hide call indicator when complete
+      playDialogSequence(dialogGroup).then(() => {
         // Hide call indicator after dialog completes
-        const totalDuration = calculateTotalDialogDuration(dialogGroup);
         setTimeout(() => {
           hideActiveCallIndicator();
-        }, totalDuration + 500);
+        }, 500);
       });
     });
+  });
 }
 
-// Play a sequence of dialogs
 function playDialogSequence(dialogGroupName) {
   const dialogs = document.querySelectorAll(`.dialog-data[data-dialog-group="${dialogGroupName}"]`);
   const dialogSpeaker = document.querySelector('.dialog-speaker');
@@ -676,10 +677,17 @@ function playDialogSequence(dialogGroupName) {
   
   if (dialogs.length > 0 && dialogSpeaker && dialogText) {
     let currentIndex = 0;
+    let currentAudio = null;
     
     // Function to display the current dialog
     function displayDialog() {
-      if (currentIndex >= dialogs.length) return;
+      if (currentIndex >= dialogs.length) {
+        // All dialogs complete - dispatch an event we can listen for
+        document.dispatchEvent(new CustomEvent('dialogSequenceComplete', {
+          detail: { dialogGroup: dialogGroupName }
+        }));
+        return;
+      }
       
       const dialog = dialogs[currentIndex];
       const speaker = dialog.getAttribute('data-speaker');
@@ -718,35 +726,129 @@ function playDialogSequence(dialogGroupName) {
       }
       
       // Play audio if available
-      const audio = dialog.getAttribute('data-audio');
-      if (audio && DIALOG_CONFIG.audioEnabled) {
-        const audioElement = new Audio(audio);
-        audioElement.play().catch(e => console.log('Audio playback error:', e));
-      }
+      const audioPath = dialog.getAttribute('data-audio');
       
-      // Move to next dialog after duration
-      currentIndex++;
-      if (currentIndex < dialogs.length) {
-        setTimeout(displayDialog, duration);
+      // Determine how long to wait before moving to the next dialog
+      let waitTime = duration;
+      
+      if (audioPath && DIALOG_CONFIG.audioEnabled) {
+        // Stop any currently playing audio
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio = null;
+        }
+        
+        // Create audio element
+        currentAudio = new Audio(audioPath);
+        currentAudio.setAttribute('data-dialog-audio', 'true');
+        
+        // Set up audio event listeners
+        currentAudio.addEventListener('ended', function() {
+          // When audio ends, move to next dialog after a small delay
+          setTimeout(() => {
+            currentIndex++;
+            displayDialog();
+          }, DIALOG_CONFIG.interDialogDelay || 300); // Small delay between dialogs
+        });
+        
+        // Handle audio errors
+        currentAudio.addEventListener('error', function(e) {
+          console.log('Audio playback error:', e);
+          // If audio fails, fall back to duration-based timing
+          setTimeout(() => {
+            currentIndex++;
+            displayDialog();
+          }, waitTime);
+        });
+        
+        // Start audio playback
+        currentAudio.play().catch(e => {
+          console.log('Audio playback error:', e);
+          // If audio fails, fall back to duration-based timing
+          setTimeout(() => {
+            currentIndex++;
+            displayDialog();
+          }, waitTime);
+        });
+      } else {
+        // No audio - move to next dialog after duration
+        setTimeout(() => {
+          currentIndex++;
+          displayDialog();
+        }, waitTime);
       }
     }
     
     // Start the dialog sequence
     displayDialog();
+    
+    // Return a promise that resolves when all dialogs are complete
+    return new Promise((resolve) => {
+      document.addEventListener('dialogSequenceComplete', function onComplete(event) {
+        if (event.detail.dialogGroup === dialogGroupName) {
+          document.removeEventListener('dialogSequenceComplete', onComplete);
+          resolve();
+        }
+      });
+    });
   }
+  
+  return Promise.resolve(); // Return resolved promise if no dialogs
 }
 
-// Calculate total duration of all dialogs in a group
+// Function to stop any playing dialog audio (useful when transitioning between sections)
+function stopCurrentDialogAudio() {
+  // Find any audio elements with data-dialog-audio="true" and stop them
+  const audioElements = document.querySelectorAll('audio[data-dialog-audio="true"]');
+  audioElements.forEach(audio => {
+    audio.pause();
+    audio.currentTime = 0;
+  });
+}
+
+// Calculate total duration of all dialogs in a group (accounting for audio files)
 function calculateTotalDialogDuration(dialogGroupName) {
   const dialogs = document.querySelectorAll(`.dialog-data[data-dialog-group="${dialogGroupName}"]`);
   let totalDuration = 0;
   
+  // Create a temporary array to hold all audio promises
+  const audioDurations = [];
+  
   dialogs.forEach(dialog => {
-    const duration = parseInt(dialog.getAttribute('data-duration')) || DIALOG_CONFIG.defaultDuration;
-    totalDuration += duration;
+    const audioPath = dialog.getAttribute('data-audio');
+    const specifiedDuration = parseInt(dialog.getAttribute('data-duration')) || DIALOG_CONFIG.defaultDuration;
+    
+    if (audioPath && DIALOG_CONFIG.audioEnabled) {
+      // Create a promise to get audio duration
+      const promise = new Promise((resolve) => {
+        const audio = new Audio(audioPath);
+        
+        // Once metadata is loaded, we can access duration
+        audio.addEventListener('loadedmetadata', function() {
+          // Add a small buffer to audio duration
+          resolve(audio.duration * 1000 + DIALOG_CONFIG.interDialogDelay);
+        });
+        
+        // Handle errors - fall back to specified duration
+        audio.addEventListener('error', function() {
+          resolve(specifiedDuration);
+        });
+        
+        // Set src after adding event listeners
+        audio.src = audioPath;
+      });
+      
+      audioDurations.push(promise);
+    } else {
+      // For dialogs without audio, just use the specified duration
+      audioDurations.push(Promise.resolve(specifiedDuration));
+    }
   });
   
-  return totalDuration;
+  // Return a promise that resolves to the total duration
+  return Promise.all(audioDurations).then(durations => {
+    return durations.reduce((total, duration) => total + duration, 0);
+  });
 }
 
 /********************************************************
@@ -936,14 +1038,9 @@ function setupCallFunctionality() {
         showWithGlitch(document.querySelector('.active-call-indicator'));
         updateActiveCallIndicator('REGINA JONES');
         
-        // Play dialog sequence
-        playDialogSequence('regina-intro');
-        
-        // After dialog sequence completes, show loading screen
-        const totalDialogDuration = calculateTotalDialogDuration('regina-intro');
-        
-        setTimeout(() => {
-          // Hide active call indicator with glitch effect
+        // Play dialog sequence and wait for completion
+        playDialogSequence('regina-intro').then(() => {
+          // Now that dialog sequence is complete, hide call indicator with glitch effect
           hideWithGlitch(document.querySelector('.active-call-indicator'));
           
           // Show loading animation
@@ -957,11 +1054,12 @@ function setupCallFunctionality() {
             showWithGlitch(mainContentContainer);
             showWithGlitch(navigationContentContainer);
           }, 3500);
-        }, totalDialogDuration + 500); // Add a buffer after dialog
+        });
       }, CONFIG.elementGlitch.fadeTime + 100); // Short delay after the call UI is hidden
     });
   }
   
+  // Decline call button functionality remains the same
   if (declineCallBtn) {
     declineCallBtn.addEventListener('click', function() {
       ringtone.pause();
