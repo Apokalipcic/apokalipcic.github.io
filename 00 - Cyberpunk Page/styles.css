@@ -1,0 +1,210 @@
+/* style.css - Consolidated Cyberpunk Portfolio Styles */
+
+/* ===== Layout Fixes ===== */
+.app-container {
+  height: calc(100vh - 9rem);
+  overflow: hidden;
+}
+
+.app-skeleton {
+  overflow: hidden;
+}
+
+/* ===== Header & Footer Animations ===== */
+/* Header line animation */
+.app-header::after {
+  width: 0;
+  animation: lineGrow 1.5s forwards;
+  animation-delay: 1.2s;
+}
+
+/* Footer styling and animation */
+.dialog-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.dialog-footer::before {
+  background-color: var(--colors-primary--500);
+  box-shadow: var(--ui-glow);
+  top: 0;
+  content: "";
+  height: 2px;
+  position: absolute;
+  left: 0;
+  width: 0;
+  animation: lineGrow 1.5s forwards;
+  animation-delay: 1.2s;
+}
+
+/* Center dialog in footer */
+.dialog-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.dialog-speaker {
+  color: var(--colors-secondary--500);
+  font-weight: bold;
+  margin-right: 0;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.dialog-text {
+  color: var(--colors-tertiary--500);
+  text-align: center;
+}
+
+/* ===== Animations ===== */
+/* Typewriter effect */
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0;
+  letter-spacing: 0.05em;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Line growth animation */
+@keyframes lineGrow {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Glitch text animation */
+.glitch-text {
+  animation: glitch 1s infinite alternate;
+}
+
+@keyframes glitch {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { color: var(--colors-secondary--500); }
+  80% { transform: translateY(-2px); }
+  100% { transform: translateY(1px); }
+}
+
+/* ===== Special Effects ===== */
+/* Scanner line effect */
+.scanner-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanner-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 300%;
+  height: 2px;
+  background-color: var(--colors-secondary--500);
+  opacity: 0.6;
+  box-shadow: 0 0 10px var(--colors-secondary--500);
+  animation: scanner-line 8s linear infinite;
+  z-index: 1;
+}
+
+@keyframes scanner-line {
+  0% { top: -2px; }
+  100% { top: 100%; }
+}
+
+/* Noise overlay effect */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: contrast(190%) brightness(150%) grayscale(1);
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* CRT scanline effect */
+.crt-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 100% 8px;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.15;
+}
+
+/* Loading animation */
+.loading-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loading-text {
+  color: var(--colors-secondary--500);
+  font-family: var(--fonts-secondary);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  animation: glitch 1s infinite alternate;
+}
+
+.loading-bar-container {
+  width: 50%;
+  height: 20px;
+  background-color: var(--colors-bg--300);
+  border: 2px solid var(--colors-primary--600);
+}
+
+.loading-bar {
+  height: 100%;
+  background-color: var(--colors-primary--500);
+  width: 0%;
+  transition: width 3s ease-in-out;
+}
+
+/* Utility class */
+.hidden {
+  display: none !important;
+}
