@@ -15,7 +15,7 @@
     <!-- Header - initially empty, will be populated via JS -->
     <header class="app-header">
       <div class="app-header__anchor">
-        <span id="header-text" class="app-header__anchor__text"></span>
+        <span id="header-text" class="typewriter glitch-after-type">CYBERPUNK 2077 - QUEST DESIGN</span>
       </div>
     </header>
 
@@ -24,16 +24,71 @@
       <!-- Content will be added later -->
     </div>
 
-    <!-- Footer - initially empty, will fade in -->
     <div id="footer" class="dialog-footer">
       <div class="dialog-container">
-        <div class="dialog-speaker">SYSTEM:</div>
-        <div class="dialog-text">INCOMING CALL</div>
+        <div class="dialog-speaker typewriter">SYSTEM:</div>
+        <div class="dialog-text typewriter">INCOMING CALL</div>
       </div>
     </div>
   </div>
 
+  <!-- Call System UI -->
+  <div class="call-container">
+    <!-- Initial Call UI -->
+    <div class="call-initial hidden">
+      <div class="incoming-call-box">
+        <div class="incoming-call-label">INCOMING CALL</div>
+        <div class="caller-id">REGINA JONES</div>
+        <div class="caller-image-container">
+          <img class="caller-image" src="images/callers/regina-jones.png" alt="Caller">
+        </div>
+        <div class="call-buttons">
+          <button class="call-answer-btn">ANSWER</button>
+          <button class="call-decline-btn">DECLINE</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Active Call UI -->
+    <div class="call-active hidden">
+      <div class="active-call-box">
+        <div class="caller-image-container">
+          <img class="caller-image" src="images/callers/regina-jones.png" alt="Caller">
+        </div>
+        <div class="caller-name">REGINA JONES</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Animation Overlay -->
+  <div class="loading-animation" id="loading-screen">
+    <div class="loading-text">LOADING QUEST DATA</div>
+    <div class="loading-bar-container">
+      <div class="loading-bar" id="loading-progress"></div>
+    </div>
+  </div>
+
+  <!-- Fullscreen glitch effect container -->
+  <div class="fullscreen-glitch"></div>
+  
+  <!-- Fade to black overlay -->
+  <div class="fade-overlay"></div>
+
+  <!-- Dialog data (hidden) -->
+  <div class="dialog-data" data-dialog-group="regina-intro" data-speaker="REGINA JONES" data-duration="5000">
+    V, I need someone with your particular skill set for a job. Interested?
+  </div>
+  
+  <div class="dialog-data" data-dialog-group="regina-intro" data-speaker="V" data-typewriter="true" data-typewriter-speed="30" data-duration="4000">
+    What's the gig, Regina? Better be worth my time.
+  </div>
+  
+  <div class="dialog-data" data-dialog-group="regina-intro" data-speaker="REGINA JONES" data-duration="5000">
+    Trust me, it is. Got intel on some experimental tech. Arasaka warehouse in Watson.
+  </div>
+
   <!-- Script for animations -->
   <script src="script.js"></script>
+  </script>
 </body>
 </html>

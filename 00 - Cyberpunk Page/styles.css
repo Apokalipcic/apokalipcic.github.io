@@ -61,6 +61,7 @@
 .dialog-text {
   color: var(--colors-tertiary--500);
   text-align: center;
+  max-width: 800px;
 }
 
 /* ===== Animations ===== */
@@ -207,4 +208,140 @@
 /* Utility class */
 .hidden {
   display: none !important;
+}
+
+.dialog-data {
+  display: none;
+}
+
+/* Add to your CSS file */
+
+/* Call Container */
+.call-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Initial Call UI (centered) */
+.call-initial {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+
+.incoming-call-box {
+  background-color: rgba(30, 24, 30, 0.8);
+  border: 2px solid var(--colors-primary--600);
+  padding: 1rem;
+  color: var(--colors-primary--500);
+  text-align: center;
+  width: 300px;
+}
+
+.incoming-call-label {
+  color: var(--colors-primary--500);
+  font-family: var(--fonts-secondary);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.caller-id {
+  color: var(--colors-secondary--500);
+  font-family: var(--fonts-secondary);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.caller-image-container {
+  margin-bottom: 1rem;
+}
+
+.caller-image {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--colors-primary--600);
+}
+
+.call-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.call-answer-btn, .call-decline-btn {
+  background-color: var(--colors-bg--300);
+  border: 2px solid;
+  padding: 0.5rem 1rem;
+  font-family: var(--fonts-secondary);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.call-answer-btn {
+  border-color: var(--colors-secondary--500);
+  color: var(--colors-secondary--500);
+}
+
+.call-decline-btn {
+  border-color: var(--colors-primary--500);
+  color: var(--colors-primary--500);
+}
+
+/* Active Call UI (top-left corner) */
+.call-active {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  pointer-events: auto;
+}
+
+.active-call-box {
+  background-color: rgba(30, 24, 30, 0.8);
+  border: 2px solid var(--colors-primary--600);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.active-call-box .caller-image-container {
+  width: 50px;
+  height: 50px;
+  margin-right: 0.5rem;
+  margin-bottom: 0;
+}
+
+.active-call-box .caller-name {
+  color: var(--colors-secondary--500);
+  font-family: var(--fonts-secondary);
+  text-transform: uppercase;
+}
+
+/* Visibility control */
+.hidden {
+  display: none;
+}
+
+/* Animations */
+.appear-animation {
+  animation: appearEffect 0.8s forwards;
+}
+
+.disappear-animation {
+  animation: disappearEffect 0.8s forwards;
+}
+
+@keyframes appearEffect {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes disappearEffect {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.8); }
 }
