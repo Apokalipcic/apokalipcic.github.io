@@ -481,11 +481,9 @@ function updateActiveCallIndicator(speakerName) {
       let imageSrc = 'placeholder-fixer.jpg'; // Default
       
       if (speakerName === 'V') {
-        imageSrc = 'v-avatar.jpg';
+          imageSrc = 'Images/Characters/V_Avatar.png';
       } else if (speakerName === 'REGINA JONES') {
-        imageSrc = 'placeholder-fixer.jpg';
-      } else if (speakerName === 'ROGUE AI') {
-        imageSrc = 'rogue-ai.jpg';
+          imageSrc = 'Images/Characters/ReginaJohnes_Avatar.png';
       }
       
       callerAvatarElement.src = imageSrc;
