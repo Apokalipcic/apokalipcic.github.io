@@ -214,134 +214,196 @@
   display: none;
 }
 
-/* Add to your CSS file */
+/* ===== Updated Incoming Call UI (Match Screenshot) ===== */
 
-/* Call Container */
-.call-container {
+/* Incoming Call UI - Matches Screenshot 2 */
+.fixer-call-section {
   position: fixed;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1000;
-}
-
-/* Initial Call UI (centered) */
-.call-initial {
-  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  pointer-events: auto;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: auto;
 }
 
 .incoming-call-box {
-  background-color: rgba(30, 24, 30, 0.8);
-  border: 2px solid var(--colors-primary--600);
-  padding: 1rem;
-  color: var(--colors-primary--500);
-  text-align: center;
-  width: 300px;
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 1px solid #e83b36;
+  display: flex;
+  flex-direction: column;
+}
+
+.incoming-call-header {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.call-icon {
+  color: #e83b36;
+  margin-right: 0.5rem;
 }
 
 .incoming-call-label {
-  color: var(--colors-primary--500);
+  color: #e83b36;
   font-family: var(--fonts-secondary);
   text-transform: uppercase;
+  font-size: 1.2rem;
   margin-bottom: 0.5rem;
 }
 
-.caller-id {
-  color: var(--colors-secondary--500);
-  font-family: var(--fonts-secondary);
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-.caller-image-container {
-  margin-bottom: 1rem;
-}
-
-.caller-image {
-  max-width: 100%;
-  height: auto;
-  border: 1px solid var(--colors-primary--600);
-}
-
-.call-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.call-answer-btn, .call-decline-btn {
-  background-color: var(--colors-bg--300);
-  border: 2px solid;
-  padding: 0.5rem 1rem;
-  font-family: var(--fonts-secondary);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.call-answer-btn {
-  border-color: var(--colors-secondary--500);
-  color: var(--colors-secondary--500);
-}
-
-.call-decline-btn {
-  border-color: var(--colors-primary--500);
-  color: var(--colors-primary--500);
-}
-
-/* Active Call UI (top-left corner) */
-.call-active {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  pointer-events: auto;
-}
-
-.active-call-box {
-  background-color: rgba(30, 24, 30, 0.8);
-  border: 2px solid var(--colors-primary--600);
+.caller-id-container {
+  background-color: rgba(51, 17, 17, 0.9);
+  border: 1px solid #e83b36;
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.caller-phone-icon {
+  color: #e83b36;
+  margin-right: 0.75rem;
+}
+
+.caller-id {
+  color: #e83b36;
+  font-family: var(--fonts-secondary);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.fixer-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.answer-hint {
+  color: #2be4ea;
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.decline-hint {
+  color: #e83b36;
   display: flex;
   align-items: center;
 }
 
-.active-call-box .caller-image-container {
-  width: 50px;
-  height: 50px;
-  margin-right: 0.5rem;
-  margin-bottom: 0;
+#accept-call .button__content {
+  color: #2be4ea;
 }
 
-.active-call-box .caller-name {
-  color: var(--colors-secondary--500);
+/* Active Call UI (top corner) */
+.active-call-indicator {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 900;
+  background-color: rgba(0, 0, 0, 0.75);
+  border: 1px solid #e83b36;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.caller-avatar {
+  width: 32px;
+  height: 32px;
+  margin-right: 0.5rem;
+}
+
+.caller-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.active-caller-name {
+  color: #e83b36;
   font-family: var(--fonts-secondary);
+  font-size: 0.9rem;
+}
+
+/* Relic Malfunction UI - Matches Screenshot 1 */
+.relic-malfunction-overlay {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #e83b36;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.warning-triangle {
+  color: #e83b36;
+  margin-right: 0.75rem;
+  transform: translateY(2px);
+}
+
+.warning-triangle svg {
+  fill: currentColor;
+}
+
+.relic-malfunction-text {
+  color: #e83b36;
+  font-family: var(--fonts-secondary);
+  font-size: 1.1rem;
   text-transform: uppercase;
 }
 
-/* Visibility control */
-.hidden {
+/* Full-screen glitch effect */
+.fullscreen-glitch {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1500;
   display: none;
 }
 
-/* Animations */
-.appear-animation {
-  animation: appearEffect 0.8s forwards;
+.fullscreen-glitch.active {
+  display: block;
+  background-color: rgba(232, 59, 54, 0.1);
+  animation: fullscreenGlitch 0.3s infinite;
 }
 
-.disappear-animation {
-  animation: disappearEffect 0.8s forwards;
+@keyframes fullscreenGlitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-5px, 5px); background-color: rgba(43, 228, 234, 0.1); }
+  40% { transform: translate(-5px, -5px); background-color: rgba(232, 59, 54, 0.1); }
+  60% { transform: translate(5px, 5px); background-color: rgba(43, 228, 234, 0.1); }
+  80% { transform: translate(5px, -5px); background-color: rgba(232, 59, 54, 0.1); }
+  100% { transform: translate(0); }
 }
 
-@keyframes appearEffect {
-  0% { opacity: 0; transform: scale(0.8); }
-  100% { opacity: 1; transform: scale(1); }
+/* Fade to black overlay */
+.fade-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 1.5s ease;
+  pointer-events: none;
+  z-index: 2000;
+  display: none;
 }
 
-@keyframes disappearEffect {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.8); }
+.fade-overlay.active {
+  display: block;
+  background-color: rgba(0, 0, 0, 1);
 }
