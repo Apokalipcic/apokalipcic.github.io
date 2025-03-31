@@ -1,0 +1,205 @@
+/* quest-design.css - Specific styles for Cyberpunk 2077 Quest Design page */
+
+/* Basic content containers and sections */
+.content-container {
+  height: calc(100% - 5rem);
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+.content-section {
+  display: none;
+  margin-bottom: 1.5rem;
+}
+
+.content-section.active {
+  display: block;
+}
+
+/* Fixer call section styling */
+.fixer-call-section {
+  background-color: var(--colors-bg--300);
+  border: 1px solid var(--colors-primary--600);
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fixer-avatar {
+  width: 80px;
+  height: 80px;
+  background-color: var(--colors-primary--800);
+  border: 2px solid var(--colors-primary--500);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.fixer-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fixer-info {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.fixer-name {
+  color: var(--colors-secondary--500);
+  font-family: var(--fonts-secondary);
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.fixer-status {
+  color: var(--colors-primary--300);
+  font-size: 0.9rem;
+}
+
+.fixer-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+/* For highlighting important text */
+.highlight-text {
+  color: var(--colors-secondary--500);
+}
+
+.legendary-text {
+  color: #9c59b6;
+}
+
+.item-title {
+  color: var(--colors-secondary--500);
+  font-family: var(--fonts-secondary);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.dialogue-header {
+  color: var(--colors-secondary--500);
+  font-family: var(--fonts-secondary);
+  border-bottom: 1px solid var(--colors-primary--600);
+  padding-bottom: 0.5rem;
+  margin: 1.5rem 0 1rem;
+}
+
+/* Sketch placeholder */
+.sketch-placeholder {
+  background-color: var(--colors-bg--500);
+  border: 1px solid var(--colors-primary--600);
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--colors-primary--300);
+}
+
+/* Footer dialog styles */
+.dialog-footer {
+  background-color: rgba(30, 24, 30, 0.9);
+  border-top: 2px solid var(--colors-primary--500);
+  padding: 1rem 2rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.dialog-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.dialog-speaker {
+  color: var(--colors-secondary--500);
+  font-weight: bold;
+  margin-right: 1rem;
+  min-width: 140px;
+  text-transform: uppercase;
+}
+
+.dialog-text {
+  color: var(--colors-tertiary--500);
+  flex: 1;
+}
+
+/* Loading Animation */
+.loading-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loading-text {
+  color: var(--colors-secondary--500);
+  font-family: var(--fonts-secondary);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  animation: glitch 1s infinite alternate;
+}
+
+.loading-bar-container {
+  width: 50%;
+  height: 20px;
+  background-color: var(--colors-bg--300);
+  border: 2px solid var(--colors-primary--600);
+}
+
+.loading-bar {
+  height: 100%;
+  background-color: var(--colors-primary--500);
+  width: 0%;
+  transition: width 3s ease-in-out;
+}
+
+/* Glitch text animation */
+.glitch-text {
+  animation: glitch 1s infinite alternate;
+}
+
+@keyframes glitch {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { color: var(--colors-primary--500); }
+  80% { transform: translateY(-2px); }
+  100% { transform: translateY(1px); }
+}
+
+/* Utility class */
+.hidden {
+  display: none !important;
+}
+
+/* Content title in topbar */
+.content-title {
+  text-transform: uppercase;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .app-container {
+    grid-template-columns: 280px 1fr 1fr;
+    grid-template-areas: "a main main";
+  }
+  
+  .app-b {
+    display: none;
+  }
+}

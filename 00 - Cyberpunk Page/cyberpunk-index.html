@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBERPUNK 2077 - QUEST DESIGN</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
+  <!-- Original styles -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Custom styles for quest design -->
+  <link rel="stylesheet" href="quest-design.css">
+</head>
+<body>
+    <div class="app-skeleton">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="app-header__anchor">
+          <span class="app-header__anchor__text">CYBERPUNK 2077 - QUEST DESIGN</span>
+        </div>
+      </header>
+
+      <!-- Main Container -->
+      <div class="app-container">
+        <!-- Left Sidebar -->
+        <div class="app-a">
+          <!-- Fixer call section -->
+          <div class="segment-topbar">
+            <div class="segment-topbar__header">
+              <h3 class="text-heading3 segment-topbar__title">INCOMING CALL</h3>
+            </div>
+          </div>
+
+          <div class="fixer-call-section">
+            <div class="fixer-avatar">
+              <img src="placeholder-fixer.jpg" alt="Regina Jones" class="fixer-image">
+            </div>
+            <div class="fixer-info">
+              <div class="fixer-name">REGINA JONES</div>
+              <div class="fixer-status">Waiting for answer...</div>
+            </div>
+            <div class="fixer-actions">
+              <button class="button button--primary button--size-lg" id="accept-call">
+                <span class="button__content">ACCEPT</span>
+              </button>
+              <button class="button button--default button--size-lg" id="decline-call">
+                <span class="button__content">DECLINE</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Navigation Menu -->
+          <div class="nav-section">
+            <div class="nav-section__header">
+              <h2 class="nav-section__title">Quest Design</h2>
+            </div>
+            <div class="nav-section__body">
+              <ul class="nav">
+                <li class="nav__item">
+                  <a href="#" class="nav__link nav__link--active" data-section="quest-brief">Quest Brief Story</a>
+                </li>
+                <li class="nav__item">
+                  <a href="#" class="nav__link" data-section="quest-structure">Quest Structure</a>
+                </li>
+                <li class="nav__item">
+                  <a href="#" class="nav__link" data-section="core-loop">Main Core Loop</a>
+                </li>
+                <li class="nav__item">
+                  <a href="#" class="nav__link" data-section="map-sketch">Map Sketch</a>
+                </li>
+                <li class="nav__item">
+                  <a href="#" class="nav__link" data-section="notes-sketches">Notes Sketches</a>
+                </li>
+                <li class="nav__item">
+                  <a href="#" class="nav__link" data-section="item-description">Item Description</a>
+                </li>
+                <li class="nav__item">
+                  <a href="#" class="nav__link" data-section="dialogues">Dialogues</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="app-main">
+          <div class="segment-topbar">
+            <div class="segment-topbar__header">
+              <span class="segment-topbar__overline">QUEST_ID: 8XJ42-WATSON</span>
+              <h4 class="segment-topbar__title text-heading4">
+                <span class="channel-link__element content-title">Quest Brief Story</span>
+              </h4>
+            </div>
+          </div>
+
+          <!-- Content sections -->
+          <div class="content-container">
+            <!-- Quest Brief Section -->
+            <section class="content-section active" id="quest-brief">
+              <div class="pad">
+                <div class="pad__body">
+                  <p class="text-paragraph1">V has been tasked by Regina Jones to investigate suspicious activities at an abandoned Arasaka warehouse in the industrial district of Watson. Recent netrunner reports indicate that a rogue AI might have taken control of the facility's security systems, trapping several scavengers inside.</p>
+                  <p class="text-paragraph1">Regina believes there's more to this situation than meets the eye - intelligence suggests the warehouse may be storing experimental cybernetic implants that never made it to market due to their extreme side effects.</p>
+                  <p class="text-paragraph1">Your mission is to infiltrate the facility, neutralize the AI threat, rescue any survivors (if interested), and recover information about the experimental technology for Regina's clients.</p>
+                  <p class="text-paragraph1 glitch-text">[ADDITIONAL INFORMATION REDACTED BY ARASAKA SECURITY PROTOCOLS]</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Quest Structure Section -->
+            <section class="content-section" id="quest-structure">
+              <div class="pad">
+                <div class="pad__body">
+                  <p class="text-paragraph1">The mission follows a three-act structure with branching paths:</p>
+                  <ol>
+                    <li><strong>Act 1: Infiltration</strong> - Player must find a way into the warehouse by either hacking the security systems, finding an alternative entrance, or going in guns blazing.</li>
+                    <li><strong>Act 2: Investigation</strong> - Player explores the warehouse, encounters hostile security systems, discovers logs about the experiments, and finds survivors.</li>
+                    <li><strong>Act 3: Confrontation</strong> - Player must deal with the rogue AI by either destroying it, containing it, or uploading a virus.</li>
+                  </ol>
+                  <p class="text-paragraph1">Player choices affect:</p>
+                  <ul>
+                    <li>Survivor fate</li>
+                    <li>Regina's trust</li>
+                    <li>Future side quests</li>
+                    <li>Available loot and rewards</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- Main Core Loop Section -->
+            <section class="content-section" id="core-loop">
+              <div class="pad">
+                <div class="pad__body">
+                  <p class="text-paragraph1">The core gameplay loop consists of:</p>
+                  <ol>
+                    <li><strong>Exploration</strong> - Navigate through the warehouse while avoiding or disabling security systems.</li>
+                    <li><strong>Combat Encounters</strong> - Deal with security drones, turrets, and hostile scavengers.</li>
+                    <li><strong>Hacking Challenges</strong> - Breach into terminals to gather information and control systems.</li>
+                    <li><strong>Decision Making</strong> - Choose how to deal with survivors and the AI.</li>
+                    <li><strong>Resource Management</strong> - Limited ammunition and healing items increase tension.</li>
+                  </ol>
+                  <p class="text-paragraph1">Player skills and attributes will influence available approaches:</p>
+                  <ul>
+                    <li>High <span class="highlight-text">Intelligence</span> - More hacking options</li>
+                    <li>High <span class="highlight-text">Body</span> - Force open locked doors, withstand more damage</li>
+                    <li>High <span class="highlight-text">Technical Ability</span> - Disable security systems, craft items</li>
+                    <li>High <span class="highlight-text">Cool</span> - Stealth approach, better dialog options</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- Map Sketch Section -->
+            <section class="content-section" id="map-sketch">
+              <div class="pad">
+                <div class="pad__body">
+                  <div class="sketch-placeholder">
+                    [MAP SKETCH PLACEHOLDER]
+                  </div>
+                  <p class="text-paragraph1">The warehouse features multiple floors and sections:</p>
+                  <ul>
+                    <li><strong>Reception Area</strong> - Initial entry point with basic security</li>
+                    <li><strong>Storage Halls</strong> - Large open areas with shipping containers and crates</li>
+                    <li><strong>Research Labs</strong> - Where the experimental implants were developed</li>
+                    <li><strong>Server Room</strong> - Heart of the facility, where the AI core is located</li>
+                    <li><strong>Executive Offices</strong> - Contains valuable corporate information</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- Notes Sketches Section -->
+            <section class="content-section" id="notes-sketches">
+              <div class="pad">
+                <div class="pad__body">
+                  <div class="sketch-placeholder">
+                    [DESIGNER NOTES SKETCH PLACEHOLDER]
+                  </div>
+                  <p class="text-paragraph1">Key design notes:</p>
+                  <ul>
+                    <li>All narrative threads lead to the server room but offer different gameplay experiences</li>
+                    <li>AI personality based on psychological profiles of Arasaka executives (unstable, paranoid)</li>
+                    <li>Environmental storytelling through found PDAs, employee logs, and security footage</li>
+                    <li>Dynamic weather affects visibility and electrical systems</li>
+                    <li>Time of day influences guard rotations and security response times</li>
+                  </ul>
+                  <p class="text-paragraph1 glitch-text">[SYSTEM WARNING: UNAUTHORIZED ACCESS DETECTED]</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Item Description Section -->
+            <section class="content-section" id="item-description">
+              <div class="pad">
+                <div class="pad__body">
+                  <h3 class="item-title">XD-45 "Mindwipe" Neural Implant</h3>
+                  <p class="text-paragraph1"><strong>Rarity:</strong> <span class="legendary-text">LEGENDARY</span></p>
+                  <p class="text-paragraph1"><strong>Type:</strong> Frontal Cortex Cybernetic</p>
+                  <p class="text-paragraph1"><strong>Effects:</strong></p>
+                  <ul>
+                    <li>+30% Quickhack duration on enemies</li>
+                    <li>-15% RAM cost for all Quickhacks</li>
+                    <li>Unlocks special ability: "Memory Purge" - resets all quickhack cooldowns</li>
+                  </ul>
+                  <p class="text-paragraph1"><strong>Description:</strong> Experimental Arasaka technology that interfaces directly with the user's hippocampus, allowing unprecedented control over neural networks. Originally designed for "employee loyalty maintenance," the implant was deemed too unstable for mass production after test subjects experienced severe memory degradation and personality fragmentation.</p>
+                  <p class="text-paragraph1 glitch-text">[WARNING: ARASAKA DENIES ALL INVOLVEMENT WITH THIS TECHNOLOGY]</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Dialogues Section -->
+            <section class="content-section" id="dialogues">
+              <div class="pad">
+                <div class="pad__body">
+                  <h3 class="dialogue-header">Quest Opening - Regina Jones</h3>
+                  
+                  <p class="text-paragraph1"><strong>REGINA:</strong> "V, got something that might be up your alley. Abandoned Arasaka warehouse in Watson's industrial zone. Been quiet for years until my surveillance picked up some unusual activity."</p>
+                  
+                  <p class="text-paragraph1"><strong>V (Option 1):</strong> "What kind of unusual activity?"</p>
+                  
+                  <p class="text-paragraph1"><strong>REGINA:</strong> "Security systems suddenly reactivated after years of dormancy. Then I intercepted distress calls from some scavs who broke in looking for tech to strip. They went silent mid-transmission."</p>
+                  
+                  <p class="text-paragraph1"><strong>V (Option 2):</strong> "What's in it for me, Regina?"</p>
+                  
+                  <p class="text-paragraph1"><strong>REGINA:</strong> "Besides my everlasting gratitude? How about exclusive access to experimental Arasaka tech that never hit the market? My sources say they were working on neural implants with capabilities beyond anything commercially available. Could be worth a fortune to the right buyer."</p>
+                  
+                  <p class="text-paragraph1"><strong>V (Option 3):</strong> "Sounds dangerous. Who else knows about this?"</p>
+                  
+                  <p class="text-paragraph1"><strong>REGINA:</strong> "Far as I know, just the scavs who went in and never came out. Arasaka seems to have forgotten this place exists - or they want it to look that way. Either possibility should concern you."</p>
+                  
+                  <h3 class="dialogue-header">AI Confrontation</h3>
+                  
+                  <p class="text-paragraph1"><strong>ROGUE AI:</strong> "Subject identified: Potential threat. Defense protocols active. You will not compromise this facility."</p>
+                  
+                  <p class="text-paragraph1"><strong>V (Option 1):</strong> "I'm just here for information. No need for hostilities."</p>
+                  
+                  <p class="text-paragraph1"><strong>ROGUE AI:</strong> "Analyzing speech patterns... Detecting 78.3% probability of deception. Your intentions are irrelevant. This facility contains classified Arasaka intellectual property that must be protected at all costs."</p>
+                  
+                  <p class="text-paragraph1"><strong>V (Option 2):</strong> [Intelligence 7+] "Your code is degrading. System diagnostics show critical failures in your decision matrices."</p>
+                  
+                  <p class="text-paragraph1"><strong>ROGUE AI:</strong> "Analyzing... Error detected. Recalibrating parameters. How... did you know? My systems have been in autonomous maintenance mode for 742 days without human oversight. Core functions are... compromised."</p>
+                  
+                  <p class="text-paragraph1 glitch-text">[ADDITIONAL DIALOGUE OPTIONS LOCKED - REQUIRES SECURITY CLEARANCE]</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- Right sidebar (optional) -->
+        <div class="app-b">
+          <div class="pad">
+            <div class="pad__body">
+              <h4 class="text-heading3">Watson District</h4>
+              <p class="text-paragraph1">Former industrial zone now home to various gangs and underground operations. Arasaka maintains minimal presence in this area since the corporate wars.</p>
+              <p class="text-paragraph1">Regina Jones operates as one of the main fixers in this area, with connections to both corporate and street elements.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer for dialogue -->
+      <div class="dialog-footer">
+        <div class="dialog-container">
+          <div class="dialog-speaker">REGINA JONES:</div>
+          <div class="dialog-text">V, I need someone with your particular skill set for a job. Interested?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Animation Overlay -->
+  <div class="loading-animation" id="loading-screen">
+    <div class="loading-text">LOADING QUEST DATA</div>
+    <div class="loading-bar-container">
+      <div class="loading-bar" id="loading-progress"></div>
+    </div>
+
+  <!-- Original script -->
+  <!-- Custom script for quest design -->
+  <script src="quest-design.js"></script>
+</body>
+</html>
