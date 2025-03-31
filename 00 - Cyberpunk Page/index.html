@@ -25,10 +25,15 @@
       <div class="app-a">
         <!-- Active Call Indicator (replaces segment-topbar) -->
         <div class="active-call-indicator hidden">
-          <div class="caller-avatar">
-            <img src="placeholder-fixer.jpg" alt="Caller">
+          <div class="active-call-header">
+            <div class="active-call-connection">CONNECTION 541.44.10</div>
+            <div class="active-caller-name">MR. HANDS</div>
           </div>
-          <div class="active-caller-name">REGINA JONES</div>
+          <div class="caller-avatar">
+            <!-- The actual image will be contained here with proper framing -->
+            <div class="caller-avatar-frame"></div>
+            <img src="mr-hands.jpg" alt="Caller">
+          </div>
         </div>
 
         <!-- Navigation Menu -->
@@ -42,7 +47,7 @@
                 <a href="#" class="nav__link nav__link--active" data-section="quest-brief">Quest Brief Story</a>
               </li>
               <li class="nav__item">
-                <a href="#" class="nav__link" data-section="quest-structure">Quest Structure</a>
+                <a href="#" class="nav__link" data-section="quest-structure dialog-trigger" data-dialog-group="Quest-Structure">Quest Structure</a>
               </li>
               <li class="nav__item">
                 <a href="#" class="nav__link" data-section="core-loop">Main Core Loop</a>
@@ -170,6 +175,10 @@
   
   <div class="dialog-data" data-dialog-group="regina-intro" data-speaker="REGINA JONES" data-duration="5000">
     Trust me, it is. Got intel on some experimental tech. Arasaka warehouse in Watson.
+  </div>  
+
+  <div class="dialog-data" data-dialog-group="Quest-Structure" data-speaker="REGINA JONES" data-duration="5000">
+    Trust me, i'm blue abu di abu dai'.
   </div>
 
   <!-- Script for animations -->
