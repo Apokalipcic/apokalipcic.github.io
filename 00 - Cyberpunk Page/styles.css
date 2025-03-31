@@ -112,6 +112,15 @@
 }
 
 /* Glitch effect variables and base styling */
+:root {
+  --full-glitch-slice-0: inset(50% 50% 50% 50%);
+  --full-glitch-slice-1: inset(80% -6px 0 0);
+  --full-glitch-slice-2: inset(50% -6px 30% 0);
+  --full-glitch-slice-3: inset(10% -6px 85% 0);
+  --full-glitch-slice-4: inset(40% -6px 43% 0);
+  --full-glitch-slice-5: inset(80% -6px 5% 0);
+}
+
 /* Base styles for glitch elements */
 .glitch-full {
   position: relative;
@@ -167,58 +176,58 @@
   animation-delay: 0.05s;
 }
 
-/* Animation for the first glitch copy */
+/* Animation for first glitch copy */
 @keyframes glitchCopy1 {
   0% {
-    clip-path: var(--slice-1);
-    transform: translate(-10px, -5px);
+    clip-path: var(--full-glitch-slice-1);
+    transform: translate(-20px, -10px);
   }
   20% {
-    clip-path: var(--slice-3);
+    clip-path: var(--full-glitch-slice-3);
     transform: translate(10px, 10px);
   }
   40% {
-    clip-path: var(--slice-5);
+    clip-path: var(--full-glitch-slice-5);
     transform: translate(-15px, 5px);
   }
   60% {
-    clip-path: var(--slice-4);
+    clip-path: var(--full-glitch-slice-4);
     transform: translate(5px, 10px);
   }
   80% {
-    clip-path: var(--slice-2);
-    transform: translate(15px, -10px);
+    clip-path: var(--full-glitch-slice-2);
+    transform: translate(20px, -10px);
   }
   100% {
-    clip-path: var(--slice-3);
-    transform: translate(-5px, 0px);
+    clip-path: var(--full-glitch-slice-3);
+    transform: translate(-10px, 0px);
   }
 }
 
-/* Animation for the second glitch copy */
+/* Animation for second glitch copy */
 @keyframes glitchCopy2 {
   0% {
-    clip-path: var(--slice-3);
-    transform: translate(5px, 5px);
+    clip-path: var(--full-glitch-slice-3);
+    transform: translate(10px, 5px);
   }
   20% {
-    clip-path: var(--slice-1);
+    clip-path: var(--full-glitch-slice-1);
     transform: translate(-15px, 10px);
   }
   40% {
-    clip-path: var(--slice-2);
+    clip-path: var(--full-glitch-slice-2);
     transform: translate(15px, -5px);
   }
   60% {
-    clip-path: var(--slice-5);
+    clip-path: var(--full-glitch-slice-5);
     transform: translate(-5px, 8px);
   }
   80% {
-    clip-path: var(--slice-4);
-    transform: translate(15px, -8px);
+    clip-path: var(--full-glitch-slice-4);
+    transform: translate(15px, -10px);
   }
   100% {
-    clip-path: var(--slice-2);
+    clip-path: var(--full-glitch-slice-2);
     transform: translate(-15px, 5px);
   }
 }
@@ -800,4 +809,93 @@
 .fade-overlay.active {
   display: block;
   background-color: rgba(0, 0, 0, 1);
+}
+
+/* Add to the end of your styles.css file */
+
+/* Simple glitch copy element styling */
+.simple-glitch-copy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; 
+  background: inherit;
+  background-color: inherit;
+  color: inherit;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* First glitch copy with cyan border */
+.simple-glitch-copy-1 {
+  border: 2px solid #00E6F6;
+  box-shadow: 0 0 8px rgba(0, 230, 246, 0.4);
+  animation: simple-glitch-1 0.8s steps(2, end);
+  clip-path: inset(10% -6px 85% 0);
+}
+
+/* Second glitch copy with yellow border */
+.simple-glitch-copy-2 {
+  border: 2px solid #F8F005;
+  box-shadow: 0 0 8px rgba(248, 240, 5, 0.4);
+  animation: simple-glitch-2 0.8s steps(2, end); 
+  animation-delay: 0.05s;
+  clip-path: inset(40% -6px 43% 0);
+}
+
+/* Animation for first glitch copy */
+@keyframes simple-glitch-1 {
+  0% {
+    clip-path: inset(80% -6px 0 0);
+    transform: translate(-20px, -10px);
+  }
+  20% {
+    clip-path: inset(10% -6px 85% 0);
+    transform: translate(10px, 10px);
+  }
+  40% {
+    clip-path: inset(80% -6px 5% 0);
+    transform: translate(-15px, 5px);
+  }
+  60% {
+    clip-path: inset(40% -6px 43% 0);
+    transform: translate(5px, 10px);
+  }
+  80% {
+    clip-path: inset(50% -6px 30% 0);
+    transform: translate(20px, -10px);
+  }
+  100% {
+    clip-path: inset(10% -6px 85% 0);
+    transform: translate(-10px, 0px);
+  }
+}
+
+/* Animation for second glitch copy */
+@keyframes simple-glitch-2 {
+  0% {
+    clip-path: inset(10% -6px 85% 0);
+    transform: translate(10px, 5px);
+  }
+  20% {
+    clip-path: inset(80% -6px 0 0);
+    transform: translate(-15px, 10px);
+  }
+  40% {
+    clip-path: inset(50% -6px 30% 0);
+    transform: translate(15px, -5px);
+  }
+  60% {
+    clip-path: inset(80% -6px 5% 0);
+    transform: translate(-5px, 8px);
+  }
+  80% {
+    clip-path: inset(40% -6px 43% 0);
+    transform: translate(15px, -10px);
+  }
+  100% {
+    clip-path: inset(50% -6px 30% 0);
+    transform: translate(-15px, 5px);
+  }
 }

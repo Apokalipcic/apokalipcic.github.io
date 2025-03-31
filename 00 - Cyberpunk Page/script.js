@@ -47,18 +47,24 @@ const CONFIG = {
     pulseSpeed: 2000             // Speed of pulse animation
   },
 
-    // Warning - Running line
-    warning: {
-      scrollSpeed: 8000,        // Time in ms for one complete scroll cycle
-      scrollDelay: 1000,        // Delay before scrolling starts
-      scrollPause: 2000,        // Pause at each end of scroll
-      scrollClass: 'warning-scroll' // Class name for scrolling warnings
-    },
+  // Warning - Running line
+  warning: {
+    scrollSpeed: 8000,        // Time in ms for one complete scroll cycle
+    scrollDelay: 1000,        // Delay before scrolling starts
+    scrollPause: 2000,        // Pause at each end of scroll
+    scrollClass: 'warning-scroll' // Class name for scrolling warnings
+  },
 
   // Scanner effect configuration
   scanner: {
     lineSpeed: 10,             // Speed of scanner line movement
     lineColor: "var(--colors-secondary--500)"  // Color of scanner line
+  },
+
+  // Element glitch effect configuration
+  elementGlitch: {
+    duration: 1000,           // Duration of glitch effect in ms
+    fadeTime: 700             // Time for fade in/out transition
   }
 };
 
@@ -79,8 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize all text effects
   initAllTextEffects();
 
-  initFullElementGlitch();
-
   // Initialize dialog system
   initDialogSystem();
   
@@ -88,8 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
     const fixerCallSection = document.querySelector('.fixer-call-section');
     if (fixerCallSection) {
-      fixerCallSection.classList.add('glitch-full');
-      fixerCallSection.classList.remove('hidden');
+      showWithGlitch(fixerCallSection);
       setupCallFunctionality();
     }
   }, 2000);
@@ -108,7 +111,6 @@ function initAllTextEffects() {
   initRandomGlitches();
   initScannerEffects();
   initWarningScrolls();
-
   
   // Initialize new effects
   initCorruptedText();
@@ -136,9 +138,9 @@ function initEffectsInElement(element) {
     setTimeout(() => {
       typeWriter(el, originalText, 0, speed);
     }, delay);
-  }); // This closing bracket was missing
+  });
 
-  // Initialize warning scrolls inside this element - this was incorrectly indented
+  // Initialize warning scrolls inside this element
   element.querySelectorAll('.warning-text.' + CONFIG.warning.scrollClass).forEach(el => {
     // If it doesn't already have the content span
     if (!el.querySelector('.warning-text-content')) {
@@ -483,6 +485,113 @@ function showAccessNotification(type, message, duration = CONFIG.access.defaultD
 }
 
 /********************************************************
+ * ELEMENT GLITCH EFFECT FUNCTIONS
+ ********************************************************/
+
+// Show an element with glitch effect 
+function showWithGlitch(element) {
+  if (!element) return;
+  
+  // Setup transition properties
+  element.style.transition = `opacity ${CONFIG.elementGlitch.fadeTime}ms ease-in-out, transform ${CONFIG.elementGlitch.fadeTime}ms ease-in-out`;
+  
+  // Make sure element is in the DOM but invisible
+  element.classList.remove('hidden');
+  element.style.opacity = '0';
+  element.style.transform = 'translateY(20px) scale(0.95)';
+  
+  // Force reflow to ensure transition happens
+  element.offsetHeight;
+  
+  // Create and add glitch copies
+  const copies = createGlitchCopies(element);
+  
+  // Start fade in
+  element.style.opacity = '1';
+  element.style.transform = 'translateY(0) scale(1)';
+  
+  // Set timeout to remove glitch effect
+  setTimeout(() => {
+    copies.forEach(copy => {
+      if (element.contains(copy)) {
+        element.removeChild(copy);
+      }
+    });
+  }, CONFIG.elementGlitch.duration);
+}
+
+// Hide an element with glitch effect
+function hideWithGlitch(element) {
+  if (!element) return;
+  
+  // Setup transition properties
+  element.style.transition = `opacity ${CONFIG.elementGlitch.fadeTime}ms ease-in-out, transform ${CONFIG.elementGlitch.fadeTime}ms ease-in-out`;
+  
+  // Create and add glitch copies
+  const copies = createGlitchCopies(element);
+  
+  // Start fade out
+  setTimeout(() => {
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(20px) scale(0.95)';
+    
+    // Hide element after fade completes
+    setTimeout(() => {
+      element.classList.add('hidden');
+      element.style.opacity = '';
+      element.style.transform = '';
+      
+      // Remove glitch copies
+      copies.forEach(copy => {
+        if (element.contains(copy)) {
+          element.removeChild(copy);
+        }
+      });
+    }, CONFIG.elementGlitch.fadeTime);
+  }, 300); // Short delay before starting fade out
+}
+
+// Toggle an element with glitch effect
+function toggleWithGlitch(element, show) {
+  if (show) {
+    showWithGlitch(element);
+  } else {
+    hideWithGlitch(element);
+  }
+}
+
+// Create glitch copies for an element
+function createGlitchCopies(element) {
+  // Create copies array to track and return
+  const copies = [];
+  
+  // Store original position if needed
+  const originalPosition = getComputedStyle(element).position;
+  if (originalPosition === 'static') {
+    element.style.position = 'relative';
+  }
+  
+  // Ensure element has overflow visible
+  element.style.overflow = 'visible';
+  
+  // Create first glitch copy with cyan border
+  const copy1 = document.createElement('div');
+  copy1.className = 'simple-glitch-copy simple-glitch-copy-1';
+  copy1.innerHTML = element.innerHTML;
+  element.appendChild(copy1);
+  copies.push(copy1);
+  
+  // Create second glitch copy with yellow border
+  const copy2 = document.createElement('div');
+  copy2.className = 'simple-glitch-copy simple-glitch-copy-2';
+  copy2.innerHTML = element.innerHTML;
+  element.appendChild(copy2);
+  copies.push(copy2);
+  
+  return copies;
+}
+
+/********************************************************
  * DIALOG SYSTEM 
  ********************************************************/
 
@@ -775,8 +884,8 @@ function resetAllElements() {
     mainContentContainer.classList.add('hidden');
   }
   
-  // Show call UI
-  document.querySelector('.fixer-call-section').classList.remove('hidden');
+  // Show call UI with glitch effect
+  showWithGlitch(document.querySelector('.fixer-call-section'));
   
   // Hide any active call indicator
   hideActiveCallIndicator();
@@ -801,36 +910,37 @@ function setupCallFunctionality() {
       ringtone.pause();
       ringtone.currentTime = 0;
 
-      // Hide call UI
-      document.querySelector('.fixer-call-section').classList.remove('glitch-full');
-      document.querySelector('.fixer-call-section').classList.add('hidden');
+      // Hide call UI with glitch effect
+      hideWithGlitch(document.querySelector('.fixer-call-section'));
       
-      // Show active call indicator in left sidebar
-      updateActiveCallIndicator('REGINA JONES');
-      
-      // Play dialog sequence
-      playDialogSequence('regina-intro');
-      
-      // After dialog sequence completes, show loading screen
-      const totalDialogDuration = calculateTotalDialogDuration('regina-intro');
-      
+      // Show active call indicator in left sidebar with glitch effect
       setTimeout(() => {
-        // Hide active call indicator
-        hideActiveCallIndicator();
+        showWithGlitch(document.querySelector('.active-call-indicator'));
+        updateActiveCallIndicator('REGINA JONES');
         
-        // Show loading animation
-        showLoadingAnimation();
+        // Play dialog sequence
+        playDialogSequence('regina-intro');
         
-        // After loading is complete, show main content
+        // After dialog sequence completes, show loading screen
+        const totalDialogDuration = calculateTotalDialogDuration('regina-intro');
+        
         setTimeout(() => {
-          const mainContentContainer = document.getElementById('app-main');
-          const navigationContentContainer = document.getElementById('nav-section');
-
-            mainContentContainer.classList.remove('hidden');
-            navigationContentContainer.classList.remove('hidden');
+          // Hide active call indicator with glitch effect
+          hideWithGlitch(document.querySelector('.active-call-indicator'));
           
-        }, 3500);
-      }, totalDialogDuration + 500); // Add a buffer after dialog
+          // Show loading animation
+          showLoadingAnimation();
+          
+          // After loading is complete, show main content
+          setTimeout(() => {
+            const mainContentContainer = document.getElementById('app-main');
+            const navigationContentContainer = document.getElementById('nav-section');
+            
+            showWithGlitch(mainContentContainer);
+            showWithGlitch(navigationContentContainer);
+          }, 3500);
+        }, totalDialogDuration + 500); // Add a buffer after dialog
+      }, CONFIG.elementGlitch.fadeTime + 100); // Short delay after the call UI is hidden
     });
   }
   
@@ -840,20 +950,23 @@ function setupCallFunctionality() {
       ringtone.currentTime = 0;
 
       glitchSound.play().catch(e => console.log('Audio playback error:', e));
-
-      document.querySelector('.fixer-call-section').classList.remove('glitch-full');
-      document.querySelector('.fixer-call-section').classList.add('hidden');
-
-      // Create and show relic malfunction message
-      showRelicMalfunction();
       
-      // Apply glitch effect to whole screen
-      applyFullScreenGlitch();
-      
-      // Fade to black and reset
+      // Hide call UI with glitch effect
+      hideWithGlitch(document.querySelector('.fixer-call-section'));
+
+      // Short delay to ensure call section is hidden first
       setTimeout(() => {
-        fadeToBlackAndReset();
-      }, 4500);
+        // Create and show relic malfunction message
+        showRelicMalfunction();
+        
+        // Apply glitch effect to whole screen
+        applyFullScreenGlitch();
+        
+        // Fade to black and reset
+        setTimeout(() => {
+          fadeToBlackAndReset();
+        }, 4500);
+      }, CONFIG.elementGlitch.fadeTime);
     });
   }
 }
@@ -883,9 +996,6 @@ function updateActiveCallIndicator(speakerName) {
       callerAvatarElement.src = imageSrc;
       callerAvatarElement.alt = speakerName;
     }
-    
-    // Show the indicator
-    indicator.classList.remove('hidden');
   }
 }
 
@@ -893,7 +1003,7 @@ function updateActiveCallIndicator(speakerName) {
 function hideActiveCallIndicator() {
   const indicator = document.querySelector('.active-call-indicator');
   if (indicator) {
-    indicator.classList.add('hidden');
+    hideWithGlitch(indicator);
   }
 }
 
@@ -915,250 +1025,10 @@ function showRelicMalfunction() {
       <div class="relic-malfunction-text">RELIC MALFUNCTION DETECTED</div>
     `;
     document.body.appendChild(relicMalfunction);
-  } else {
-    relicMalfunction.style.display = 'flex';
-  }
-}
-
-// JavaScript implementation for full element glitch effect
-
-/**
- * Handles the full element glitch effect
- * Add this to your script.js file, preferable at the end before the closing bracket
- */
-
-// Initialize the full element glitch effect
-function initFullElementGlitch() {
-  // Create sliced glitch animations CSS dynamically
-  createGlitchStyles();
-  
-  // Initialize glitch for elements with the glitch-full class
-  document.addEventListener('DOMContentLoaded', () => {
-    // Get all elements with glitch-full class
-    const glitchElements = document.querySelectorAll('.glitch-full');
-    
-    // Add mutation observer to watch for new elements with glitch-full class
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          const target = mutation.target;
-          
-          // If class was added and contains glitch-full
-          if (target.classList.contains('glitch-full') && !target.hasAttribute('data-glitch-initialized')) {
-            setupGlitchElement(target);
-          }
-          
-          // If class was removed and element was previously glitching
-          if (!target.classList.contains('glitch-full') && target.hasAttribute('data-glitch-initialized')) {
-            cleanupGlitchElement(target);
-          }
-        }
-      });
-    });
-    
-    // Observe all elements for class changes
-    document.querySelectorAll('*').forEach(el => {
-      observer.observe(el, { attributes: true });
-    });
-    
-    // Initialize existing elements
-    glitchElements.forEach(setupGlitchElement);
-  });
-}
-
-// Setup an element for glitching
-function setupGlitchElement(element) {
-  if (element.hasAttribute('data-glitch-initialized')) return;
-  
-  // Mark as initialized
-  element.setAttribute('data-glitch-initialized', 'true');
-  
-  // Create glitch copies
-  createGlitchCopies(element);
-  
-  // Apply glitch animation
-  applyGlitchAnimation(element);
-  
-  // Remove glitch effect after animation completes
-  setTimeout(() => {
-    if (element.classList.contains('glitch-full')) {
-      element.classList.remove('glitch-animating');
-    }
-  }, 1000);
-}
-
-// Clean up glitch effect
-function cleanupGlitchElement(element) {
-  // Mark glitch as in progress
-  element.classList.add('glitch-animating');
-  
-  // Create glitch copies if they don't exist
-  if (!element.querySelector('.glitch-copy')) {
-    createGlitchCopies(element);
   }
   
-  // Apply glitch animation
-  applyGlitchAnimation(element);
-  
-  // Remove element after animation completes
-  setTimeout(() => {
-    element.classList.add('glitch-hidden');
-    
-    // Remove all glitch-related attributes and classes after transition
-    setTimeout(() => {
-      element.removeAttribute('data-glitch-initialized');
-      element.classList.remove('glitch-animating', 'glitch-hidden');
-      
-      // Remove glitch copies
-      const copies = element.querySelectorAll('.glitch-copy');
-      copies.forEach(copy => copy.remove());
-    }, 700); // Match your CSS transition time
-  }, 1000);
-}
-
-// Create glitch copies for an element
-function createGlitchCopies(element) {
-  // Store original element style
-  const originalPosition = getComputedStyle(element).position;
-  if (originalPosition === 'static') {
-    element.style.position = 'relative';
-  }
-  
-  // Make sure overflow is visible
-  element.style.overflow = 'visible';
-  
-  // Create two glitch copies
-  for (let i = 0; i < 2; i++) {
-    const copy = document.createElement('div');
-    copy.className = `glitch-copy glitch-copy-${i+1}`;
-    copy.innerHTML = element.innerHTML;
-    
-    // Make position absolute and make them overlay the original
-    copy.style.position = 'absolute';
-    copy.style.top = '0';
-    copy.style.left = '0';
-    copy.style.width = '100%';
-    copy.style.height = '100%';
-    copy.style.zIndex = '10';
-    copy.style.pointerEvents = 'none'; // Prevent interaction with copies
-    
-    // Apply different clip paths to each copy
-    copy.style.clipPath = i === 0 ? 'var(--slice-1)' : 'var(--slice-2)';
-    
-    // Append the copy to the element
-    element.appendChild(copy);
-  }
-}
-
-// Apply glitch animation to an element and its copies
-function applyGlitchAnimation(element) {
-  // Add animating class to indicate glitch is in progress
-  element.classList.add('glitch-animating');
-  
-  // Get the glitch copies
-  const copy1 = element.querySelector('.glitch-copy-1');
-  const copy2 = element.querySelector('.glitch-copy-2');
-  
-  if (copy1 && copy2) {
-    // Apply animations with different keyframes
-    copy1.style.animation = 'glitchCopy1 1s steps(2, end) forwards';
-    copy2.style.animation = 'glitchCopy2 1s steps(2, end) forwards';
-  }
-}
-
-// Create CSS for glitch animations dynamically
-function createGlitchStyles() {
-  if (document.getElementById('glitch-full-styles')) return;
-  
-  const styleSheet = document.createElement('style');
-  styleSheet.id = 'glitch-full-styles';
-  
-  styleSheet.textContent = `
-    :root {
-      --slice-0: inset(50% 50% 50% 50%);
-      --slice-1: inset(80% -6px 0 0);
-      --slice-2: inset(50% -6px 30% 0);
-      --slice-3: inset(10% -6px 85% 0);
-      --slice-4: inset(40% -6px 43% 0);
-      --slice-5: inset(80% -6px 5% 0);
-    }
-    
-    .glitch-full {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
-    }
-    
-    .glitch-hidden {
-      opacity: 0;
-      transform: translateY(20px) scale(0.95);
-      transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
-    }
-    
-    .glitch-copy {
-      opacity: 0;
-      background: inherit;
-      color: inherit;
-    }
-    
-    .glitch-animating .glitch-copy {
-      opacity: 0.8;
-    }
-    
-    @keyframes glitchCopy1 {
-      0% {
-        clip-path: var(--slice-1);
-        transform: translate(-20px, -10px);
-      }
-      20% {
-        clip-path: var(--slice-3);
-        transform: translate(10px, 10px);
-      }
-      40% {
-        clip-path: var(--slice-5);
-        transform: translate(-15px, 5px);
-      }
-      60% {
-        clip-path: var(--slice-4);
-        transform: translate(5px, 10px);
-      }
-      80% {
-        clip-path: var(--slice-2);
-        transform: translate(20px, -10px);
-      }
-      100% {
-        clip-path: var(--slice-3);
-        transform: translate(-10px, 0px);
-      }
-    }
-    
-    @keyframes glitchCopy2 {
-      0% {
-        clip-path: var(--slice-3);
-        transform: translate(10px, 5px);
-      }
-      20% {
-        clip-path: var(--slice-1);
-        transform: translate(-15px, 10px);
-      }
-      40% {
-        clip-path: var(--slice-2);
-        transform: translate(15px, -5px);
-      }
-      60% {
-        clip-path: var(--slice-5);
-        transform: translate(-5px, 8px);
-      }
-      80% {
-        clip-path: var(--slice-4);
-        transform: translate(15px, -10px);
-      }
-      100% {
-        clip-path: var(--slice-2);
-        transform: translate(-15px, 5px);
-      }
-    }
-  `;
-  
-  document.head.appendChild(styleSheet);
+  // Show with glitch effect
+  relicMalfunction.style.display = 'none'; // Hide first
+  relicMalfunction.offsetHeight; // Force reflow
+  showWithGlitch(relicMalfunction);
 }
