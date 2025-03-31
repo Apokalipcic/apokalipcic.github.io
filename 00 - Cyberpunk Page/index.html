@@ -21,41 +21,43 @@
 
     <!-- Main Container -->
     <div class="app-container" id="main-content-container">
-      <!-- Left Sidebar -->
-      <div class="app-a">
-        <!-- Active Call Indicator (replaces segment-topbar) -->
-        <div class="active-call-indicator hidden">
-          <div class="active-call-header">
-            <div class="active-call-connection">CONNECTION 541.44.10</div>
-            <div class="active-caller-name">MR. HANDS</div>
+        <!-- Left Sidebar Structure -->
+        <div class="app-a">
+          <!-- Fixed area for caller indicator (appears/disappears) -->
+          <div class="fixed-caller-area">
+            <!-- Active Call Indicator (initially hidden) -->
+            <div class="active-call-indicator hidden">
+              <div class="active-call-header">
+                <div class="active-call-connection">CONNECTION 541.44.10</div>
+                <div class="active-caller-name">MR. HANDS</div>
+              </div>
+              <div class="caller-avatar">
+                <div class="caller-avatar-frame"></div>
+                <img src="mr-hands.jpg" alt="Caller">
+              </div>
+            </div>
           </div>
-          <div class="caller-avatar">
-            <!-- The actual image will be contained here with proper framing -->
-            <div class="caller-avatar-frame"></div>
-            <img src="mr-hands.jpg" alt="Caller">
-          </div>
-        </div>
 
-        <!-- Navigation Menu -->
-        <div class="nav-section hidden" id="nav-section">
-          <div class="nav-section__header">
-            <h2 class="nav-section__title">Quest Design</h2>
-          </div>
-          <div class="nav-section__body">
-            <ul class="nav">
-              <li class="nav__item">
-                <a href="#" class="nav__link nav__link--active" data-section="quest-brief">Quest Brief Story</a>
-              </li>
-              <li class="nav__item">
-                <a href="#" class="nav__link" data-section="quest-structure dialog-trigger" data-dialog-group="Quest-Structure">Quest Structure</a>
-              </li>
-              <li class="nav__item">
-                <a href="#" class="nav__link" data-section="core-loop">Main Core Loop</a>
-              </li>
-            </ul>
+          <!-- Navigation Menu - always below fixed area -->
+          <div class="nav-section hidden" id="nav-section">
+            <div class="nav-section__header">
+              <h2 class="nav-section__title">Quest Design</h2>
+            </div>
+            <div class="nav-section__body">
+              <ul class="nav">
+                <li class="nav__item">
+                  <a href="#" class="nav__link nav__link--active" data-section="quest-brief">Quest Brief Story</a>
+                </li>
+                <li class="nav__item">
+                  <a href="#" class="nav__link dialog-trigger" data-section="quest-structure" data-dialog-group="quest-structure">Quest Structure</a>
+                </li>
+                <li class="nav__item">
+                  <a href="#" class="nav__link" data-section="core-loop">Main Core Loop</a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
 
       <!-- Main Content Area (expanded to include right sidebar space) -->
       <div class="app-main hidden" id="app-main" style="grid-column: span 4;">
@@ -177,8 +179,8 @@
     Trust me, it is. Got intel on some experimental tech. Arasaka warehouse in Watson.
   </div>  
 
-  <div class="dialog-data" data-dialog-group="Quest-Structure" data-speaker="REGINA JONES" data-duration="5000">
-    Trust me, i'm blue abu di abu dai'.
+  <div class="dialog-data" data-dialog-group="quest-structure" data-speaker="V" data-typewriter="true" data-duration="4000">
+    What exactly am I walking into here, Regina?
   </div>
 
   <!-- Script for animations -->

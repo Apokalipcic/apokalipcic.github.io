@@ -300,16 +300,33 @@
   color: #2be4ea;
 }
 
-/* Active Call UI (top corner) */
+/* Left sidebar (app-a) positioning */
+.app-a {
+  grid-area: a;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Fixed area for the caller indicator */
+.fixed-caller-area {
+  position: relative;
+  min-height: 250px; /* Set a fixed height for this area */
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Active Call UI styling */
 .active-call-indicator {
-  position: fixed;
+  position: absolute;
   top: 10px;
-  left: 10px;
+  left: 0;
+  width: 100%;
   z-index: 900;
   background-color: transparent;
   display: flex;
   flex-direction: column;
-  max-width: 250px;
 }
 
 .active-call-header {
@@ -326,26 +343,18 @@
   text-transform: uppercase;
 }
 
-.caller-avatar {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
-}
-
-.caller-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background-color: #000;
-  filter: contrast(120%) saturate(120%);
-}
-
 .active-caller-name {
   color: #2be4ea;
   font-family: var(--fonts-secondary);
   font-size: 1.25rem;
   text-transform: uppercase;
+}
+
+.caller-avatar {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
 }
 
 .caller-avatar-frame {
@@ -362,6 +371,19 @@
   z-index: 2;
   box-shadow: 0 0 15px rgba(232, 59, 54, 0.5);
 }
+
+.nav-section {
+  width: 100%;
+}
+
+.caller-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #000;
+  filter: contrast(120%) saturate(120%);
+}
+
 
 .caller-avatar::after {
   content: '';
