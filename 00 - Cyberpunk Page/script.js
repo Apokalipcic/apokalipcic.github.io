@@ -601,53 +601,71 @@ function initDialogSystem() {
   const dialogTriggers = document.querySelectorAll('.dialog-trigger');
   
   // Attach event listeners to triggers
-  dialogTriggers.forEach(trigger => {
-    trigger.addEventListener('click', function(e) {
-      e.preventDefault();
+    dialogTriggers.forEach(trigger => {
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+    
+        // Get dialog group from trigger
+        const dialogGroup = this.getAttribute('data-dialog-group') || 'default';
+    
+        // Get section ID if available
+        const sectionId = this.getAttribute('data-section');
+    
+        // If section ID is available, activate that section
+        if (sectionId) {
+          document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active');
+          });
       
-      // Get dialog group from trigger
-      const dialogGroup = this.getAttribute('data-dialog-group') || 'default';
+          const targetSection = document.getElementById(sectionId);
+          if (targetSection) {
+            targetSection.classList.add('active');
+          }
       
-      // Get section ID if available
-      const sectionId = this.getAttribute('data-section');
+          // Update the content title
+          const contentTitle = document.querySelector('.content-title');
+          if (contentTitle) {
+            contentTitle.textContent = this.textContent;
+          }
       
-      // If section ID is available, activate that section
-      if (sectionId) {
-        document.querySelectorAll('.content-section').forEach(section => {
-          section.classList.remove('active');
-        });
-        
-        const targetSection = document.getElementById(sectionId);
-        if (targetSection) {
-          targetSection.classList.add('active');
+          // Update active navigation link
+          document.querySelectorAll('.nav__link').forEach(link => {
+            link.classList.remove('nav__link--active');
+          });
+          this.classList.add('nav__link--active');
         }
-        
-        // Update the content title
-        const contentTitle = document.querySelector('.content-title');
-        if (contentTitle) {
-          contentTitle.textContent = this.textContent;
+    
+        // Always show the active call indicator with glitch effect when a dialog is triggered
+        const activeCallIndicator = document.querySelector('.active-call-indicator');
+        if (activeCallIndicator) {
+          // Use showWithGlitch instead of just removing hidden class
+          // First make sure it's hidden (to ensure the effect works properly)
+          activeCallIndicator.classList.add('hidden');
+      
+          // Force a reflow to ensure the hidden state is applied
+          activeCallIndicator.offsetHeight;
+      
+          // Now show it with the glitch effect
+          showWithGlitch(activeCallIndicator);
+      
+          // Update the caller avatar based on the first dialog in the sequence
+          const firstDialog = document.querySelector(`.dialog-data[data-dialog-group="${dialogGroup}"]`);
+          if (firstDialog) {
+            const speaker = firstDialog.getAttribute('data-speaker');
+            updateActiveCallIndicator(speaker);
+          }
         }
-        
-        // Update active navigation link
-        document.querySelectorAll('.nav__link').forEach(link => {
-          link.classList.remove('nav__link--active');
-        });
-        this.classList.add('nav__link--active');
-      }
-      
-      // Find all dialogs in this group
-      const dialogs = document.querySelectorAll(`.dialog-data[data-dialog-group="${dialogGroup}"]`);
-      
-      // Play dialogs in sequence
-      playDialogSequence(dialogGroup);
-      
-      // Hide call indicator after dialog completes
-      const totalDuration = calculateTotalDialogDuration(dialogGroup);
-      setTimeout(() => {
-        hideActiveCallIndicator();
-      }, totalDuration + 500);
+    
+        // Play dialogs in sequence
+        playDialogSequence(dialogGroup);
+    
+        // Hide call indicator after dialog completes
+        const totalDuration = calculateTotalDialogDuration(dialogGroup);
+        setTimeout(() => {
+          hideActiveCallIndicator();
+        }, totalDuration + 500);
+      });
     });
-  });
 }
 
 // Play a sequence of dialogs
@@ -971,7 +989,7 @@ function setupCallFunctionality() {
   }
 }
 
-// Update active call indicator in left sidebar
+// Update active call indicator in left sidebar - improved version
 function updateActiveCallIndicator(speakerName) {
   const indicator = document.querySelector('.active-call-indicator');
   if (indicator) {
@@ -985,15 +1003,35 @@ function updateActiveCallIndicator(speakerName) {
     
     // Update avatar based on speaker
     if (callerAvatarElement) {
-      let imageSrc = 'placeholder-fixer.jpg'; // Default
+      // Define avatar mapping with fallbacks
+      const avatarMap = {
+        'V': 'Images/Characters/V_Avatar.png',
+        'REGINA JONES': 'Images/Characters/ReginaJohnes_Avatar.png',
+        'MR. HANDS': 'mr-hands.jpg',
+        'ROGUE': 'Images/Characters/Rogue_Avatar.png',
+        'JOHNNY SILVERHAND': 'Images/Characters/Johnny_Avatar.png',
+        'JUDY': 'Images/Characters/Judy_Avatar.png',
+        'PANAM': 'Images/Characters/Panam_Avatar.png',
+        'TAKEMURA': 'Images/Characters/Takemura_Avatar.png',
+        'DEXTER DESHAWN': 'Images/Characters/Dexter_Avatar.png',
+        'ROGUE AI': 'Images/Characters/Rouge_AI_Avatar.png'
+      };
       
-      if (speakerName === 'V') {
-          imageSrc = 'Images/Characters/V_Avatar.png';
-      } else if (speakerName === 'REGINA JONES') {
-          imageSrc = 'Images/Characters/ReginaJohnes_Avatar.png';
-      }
+      // Get avatar or use default if not found
+      let imageSrc = avatarMap[speakerName] || 'Images/Characters/Default_Avatar.png';
       
-      callerAvatarElement.src = imageSrc;
+      // Check if file exists, otherwise use a fallback
+      const img = new Image();
+      img.onerror = function() {
+        // If image doesn't exist, use a generic fallback
+        callerAvatarElement.src = 'placeholder-fixer.jpg';
+      };
+      img.onload = function() {
+        // If image loads successfully, use it
+        callerAvatarElement.src = imageSrc;
+      };
+      img.src = imageSrc;
+      
       callerAvatarElement.alt = speakerName;
     }
   }
