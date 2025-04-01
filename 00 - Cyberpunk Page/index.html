@@ -1,642 +1,650 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CYBERPUNK 2077 - QUEST DESIGN</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
-  <!-- Include existing stylesheets -->
-  <link rel="stylesheet" href="cyberpunk_style.css">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="ExtraScripts/expandingBoxes.css">
-  <link rel="stylesheet" href="ExtraScripts/cyberTranslation.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBERPUNK 2077 - QUEST DESIGN</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
+    <!-- Include existing stylesheets -->
+    <link rel="stylesheet" href="cyberpunk_style.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ExtraScripts/expandingBoxes.css">
+    <link rel="stylesheet" href="ExtraScripts/cyberTranslation.css">
 </head>
 <body>
-  <div class="app-skeleton">
-    <!-- Header -->
-    <header class="app-header">
-      <div class="app-header__anchor">
-        <span id="header-text" data-scramble data-scramble-mode="finite">CYBERPUNK 2077 - QUEST DESIGN</span>
-      </div>
-    </header>
+    <div class="app-skeleton">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="app-header__anchor">
+                <span id="header-text" data-scramble data-scramble-mode="finite">CYBERPUNK 2077 - QUEST DESIGN</span>
+            </div>
+        </header>
 
-    <!-- Main Container -->
-    <div class="app-container" id="main-content-container">
-        <!-- Left Sidebar Structure -->
-        <div class="app-a">
-          <!-- Fixed area for caller indicator (appears/disappears) -->
-          <div class="fixed-caller-area">
-            <!-- Active Call Indicator (initially hidden) -->
-            <div class="active-call-indicator hidden">
-              <div class="active-call-header">
-                <div class="active-call-connection">CONNECTION 541.44.10</div>
-                <div class="active-caller-name">MR. HANDS</div>
-              </div>
-              <div class="caller-avatar">
-                <div class="caller-avatar-frame"></div>
-                <img src="mr-hands.jpg" alt="Caller">
-              </div>
-            </div>
-          </div>
-
-          <!-- Navigation Menu - always below fixed area -->
-          <div class="nav-section hidden" id="nav-section">
-            <div class="nav-section__header">
-              <h2 class="nav-section__title access-denied">Quest Design</h2>
-            </div>
-            <div class="nav-section__body">
-              <ul class="nav">
-                <li class="nav__item">
-                  <a href="#" class="nav__link nav__link--active" data-section="quest-brief">Quest Brief Story</a>
-                </li>
-                <li class="nav__item">
-                  <a href="#" class="nav__link dialog-trigger" data-section="quest-structure" data-dialog-group="quest-structure">Quest Structure</a>
-                </li>
-                <li class="nav__item">
-                  <a href="#" class="nav__link" data-section="game-items">Game Items</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      <!-- Main Content Area (expanded to include right sidebar space) -->
-<!-- Main Content Area (expanded to include right sidebar space) -->
-<div class="app-main hidden" id="app-main" style="grid-column: span 4;">
-  <div class="segment-topbar">
-    <div class="segment-topbar__header">
-        <span class="segment-topbar__overline">QUEST_ID: 8XJ<span data-scramble data-scramble-mode="random">4</span>2-WAT<<span data-scramble data-scramble-mode="random">SO</span>N</span>
-      <h4 class="segment-topbar__title text-heading4">
-        <span class="channel-link__element content-title">Quest Brief Story</span>
-      </h4>
-    </div>
-  </div>
-
-  <!-- Content sections -->
-  <div class="content-container">
-    <!-- Quest Brief Section -->
-    <section class="content-section active" id="quest-brief">
-      <div class="pad">
-        <div class="pad__body">
-          <h3 class="text-heading3">Cyberpsycho Sighting: Mirror's Edge</h3>
-
-          <h4 class="text-heading4">Act 1: The Setup</h4>
-          <p class="text-paragraph1 mb-3">
-            The quest begins with Regina Jones contacting V about another potential cyberpsycho sighting. However, she warns V that "this one is not like the others" and advises them to keep their guard up. Upon arriving at the location, V discovers dead Arasaka combat team members scattered throughout the corridor. This unusual sight prompts Johnny Silverhand to express suspicion about the true nature of this mission.
-          </p>
-          <p class="text-paragraph1 mb-3">
-            As V investigates further, they find a dead soldier positioned in a peculiar way, holding a neural chip that seems almost deliberately placed to be found. Despite the suspicious circumstances, V decides to insert the chip, leading Johnny to mock their decision. Shortly after, Rei reveals herself, though not completely – appearing as a spider-like creature crawling on the ceiling.
-          </p>
-          <p class="text-paragraph1 mb-3">
-            When Rei drops down to attack V, they attempt to fight back, only to discover that any damage dealt reflects back to themselves. While Johnny theorizes that the chip might be protecting its owner, Rei suddenly stops her assault and retreats into hiding. And new UI Interface appears for V, claiming him as an Owner of Mirror’s Edge chip - revealing the cycling nature of the Chip.
-          </p>
-          
-          <h4 class="text-heading4">Act 2: The Hunt</h4>
-          <p class="text-paragraph1 mb-3">
-            The second act transforms into a hide-and-seek game between V and Rei. Throughout the level, V can discover scattered data shards and pieces of information that reveal Rei's backstory. The environment is equipped with flashbangs and hackable light sources that V can utilize.
-          </p>
-          <p class="text-paragraph1 mb-3">
-            When V manages to reduce Rei's health to 30-40%, she retreats. V pursues her, only to find her in a vulnerable position as the Mirror's Edge chip malfunctions and burns out, with its UI effect disappearing completely. V attempts to communicate with Rei, but she cannot respond verbally due to being mute. Instead, she communicates through the gestures of her spider legs, either opening or closing them.
-          </p>
-          <p class="text-paragraph1 mb-3">
-            V recognizes her as a victim of Arasaka and has the choice to either help her or attempt to eliminate her. During this moment, V discovers an alert on a nearby working PC warning of approaching Arasaka forces. While V is distracted by this information, Rei takes the opportunity to escape.
-          </p> 
-          
-          <h4 class="text-heading4">Act 3: The Resolution</h4>
-          <p class="text-paragraph1 mb-3">
-            The final act splits into two possible paths based on V's earlier choice:
-          </p>
-          
-          <span class="access-granted">Alliance Path</span>
-          <p class="text-paragraph1 mb-3">
-            If V chooses to help Rei, they fight alongside each other against the Arasaka forces, though in separate areas. The quest concludes with V calling Viktor to come and help Rei. This path results in V losing Regina's reward and some reputation with her.
-          </p>
-          <span class="access-denied">Elimination Path</span>
-          <p class="text-paragraph1 mb-3">
-            If V chooses to eliminate Rei, the situation evolves into a three-way combat between V, Rei, and the Arasaka forces. The final confrontation becomes a straightforward one-on-one fight with an injured Rei, without chip limitations and with access to V's full arsenal. This path ends with V receiving Regina's reward and gaining reputation with her.
-          </p>
-          
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Quest Structure Section -->
-    <section class="content-section" id="quest-structure">
-      <div class="pad">
-        <div class="pad__body">
-          <h3 class="text-heading3">MISSION STRUCTURE & FLOW</h3>
-          
-          <p class="text-paragraph1 mb-3">
-            Mission flow divided into <span class="corrupted" data-text="3">3</span> distinct phases:
-          </p>
-          
-          <h4 class="text-heading4">PHASE 1: <span class="glitch-text">INFILTRATION</span></h4>
-          <p class="text-paragraph1 mb-3">
-            • Multiple entry points: <span class="access-granted">Roof access</span>, 
-            <span class="access-granted">Service entrance</span>, 
-            <span class="access-denied">Main entrance</span>
-          </p>
-          <p class="text-paragraph1 mb-3">
-            • Player choice-driven stealth mechanics with <span class="terminal-typing">hacking alternatives</span>
-          </p>
-          <p class="text-paragraph1 mb-3">
-            • Environmental storytelling reveals <span class="redacted-flicker">facility history</span>
-          </p>
-          
-          <h4 class="text-heading4">PHASE 2: <span class="glitch-text">DISCOVERY</span></h4>
-          <p class="text-paragraph1 mb-3">
-            • Central lab area protected by <span class="warning-text">automated security systems</span>
-          </p>
-          <p class="text-paragraph1 mb-3">
-            • Dialogue with the <span class="corrupted" data-text="rogue AI">rogue AI</span> reveals corporate conspiracy
-          </p>
-          <p class="text-paragraph1 mb-3 scanner-effect">
-            • Player decision: Align with Arasaka remnants or the <span class="redacted">rogue AI</span>
-          </p>
-          
-          <h4 class="text-heading4">PHASE 3: <span class="glitch-text">EXTRACTION</span></h4>
-          <p class="text-paragraph1 mb-3">
-            • High-intensity escape sequence with <span class="warning-text">waves of security drones</span>
-          </p>
-          <p class="text-paragraph1 mb-3">
-            • Choice-based ending determined by <span class="redacted-flicker">player allegiance</span>
-          </p>
-          <p class="text-paragraph1 mb-3">
-            • Multiple epilogues affect <span class="corrupted" data-text="Watson district">Watson district</span> and Regina's future missions
-          </p>
-        </div>
-      </div>
-    </section>
-
-<!-- Game Items Section with Expanding Boxes -->
-<section class="content-section" id="game-items">
-  <div class="pad">
-    <div class="pad__body">
-      <h3 class="text-heading3">EQUIPMENT & LOOT DATABASE</h3>
-      
-      <!-- Row 1: Weapons (Red Boxes) -->
-      <div class="cyber-rows">
-        <div class="cyber-row">
-          <!-- Weapon 1 -->
-          <div class="cyber-box cyber-box-red" data-id="weapon-1">
-            <!-- Corner cutout -->
-            <div class="cyber-box-corner"></div>
-            
-            <!-- Box header (visible when collapsed) -->
-            <div class="cyber-box-header">
-              <div>
-                <div class="cyber-box-subtitle">WEAPON//PISTOL</div>
-                <h3 class="cyber-box-title">UNITY</h3>
-              </div>
-              <div class="cyber-box-hint">TAP TO EXPAND</div>
-            </div>
-            
-            <!-- Optional image -->
-            <div class="cyber-box-image">
-              <img src="Images/Weapons/unity-pistol.png" alt="Unity Pistol">
-            </div>
-            
-            <!-- Scanlines effect -->
-            <div class="cyber-box-scanlines"></div>
-            
-            <!-- Expanded view content -->
-            <div class="cyber-box-expanded-content">
-              <!-- Title bar (visible when expanded) -->
-              <div class="cyber-box-title-bar">
-                <h2>UNITY PISTOL</h2>
-                <button class="cyber-box-close">[CLOSE]</button>
-              </div>
-              
-              <div class="cyber-data-section">
-                <div class="cyber-data-label">MANUFACTURER:</div>
-                <div class="cyber-data-value">Militech</div>
-                
-                <div class="cyber-data-label">WEAPON TYPE:</div>
-                <div class="cyber-data-value">Pistol / Handgun</div>
-                
-                <div class="cyber-data-grid">
-                  <div>
-                    <div class="cyber-data-label">DAMAGE STATS:</div>
-                    <div class="cyber-data-bullet">Physical Damage: 85-105</div>
-                    <div class="cyber-data-bullet">Critical Chance: 15%</div>
-                    <div class="cyber-data-bullet">Headshot Multiplier: x2.5</div>
-                  </div>
-                  
-                  <div>
-                    <div class="cyber-data-label">TECHNICAL SPECS:</div>
-                    <div class="cyber-data-bullet">Magazine Size: 12</div>
-                    <div class="cyber-data-bullet">Rate of Fire: Semi-Auto</div>
-                    <div class="cyber-data-bullet">Reload Time: 1.5s</div>
-                  </div>
-                </div>
-                
-                <div class="cyber-data-label">GAME DESCRIPTION:</div>
-                <div class="cyber-data-value">
-                  The Unity is standard-issue for NCPD officers and Militech security personnel. 
-                  Reliable, sturdy, and packs a punch without draining your wallet.
-                </div>
-                
-                <div class="cyber-data-warning">
-                  <strong>QUEST NOTE:</strong> A modified Unity with silencer can be found in
-                  the Watson warehouse armory during "The Ghost in the Machine" mission.
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Weapon 2 -->
-          <div class="cyber-box cyber-box-red" data-id="weapon-2">
-            <div class="cyber-box-corner"></div>
-            <div class="cyber-box-header">
-              <div>
-                <div class="cyber-box-subtitle">WEAPON//RIFLE</div>
-                <h3 class="cyber-box-title">NEKOMATA</h3>
-              </div>
-              <div class="cyber-box-hint">TAP TO EXPAND</div>
-            </div>
-            
-            <div class="cyber-box-image">
-              <img src="Images/Weapons/nekomata-rifle.png" alt="Nekomata Sniper Rifle">
-            </div>
-            
-            <div class="cyber-box-scanlines"></div>
-            
-            <div class="cyber-box-expanded-content">
-              <div class="cyber-box-title-bar">
-                <h2>NEKOMATA SNIPER RIFLE</h2>
-                <button class="cyber-box-close">[CLOSE]</button>
-              </div>
-              
-              <div class="cyber-data-section">
-                <div class="cyber-data-label">MANUFACTURER:</div>
-                <div class="cyber-data-value">Tsunami Defense Systems</div>
-                
-                <div class="cyber-data-label">WEAPON TYPE:</div>
-                <div class="cyber-data-value">Tech Sniper Rifle</div>
-                
-                <div class="cyber-data-grid">
-                  <div>
-                    <div class="cyber-data-label">DAMAGE STATS:</div>
-                    <div class="cyber-data-bullet">Physical Damage: 250-320</div>
-                    <div class="cyber-data-bullet">Charge Multiplier: x3.5</div>
-                    <div class="cyber-data-bullet">Critical Chance: 25%</div>
-                  </div>
-                  
-                  <div>
-                    <div class="cyber-data-label">TECHNICAL SPECS:</div>
-                    <div class="cyber-data-bullet">Magazine Size: 4</div>
-                    <div class="cyber-data-bullet">Wall Penetration: Yes</div>
-                    <div class="cyber-data-bullet">Reload Time: 3.2s</div>
-                  </div>
-                </div>
-                
-                <div class="cyber-data-label">GAME DESCRIPTION:</div>
-                <div class="cyber-data-value">
-                  Tsunami's Nekomata delivers devastating power at extreme ranges. Its tech-based 
-                  charging system allows rounds to penetrate cover, hitting targets who think they're safe.
-                </div>
-                
-                <div class="cyber-data-warning">
-                  <strong>QUEST NOTE:</strong> An Arasaka security specialist armed with a rare
-                  "Black Lotus" Nekomata variant patrols the warehouse roof.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Row 2: Cyberware (Blue Boxes) -->
-        <div class="cyber-row">
-          <!-- Cyberware 1 -->
-          <div class="cyber-box cyber-box-blue" data-id="cyber-1">
-            <div class="cyber-box-corner"></div>
-            <div class="cyber-box-header">
-              <div>
-                <div class="cyber-box-subtitle">CYBERWARE//OPERATING_SYSTEM</div>
-                <h3 class="cyber-box-title">SANDEVISTAN</h3>
-              </div>
-              <div class="cyber-box-hint">TAP TO EXPAND</div>
-            </div>
-            
-            <div class="cyber-box-image">
-              <img src="Images/Cyberware/sandevistan.png" alt="Sandevistan Operating System">
-            </div>
-            
-            <div class="cyber-box-scanlines"></div>
-            
-            <div class="cyber-box-expanded-content">
-              <div class="cyber-box-title-bar">
-                <h2>SANDEVISTAN MK.4</h2>
-                <button class="cyber-box-close">[CLOSE]</button>
-              </div>
-              
-              <div class="cyber-data-section">
-                <div class="cyber-data-label">MANUFACTURER:</div>
-                <div class="cyber-data-value">Zetatech</div>
-                
-                <div class="cyber-data-label">CYBERWARE TYPE:</div>
-                <div class="cyber-data-value">Operating System</div>
-                
-                <div class="cyber-data-grid">
-                  <div>
-                    <div class="cyber-data-label">EFFECTS:</div>
-                    <div class="cyber-data-bullet">Slows time by 75%</div>
-                    <div class="cyber-data-bullet">Duration: 8 seconds</div>
-                    <div class="cyber-data-bullet">Cooldown: 15 seconds</div>
-                  </div>
-                  
-                  <div>
-                    <div class="cyber-data-label">REQUIREMENTS:</div>
-                    <div class="cyber-data-bullet">Reflexes: 15</div>
-                    <div class="cyber-data-bullet">Street Cred: 20</div>
-                    <div class="cyber-data-bullet">Ripperdoc Certification</div>
-                  </div>
-                </div>
-                
-                <div class="cyber-data-label">GAME DESCRIPTION:</div>
-                <div class="cyber-data-value">
-                  Zetatech's Sandevistan alters the user's perception of time, creating a
-                  temporary state where everything around them appears to move in slow motion.
-                  Perfect for combat situations requiring superhuman reflexes.
-                </div>
-                
-                <div class="cyber-data-warning">
-                  <strong>QUEST NOTE:</strong> Prototype records in the warehouse suggest
-                  Project Chimera incorporates a modified Sandevistan with no cooldown period.
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Cyberware 2 -->
-            <div class="cyber-box cyber-box-blue cyber-translate translate-hover" data-id="cyber-2">
-              <div class="cyber-box-corner"></div>
-              <div class="cyber-box-header">
-                <div>
-                  <div class="cyber-box-subtitle"><span data-jp="サイバーウェア//前頭皮質" data-en="CYBERWARE//FRONTAL_CORTEX"></span></div>
-                  <h3 class="cyber-box-title"><span data-scramble="" data-scramble-mode="infinite">MIRR</span>OR <span class="redacted">EDGE</span></h3>
-                </div>
-                <div class="cyber-box-hint"><span data-jp="タップして展開" data-en="TAP TO EXPAND"></span></div>
-              </div>
-  
-              <div class="cyber-box-image">
-                <img src="Images/Cyberware/mirror-balance.png" alt="Mirror Balance System">
-              </div>
-  
-              <div class="cyber-box-scanlines"></div>
-  
-              <div class="cyber-box-expanded-content">
-                <div class="cyber-box-title-bar">
-                  <h2><span data-jp="ミラーエッジシステム v0.32" data-en="MIRROR EDGE SYSTEM v0.32"></span></h2>
-                  <button class="cyber-box-close">[<span data-jp="閉じる" data-en="CLOSE"></span>]</button>
-                </div>
-    
-                <div class="cyber-data-section">
-                  <div class="cyber-data-label"><span data-jp="製造元" data-en="MANUFACTURER"></span>:</div>
-                  <div class="cyber-data-value"><span data-jp="荒坂（プロトタイプ）" data-en="Arasaka (Prototype)"></span></div>
-      
-                  <div class="cyber-data-label"><span data-jp="サイバーウェアタイプ" data-en="CYBERWARE TYPE"></span>:</div>
-                  <div class="cyber-data-value"><span data-jp="前頭皮質インプラント" data-en="Frontal Cortex Implant"></span></div>
-      
-                  <div class="cyber-data-grid">
-                    <div>
-                      <div class="cyber-data-label"><span data-jp="効果" data-en="EFFECTS"></span>:</div>
-                      <div class="cyber-data-bullet"><span data-jp="指定されたHOSTからのダメージを全てのリンクされたUSERに100％反射します" data-en="Reflects 100% of damage from the designated HOST to all linked USERS."></span></div>
-                      <div class="cyber-data-bullet redacted">Reflects 100%</div>
-                      <div class="cyber-data-bullet redacted">Reflects 100%</div>
+        <!-- Main Container -->
+        <div class="app-container" id="main-content-container">
+            <!-- Left Sidebar Structure -->
+            <div class="app-a">
+                <!-- Fixed area for caller indicator (appears/disappears) -->
+                <div class="fixed-caller-area">
+                    <!-- Active Call Indicator (initially hidden) -->
+                    <div class="active-call-indicator hidden">
+                        <div class="active-call-header">
+                            <div class="active-call-connection">CONNECTION <span data-scramble data-scramble-mode="finite">541.44.10</span></div>
+                            <div class="active-caller-name">MR. HANDS</div>
+                        </div>
+                        <div class="caller-avatar">
+                            <div class="caller-avatar-frame"></div>
+                            <img src="mr-hands.jpg" alt="Caller">
+                        </div>
                     </div>
-        
-                    <div>
-                      <div class="cyber-data-label"><span data-jp="欠陥" data-en="DEFECTS"></span>:</div>
-                      <div class="cyber-data-bullet redacted">Dont read this lol</div>
-                      <div class="cyber-data-bullet"><span data-jp="ネットワーク全体でHOSTの役割を継続的に再割り当てします" data-en="Continuously reassigns the HOST role across the network."></span></div>
-                      <div class="cyber-data-bullet redacted">DONT READ IT :(</div>
+                </div>
+
+                <!-- Navigation Menu - always below fixed area -->
+                <div class="nav-section hidden" id="nav-section">
+                    <div class="nav-section__header">
+                        <h2 class="nav-section__title access-denied">Quest Design</h2>
                     </div>
-                  </div>
-      
-                  <div class="cyber-data-label"><span data-jp="ゲーム説明" data-en="GAME DESCRIPTION"></span>:</div>
-                  <div class="cyber-data-value">
-                    <span data-jp="荒坂の上級幹部によって委託された非常に不安定なプロトタイプ。動作範囲内の即時の脅威に対する比類のない保護を提供するように設計されています。しかし、重大なチップの誤動作により意図しないシステムオーバーライドが発生し、ネットワーク全体の標準USERに主要なHOSTの役割を再割り当てします。" data-en="A highly unstable prototype commissioned by senior Arasaka executives. Engineered to provide unparalleled protection against immediate threats within its operational range. However, a critical chip malfunction causes an unintended system override—reassigning the primary HOST role to standard USERS across the network."></span>
-                  </div>
-      
-                  <div class="cyber-data-warning">
-                    <strong><span data-jp="クエスト目標" data-en="QUEST OBJECTIVE"></span>:</strong> <span data-jp="主要ミッション目標は、この実験的技術を破壊し、" data-en="Primary mission objective is to destroy this experimental technology and indetify the "></span><span class="redacted">text</span>.
-                  </div>
+                    <div class="nav-section__body">
+                        <ul class="nav">
+                            <li class="nav__item">
+                                <a href="#" class="nav__link nav__link--active" data-section="quest-brief">Quest Brief Story</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="#" class="nav__link dialog-trigger" data-section="quest-structure" data-dialog-group="quest-structure">Quest Structure</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="#" class="nav__link" data-section="game-items">Game Items</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-              </div>
+            </div>
+
+            <!-- Main Content Area (expanded to include right sidebar space) -->
+            <!-- Main Content Area (expanded to include right sidebar space) -->
+            <div class="app-main hidden" id="app-main" style="grid-column: span 4;">
+                <div class="segment-topbar">
+                    <div class="segment-topbar__header">
+                        <span class="segment-topbar__overline">QUEST_ID: 8XJ<span data-scramble data-scramble-mode="random">4</span>2-WAT<<span data-scramble data-scramble-mode="random">SO</span>N</span>
+                        <h4 class="segment-topbar__title text-heading4">
+                            <span class="channel-link__element content-title">Quest Brief Story</span>
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Content sections -->
+                <div class="content-container">
+                    <!-- Quest Brief Section -->
+                    <section class="content-section active" id="quest-brief">
+                        <div class="pad">
+                            <div class="pad__body">
+                                <h3 class="text-heading3">Cyberpsycho Sighting: Mirror's Edge</h3>
+
+                                <h4 class="text-heading4">Act 1: The Setup</h4>
+                                <p class="text-paragraph1 mb-3">
+                                    The quest begins with Regina Jones contacting V about another potential cyberpsycho sighting. However, she warns V that "this one is not like the others" and advises them to keep their guard up. Upon arriving at the location, V discovers dead Arasaka combat team members scattered throughout the corridor. This unusual sight prompts Johnny Silverhand to express suspicion about the true nature of this mission.
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    As V investigates further, they find a dead soldier positioned in a peculiar way, holding a neural chip that seems almost deliberately placed to be found. Despite the suspicious circumstances, V decides to insert the chip, leading Johnny to mock their decision. Shortly after, Rei reveals herself, though not completely – appearing as a spider-like creature crawling on the ceiling.
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    When Rei drops down to attack V, they attempt to fight back, only to discover that any damage dealt reflects back to themselves. While Johnny theorizes that the chip might be protecting its owner, Rei suddenly stops her assault and retreats into hiding. And new UI Interface appears for V, claiming him as an Owner of Mirror’s Edge chip - revealing the cycling nature of the Chip.
+                                </p>
+
+                                <h4 class="text-heading4">Act 2: The Hunt</h4>
+                                <p class="text-paragraph1 mb-3">
+                                    The second act transforms into a hide-and-seek game between V and Rei. Throughout the level, V can discover scattered data shards and pieces of information that reveal Rei's backstory. The environment is equipped with flashbangs and hackable light sources that V can utilize.
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    When V manages to reduce Rei's health to 30-40%, she retreats. V pursues her, only to find her in a vulnerable position as the Mirror's Edge chip malfunctions and burns out, with its UI effect disappearing completely. V attempts to communicate with Rei, but she cannot respond verbally due to being mute. Instead, she communicates through the gestures of her spider legs, either opening or closing them.
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    V recognizes her as a victim of Arasaka and has the choice to either help her or attempt to eliminate her. During this moment, V discovers an alert on a nearby working PC warning of approaching Arasaka forces. While V is distracted by this information, Rei takes the opportunity to escape.
+                                </p>
+
+                                <h4 class="text-heading4">Act 3: The Resolution</h4>
+                                <p class="text-paragraph1 mb-3">
+                                    The final act splits into two possible paths based on V's earlier choice:
+                                </p>
+
+                                <span class="access-granted">Alliance Path</span>
+                                <p class="text-paragraph1 mb-3">
+                                    If V chooses to help Rei, they fight alongside each other against the Arasaka forces, though in separate areas. The quest concludes with V calling Viktor to come and help Rei. This path results in V losing Regina's reward and some reputation with her.
+                                </p>
+                                <span class="access-denied">Elimination Path</span>
+                                <p class="text-paragraph1 mb-3">
+                                    If V chooses to eliminate Rei, the situation evolves into a three-way combat between V, Rei, and the Arasaka forces. The final confrontation becomes a straightforward one-on-one fight with an injured Rei, without chip limitations and with access to V's full arsenal. This path ends with V receiving Regina's reward and gaining reputation with her.
+                                </p>
+
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Quest Structure Section -->
+                    <section class="content-section" id="quest-structure">
+                        <div class="pad">
+                            <div class="pad__body">
+                                <h3 class="text-heading3">MISSION STRUCTURE & FLOW</h3>
+
+                                <p class="text-paragraph1 mb-3">
+                                    Mission flow divided into <span class="corrupted" data-text="3">3</span> distinct phases:
+                                </p>
+
+                                <h4 class="text-heading4">PHASE 1: <span class="glitch-text">INFILTRATION</span></h4>
+                                <p class="text-paragraph1 mb-3">
+                                    • Multiple entry points: <span class="access-granted">Roof access</span>,
+                                    <span class="access-granted">Service entrance</span>,
+                                    <span class="access-denied">Main entrance</span>
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    • Player choice-driven stealth mechanics with <span class="terminal-typing">hacking alternatives</span>
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    • Environmental storytelling reveals <span class="redacted-flicker">facility history</span>
+                                </p>
+
+                                <h4 class="text-heading4">PHASE 2: <span class="glitch-text">DISCOVERY</span></h4>
+                                <p class="text-paragraph1 mb-3">
+                                    • Central lab area protected by <span class="warning-text">automated security systems</span>
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    • Dialogue with the <span class="corrupted" data-text="rogue AI">rogue AI</span> reveals corporate conspiracy
+                                </p>
+                                <p class="text-paragraph1 mb-3 scanner-effect">
+                                    • Player decision: Align with Arasaka remnants or the <span class="redacted">rogue AI</span>
+                                </p>
+
+                                <h4 class="text-heading4">PHASE 3: <span class="glitch-text">EXTRACTION</span></h4>
+                                <p class="text-paragraph1 mb-3">
+                                    • High-intensity escape sequence with <span class="warning-text">waves of security drones</span>
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    • Choice-based ending determined by <span class="redacted-flicker">player allegiance</span>
+                                </p>
+                                <p class="text-paragraph1 mb-3">
+                                    • Multiple epilogues affect <span class="corrupted" data-text="Watson district">Watson district</span> and Regina's future missions
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Game Items Section with Expanding Boxes -->
+                    <section class="content-section" id="game-items">
+                        <div class="pad">
+                            <div class="pad__body">
+                                <h3 class="text-heading3">EQUIPMENT & LOOT DATABASE</h3>
+
+                                <!-- Row 1: Weapons (Red Boxes) -->
+                                <div class="cyber-rows">
+                                    <div class="cyber-row">
+                                        <!-- Weapon 1 -->
+                                        <div class="cyber-box cyber-box-red" data-id="weapon-1">
+                                            <!-- Corner cutout -->
+                                            <div class="cyber-box-corner"></div>
+
+                                            <!-- Box header (visible when collapsed) -->
+                                            <div class="cyber-box-header">
+                                                <div>
+                                                    <div class="cyber-box-subtitle">WEAPON//PISTOL</div>
+                                                    <h3 class="cyber-box-title">UNITY</h3>
+                                                </div>
+                                                <div class="cyber-box-hint">TAP TO EXPAND</div>
+                                            </div>
+
+                                            <!-- Optional image -->
+                                            <div class="cyber-box-image">
+                                                <img src="Images/Weapons/unity-pistol.png" alt="Unity Pistol">
+                                            </div>
+
+                                            <!-- Scanlines effect -->
+                                            <div class="cyber-box-scanlines"></div>
+
+                                            <!-- Expanded view content -->
+                                            <div class="cyber-box-expanded-content">
+                                                <!-- Title bar (visible when expanded) -->
+                                                <div class="cyber-box-title-bar">
+                                                    <h2>UNITY PISTOL</h2>
+                                                    <button class="cyber-box-close">[CLOSE]</button>
+                                                </div>
+
+                                                <div class="cyber-data-section">
+                                                    <div class="cyber-data-label">MANUFACTURER:</div>
+                                                    <div class="cyber-data-value">Militech</div>
+
+                                                    <div class="cyber-data-label">WEAPON TYPE:</div>
+                                                    <div class="cyber-data-value">Pistol / Handgun</div>
+
+                                                    <div class="cyber-data-grid">
+                                                        <div>
+                                                            <div class="cyber-data-label">DAMAGE STATS:</div>
+                                                            <div class="cyber-data-bullet">Physical Damage: 85-105</div>
+                                                            <div class="cyber-data-bullet">Critical Chance: 15%</div>
+                                                            <div class="cyber-data-bullet">Headshot Multiplier: x2.5</div>
+                                                        </div>
+
+                                                        <div>
+                                                            <div class="cyber-data-label">TECHNICAL SPECS:</div>
+                                                            <div class="cyber-data-bullet">Magazine Size: 12</div>
+                                                            <div class="cyber-data-bullet">Rate of Fire: Semi-Auto</div>
+                                                            <div class="cyber-data-bullet">Reload Time: 1.5s</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                                                    <div class="cyber-data-value">
+                                                        The Unity is standard-issue for NCPD officers and Militech security personnel.
+                                                        Reliable, sturdy, and packs a punch without draining your wallet.
+                                                    </div>
+
+                                                    <div class="cyber-data-warning">
+                                                        <strong>QUEST NOTE:</strong> A modified Unity with silencer can be found in
+                                                        the Watson warehouse armory during "The Ghost in the Machine" mission.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Weapon 2 -->
+                                        <div class="cyber-box cyber-box-red" data-id="weapon-2">
+                                            <div class="cyber-box-corner"></div>
+                                            <div class="cyber-box-header">
+                                                <div>
+                                                    <div class="cyber-box-subtitle">WEAPON//RIFLE</div>
+                                                    <h3 class="cyber-box-title">NEKOMATA</h3>
+                                                </div>
+                                                <div class="cyber-box-hint">TAP TO EXPAND</div>
+                                            </div>
+
+                                            <div class="cyber-box-image">
+                                                <img src="Images/Weapons/nekomata-rifle.png" alt="Nekomata Sniper Rifle">
+                                            </div>
+
+                                            <div class="cyber-box-scanlines"></div>
+
+                                            <div class="cyber-box-expanded-content">
+                                                <div class="cyber-box-title-bar">
+                                                    <h2>NEKOMATA SNIPER RIFLE</h2>
+                                                    <button class="cyber-box-close">[CLOSE]</button>
+                                                </div>
+
+                                                <div class="cyber-data-section">
+                                                    <div class="cyber-data-label">MANUFACTURER:</div>
+                                                    <div class="cyber-data-value">Tsunami Defense Systems</div>
+
+                                                    <div class="cyber-data-label">WEAPON TYPE:</div>
+                                                    <div class="cyber-data-value">Tech Sniper Rifle</div>
+
+                                                    <div class="cyber-data-grid">
+                                                        <div>
+                                                            <div class="cyber-data-label">DAMAGE STATS:</div>
+                                                            <div class="cyber-data-bullet">Physical Damage: 250-320</div>
+                                                            <div class="cyber-data-bullet">Charge Multiplier: x3.5</div>
+                                                            <div class="cyber-data-bullet">Critical Chance: 25%</div>
+                                                        </div>
+
+                                                        <div>
+                                                            <div class="cyber-data-label">TECHNICAL SPECS:</div>
+                                                            <div class="cyber-data-bullet">Magazine Size: 4</div>
+                                                            <div class="cyber-data-bullet">Wall Penetration: Yes</div>
+                                                            <div class="cyber-data-bullet">Reload Time: 3.2s</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                                                    <div class="cyber-data-value">
+                                                        Tsunami's Nekomata delivers devastating power at extreme ranges. Its tech-based
+                                                        charging system allows rounds to penetrate cover, hitting targets who think they're safe.
+                                                    </div>
+
+                                                    <div class="cyber-data-warning">
+                                                        <strong>QUEST NOTE:</strong> An Arasaka security specialist armed with a rare
+                                                        "Black Lotus" Nekomata variant patrols the warehouse roof.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 2: Cyberware (Blue Boxes) -->
+                                    <div class="cyber-row">
+                                        <!-- Cyberware 1 -->
+                                        <div class="cyber-box cyber-box-blue" data-id="cyber-1">
+                                            <div class="cyber-box-corner"></div>
+                                            <div class="cyber-box-header">
+                                                <div>
+                                                    <div class="cyber-box-subtitle">CYBERWARE//OPERATING_SYSTEM</div>
+                                                    <h3 class="cyber-box-title">SANDEVISTAN</h3>
+                                                </div>
+                                                <div class="cyber-box-hint">TAP TO EXPAND</div>
+                                            </div>
+
+                                            <div class="cyber-box-image">
+                                                <img src="Images/Cyberware/sandevistan.png" alt="Sandevistan Operating System">
+                                            </div>
+
+                                            <div class="cyber-box-scanlines"></div>
+
+                                            <div class="cyber-box-expanded-content">
+                                                <div class="cyber-box-title-bar">
+                                                    <h2>SANDEVISTAN MK.4</h2>
+                                                    <button class="cyber-box-close">[CLOSE]</button>
+                                                </div>
+
+                                                <div class="cyber-data-section">
+                                                    <div class="cyber-data-label">MANUFACTURER:</div>
+                                                    <div class="cyber-data-value">Zetatech</div>
+
+                                                    <div class="cyber-data-label">CYBERWARE TYPE:</div>
+                                                    <div class="cyber-data-value">Operating System</div>
+
+                                                    <div class="cyber-data-grid">
+                                                        <div>
+                                                            <div class="cyber-data-label">EFFECTS:</div>
+                                                            <div class="cyber-data-bullet">Slows time by 75%</div>
+                                                            <div class="cyber-data-bullet">Duration: 8 seconds</div>
+                                                            <div class="cyber-data-bullet">Cooldown: 15 seconds</div>
+                                                        </div>
+
+                                                        <div>
+                                                            <div class="cyber-data-label">REQUIREMENTS:</div>
+                                                            <div class="cyber-data-bullet">Reflexes: 15</div>
+                                                            <div class="cyber-data-bullet">Street Cred: 20</div>
+                                                            <div class="cyber-data-bullet">Ripperdoc Certification</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                                                    <div class="cyber-data-value">
+                                                        Zetatech's Sandevistan alters the user's perception of time, creating a
+                                                        temporary state where everything around them appears to move in slow motion.
+                                                        Perfect for combat situations requiring superhuman reflexes.
+                                                    </div>
+
+                                                    <div class="cyber-data-warning">
+                                                        <strong>QUEST NOTE:</strong> Prototype records in the warehouse suggest
+                                                        Project Chimera incorporates a modified Sandevistan with no cooldown period.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cyberware 2 -->
+                                        <div class="cyber-box cyber-box-blue cyber-translate translate-hover" data-id="cyber-2">
+                                            <div class="cyber-box-corner"></div>
+                                            <div class="cyber-box-header">
+                                                <div>
+                                                    <div class="cyber-box-subtitle"><span data-jp="サイバーウェア//前頭皮質" data-en="CYBERWARE//FRONTAL_CORTEX"></span></div>
+                                                    <h3 class="cyber-box-title"><span data-scramble="" data-scramble-mode="infinite">MIRR</span>OR <span class="redacted">EDGE</span></h3>
+                                                </div>
+                                                <div class="cyber-box-hint"><span data-jp="タップして展開" data-en="TAP TO EXPAND"></span></div>
+                                            </div>
+
+                                            <div class="cyber-box-image">
+                                                <img src="Images/Cyberware/mirror-balance.png" alt="Mirror Balance System">
+                                            </div>
+
+                                            <div class="cyber-box-scanlines"></div>
+
+                                            <div class="cyber-box-expanded-content">
+                                                <div class="cyber-box-title-bar">
+                                                    <h2><span data-jp="ミラーエッジシステム v0.32" data-en="MIRROR EDGE SYSTEM v0.32"></span></h2>
+                                                    <button class="cyber-box-close">[<span data-jp="閉じる" data-en="CLOSE"></span>]</button>
+                                                </div>
+
+                                                <div class="cyber-data-section">
+                                                    <div class="cyber-data-label"><span data-jp="製造元" data-en="MANUFACTURER"></span>:</div>
+                                                    <div class="cyber-data-value"><span data-jp="荒坂（プロトタイプ）" data-en="Arasaka (Prototype)"></span></div>
+
+                                                    <div class="cyber-data-label"><span data-jp="サイバーウェアタイプ" data-en="CYBERWARE TYPE"></span>:</div>
+                                                    <div class="cyber-data-value"><span data-jp="前頭皮質インプラント" data-en="Frontal Cortex Implant"></span></div>
+
+                                                    <div class="cyber-data-grid">
+                                                        <div>
+                                                            <div class="cyber-data-label"><span data-jp="効果" data-en="EFFECTS"></span>:</div>
+                                                            <div class="cyber-data-bullet"><span data-jp="指定されたHOSTからのダメージを全てのリンクされたUSERに100％反射します" data-en="Reflects 100% of damage from the designated HOST to all linked USERS."></span></div>
+                                                            <div class="cyber-data-bullet redacted">Reflects 100%</div>
+                                                            <div class="cyber-data-bullet redacted">Reflects 100%</div>
+                                                        </div>
+
+                                                        <div>
+                                                            <div class="cyber-data-label"><span data-jp="欠陥" data-en="DEFECTS"></span>:</div>
+                                                            <div class="cyber-data-bullet redacted">Dont read this lol</div>
+                                                            <div class="cyber-data-bullet"><span data-jp="ネットワーク全体でHOSTの役割を継続的に再割り当てします" data-en="Continuously reassigns the HOST role across the network."></span></div>
+                                                            <div class="cyber-data-bullet redacted">DONT READ IT :(</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="cyber-data-label"><span data-jp="ゲーム説明" data-en="GAME DESCRIPTION"></span>:</div>
+                                                    <div class="cyber-data-value">
+                                                        <span data-jp="荒坂の上級幹部によって委託された非常に不安定なプロトタイプ。動作範囲内の即時の脅威に対する比類のない保護を提供するように設計されています。しかし、重大なチップの誤動作により意図しないシステムオーバーライドが発生し、ネットワーク全体の標準USERに主要なHOSTの役割を再割り当てします。" data-en="A highly unstable prototype commissioned by senior Arasaka executives. Engineered to provide unparalleled protection against immediate threats within its operational range. However, a critical chip malfunction causes an unintended system override—reassigning the primary HOST role to standard USERS across the network."></span>
+                                                    </div>
+
+                                                    <div class="cyber-data-warning">
+                                                        <strong><span data-jp="クエスト目標" data-en="QUEST OBJECTIVE"></span>:</strong> <span data-jp="主要ミッション目標は、この実験的技術を破壊し、" data-en="Primary mission objective is to destroy this experimental technology and indetify the "></span><span class="redacted">text</span>.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 3: Consumables (Blue Boxes) -->
+                                    <div class="cyber-row">
+                                        <!-- Consumable 1 -->
+                                        <div class="cyber-box cyber-box-blue" data-id="consumable-1">
+                                            <div class="cyber-box-corner"></div>
+                                            <div class="cyber-box-header">
+                                                <div>
+                                                    <div class="cyber-box-subtitle">CONSUMABLE//COMBAT_BOOSTER</div>
+                                                    <h3 class="cyber-box-title">REFLEX BOOSTER</h3>
+                                                </div>
+                                                <div class="cyber-box-hint">TAP TO EXPAND</div>
+                                            </div>
+
+                                            <div class="cyber-box-image">
+                                                <img src="Images/Items/reflex-booster.png" alt="Reflex Booster">
+                                            </div>
+
+                                            <div class="cyber-box-scanlines"></div>
+
+                                            <div class="cyber-box-expanded-content">
+                                                <div class="cyber-box-title-bar">
+                                                    <h2>MILITECH REFLEX BOOSTER</h2>
+                                                    <button class="cyber-box-close">[CLOSE]</button>
+                                                </div>
+
+                                                <div class="cyber-data-section">
+                                                    <div class="cyber-data-label">MANUFACTURER:</div>
+                                                    <div class="cyber-data-value">Militech</div>
+
+                                                    <div class="cyber-data-label">ITEM TYPE:</div>
+                                                    <div class="cyber-data-value">Combat Booster (Consumable)</div>
+
+                                                    <div class="cyber-data-grid">
+                                                        <div>
+                                                            <div class="cyber-data-label">EFFECTS:</div>
+                                                            <div class="cyber-data-bullet">+30% Reflexes for 4 minutes</div>
+                                                            <div class="cyber-data-bullet">+15% Attack Speed</div>
+                                                            <div class="cyber-data-bullet">+25% Evasion</div>
+                                                        </div>
+
+                                                        <div>
+                                                            <div class="cyber-data-label">SIDE EFFECTS:</div>
+                                                            <div class="cyber-data-bullet">-10% Health Regen</div>
+                                                            <div class="cyber-data-bullet">15% chance of minor cyberware glitch</div>
+                                                            <div class="cyber-data-bullet">Addiction risk: Moderate</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                                                    <div class="cyber-data-value">
+                                                        Military-grade injectable chemical compound that temporarily enhances reflexes
+                                                        and neural response time. Popular with solos who need an edge in high-risk combat
+                                                        situations. Black market versions often contain unpredictable additives.
+                                                    </div>
+
+                                                    <div class="cyber-data-warning">
+                                                        <strong>QUEST NOTE:</strong> Security footage shows the rogue AI monitoring
+                                                        warehouse staff who were required to take regular doses of these boosters.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Consumable 2 -->
+                                        <div class="cyber-box cyber-box-blue" data-id="consumable-2">
+                                            <div class="cyber-box-corner"></div>
+                                            <div class="cyber-box-header">
+                                                <div>
+                                                    <div class="cyber-box-subtitle">CONSUMABLE//MEMORY_BOOSTER</div>
+                                                    <h3 class="cyber-box-title">NEURALINK</h3>
+                                                </div>
+                                                <div class="cyber-box-hint">TAP TO EXPAND</div>
+                                            </div>
+
+                                            <div class="cyber-box-image">
+                                                <img src="Images/Items/neuralink.png" alt="Neuralink Memory Booster">
+                                            </div>
+
+                                            <div class="cyber-box-scanlines"></div>
+
+                                            <div class="cyber-box-expanded-content">
+                                                <div class="cyber-box-title-bar">
+                                                    <h2>ARASAKA NEURALINK</h2>
+                                                    <button class="cyber-box-close">[CLOSE]</button>
+                                                </div>
+
+                                                <div class="cyber-data-section">
+                                                    <div class="cyber-data-label">MANUFACTURER:</div>
+                                                    <div class="cyber-data-value">Arasaka</div>
+
+                                                    <div class="cyber-data-label">ITEM TYPE:</div>
+                                                    <div class="cyber-data-value">Memory Booster (Consumable)</div>
+
+                                                    <div class="cyber-data-grid">
+                                                        <div>
+                                                            <div class="cyber-data-label">EFFECTS:</div>
+                                                            <div class="cyber-data-bullet">+40% RAM Recovery for 6 minutes</div>
+                                                            <div class="cyber-data-bullet">+25% Quickhack damage</div>
+                                                            <div class="cyber-data-bullet">+2 RAM capacity</div>
+                                                        </div>
+
+                                                        <div>
+                                                            <div class="cyber-data-label">SIDE EFFECTS:</div>
+                                                            <div class="cyber-data-bullet">-15% Physical damage dealt</div>
+                                                            <div class="cyber-data-bullet">Increased vulnerability to enemy quickhacks</div>
+                                                            <div class="cyber-data-bullet">Addiction risk: High</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                                                    <div class="cyber-data-value">
+                                                        Highly regulated neural stimulant designed for Netrunners and Arasaka cybersecurity
+                                                        specialists. Temporarily increases neural processing efficiency and cyberdeck performance
+                                                        at the cost of reduced physical capabilities.
+                                                    </div>
+
+                                                    <div class="cyber-data-warning">
+                                                        <strong>QUEST NOTE:</strong> Lab records indicate Project Chimera researchers
+                                                        were experimenting with a permanent version of this formula, resulting in
+                                                        several fatalities due to neural overload.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Dialog footer -->
+            <div class="dialog-footer">
+                <div class="dialog-container">
+                    <div class="dialog-speaker" data-scramble data-scramble-mode="finite">SYSTEM:</div>
+                    <div class="dialog-text" data-scramble data-scramble-mode="finite">INCOMING CALL</div>
+                </div>
             </div>
         </div>
-        
-        <!-- Row 3: Consumables (Blue Boxes) -->
-        <div class="cyber-row">
-          <!-- Consumable 1 -->
-          <div class="cyber-box cyber-box-blue" data-id="consumable-1">
-            <div class="cyber-box-corner"></div>
-            <div class="cyber-box-header">
-              <div>
-                <div class="cyber-box-subtitle">CONSUMABLE//COMBAT_BOOSTER</div>
-                <h3 class="cyber-box-title">REFLEX BOOSTER</h3>
-              </div>
-              <div class="cyber-box-hint">TAP TO EXPAND</div>
+
+        <!-- Fixer call section -->
+        <div class="fixer-call-section hidden">
+            <div class="incoming-call-header">
+                <div class="incoming-call-label">INCOMING CALL</div>
             </div>
-            
-            <div class="cyber-box-image">
-              <img src="Images/Items/reflex-booster.png" alt="Reflex Booster">
+
+            <div class="caller-id-container">
+                <div class="caller-phone-icon">
+                    <svg width="24" height="24" viewBox="0 0 25 25" fill="var(--colors-primary--500)" stroke="currentColor" strokeWidth="1.5">
+                        <g transform="translate(2, 2)">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="caller-id">REGINA JONES</div>
             </div>
-            
-            <div class="cyber-box-scanlines"></div>
-            
-            <div class="cyber-box-expanded-content">
-              <div class="cyber-box-title-bar">
-                <h2>MILITECH REFLEX BOOSTER</h2>
-                <button class="cyber-box-close">[CLOSE]</button>
-              </div>
-              
-              <div class="cyber-data-section">
-                <div class="cyber-data-label">MANUFACTURER:</div>
-                <div class="cyber-data-value">Militech</div>
-                
-                <div class="cyber-data-label">ITEM TYPE:</div>
-                <div class="cyber-data-value">Combat Booster (Consumable)</div>
-                
-                <div class="cyber-data-grid">
-                  <div>
-                    <div class="cyber-data-label">EFFECTS:</div>
-                    <div class="cyber-data-bullet">+30% Reflexes for 4 minutes</div>
-                    <div class="cyber-data-bullet">+15% Attack Speed</div>
-                    <div class="cyber-data-bullet">+25% Evasion</div>
-                  </div>
-                  
-                  <div>
-                    <div class="cyber-data-label">SIDE EFFECTS:</div>
-                    <div class="cyber-data-bullet">-10% Health Regen</div>
-                    <div class="cyber-data-bullet">15% chance of minor cyberware glitch</div>
-                    <div class="cyber-data-bullet">Addiction risk: Moderate</div>
-                  </div>
-                </div>
-                
-                <div class="cyber-data-label">GAME DESCRIPTION:</div>
-                <div class="cyber-data-value">
-                  Military-grade injectable chemical compound that temporarily enhances reflexes
-                  and neural response time. Popular with solos who need an edge in high-risk combat
-                  situations. Black market versions often contain unpredictable additives.
-                </div>
-                
-                <div class="cyber-data-warning">
-                  <strong>QUEST NOTE:</strong> Security footage shows the rogue AI monitoring
-                  warehouse staff who were required to take regular doses of these boosters.
-                </div>
-              </div>
+
+            <div class="fixer-actions">
+                <button class="button button--primary button--size-lg" id="accept-call">
+                    <span class="button__content">ANSWER</span>
+                </button>
+                <button class="button button--default button--size-lg" id="decline-call">
+                    <span class="button__content">DECLINE</span>
+                </button>
             </div>
-          </div>
-          
-          <!-- Consumable 2 -->
-          <div class="cyber-box cyber-box-blue" data-id="consumable-2">
-            <div class="cyber-box-corner"></div>
-            <div class="cyber-box-header">
-              <div>
-                <div class="cyber-box-subtitle">CONSUMABLE//MEMORY_BOOSTER</div>
-                <h3 class="cyber-box-title">NEURALINK</h3>
-              </div>
-              <div class="cyber-box-hint">TAP TO EXPAND</div>
-            </div>
-            
-            <div class="cyber-box-image">
-              <img src="Images/Items/neuralink.png" alt="Neuralink Memory Booster">
-            </div>
-            
-            <div class="cyber-box-scanlines"></div>
-            
-            <div class="cyber-box-expanded-content">
-              <div class="cyber-box-title-bar">
-                <h2>ARASAKA NEURALINK</h2>
-                <button class="cyber-box-close">[CLOSE]</button>
-              </div>
-              
-              <div class="cyber-data-section">
-                <div class="cyber-data-label">MANUFACTURER:</div>
-                <div class="cyber-data-value">Arasaka</div>
-                
-                <div class="cyber-data-label">ITEM TYPE:</div>
-                <div class="cyber-data-value">Memory Booster (Consumable)</div>
-                
-                <div class="cyber-data-grid">
-                  <div>
-                    <div class="cyber-data-label">EFFECTS:</div>
-                    <div class="cyber-data-bullet">+40% RAM Recovery for 6 minutes</div>
-                    <div class="cyber-data-bullet">+25% Quickhack damage</div>
-                    <div class="cyber-data-bullet">+2 RAM capacity</div>
-                  </div>
-                  
-                  <div>
-                    <div class="cyber-data-label">SIDE EFFECTS:</div>
-                    <div class="cyber-data-bullet">-15% Physical damage dealt</div>
-                    <div class="cyber-data-bullet">Increased vulnerability to enemy quickhacks</div>
-                    <div class="cyber-data-bullet">Addiction risk: High</div>
-                  </div>
-                </div>
-                
-                <div class="cyber-data-label">GAME DESCRIPTION:</div>
-                <div class="cyber-data-value">
-                  Highly regulated neural stimulant designed for Netrunners and Arasaka cybersecurity
-                  specialists. Temporarily increases neural processing efficiency and cyberdeck performance
-                  at the cost of reduced physical capabilities.
-                </div>
-                
-                <div class="cyber-data-warning">
-                  <strong>QUEST NOTE:</strong> Lab records indicate Project Chimera researchers
-                  were experimenting with a permanent version of this formula, resulting in
-                  several fatalities due to neural overload.
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-  </div>
-</div>
 
-    <!-- Dialog footer -->
-    <div class="dialog-footer">
-      <div class="dialog-container">
-        <div class="dialog-speaker" data-scramble data-scramble-mode="finite">SYSTEM:</div>
-        <div class="dialog-text" data-scramble data-scramble-mode="finite">INCOMING CALL</div>
-      </div>
-    </div>
-  </div>
+        <!-- Loading Animation Overlay -->
+        <div class="loading-animation" id="loading-screen">
+            <div class="loading-text">LOADING QUEST DATA</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loading-progress"></div>
+            </div>
+        </div>
 
-  <!-- Fixer call section -->
-  <div class="fixer-call-section hidden">
-    <div class="incoming-call-header">
-      <div class="incoming-call-label">INCOMING CALL</div>
-    </div>
-    
-    <div class="caller-id-container">
-      <div class="caller-phone-icon">
-        <svg width="24" height="24" viewBox="0 0 25 25" fill="var(--colors-primary--500)" stroke="currentColor" strokeWidth="1.5">
-          <g transform="translate(2, 2)">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-          </g>
-        </svg>
-      </div>
-      <div class="caller-id">REGINA JONES</div>
-    </div>
-    
-    <div class="fixer-actions">
-      <button class="button button--primary button--size-lg" id="accept-call">
-        <span class="button__content">ANSWER</span>
-      </button>
-      <button class="button button--default button--size-lg" id="decline-call">
-        <span class="button__content">DECLINE</span>
-      </button>
-    </div>
-  </div>
+        <!-- Relic malfunction overlay (initially hidden) -->
+        <div class="relic-malfunction-overlay" style="display: none;">
+            <div class="warning-triangle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1L1 22h22L12 1zm0 7a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V9a1 1 0 0 1 1-1zm0 11a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
+                </svg>
+            </div>
+            <div class="relic-malfunction-text">RELIC MALFUNCTION DETECTED</div>
+        </div>
 
-  <!-- Loading Animation Overlay -->
-  <div class="loading-animation" id="loading-screen">
-    <div class="loading-text">LOADING QUEST DATA</div>
-    <div class="loading-bar-container">
-      <div class="loading-bar" id="loading-progress"></div>
-    </div>
-  </div>
+        <!-- Fullscreen glitch effect container -->
+        <div class="fullscreen-glitch"></div>
 
-  <!-- Relic malfunction overlay (initially hidden) -->
-  <div class="relic-malfunction-overlay" style="display: none;">
-    <div class="warning-triangle">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 1L1 22h22L12 1zm0 7a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V9a1 1 0 0 1 1-1zm0 11a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
-      </svg>
-    </div>
-    <div class="relic-malfunction-text">RELIC MALFUNCTION DETECTED</div>
-  </div>
+        <!-- Fade to black overlay -->
+        <div class="fade-overlay"></div>
 
-  <!-- Fullscreen glitch effect container -->
-  <div class="fullscreen-glitch"></div>
-  
-  <!-- Fade to black overlay -->
-  <div class="fade-overlay"></div>
+        <!-- Dialog data (hidden) -->
+        <div class="dialog-data" data-dialog-group="regina-intro-" data-speaker="REGINA JONES"
+             data-audio="Audio/Dialogues/Regina Johnes/Regina_Johnes_Intro.wav">
+            V, I need someone with your particular skill set for a job. Interested?
+        </div>
 
+<<<<<<< Updated upstream
   <!-- Dialog data (hidden) -->
   <div class="dialog-data" data-dialog-group="regina-intro" data-speaker="REGINA JONES"
     data-audio="Audio/Dialogues/Regina Johnes/Regina_Johnes_Intro.wav">
     V, I need someone with your particular skill set for a job. Interested?
   </div>
+=======
+        <div class="dialog-data" data-dialog-group="quest-structure" data-speaker="V"
+             data-audio="Audio/Dialogues/V/V_QuestStructure.wav">
+            What exactly am I walking into here, Regina?
+        </div>
+>>>>>>> Stashed changes
 
-  <div class="dialog-data" data-dialog-group="quest-structure" data-speaker="V"
-    data-audio="Audio/Dialogues/V/V_QuestStructure.wav">
-    What exactly am I walking into here, Regina?
-  </div>
-
-  <!-- Script for animations -->
-  <script src="script.js"></script>
-  <script src="ExtraScripts/text-scramble.js"></script>
-  <script src="ExtraScripts/mainContentSwitcher.js"></script>
-  <script src="ExtraScripts/expandingBoxes.js"></script>
-  <script src="ExtraScripts/cyberTranslation.js"></script>
+        <!-- Script for animations -->
+        <script src="script.js"></script>
+        <script src="ExtraScripts/text-scramble.js"></script>
+        <script src="ExtraScripts/mainContentSwitcher.js"></script>
+        <script src="ExtraScripts/expandingBoxes.js"></script>
+        <script src="ExtraScripts/cyberTranslation.js"></script>
 </body>
 </html>
