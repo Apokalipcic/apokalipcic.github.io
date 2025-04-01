@@ -998,11 +998,6 @@ function resetAllElements() {
     dialogText.textContent = 'INCOMING CALL';
   }
   
-  // Hide main content
-  const mainContentContainer = document.getElementById('main-content-container');
-  if (mainContentContainer) {
-    mainContentContainer.classList.add('hidden');
-  }
   
   // Show call UI with glitch effect
   showWithGlitch(document.querySelector('.fixer-call-section'));
@@ -1070,6 +1065,13 @@ function setupCallFunctionality() {
       // Hide call UI with glitch effect
       hideWithGlitch(document.querySelector('.fixer-call-section'));
 
+
+      // Adding Scramble to Header and footer
+      // Apply random scramble to header for 5 seconds
+        temporaryScramble('.app-header', 'random', 5000);
+        temporaryScramble('.dialog-speaker', 'random', 5000);
+        temporaryScramble('.dialog-text', 'random', 5000);
+
       // Short delay to ensure call section is hidden first
       setTimeout(() => {
         // Create and show relic malfunction message
@@ -1085,6 +1087,44 @@ function setupCallFunctionality() {
       }, CONFIG.elementGlitch.fadeTime);
     });
   }
+}
+
+/**
+ * Temporarily apply scramble effect to an element
+ * @param {string|Element} selector - CSS selector or DOM element
+ * @param {string} mode - 'finite', 'infinite', or 'random'
+ * @param {number} duration - Duration in milliseconds before removing effect
+ * @param {Object} config - Optional custom configuration for the scrambler
+ */
+function temporaryScramble(selector, mode = 'finite', duration = 3000, config = {}) {
+  // Get the element
+  const element = typeof selector === 'string' ? 
+    document.querySelector(selector) : selector;
+    
+  if (!element) return;
+  
+  // Store original text
+  const originalText = element.innerHTML;
+  
+  // Create a scrambler
+  const scrambler = new TextScramble(element);
+  scrambler.setText(originalText, mode, config);
+  
+  // Set timeout to remove effect
+  setTimeout(() => {
+    // Stop the scramble animation
+    scrambler.stop();
+    
+    // Reset element text
+    element.innerHTML = originalText;
+    
+    // Remove data attributes
+    element.removeAttribute('data-scramble');
+    element.removeAttribute('data-scramble-mode');
+  }, duration);
+  
+  // Return scrambler for possible manual control
+  return scrambler;
 }
 
 // Update active call indicator in left sidebar - improved version

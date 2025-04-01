@@ -560,6 +560,38 @@
   width: 300px; /* Set a fixed width to calculate margin properly */
 }
 
+#accept-call {
+  -webkit-clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    var(--ui-notch-amount) 100%,
+    0 calc(100% - var(--ui-notch-amount))
+  );
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    var(--ui-notch-amount) 100%,
+    0 calc(100% - var(--ui-notch-amount))
+  );
+}
+
+/* For the notch line on blue button */
+#accept-call::before {
+  background-color: currentcolor;
+  bottom: 5px;
+  left: -6px;
+  top: auto;
+  content: "";
+  display: block;
+  height: 3px;
+  position: absolute;
+  transform: rotate(45deg);
+  width: var(--ui-notch-hypotenuse);
+  z-index: 100;
+}
+
 .incoming-call-box {
   background-color: rgba(0, 0, 0, 0.85);
   border: 1px solid #e83b36;
@@ -570,7 +602,6 @@
 .incoming-call-header {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
 }
 
 .call-icon {
@@ -610,8 +641,21 @@
 
 .fixer-actions {
   display: flex;
-  justify-content: flex-start;
-  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0;
+}
+
+#accept-call, #decline-call {
+  flex-grow: 0.48;
+  margin: 0;
+  text-align: center;
+}
+
+/* Button content centering */
+.button__content {
+  display: block;
+  text-align: center;
 }
 
 .answer-hint {
