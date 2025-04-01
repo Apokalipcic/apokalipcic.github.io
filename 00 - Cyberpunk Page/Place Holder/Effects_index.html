@@ -7,15 +7,15 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
   <!-- Include existing stylesheets -->
-  <link rel="stylesheet" href="cyberpunk_style.css">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../cyberpunk_style.css">
+  <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
   <div class="app-skeleton">
     <!-- Header -->
     <header class="app-header">
       <div class="app-header__anchor">
-        <span id="header-text" data-scramble data-scramble-mode="finite">CYBERPUNK 2077 - QUEST DESIGN</span>
+        <span id="header-text" class="typewriter glitch-after-type">CYBERPUNK 2077 - QUEST DESIGN</span>
       </div>
     </header>
 
@@ -60,7 +60,7 @@
         </div>
 
       <!-- Main Content Area (expanded to include right sidebar space) -->
-      <div class="app-main hidden" id="app-main" style="grid-column: span 4;">
+      <div class="app-main  " id="app-main" style="grid-column: span 4;">
         <div class="segment-topbar">
           <div class="segment-topbar__header">
             <span class="segment-topbar__overline">QUEST_ID: 8XJ42-WATSON</span>
@@ -108,6 +108,10 @@
       
       <p class="text-paragraph1 scanner-effect">
         [ADDITIONAL INFORMATION <span class="redacted">REDACTED</span> BY ARASAKA SECURITY PROTOCOLS]
+      </p>      
+
+      <p class="text-paragraph1">
+        [ADDITIONAL INFORMATION <span class="redacted">REDACTED</span> BY ARASAKA SECURITY PROTOCOLS NUMBER{<span data-scramble data-scramble-mode="random">001-110</span>}
       </p>
     </div>
   </div>
@@ -137,8 +141,8 @@
     <!-- Dialog footer -->
     <div class="dialog-footer">
       <div class="dialog-container">
-        <div class="dialog-speaker" data-scramble data-scramble-mode="finite">SYSTEM:</div>
-        <div class="dialog-text" data-scramble data-scramble-mode="finite">INCOMING CALL</div>
+        <div class="dialog-speaker">SYSTEM:</div>
+        <div class="dialog-text">INCOMING CALL</div>
       </div>
     </div>
   </div>
@@ -209,7 +213,7 @@
   </div>
 
   <!-- Script for animations -->
-  <script src="script.js"></script>
-  <script src="ExtraScripts/text-scramble.js"></script>
+  <script src="../script.js"></script>
+  <script src="../ExtraScripts/text-scramble.js"></script>
 </body>
 </html>

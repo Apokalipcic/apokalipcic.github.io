@@ -40,11 +40,11 @@ body {
   );
 
   background-color: var(--colors-bg--500);
-  background-image: radial-gradient(
-    ellipse at 33% 10%,
-    #461616 0%,
-    transparent 75%
-  );
+  background-image: linear-gradient(
+  to bottom,
+  #461616 0%,
+  transparent 75%
+);
   background-repeat: no-repeat;
   color: var(--colors-on_bg--500);
   font-family: var(--fonts-primary);
