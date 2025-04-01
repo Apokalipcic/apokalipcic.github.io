@@ -54,7 +54,6 @@ body {
   
   /* Add animated glow from corners */
   position: relative;
-  overflow: hidden;
   
   color: var(--colors-on_bg--500);
   font-family: var(--fonts-primary);

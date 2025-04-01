@@ -1,14 +1,6 @@
 /* style.css - Consolidated Cyberpunk Portfolio Styles */
 
 /* ===== Layout Fixes ===== */
-.app-container {
-  height: calc(100vh - 9rem);
-  overflow: hidden;
-}
-
-.app-skeleton {
-  overflow: hidden;
-}
 
 /* ===== Header & Footer Animations ===== */
 /* Header line animation */
