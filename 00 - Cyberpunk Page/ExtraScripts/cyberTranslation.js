@@ -129,10 +129,13 @@ class CyberTranslation {
       }, this.config.auto.initialDelay);
     }
     
-    // Add scanner effect if the main script has it
+    // Scanner effect is disabled
+    // If you want to re-enable scanner effects, uncomment this code
+    /*
     if (typeof initScannerEffects === 'function') {
       container.classList.add('scanner-effect');
     }
+    */
     
     if (this.config.debug) {
       console.log(`Container setup: Mode: ${mode}, Translatables: ${translatables.length}`);
