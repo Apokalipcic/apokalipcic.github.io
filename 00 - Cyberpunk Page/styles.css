@@ -945,3 +945,71 @@
     transform: translate(-15px, 5px);
   }
 }
+
+/* Content section visibility styles */
+.content-section {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.content-section.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Add some spacing between elements */
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+/* Add padding to headings */
+.text-heading3 {
+  margin-bottom: 1.5rem;
+  color: var(--colors-secondary--500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-heading4 {
+  margin-top: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: var(--colors-tertiary--500);
+  letter-spacing: 0.05em;
+}
+
+/* Style paragraph content */
+.text-paragraph1 {
+  line-height: 1.6;
+}
+
+/* Enhance pad body styling */
+.pad__body {
+  padding: 1.25rem;
+}
+
+/* Make sure the main app section shows properly when not hidden */
+.app-main {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.app-main.hidden {
+  display: none;
+}
+
+.app-main:not(.hidden) {
+  display: block;
+}
+
+/* Make sure nav section shows properly when not hidden */
+.nav-section {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.nav-section.hidden {
+  display: none;
+}
+
+.nav-section:not(.hidden) {
+  display: block;
+}
