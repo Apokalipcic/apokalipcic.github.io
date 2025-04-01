@@ -1,0 +1,384 @@
+/* concepts.css - Styling for the game concepts section */
+
+/* Concepts Layout */
+.concepts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* Concept Card Styling */
+.concept-card {
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.concept-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.concept-image {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.concept-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.concept-card:hover .concept-image img {
+  transform: scale(1.05);
+}
+
+.concept-overlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.concept-category {
+  display: inline-block;
+  background-color: #4a6bff;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.concept-content {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.concept-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.concept-description {
+  margin-bottom: 15px;
+  color: #666;
+  flex-grow: 1;
+}
+
+.concept-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.concept-tag {
+  background-color: #f0f2f5;
+  color: #4a4a4a;
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Modal styling */
+.concept-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.concept-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden;
+  max-width: 1000px;
+  width: 90%;
+  max-height: 90vh;
+  position: relative;
+  z-index: 1001;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.concept-modal.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .modal-body {
+    flex-direction: row;
+  }
+}
+
+/* Gallery Styling */
+.modal-gallery {
+  flex: 0 0 100%;
+  max-height: 300px;
+}
+
+@media (min-width: 768px) {
+  .modal-gallery {
+    flex: 0 0 50%;
+    max-height: none;
+  }
+}
+
+.gallery-main {
+  position: relative;
+  height: 300px;
+  background-color: #f5f5f5;
+}
+
+@media (min-width: 768px) {
+  .gallery-main {
+    height: 400px;
+  }
+}
+
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.gallery-nav.prev {
+  left: 15px;
+}
+
+.gallery-nav.next {
+  right: 15px;
+}
+
+.gallery-thumbnails {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.thumbnail.active {
+  opacity: 1;
+  box-shadow: 0 0 0 2px #4a6bff;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Details Styling */
+.modal-details {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal-header {
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.modal-category {
+  display: inline-block;
+  background-color: #4a6bff;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.modal-description {
+  margin-bottom: 20px;
+}
+
+.modal-description p {
+  line-height: 1.6;
+}
+
+.modal-features {
+  margin-bottom: 20px;
+}
+
+.modal-features h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.modal-features ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.modal-features li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.modal-features li:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: #4a6bff;
+  border-radius: 50%;
+}
+
+.modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.modal-actions .btn {
+  flex: 1;
+}
+
+/* CTA Section */
+.concepts-cta {
+  margin-top: 50px;
+  text-align: center;
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+}
+
+.concepts-cta p {
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Prevent body scrolling when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .concept-image {
+    height: 200px;
+  }
+  
+  .concepts-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+  
+  .modal-actions .btn {
+    width: 100%;
+  }
+}

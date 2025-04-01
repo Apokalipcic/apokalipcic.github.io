@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maksym Kornilov | Game Developer</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="CyberpunkPage/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="cat-paw-trail.css">
     <link rel="stylesheet" href="loader.css">
     <link rel="stylesheet" href="Misc/chill-guy.css">
+    <link rel="stylesheet" href="Misc/concepts.css">
     <link rel="stylesheet" href="Misc/under-construction.css">
     <script src="Misc/under-construction.js"></script>
     <meta name="description" content="Professional portfolio of Maximilian (Prudentibus), showcasing Game Development for mobile platforms, such as Android, Ios. And some of concepts for RPG and Narrative Design.">
@@ -36,1142 +38,1260 @@
         </a>
     </template>
     <div id="main-content" style="display: none;">
-    <!-- Header Section with Navigation -->
-    <header id="header">
-        <div class="container">
-            <div class="logo">
-                <a href="#about">
-                    <img src="Images/Elements/Icons/seriousCat_PP.png" alt="Maksym Kornilov" class="profile-picture">
-                    <div class="logo-text">
-                        <span class="logo-name">Maksym Kornilov</span>
-                        <span class="logo-role">Game Developer</span>
-                    </div>
-                </a>
-            </div>
-            <nav id="navbar">
-                <ul>
-                    <li><a href="#Mobile-Games" class="nav-link">Mobile Games</a></li>
-                    <li><a href="#game-jams" class="nav-link">Game Jams</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                </ul>
-                <div class="social-icons">
-                    <a href="https://linkedin.com/in/prudentibus" target="_blank" rel="noopener noreferrer" class="social-icon">
-                        <img src="Images/Elements/Icons/linkedIn_Icon_512_Orig.png" alt="LinkedIn">
-                    </a>
-                </div>
-                <div class="mobile-menu-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Mobile Games Portfolio Section with Carousel -->
-    <section id="Mobile-Games" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Mobile Games</h2>
-                <div class="underline"></div>
-                <p>My mobile projects, I made in <b>Unity</b></p>
-            </div>
-
-            <div class="project-info-box">
-                <div class="project-info-item">
-                    <span class="info-label">Type:</span> Prototype
-                </div>
-                <div class="project-info-item">
-                    <span class="info-label">Team Size:</span> 1
-                </div>
-                <div class="project-info-item">
-                    <span class="info-label">Engine:</span> Unity (C#)
-                </div>
-                <div class="project-info-item">
-                    <span class="info-label">Time:</span> 2-3 Weeks (per project)
-                </div>
-            </div>
-
-            <div class="portfolio-carousel">
-              <div class="carousel-container">
-                <div class="carousel-track">
-                  <!-- Portfolio Item 1 (Balloon Burst) -->
-                  <div class="carousel-item">
-                    <!-- Add the Game Info Box before the portfolio-card -->
-                    <div class="game-info-box">
-                      <div class="game-main-info">
-                        <img src="Images/Elements/App Icons/baloonBurst_Icon.png" class="game-icon" alt="Balloon Burst">
-                        <div class="game-details">
-                          <h3 class="game-title">Balloon Burst</h3>
-                          <p class="game-genre">Puzzle/Casual</p>
-                        </div>
-                        <div class="platform-icons">
-                          <span class="platform platform-android" title="Android"></span>
-                        </div>
-                      </div>
-                      <div class="game-stats">
-                        <p class="stats-label">Statistics</p>
-                        <div class="stats-grid">
-                          <div class="stat-box">
-                            <span class="stat-name">CPI</span>
-                            <span class="stat-value">1.54$</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Daily playtime</span>
-                            <span class="stat-value">10m18s</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Size</span>
-                            <span class="stat-value">24MB</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-        
-                    <div class="portfolio-card" data-project="project1">
-                      <!-- Portfolio card content remains unchanged -->
-                      <div class="phone-button volume-up-button"></div>
-                    <div class="phone-button volume-down-button"></div>
-                        <div class="phone-button power-button"></div>
-                      <div class="portfolio-card-header">
-                        <div class="portfolio-icon">
-                          <img src="Images/Elements/App Icons/baloonBurst_Icon.png" alt="Balloon Burst Icon" class="app-icon">
-                        </div>
-                        <h3 class="portfolio-title">Balloon Burst</h3>
-                      </div>
-
-                      <div class="portfolio-img video-container" data-video-id="3Y_GZrYku70">
-                        <a href="https://www.youtube.com/watch?v=3Y_GZrYku70" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                          <img src="https://img.youtube.com/vi/3Y_GZrYku70/maxresdefault.jpg" alt="Video thumbnail">
-                          <div class="play-button">
-                            <i class="fas fa-play-circle"></i>
-                          </div>
-                        </a>
-                      </div>
-
-                      <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <!-- Portfolio Item 2 (Tornado.io) -->
-                  <div class="carousel-item">
-                    <!-- Add Game Info Box for Tornado.io -->
-                    <div class="game-info-box">
-                      <div class="game-main-info">
-                        <img src="Images/Elements/App Icons/tornado_Icon.png" class="game-icon" alt="Tornado.io">
-                        <div class="game-details">
-                          <h3 class="game-title">Tornado.io</h3>
-                          <p class="game-genre">Action/Multiplayer</p>
-                        </div>
-                        <div class="platform-icons">
-                          <span class="platform platform-android" title="Android"></span>
-                        </div>
-                      </div>
-                      <div class="game-stats">
-                        <p class="stats-label">Statistics</p>
-                        <div class="stats-grid">
-                          <div class="stat-box">
-                            <span class="stat-name">Downloads</span>
-                            <span class="stat-value">5K+</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">MAU</span>
-                            <span class="stat-value">792</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Retention D1</span>
-                            <span class="stat-value">30%</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="portfolio-card" data-project="project2">
-                      <!-- Portfolio card content remains unchanged -->
-                      <div class="phone-button volume-up-button"></div>
-                      <div class="phone-button volume-down-button"></div>
-                        <div class="phone-button power-button"></div>
-                      <div class="portfolio-card-header">
-                        <div class="portfolio-icon">
-                          <img src="Images/Elements/App Icons/tornado_Icon.png" alt="Tornado.io Icon" class="app-icon">
-                        </div>
-                        <h3 class="portfolio-title">Tornado.io</h3>
-                      </div>
-
-                      <div class="portfolio-img video-container" data-video-id="CUea_Pt3pdI">
-                        <a href="https://www.youtube.com/watch?v=CUea_Pt3pdI" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                          <img src="https://img.youtube.com/vi/CUea_Pt3pdI/maxresdefault.jpg" alt="Video thumbnail">
-                          <div class="play-button">
-                            <i class="fas fa-play-circle"></i>
-                          </div>
-                        </a>
-                      </div>
-
-                      <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                      </div>
-
-
-                    </div>
-                  </div>
-
-                  <!-- Portfolio Item 3 (Color Dash) -->
-                  <div class="carousel-item">
-                    <!-- Add Game Info Box for Color Dash -->
-                    <div class="game-info-box">
-                      <div class="game-main-info">
-                        <img src="Images/Elements/App Icons/colorDash_Icon.png" class="game-icon" alt="Color Dash">
-                        <div class="game-details">
-                          <h3 class="game-title">Color Dash</h3>
-                          <p class="game-genre">Runner</p>
-                        </div>
-                        <div class="platform-icons">
-                          <span class="platform platform-android" title="Android"></span>
-                        </div>
-                      </div>
-                      <div class="game-stats">
-                        <p class="stats-label">Statistics</p>
-                        <div class="stats-grid">
-                          <div class="stat-box">
-                            <span class="stat-name">Downloads</span>
-                            <span class="stat-value">1K+</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Playtime</span>
-                            <span class="stat-value">45m+</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="portfolio-card" data-project="project3">
-                      <div class="phone-button volume-up-button"></div>
-                      <div class="phone-button volume-down-button"></div>
-                        <div class="phone-button power-button"></div>
-                      <div class="portfolio-card-header">
-                        <div class="portfolio-icon">
-                          <img src="Images/Elements/App Icons/colorDash_Icon.png" alt="Color Dash Icon" class="app-icon">
-                        </div>
-                        <h3 class="portfolio-title">Color Dash</h3>
-                      </div>
-
-                      <div class="portfolio-img video-container" data-video-id="xoXclsqdAmA">
-                        <a href="https://www.youtube.com/watch?v=xoXclsqdAmA" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                          <img src="https://img.youtube.com/vi/xoXclsqdAmA/maxresdefault.jpg" alt="Video thumbnail">
-                          <div class="play-button">
-                            <i class="fas fa-play-circle"></i>
-                          </div>
-                        </a>
-                      </div>
-
-                      <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <!-- Portfolio Item 4 (Boat Master) -->
-                  <div class="carousel-item">
-                    <!-- Add the Game Info Box before the portfolio-card -->
-                    <div class="game-info-box">
-                      <div class="game-main-info">
-                        <img src="Images/Elements/App Icons/boatRescueMission_Icon.png" class="game-icon" alt="Boat Rescue Mission!">
-                        <div class="game-details">
-                          <h3 class="game-title">Boat Rescue Mission!</h3>
-                          <p class="game-genre">Puzzle</p>
-                        </div>
-                        <div class="platform-icons">
-                          <span class="platform platform-android" title="Android"></span>
-                        </div>
-                      </div>
-                      <div class="game-stats">
-                        <p class="stats-label">Statistics</p>
-                        <div class="stats-grid">
-                          <div class="stat-box">
-                            <span class="stat-name">Playtime</span>
-                            <span class="stat-value">30m+</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Levels</span>
-                            <span class="stat-value">40</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-        
-                    <div class="portfolio-card" data-project="project4">
-                      <!-- Portfolio card content remains unchanged -->
-                      <div class="phone-button volume-up-button"></div>
-                    <div class="phone-button volume-down-button"></div>
-                        <div class="phone-button power-button"></div>
-                      <div class="portfolio-card-header">
-                        <div class="portfolio-icon">
-                          <img src="Images/Elements/App Icons/boatRescueMission_Icon.png" alt="Balloon Burst Icon" class="app-icon">
-                        </div>
-                        <h3 class="portfolio-title">Boat Rescue Mission!</h3>
-                      </div>
-
-                      <div class="portfolio-img video-container" data-video-id="ttG7Lu1y-kI">
-                        <a href="https://www.youtube.com/watch?v=ttG7Lu1y-kI" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                          <img src="https://img.youtube.com/vi/ttG7Lu1y-kI/maxresdefault.jpg" alt="Video thumbnail">
-                          <div class="play-button">
-                            <i class="fas fa-play-circle"></i>
-                          </div>
-                        </a>
-                      </div>
-
-                      <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                      </div>
-                    </div>
-                  </div>
-
-                 <!-- Portfolio Item 5 (Auto TD) -->
-            <div class="carousel-item">
-                <!-- Add the Game Info Box before the portfolio-card -->
-                <div class="game-info-box">
-                    <div class="game-main-info">
-                    <img src="Images/Elements/App Icons/autoTD_Icon.png" class="game-icon" alt="autoTD">
-                    <div class="game-details">
-                        <h3 class="game-title">Auto TD</h3>
-                        <p class="game-genre">Tower Defence</p>
-                    </div>
-                    <div class="platform-icons">
-                        <span class="platform platform-android" title="Android"></span>
-                    </div>
-                    </div>
-                    <div class="game-stats">
-                    <p class="stats-label">Statistics</p>
-                    <div class="stats-grid">
-                        <div class="stat-box">
-                        <span class="stat-name">Playtime</span>
-                        <span class="stat-value">30m+</span>
-                        </div>
-                        <div class="stat-box">
-                        <span class="stat-name">Size</span>
-                        <span class="stat-value">28mb</span>
-                        </div>
-                    </div>
-                    </div>
-            </div>
-                <div class="portfolio-card" data-project="project5">
-                    <!-- Portfolio card content remains unchanged -->
-                    <div class="phone-button volume-up-button"></div>
-                <div class="phone-button volume-down-button"></div>
-                    <div class="phone-button power-button"></div>
-                    <div class="portfolio-card-header">
-                    <div class="portfolio-icon">
-                        <img src="Images/Elements/App Icons/autoTD_Icon.png" alt="Balloon Burst Icon" class="app-icon">
-                    </div>
-                    <h3 class="portfolio-title">Auto TD</h3>
-                    </div>
-
-                    <div class="portfolio-img video-container" data-video-id="q393W5GPfIo">
-                    <a href="https://www.youtube.com/watch?v=q393W5GPfIo" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                        <img src="https://img.youtube.com/vi/q393W5GPfIo/maxresdefault.jpg" alt="Video thumbnail">
-                        <div class="play-button">
-                        <i class="fas fa-play-circle"></i>
+        <!-- Header Section with Navigation -->
+        <header id="header">
+            <div class="container">
+                <div class="logo">
+                    <a href="#about">
+                        <img src="Images/Elements/Icons/seriousCat_PP.png" alt="Maksym Kornilov" class="profile-picture">
+                        <div class="logo-text">
+                            <span class="logo-name">Maksym Kornilov</span>
+                            <span class="logo-role">Game Developer</span>
                         </div>
                     </a>
-                    </div>
-
-                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                    </div>
-
                 </div>
-                </div>
-
-                <!-- Portfolio Item 6 (Color Blitz) -->
-                  <div class="carousel-item">
-                    <div class="game-info-box">
-                      <div class="game-main-info">
-                        <img src="Images/Elements/App Icons/colorBlitz_Icon.png" class="game-icon" alt="Tornado.io">
-                        <div class="game-details">
-                          <h3 class="game-title">Color Blitz</h3>
-                          <p class="game-genre">Puzzle</p>
-                        </div>
-                        <div class="platform-icons">
-                          <span class="platform platform-android" title="Android"></span>
-                        </div>
-                      </div>
-                      <div class="game-stats">
-                        <p class="stats-label">Statistics</p>
-                        <div class="stats-grid">
-                          <div class="stat-box">
-                            <span class="stat-name">Playtime</span>
-                            <span class="stat-value">30m+</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Daily Playtime</span>
-                            <span class="stat-value">7m</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Retention D1</span>
-                            <span class="stat-value">10%</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="portfolio-card" data-project="project6">
-                      <!-- Portfolio card content remains unchanged -->
-                      <div class="phone-button volume-up-button"></div>
-                      <div class="phone-button volume-down-button"></div>
-                        <div class="phone-button power-button"></div>
-                      <div class="portfolio-card-header">
-                        <div class="portfolio-icon">
-                          <img src="Images/Elements/App Icons/colorBlitz_Icon.png" alt="Tornado.io Icon" class="app-icon">
-                        </div>
-                        <h3 class="portfolio-title">Color Blitz</h3>
-                      </div>
-
-                      <div class="portfolio-img video-container" data-video-id="_R6Y-6VcsLk">
-                        <a href="https://www.youtube.com/watch?v=_R6Y-6VcsLk" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                          <img src="https://img.youtube.com/vi/_R6Y-6VcsLk/maxresdefault.jpg" alt="Video thumbnail">
-                          <div class="play-button">
-                            <i class="fas fa-play-circle"></i>
-                          </div>
+                <nav id="navbar">
+                    <ul>
+                        <li><a href="#Mobile-Games" class="nav-link">Mobile Games</a></li>
+                        <li><a href="#concepts" class="nav-link">Concepts</a></li>
+                        <li><a href="#game-jams" class="nav-link">Game Jams</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                    </ul>
+                    <div class="social-icons">
+                        <a href="https://linkedin.com/in/prudentibus" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <img src="Images/Elements/Icons/linkedIn_Icon_512_Orig.png" alt="LinkedIn">
                         </a>
-                      </div>
-
-                      <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                      </div>
-
-
                     </div>
-                  </div>
-
-                <!-- Portfolio Item 7 (Connect Ritz) -->
-                  <div class="carousel-item">
-                    <div class="game-info-box">
-                      <div class="game-main-info">
-                        <img src="Images/Elements/App Icons/connectRitz_Icon.png" class="game-icon" alt="Tornado.io">
-                        <div class="game-details">
-                          <h3 class="game-title">Connect Ritz</h3>
-                          <p class="game-genre">Puzzle</p>
-                        </div>
-                        <div class="platform-icons">
-                          <span class="platform platform-android" title="Android"></span>
-                        </div>
-                      </div>
-                      <div class="game-stats">
-                        <p class="stats-label">Statistics</p>
-                        <div class="stats-grid">
-                          <div class="stat-box">
-                            <span class="stat-name">CPI</span>
-                            <span class="stat-value">2.90$</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Daily Playtime</span>
-                            <span class="stat-value">7m11s</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Retention D1</span>
-                            <span class="stat-value">13%</span>
-                          </div>
-                        </div>
-                      </div>
+                    <div class="mobile-menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
-
-                    <div class="portfolio-card" data-project="project7">
-                      <!-- Portfolio card content remains unchanged -->
-                      <div class="phone-button volume-up-button"></div>
-                      <div class="phone-button volume-down-button"></div>
-                        <div class="phone-button power-button"></div>
-                      <div class="portfolio-card-header">
-                        <div class="portfolio-icon">
-                          <img src="Images/Elements/App Icons/connectRitz_Icon.png" alt="Tornado.io Icon" class="app-icon">
-                        </div>
-                        <h3 class="portfolio-title">Connect Ritz</h3>
-                      </div>
-
-                      <div class="portfolio-img video-container" data-video-id="Th3mAO7pEbI">
-                        <a href="https://www.youtube.com/watch?v=Th3mAO7pEbI" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                          <img src="https://img.youtube.com/vi/Th3mAO7pEbI/maxresdefault.jpg" alt="Video thumbnail">
-                          <div class="play-button">
-                            <i class="fas fa-play-circle"></i>
-                          </div>
-                        </a>
-                      </div>
-
-                      <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                      </div>
-
-
-                    </div>
-                  </div>
-
-                <!-- Portfolio Item 8 (Burger Mania) -->
-                  <div class="carousel-item">
-                    <div class="game-info-box">
-                      <div class="game-main-info">
-                        <img src="Images/Elements/App Icons/burgerMania_Icon.png" class="game-icon" alt="Tornado.io">
-                        <div class="game-details">
-                          <h3 class="game-title">Burger Mania</h3>
-                          <p class="game-genre">Puzzle</p>
-                        </div>
-                        <div class="platform-icons">
-                          <span class="platform platform-android" title="Android"></span>
-                        </div>
-                      </div>
-                      <div class="game-stats">
-                        <p class="stats-label">Statistics</p>
-                        <div class="stats-grid">
-                          <div class="stat-box">
-                            <span class="stat-name">CPI</span>
-                            <span class="stat-value">4.08$</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Daily Playtime</span>
-                            <span class="stat-value">2m5s</span>
-                          </div>
-                          <div class="stat-box">
-                            <span class="stat-name">Retention D1</span>
-                            <span class="stat-value">4%</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="portfolio-card" data-project="project8">
-                      <!-- Portfolio card content remains unchanged -->
-                      <div class="phone-button volume-up-button"></div>
-                      <div class="phone-button volume-down-button"></div>
-                        <div class="phone-button power-button"></div>
-                      <div class="portfolio-card-header">
-                        <div class="portfolio-icon">
-                          <img src="Images/Elements/App Icons/burgerMania_Icon.png" alt="Tornado.io Icon" class="app-icon">
-                        </div>
-                        <h3 class="portfolio-title">Burger Mania</h3>
-                      </div>
-
-                      <div class="portfolio-img video-container" data-video-id="vda_qs4wqJk">
-                        <a href="https://www.youtube.com/watch?v=vda_qs4wqJk" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                          <img src="https://img.youtube.com/vi/vda_qs4wqJk/maxresdefault.jpg" alt="Video thumbnail">
-                          <div class="play-button">
-                            <i class="fas fa-play-circle"></i>
-                          </div>
-                        </a>
-                      </div>
-
-                      <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                      </div>
-
-
-                    </div>
-                  </div>
-
-                <!-- Portfolio Item 9 (Just Tanky) -->
-                  <div class="carousel-item">
-                    <div class="game-info-box">
-                      <div class="game-main-info">
-                        <img src="Images/Elements/App Icons/justTanky_Icon.png" class="game-icon" alt="Tornado.io">
-                        <div class="game-details">
-                          <h3 class="game-title">Just Tanky</h3>
-                          <p class="game-genre">Runner</p>
-                        </div>
-                        <div class="platform-icons">
-                          <span class="platform platform-android" title="Android"></span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="portfolio-card" data-project="project9">
-                      <!-- Portfolio card content remains unchanged -->
-                      <div class="phone-button volume-up-button"></div>
-                      <div class="phone-button volume-down-button"></div>
-                        <div class="phone-button power-button"></div>
-                      <div class="portfolio-card-header">
-                        <div class="portfolio-icon">
-                          <img src="Images/Elements/App Icons/justTanky_Icon.png" alt="Tornado.io Icon" class="app-icon">
-                        </div>
-                        <h3 class="portfolio-title">Burger Mania</h3>
-                      </div>
-
-                      <div class="portfolio-img video-container" data-video-id="G32Xnq4gkDE">
-                        <a href="https://www.youtube.com/watch?v=G32Xnq4gkDE" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                          <img src="https://img.youtube.com/vi/G32Xnq4gkDE/maxresdefault.jpg" alt="Video thumbnail">
-                          <div class="play-button">
-                            <i class="fas fa-play-circle"></i>
-                          </div>
-                        </a>
-                      </div>
-
-                      <div class="portfolio-card-footer" data-use-template="store-badge-template">
-                      </div>
-
-
-                    </div>
-                  </div>
-
-            <!-- End of an Item Box-->
-                </div>
-              </div>
-
-
-              <div class="carousel-controls">
-                <!-- Controls remain unchanged -->
-                <button class="carousel-btn prev-btn" aria-label="Previous slide">
-                  <i class="fas fa-chevron-left"></i>
-                </button>
-                <div class="carousel-dots">
-                  <!-- Dots will be added dynamically with JavaScript -->
-                </div>
-                <button class="carousel-btn next-btn" aria-label="Next slide">
-                  <i class="fas fa-chevron-right"></i>
-                </button>
-              </div>
+                </nav>
             </div>
-        </div>
-    </section>
+        </header>
 
-    <!-- Game Jams Section -->
-    <section id="game-jams" class="section game-jams-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Game Jams</h2>
-                <div class="underline"></div>
-                <p>My projects from game development competitions</p>
-            </div>
-
-            <!-- Game Jam Project Card -->
-            <div class="game-jam-project">
-                <!-- Project Title -->
-                <h3 class="game-jam-title">Forgotten Echoes</h3>
-
-                <!-- Analytics Section -->
-                <div class="game-analytics">
-                    <div class="analytics-item">
-                        <div class="analytics-value">6,658</div>
-                        <div class="analytics-label">Views</div>
-                    </div>
-                    <div class="analytics-item">
-                        <div class="analytics-value">139</div>
-                        <div class="analytics-label">Downloads</div>
-                    </div>
-                    <div class="analytics-item">
-                        <div class="analytics-value">4,136</div>
-                        <div class="analytics-label">Browser Plays</div>
-                    </div>
-                    <div class="analytics-item">
-                        <div class="analytics-value">76</div>
-                        <div class="analytics-label">Ratings</div>
-                    </div>
-                    <div class="analytics-item">
-                        <div class="analytics-value">119</div>
-                        <div class="analytics-label">Collections</div>
-                    </div>
-                    <div class="analytics-item">
-                        <div class="analytics-value">0.84%</div>
-                        <div class="analytics-label">CTR</div>
-                    </div>
+        <!-- Mobile Games Portfolio Section with Carousel -->
+        <section id="Mobile-Games" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Mobile Games</h2>
+                    <div class="underline"></div>
+                    <p>My mobile projects, I made in <b>Unity</b></p>
                 </div>
 
-                <!-- Project Info Box -->
-                <div class="project-info-box game-jam-info-box">
+                <div class="project-info-box">
                     <div class="project-info-item">
-                        <span class="info-label">My Role:</span> Game Designer
+                        <span class="info-label">Type:</span> Prototype
                     </div>
                     <div class="project-info-item">
-                        <span class="info-label">Event:</span> <a href="https://itch.io/jam/game-off-2022/rate/1803542">Game Off 2022</a>
-                    </div>
-                    <div class="project-info-item">
-                        <span class="info-label">Team Size:</span> 9
+                        <span class="info-label">Team Size:</span> 1
                     </div>
                     <div class="project-info-item">
                         <span class="info-label">Engine:</span> Unity (C#)
                     </div>
                     <div class="project-info-item">
-                        <span class="info-label">Theme:</span> "Cliche"
-                    </div>
-                    <div class="project-info-item">
-                        <span class="info-label">Duration:</span> 1 Month
+                        <span class="info-label">Time:</span> 2-3 Weeks (per project)
                     </div>
                 </div>
 
-                <!-- Main content area with video -->
-                <div class="game-jam-content">
-                    <!-- Video section -->
-                    <div class="game-jam-video-container">
-                        <div class="video-container" data-video-id="HhlAAdkYrBY">
-                            <a href="https://www.youtube.com/watch?v=HhlAAdkYrBY" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                                <img src="https://img.youtube.com/vi/HhlAAdkYrBY/maxresdefault.jpg" alt="Video thumbnail">
-                                <div class="play-button">
-                                    <i class="fas fa-play-circle"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Game Details Section (Results and Contributions) -->
-                    <div class="game-details">
-                        <h2 class="section-subtitle">Game Details</h2>
-
-                        <div class="details-container">
-                            <!-- Game Jam Results Column -->
-                            <div class="details-column">
-                                <div class="details-title">Game Jam Results</div>
-                                <div class="details-subtitle">Ranked from 76 ratings</div>
-
-                                <table class="ratings-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Criteria</th>
-                                            <th>Rank</th>
-                                            <th>Score</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="highlight-row">
-                                            <td>Graphics</td>
-                                            <td>#4</td>
-                                            <td>4.526</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Audio</td>
-                                            <td>#14</td>
-                                            <td>4.066</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Overall</td>
-                                            <td>#21</td>
-                                            <td>4.053</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gameplay</td>
-                                            <td>#44</td>
-                                            <td>3.671</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Innovation</td>
-                                            <td>#107</td>
-                                            <td>3.276</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Theme Interpretation</td>
-                                            <td>#145</td>
-                                            <td>3.329</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- My Contributions Column -->
-                            <div class="details-column">
-                                <div class="details-title">My Contributions</div>
-
-                                <ul class="contributions-list">
-                                    <li class="contribution-item">
-                                        <div class="contribution-bullet"></div>
-                                        <div class="contribution-text">
-                                        <strong>Game Mechanics Design:</strong> Crafted polished and engaging game mechanics that aligned perfectly with our team's vision and the game jam theme.
-                                    </div>
-                                    </li>
-                                    <li class="contribution-item">
-                                        <div class="contribution-bullet"></div>
-                                        <div class="contribution-text">
-                                        <strong>Team Cooperation:</strong> Facilitated seamless collaboration between team members to ensure a unified vision and consistent approach throughout development.
-                                        </div>
-                                    </li>
-                                    <li class="contribution-item">
-                                        <div class="contribution-bullet"></div>
-                                        <div class="contribution-text">
-                                        <strong>Game Design Document:</strong> Collaborated effectively on the design document, strategically dividing responsibilities among team members to maximize efficiency.RetryClaude can make mistakes. Please double-check responses.                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Screenshots Carousel -->
-                <div class="screenshots-carousel">
-                    <h2 class="section-subtitle">Screenshots</h2>
+                <div class="portfolio-carousel">
                     <div class="carousel-container">
-                        <div class="carousel-track screenshot-track">
-                            <!-- Screenshot 1 -->
-                            <div class="carousel-item screenshot-item">
-                                <div class="screenshot-card">
-                                    <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_01.png" alt="Forgotten Echoes - Screenshot 1">
+                        <div class="carousel-track">
+                            <!-- Portfolio Item 1 (Balloon Burst) -->
+                            <div class="carousel-item">
+                                <!-- Add the Game Info Box before the portfolio-card -->
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/baloonBurst_Icon.png" class="game-icon" alt="Balloon Burst">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Balloon Burst</h3>
+                                            <p class="game-genre">Puzzle/Casual</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">CPI</span>
+                                                <span class="stat-value">1.54$</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Daily playtime</span>
+                                                <span class="stat-value">10m18s</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Size</span>
+                                                <span class="stat-value">24MB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portfolio-card" data-project="project1">
+                                    <!-- Portfolio card content remains unchanged -->
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/baloonBurst_Icon.png" alt="Balloon Burst Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Balloon Burst</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="3Y_GZrYku70">
+                                        <a href="https://www.youtube.com/watch?v=3Y_GZrYku70" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/3Y_GZrYku70/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
+
                                 </div>
                             </div>
-                            <!-- Screenshot 2 -->
-                            <div class="carousel-item screenshot-item">
-                                <div class="screenshot-card">
-                                    <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_02.png" alt="Forgotten Echoes - Screenshot 2">
+
+                            <!-- Portfolio Item 2 (Tornado.io) -->
+                            <div class="carousel-item">
+                                <!-- Add Game Info Box for Tornado.io -->
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/tornado_Icon.png" class="game-icon" alt="Tornado.io">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Tornado.io</h3>
+                                            <p class="game-genre">Action/Multiplayer</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">Downloads</span>
+                                                <span class="stat-value">5K+</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">MAU</span>
+                                                <span class="stat-value">792</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Retention D1</span>
+                                                <span class="stat-value">30%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portfolio-card" data-project="project2">
+                                    <!-- Portfolio card content remains unchanged -->
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/tornado_Icon.png" alt="Tornado.io Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Tornado.io</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="CUea_Pt3pdI">
+                                        <a href="https://www.youtube.com/watch?v=CUea_Pt3pdI" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/CUea_Pt3pdI/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
+
+
                                 </div>
                             </div>
-                            <!-- Screenshot 3 -->
-                            <div class="carousel-item screenshot-item">
-                                <div class="screenshot-card">
-                                    <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_03.png" alt="Forgotten Echoes - Screenshot 3">
+
+                            <!-- Portfolio Item 3 (Color Dash) -->
+                            <div class="carousel-item">
+                                <!-- Add Game Info Box for Color Dash -->
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/colorDash_Icon.png" class="game-icon" alt="Color Dash">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Color Dash</h3>
+                                            <p class="game-genre">Runner</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">Downloads</span>
+                                                <span class="stat-value">1K+</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Playtime</span>
+                                                <span class="stat-value">45m+</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portfolio-card" data-project="project3">
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/colorDash_Icon.png" alt="Color Dash Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Color Dash</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="xoXclsqdAmA">
+                                        <a href="https://www.youtube.com/watch?v=xoXclsqdAmA" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/xoXclsqdAmA/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
+
                                 </div>
                             </div>
-                            <!-- Screenshot 4 -->
-                            <div class="carousel-item screenshot-item">
-                                <div class="screenshot-card">
-                                    <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_04.png" alt="Forgotten Echoes - Screenshot 4">
+
+                            <!-- Portfolio Item 4 (Boat Master) -->
+                            <div class="carousel-item">
+                                <!-- Add the Game Info Box before the portfolio-card -->
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/boatRescueMission_Icon.png" class="game-icon" alt="Boat Rescue Mission!">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Boat Rescue Mission!</h3>
+                                            <p class="game-genre">Puzzle</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">Playtime</span>
+                                                <span class="stat-value">30m+</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Levels</span>
+                                                <span class="stat-value">40</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portfolio-card" data-project="project4">
+                                    <!-- Portfolio card content remains unchanged -->
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/boatRescueMission_Icon.png" alt="Balloon Burst Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Boat Rescue Mission!</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="ttG7Lu1y-kI">
+                                        <a href="https://www.youtube.com/watch?v=ttG7Lu1y-kI" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/ttG7Lu1y-kI/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- Portfolio Item 5 (Auto TD) -->
+                            <div class="carousel-item">
+                                <!-- Add the Game Info Box before the portfolio-card -->
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/autoTD_Icon.png" class="game-icon" alt="autoTD">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Auto TD</h3>
+                                            <p class="game-genre">Tower Defence</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">Playtime</span>
+                                                <span class="stat-value">30m+</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Size</span>
+                                                <span class="stat-value">28mb</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="portfolio-card" data-project="project5">
+                                    <!-- Portfolio card content remains unchanged -->
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/autoTD_Icon.png" alt="Balloon Burst Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Auto TD</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="q393W5GPfIo">
+                                        <a href="https://www.youtube.com/watch?v=q393W5GPfIo" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/q393W5GPfIo/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Portfolio Item 6 (Color Blitz) -->
+                            <div class="carousel-item">
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/colorBlitz_Icon.png" class="game-icon" alt="Tornado.io">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Color Blitz</h3>
+                                            <p class="game-genre">Puzzle</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">Playtime</span>
+                                                <span class="stat-value">30m+</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Daily Playtime</span>
+                                                <span class="stat-value">7m</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Retention D1</span>
+                                                <span class="stat-value">10%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portfolio-card" data-project="project6">
+                                    <!-- Portfolio card content remains unchanged -->
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/colorBlitz_Icon.png" alt="Tornado.io Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Color Blitz</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="_R6Y-6VcsLk">
+                                        <a href="https://www.youtube.com/watch?v=_R6Y-6VcsLk" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/_R6Y-6VcsLk/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <!-- Portfolio Item 7 (Connect Ritz) -->
+                            <div class="carousel-item">
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/connectRitz_Icon.png" class="game-icon" alt="Tornado.io">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Connect Ritz</h3>
+                                            <p class="game-genre">Puzzle</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">CPI</span>
+                                                <span class="stat-value">2.90$</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Daily Playtime</span>
+                                                <span class="stat-value">7m11s</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Retention D1</span>
+                                                <span class="stat-value">13%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portfolio-card" data-project="project7">
+                                    <!-- Portfolio card content remains unchanged -->
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/connectRitz_Icon.png" alt="Tornado.io Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Connect Ritz</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="Th3mAO7pEbI">
+                                        <a href="https://www.youtube.com/watch?v=Th3mAO7pEbI" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/Th3mAO7pEbI/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <!-- Portfolio Item 8 (Burger Mania) -->
+                            <div class="carousel-item">
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/burgerMania_Icon.png" class="game-icon" alt="Tornado.io">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Burger Mania</h3>
+                                            <p class="game-genre">Puzzle</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">CPI</span>
+                                                <span class="stat-value">4.08$</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Daily Playtime</span>
+                                                <span class="stat-value">2m5s</span>
+                                            </div>
+                                            <div class="stat-box">
+                                                <span class="stat-name">Retention D1</span>
+                                                <span class="stat-value">4%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portfolio-card" data-project="project8">
+                                    <!-- Portfolio card content remains unchanged -->
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/burgerMania_Icon.png" alt="Tornado.io Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Burger Mania</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="vda_qs4wqJk">
+                                        <a href="https://www.youtube.com/watch?v=vda_qs4wqJk" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/vda_qs4wqJk/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <!-- Portfolio Item 9 (Just Tanky) -->
+                            <div class="carousel-item">
+                                <div class="game-info-box">
+                                    <div class="game-main-info">
+                                        <img src="Images/Elements/App Icons/justTanky_Icon.png" class="game-icon" alt="Tornado.io">
+                                        <div class="game-details">
+                                            <h3 class="game-title">Just Tanky</h3>
+                                            <p class="game-genre">Runner</p>
+                                        </div>
+                                        <div class="platform-icons">
+                                            <span class="platform platform-android" title="Android"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portfolio-card" data-project="project9">
+                                    <!-- Portfolio card content remains unchanged -->
+                                    <div class="phone-button volume-up-button"></div>
+                                    <div class="phone-button volume-down-button"></div>
+                                    <div class="phone-button power-button"></div>
+                                    <div class="portfolio-card-header">
+                                        <div class="portfolio-icon">
+                                            <img src="Images/Elements/App Icons/justTanky_Icon.png" alt="Tornado.io Icon" class="app-icon">
+                                        </div>
+                                        <h3 class="portfolio-title">Burger Mania</h3>
+                                    </div>
+
+                                    <div class="portfolio-img video-container" data-video-id="G32Xnq4gkDE">
+                                        <a href="https://www.youtube.com/watch?v=G32Xnq4gkDE" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                            <img src="https://img.youtube.com/vi/G32Xnq4gkDE/maxresdefault.jpg" alt="Video thumbnail">
+                                            <div class="play-button">
+                                                <i class="fas fa-play-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="portfolio-card-footer" data-use-template="store-badge-template">
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <!-- End of an Item Box-->
                         </div>
                     </div>
-        
+
+
                     <div class="carousel-controls">
-                        <button class="carousel-btn prev-btn" aria-label="Previous screenshot">
+                        <!-- Controls remain unchanged -->
+                        <button class="carousel-btn prev-btn" aria-label="Previous slide">
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         <div class="carousel-dots">
                             <!-- Dots will be added dynamically with JavaScript -->
                         </div>
-                        <button class="carousel-btn next-btn" aria-label="Next screenshot">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                        <button class="carousel-btn next-btn" aria-label="Next slide">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Game Concepts Section -->
+        <section id="concepts" class="section section-contrast">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Game Concepts</h2>
+                    <div class="underline"></div>
+                    <p>Innovative game design ideas and prototypes in development</p>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="game-jam-actions">
-                    <a href="https://gingaabread.itch.io/bet-the-farm" class="btn primary-btn">Play on itch.io</a>
-                   <a href="#" class="btn secondary-btn" data-construction="small">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-<!-- About Section -->
-<section id="about" class="section">
-    <div class="container">
-        <div class="section-header">
-            <h2>About Me</h2>
-            <div class="underline"></div>
-        </div>
-        
-        <div class="about-content">
-            <div class="about-img">
-                <div class="img-container">
-                    <img src="Images/Elements/Icons/seriousCat_PP.png" alt="Maksym Kornilov">
-                </div>
-            </div>
-            
-            <div class="about-text">
-                <h3>Who am I?</h3>
-                <p>Hello, I'm Max, and I possess a profound passion for gaming across various genres. With over two years of experience in Unity, I am dedicated to advancing my career as a Game Designer while consistently refining my skills. My background includes freelancing and collaborating within teams in the field of game development.</p>
-                
-                <div class="location-languages">
-                    <div class="location-info">
-                        <h4><i class="fas fa-map-marker-alt"></i> Current Location</h4>
-                        <div class="location-tag">
-                            <span class="flag">🇪🇸</span> Spain
-                            <span class="relocate-badge"><i class="fas fa-plane-departure"></i> Open to relocate</span>
-                        </div>
-                    </div>
-                    
-                    <div class="languages-info">
-                        <h4><i class="fas fa-language"></i> Languages</h4>
-                        <div class="language-tags">
-                            <span class="language-tag"><span class="flag">🇷🇺</span> Russian <span class="proficiency">(Native)</span></span>
-                            <span class="language-tag"><span class="flag">🇺🇦</span> Ukrainian <span class="proficiency">(Native)</span></span>
-                            <span class="language-tag"><span class="flag">🇬🇧</span> English <span class="proficiency">(Fluent)</span></span>
-                            <span class="language-tag"><span class="flag">🇩🇪</span> German <span class="proficiency">(A2)</span></span>
-                            <span class="language-tag"><span class="flag">🇯🇵</span> Japanese <span class="proficiency">(Basic)</span></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Hard Skills Section -->
-        <div class="skills-container">
-            <div class="skills-header">
-                <h3>Hard Skills</h3>
-            </div>
-            
-            <div class="skills-grid">
-                <!-- Unity Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/unity_Icon.png" alt="Unity Logo" class="skill-icon">
-                    <div class="skill-title">Unity</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 35%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 35%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Proficient in Unity's core systems including the new Input System, URP rendering, Timeline, and Cinemachine for cinematic sequences.
-                    </div>
-                </div>
-                
-                <!-- C# Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/cSharp_Icon.png" alt="C# Logo" class="skill-icon">
-                    <div class="skill-title">C#</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 30%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 30%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Strong understanding of C# programming principles, design patterns, and Unity-specific implementations.
-                    </div>
-                </div>
-                
-                <!-- UE5 Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/unrealEngine_Icon.png" alt="Unreal Engine Logo" class="skill-icon">
-                    <div class="skill-title">Unreal Engine 5</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 15%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 15%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Have knowledge with Blueprint visual scripting, and Lumen lighting systems in Unreal Engine 5.
-                    </div>
-                </div>
-                
-                <!-- Blender Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/blender_Icon.png" alt="Blender Logo" class="skill-icon">
-                    <div class="skill-title">Blender</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 10%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 10%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        3D modeling, texturing skills for creating game assets and environments.
-                    </div>
-                </div>
-                
-                <!-- Figma Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/figma_Icon.png" alt="Figma Logo" class="skill-icon">
-                    <div class="skill-title">Figma</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 12%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 12%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        UI/UX design for games, wireframing, prototyping, and interactive mock-ups for mobile and desktop games.
-                    </div>
-                </div>
-                
-                <!-- Git Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/github_Icon.png" alt="Git Logo" class="skill-icon">
-                    <div class="skill-title">Git</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 10%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 10%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Version control for collaborative development, branching strategies, and integration with Unity projects.
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Soft Skills Section -->
-        <div class="skills-container">
-            <div class="skills-header">
-                <h3>Soft Skills</h3>
-            </div>
-            
-            <div class="skills-grid">
-                <!-- Claude AI Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/claudeAI_Icon.png" alt="Claude AI Icon" class="skill-icon">
-                    <div class="skill-title">Claude AI</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 30%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 30%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Proficient in using AI tools like Claude for ideation, content creation, problem-solving, and enhancing game development workflows.
-                    </div>
-                </div>
-                
-                <!-- Problem Solving Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/problemSolving_icon.png" alt="Problem Solving Icon" class="skill-icon">
-                    <div class="skill-title">Problem Solving</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 60%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 60%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Analytical approach to debugging and optimizing game performance, with a focus on finding elegant solutions.
-                    </div>
-                </div>
-                
-                <!-- Teamwork Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/teamWork_Icon.png" alt="Teamwork Icon" class="skill-icon">
-                    <div class="skill-title">Teamwork</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 35%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 35%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Experience collaborating in cross-functional teams, communicating effectively with artists, programmers, and designers.
-                    </div>
-                </div>
-                
-                <!-- Time Management Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/timeManagement_Icon.png" alt="Time Management Icon" class="skill-icon">
-                    <div class="skill-title">Time Management</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 60%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 60%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Ability to prioritize tasks, meet deadlines, and efficiently manage game development pipelines and milestones.
-                    </div>
-                </div>
-                
-                <!-- Adaptability Skill Card -->
-                <div class="skill-card">
-                    <img src="Images/Elements/Icons/adaptability_Icon.png" alt="Adaptability Icon" class="skill-icon">
-                    <div class="skill-title">Adaptability</div>
-                    <div class="skill-level">
-                        <div class="skill-level-text">Skill Level: 90%</div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-description">
-                        Quick to learn new tools and technologies, with the flexibility to pivot projects based on user feedback and market trends.
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Courses Section -->
-        <div class="courses-container">
-            <div class="courses-header">
-                <h3>Courses</h3>
-                <p>As a self-taught developer, these courses have been instrumental in shaping my skills and understanding of game development.</p>
-            </div>
-            
-            <div class="courses-grid">
-                <!-- Course 1 -->
-                <div class="course-card">
-                    <div class="course-image">
-                        <a href = "https://gamedesignskills.com/courses/mechanics-bootcamp-scale-depth-alexander-brazie/">
-                            <img src="Images/About Me/Courses/Course_MastergingGameMechanics.png" alt="Mastering Game Mechanics">
-                        </a>
-                    </div>
-                    <div class="course-content">
-                        <div class="course-title">Masterging Game Mechanics Bootcamp</div>
-                        <div class="course-info">
-                            <div class="course-platform">
-                                <img src="Images/About Me/Courses/gds_Icon.png" alt="Game Design Skills logo" class="platform-icon" style="background: #394eac;">
-                                Game Design Skills
+                <!-- Concepts Grid -->
+                <div class="concepts-container">
+                    <!-- Concept Card 1 -->
+                    <div class="concept-card" data-concept-id="concept1" data-glitch-repeat data-glitch-interval="3500">
+                        <div class="concept-image">
+                            <img src="Images/Concepts/elemental-tactics-1.jpg" alt="Elemental Tactics">
+                            <div class="concept-overlay">
+                                <span class="concept-category">Strategy</span>
                             </div>
-                            <div class="course-year">2024</div>
                         </div>
-                        <div class="course-description">
-                        I've mastered proven frameworks, tools, and methodologies for designing sophisticated gameplay mechanics and effectively communicating these concepts in professional team environments and during job interviews.                        </div>
-                        <a href="#courses" class="btn secondary-btn" data-construction="small">Learn More</a>
-                    </div>
-                </div>
-                
-                <!-- Course 2 -->
-                <div class="course-card">
-                    <div class="course-image">
-                        <a href = "https://www.coursera.org/specializations/game-design">
-                            <img src="Images/About Me/Courses/courses_GameDesign_Coursera.jpg" alt="Game Design">
-                        </a>
-                    </div>
-                    <div class="course-content">
-                        <div class="course-title">Game Design: Art and Concepts</div>
-                        <div class="course-info">
-                            <div class="course-platform">
-                                <img src="Images/About Me/Courses/coursera_Icon.png" alt="Coursera logo" class="platform-icon">
-                                Game Design Skills
-                            </div>
-                            <div class="course-year">2021</div>
-                        </div>
-                        <div class="course-description">
-                            I completed this comprehensive collection of courses by CalArts to deepen my understanding of Game Design principles and explore the nuanced aspects of professional game development.
-                        </div>
-                        <a href="#courses" class="btn secondary-btn" data-construction>Learn More</a>
-                    </div>
-                </div>
-                </div>  
-        
-        <!-- Reading Section -->
-        <div class="reading-container">
-            <div class="reading-header">
-                <h3>Books I've read</h3>
-            </div>
-            
-            <div class="books-grid">
-                <!-- Book 1 -->
-                <div class="book-card">
-                    <div class="book-cover">
-                        <img src="Images/About Me/Books/art_of_game_design.png" alt="The Art of Game Design">
-                    </div>
-                    <div class="book-title">The Art of Game Design</div>
-                    <div class="book-author">Jesse Schell</div>
-                </div>
-                
-                <!-- Book 2 -->
-                <div class="book-card">
-                    <div class="book-cover">
-                        <img src="Images/About Me/Books/level_up.jpg" alt="Level Up! The Guide to Great Video Game Design">
-                    </div>
-                    <div class="book-title">Level Up!</div>
-                    <div class="book-author">Scott Rogers</div>
-                </div>
-                
-                <!-- Book 3 -->
-                <div class="book-card">
-                    <div class="book-cover">
-                        <img src="Images/About Me/Books/challenges-for-game-design.png" alt="Challenges for Game Designers">
-                    </div>
-                    <div class="book-title">Challenges for Games Designers</div>
-                    <div class="book-author"> Ms. Brathwaite && Mr. Schreiber</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- CTA Section -->
-        <div class="about-cta">
-            <a href="Resume/Maxim_Kornilov_CV_2025.pdf" class="btn primary-btn" download>Download Resume</a>
-            <a href="mailto:sname00012@gmail.com" class="btn secondary-btn">Let's Connect</a>        </div>
-    </div>
-</section>
 
-    <!-- Footer Section -->
-    <footer id="footer">
-        <div class="container">
-            <div class="footer-content">
+                        <div class="concept-content">
+                            <h3 class="concept-title">Elemental Tactics</h3>
+                            <p class="concept-description">A turn-based strategy game where players command elemental forces to reshape the battlefield and outsmart opponents.</p>
+
+                            <div class="concept-tags">
+                                <span class="concept-tag">Turn-based</span>
+                                <span class="concept-tag">Tactical</span>
+                                <span class="concept-tag">Elements</span>
+                            </div>
+
+                            <button class="btn secondary-btn">View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Concept Card 2 -->
+                    <div class="concept-card" data-concept-id="concept2">
+                        <div class="concept-image">
+                            <img src="Images/Concepts/neon-shadows-1.jpg" alt="Neon Shadows">
+                            <div class="concept-overlay">
+                                <span class="concept-category">Action RPG</span>
+                            </div>
+                        </div>
+
+                        <div class="concept-content">
+                            <h3 class="concept-title">Neon Shadows</h3>
+                            <p class="concept-description">A cyberpunk action RPG exploring themes of identity and consciousness in a world where memories can be digitized and traded.</p>
+
+                            <div class="concept-tags">
+                                <span class="concept-tag">Cyberpunk</span>
+                                <span class="concept-tag">Action</span>
+                                <span class="concept-tag">Story-Rich</span>
+                            </div>
+
+                            <button class="btn secondary-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Concept Detail Modal -->
+                <div id="concept-modal" class="concept-modal">
+                    <div class="modal-backdrop"></div>
+                    <div class="modal-content">
+                        <button class="modal-close">×</button>
+
+                        <div class="modal-body">
+                            <!-- Image Carousel -->
+                            <div class="modal-gallery">
+                                <div class="gallery-main">
+                                    <img src="" alt="">
+
+                                    <button class="gallery-nav prev">&#10094;</button>
+                                    <button class="gallery-nav next">&#10095;</button>
+                                </div>
+
+                                <div class="gallery-thumbnails">
+                                    <!-- Thumbnails will be added by JavaScript -->
+                                </div>
+                            </div>
+
+                            <!-- Concept Details -->
+                            <div class="modal-details">
+                                <div class="modal-header">
+                                    <h2></h2>
+                                    <span class="modal-category"></span>
+                                </div>
+
+                                <div class="modal-description">
+                                    <p></p>
+                                </div>
+
+                                <div class="modal-features">
+                                    <h3>Key Features</h3>
+                                    <ul>
+                                        <!-- Features will be added by JavaScript -->
+                                    </ul>
+                                </div>
+
+                                <div class="modal-tags">
+                                    <!-- Tags will be added by JavaScript -->
+                                </div>
+
+                                <div class="modal-actions">
+                                    <button class="btn primary-btn">Request Collaboration</button>
+                                    <button class="btn secondary-btn" data-construction="small">View Development Log</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
+        </section>
+
+        <!-- Game Jams Section -->
+        <section id="game-jams" class="section game-jams-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Game Jams</h2>
+                    <div class="underline"></div>
+                    <p>My projects from game development competitions</p>
+                </div>
+
+                <!-- Game Jam Project Card -->
+                <div class="game-jam-project">
+                    <!-- Project Title -->
+                    <h3 class="game-jam-title">Forgotten Echoes</h3>
+
+                    <!-- Analytics Section -->
+                    <div class="game-analytics">
+                        <div class="analytics-item">
+                            <div class="analytics-value">6,658</div>
+                            <div class="analytics-label">Views</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">139</div>
+                            <div class="analytics-label">Downloads</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">4,136</div>
+                            <div class="analytics-label">Browser Plays</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">76</div>
+                            <div class="analytics-label">Ratings</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">119</div>
+                            <div class="analytics-label">Collections</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">0.84%</div>
+                            <div class="analytics-label">CTR</div>
+                        </div>
+                    </div>
+
+                    <!-- Project Info Box -->
+                    <div class="project-info-box game-jam-info-box">
+                        <div class="project-info-item">
+                            <span class="info-label">My Role:</span> Game Designer
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Event:</span> <a href="https://itch.io/jam/game-off-2022/rate/1803542">Game Off 2022</a>
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Team Size:</span> 9
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Engine:</span> Unity (C#)
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Theme:</span> "Cliche"
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Duration:</span> 1 Month
+                        </div>
+                    </div>
+
+                    <!-- Main content area with video -->
+                    <div class="game-jam-content">
+                        <!-- Video section -->
+                        <div class="game-jam-video-container">
+                            <div class="video-container" data-video-id="HhlAAdkYrBY">
+                                <a href="https://www.youtube.com/watch?v=HhlAAdkYrBY" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                    <img src="https://img.youtube.com/vi/HhlAAdkYrBY/maxresdefault.jpg" alt="Video thumbnail">
+                                    <div class="play-button">
+                                        <i class="fas fa-play-circle"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Game Details Section (Results and Contributions) -->
+                        <div class="game-details">
+                            <h2 class="section-subtitle">Game Details</h2>
+
+                            <div class="details-container">
+                                <!-- Game Jam Results Column -->
+                                <div class="details-column">
+                                    <div class="details-title">Game Jam Results</div>
+                                    <div class="details-subtitle">Ranked from 76 ratings</div>
+
+                                    <table class="ratings-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Criteria</th>
+                                                <th>Rank</th>
+                                                <th>Score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="highlight-row">
+                                                <td>Graphics</td>
+                                                <td>#4</td>
+                                                <td>4.526</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Audio</td>
+                                                <td>#14</td>
+                                                <td>4.066</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Overall</td>
+                                                <td>#21</td>
+                                                <td>4.053</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gameplay</td>
+                                                <td>#44</td>
+                                                <td>3.671</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Innovation</td>
+                                                <td>#107</td>
+                                                <td>3.276</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Theme Interpretation</td>
+                                                <td>#145</td>
+                                                <td>3.329</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- My Contributions Column -->
+                                <div class="details-column">
+                                    <div class="details-title">My Contributions</div>
+
+                                    <ul class="contributions-list">
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <strong>Game Mechanics Design:</strong> Crafted polished and engaging game mechanics that aligned perfectly with our team's vision and the game jam theme.
+                                            </div>
+                                        </li>
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <strong>Team Cooperation:</strong> Facilitated seamless collaboration between team members to ensure a unified vision and consistent approach throughout development.
+                                            </div>
+                                        </li>
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <strong>Game Design Document:</strong> Collaborated effectively on the design document, strategically dividing responsibilities among team members to maximize efficiency.RetryClaude can make mistakes. Please double-check responses.
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Screenshots Carousel -->
+                    <div class="screenshots-carousel">
+                        <h2 class="section-subtitle">Screenshots</h2>
+                        <div class="carousel-container">
+                            <div class="carousel-track screenshot-track">
+                                <!-- Screenshot 1 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_01.png" alt="Forgotten Echoes - Screenshot 1">
+                                    </div>
+                                </div>
+                                <!-- Screenshot 2 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_02.png" alt="Forgotten Echoes - Screenshot 2">
+                                    </div>
+                                </div>
+                                <!-- Screenshot 3 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_03.png" alt="Forgotten Echoes - Screenshot 3">
+                                    </div>
+                                </div>
+                                <!-- Screenshot 4 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_04.png" alt="Forgotten Echoes - Screenshot 4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-controls">
+                            <button class="carousel-btn prev-btn" aria-label="Previous screenshot">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <div class="carousel-dots">
+                                <!-- Dots will be added dynamically with JavaScript -->
+                            </div>
+                            <button class="carousel-btn next-btn" aria-label="Next screenshot">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="game-jam-actions">
+                        <a href="https://gingaabread.itch.io/bet-the-farm" class="btn primary-btn">Play on itch.io</a>
+                        <a href="#" class="btn secondary-btn" data-construction="small">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section  section-contrast">
+            <div class="container">
+                <div class="section-header">
+                    <h2>About Me</h2>
+                    <div class="underline"></div>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-img">
+                        <div class="img-container">
+                            <img src="Images/Elements/Icons/seriousCat_PP.png" alt="Maksym Kornilov">
+                        </div>
+                    </div>
+
+                    <div class="about-text">
+                        <h3>Who am I?</h3>
+                        <p>Hello, I'm Max, and I possess a profound passion for gaming across various genres. With over two years of experience in Unity, I am dedicated to advancing my career as a Game Designer while consistently refining my skills. My background includes freelancing and collaborating within teams in the field of game development.</p>
+
+                        <div class="location-languages">
+                            <div class="location-info">
+                                <h4><i class="fas fa-map-marker-alt"></i> Current Location</h4>
+                                <div class="location-tag">
+                                    <span class="flag">🇪🇸</span> Spain
+                                    <span class="relocate-badge"><i class="fas fa-plane-departure"></i> Open to relocate</span>
+                                </div>
+                            </div>
+
+                            <div class="languages-info">
+                                <h4><i class="fas fa-language"></i> Languages</h4>
+                                <div class="language-tags">
+                                    <span class="language-tag"><span class="flag">🇷🇺</span> Russian <span class="proficiency">(Native)</span></span>
+                                    <span class="language-tag"><span class="flag">🇺🇦</span> Ukrainian <span class="proficiency">(Native)</span></span>
+                                    <span class="language-tag"><span class="flag">🇬🇧</span> English <span class="proficiency">(Fluent)</span></span>
+                                    <span class="language-tag"><span class="flag">🇩🇪</span> German <span class="proficiency">(A2)</span></span>
+                                    <span class="language-tag"><span class="flag">🇯🇵</span> Japanese <span class="proficiency">(Basic)</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hard Skills Section -->
+                <div class="skills-container">
+                    <div class="skills-header">
+                        <h3>Hard Skills</h3>
+                    </div>
+
+                    <div class="skills-grid">
+                        <!-- Unity Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/unity_Icon.png" alt="Unity Logo" class="skill-icon">
+                            <div class="skill-title">Unity</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 35%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 35%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Proficient in Unity's core systems including the new Input System, URP rendering, Timeline, and Cinemachine for cinematic sequences.
+                            </div>
+                        </div>
+
+                        <!-- C# Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/cSharp_Icon.png" alt="C# Logo" class="skill-icon">
+                            <div class="skill-title">C#</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 30%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Strong understanding of C# programming principles, design patterns, and Unity-specific implementations.
+                            </div>
+                        </div>
+
+                        <!-- UE5 Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/unrealEngine_Icon.png" alt="Unreal Engine Logo" class="skill-icon">
+                            <div class="skill-title">Unreal Engine 5</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 15%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 15%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Have knowledge with Blueprint visual scripting, and Lumen lighting systems in Unreal Engine 5.
+                            </div>
+                        </div>
+
+                        <!-- Blender Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/blender_Icon.png" alt="Blender Logo" class="skill-icon">
+                            <div class="skill-title">Blender</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 10%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                3D modeling, texturing skills for creating game assets and environments.
+                            </div>
+                        </div>
+
+                        <!-- Figma Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/figma_Icon.png" alt="Figma Logo" class="skill-icon">
+                            <div class="skill-title">Figma</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 12%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 12%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                UI/UX design for games, wireframing, prototyping, and interactive mock-ups for mobile and desktop games.
+                            </div>
+                        </div>
+
+                        <!-- Git Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/github_Icon.png" alt="Git Logo" class="skill-icon">
+                            <div class="skill-title">Git</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 10%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Version control for collaborative development, branching strategies, and integration with Unity projects.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soft Skills Section -->
+                <div class="skills-container">
+                    <div class="skills-header">
+                        <h3>Soft Skills</h3>
+                    </div>
+
+                    <div class="skills-grid">
+                        <!-- Claude AI Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/claudeAI_Icon.png" alt="Claude AI Icon" class="skill-icon">
+                            <div class="skill-title">Claude AI</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 30%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Proficient in using AI tools like Claude for ideation, content creation, problem-solving, and enhancing game development workflows.
+                            </div>
+                        </div>
+
+                        <!-- Problem Solving Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/problemSolving_icon.png" alt="Problem Solving Icon" class="skill-icon">
+                            <div class="skill-title">Problem Solving</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 60%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Analytical approach to debugging and optimizing game performance, with a focus on finding elegant solutions.
+                            </div>
+                        </div>
+
+                        <!-- Teamwork Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/teamWork_Icon.png" alt="Teamwork Icon" class="skill-icon">
+                            <div class="skill-title">Teamwork</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 35%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 35%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Experience collaborating in cross-functional teams, communicating effectively with artists, programmers, and designers.
+                            </div>
+                        </div>
+
+                        <!-- Time Management Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/timeManagement_Icon.png" alt="Time Management Icon" class="skill-icon">
+                            <div class="skill-title">Time Management</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 60%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Ability to prioritize tasks, meet deadlines, and efficiently manage game development pipelines and milestones.
+                            </div>
+                        </div>
+
+                        <!-- Adaptability Skill Card -->
+                        <div class="skill-card">
+                            <img src="Images/Elements/Icons/adaptability_Icon.png" alt="Adaptability Icon" class="skill-icon">
+                            <div class="skill-title">Adaptability</div>
+                            <div class="skill-level">
+                                <div class="skill-level-text">Skill Level: 90%</div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-description">
+                                Quick to learn new tools and technologies, with the flexibility to pivot projects based on user feedback and market trends.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Courses Section -->
+                <div class="courses-container">
+                    <div class="courses-header">
+                        <h3>Courses</h3>
+                        <p>As a self-taught developer, these courses have been instrumental in shaping my skills and understanding of game development.</p>
+                    </div>
+
+                    <div class="courses-grid">
+                        <!-- Course 1 -->
+                        <div class="course-card">
+                            <div class="course-image">
+                                <a href="https://gamedesignskills.com/courses/mechanics-bootcamp-scale-depth-alexander-brazie/">
+                                    <img src="Images/About Me/Courses/Course_MastergingGameMechanics.png" alt="Mastering Game Mechanics">
+                                </a>
+                            </div>
+                            <div class="course-content">
+                                <div class="course-title">Masterging Game Mechanics Bootcamp</div>
+                                <div class="course-info">
+                                    <div class="course-platform">
+                                        <img src="Images/About Me/Courses/gds_Icon.png" alt="Game Design Skills logo" class="platform-icon" style="background: #394eac;">
+                                        Game Design Skills
+                                    </div>
+                                    <div class="course-year">2024</div>
+                                </div>
+                                <div class="course-description">
+                                    I've mastered proven frameworks, tools, and methodologies for designing sophisticated gameplay mechanics and effectively communicating these concepts in professional team environments and during job interviews.
+                                </div>
+                                <a href="#courses" class="btn secondary-btn" data-construction="small">Learn More</a>
+                            </div>
+                        </div>
+
+                        <!-- Course 2 -->
+                        <div class="course-card">
+                            <div class="course-image">
+                                <a href="https://www.coursera.org/specializations/game-design">
+                                    <img src="Images/About Me/Courses/courses_GameDesign_Coursera.jpg" alt="Game Design">
+                                </a>
+                            </div>
+                            <div class="course-content">
+                                <div class="course-title">Game Design: Art and Concepts</div>
+                                <div class="course-info">
+                                    <div class="course-platform">
+                                        <img src="Images/About Me/Courses/coursera_Icon.png" alt="Coursera logo" class="platform-icon">
+                                        Game Design Skills
+                                    </div>
+                                    <div class="course-year">2021</div>
+                                </div>
+                                <div class="course-description">
+                                    I completed this comprehensive collection of courses by CalArts to deepen my understanding of Game Design principles and explore the nuanced aspects of professional game development.
+                                </div>
+                                <a href="#courses" class="btn secondary-btn" data-construction>Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reading Section -->
+                    <div class="reading-container">
+                        <div class="reading-header">
+                            <h3>Books I've read</h3>
+                        </div>
+
+                        <div class="books-grid">
+                            <!-- Book 1 -->
+                            <div class="book-card">
+                                <div class="book-cover">
+                                    <img src="Images/About Me/Books/art_of_game_design.png" alt="The Art of Game Design">
+                                </div>
+                                <div class="book-title">The Art of Game Design</div>
+                                <div class="book-author">Jesse Schell</div>
+                            </div>
+
+                            <!-- Book 2 -->
+                            <div class="book-card">
+                                <div class="book-cover">
+                                    <img src="Images/About Me/Books/level_up.jpg" alt="Level Up! The Guide to Great Video Game Design">
+                                </div>
+                                <div class="book-title">Level Up!</div>
+                                <div class="book-author">Scott Rogers</div>
+                            </div>
+
+                            <!-- Book 3 -->
+                            <div class="book-card">
+                                <div class="book-cover">
+                                    <img src="Images/About Me/Books/challenges-for-game-design.png" alt="Challenges for Game Designers">
+                                </div>
+                                <div class="book-title">Challenges for Games Designers</div>
+                                <div class="book-author"> Ms. Brathwaite && Mr. Schreiber</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Section -->
+                    <div class="about-cta">
+                        <a href="Resume/Maxim_Kornilov_CV_2025.pdf" class="btn primary-btn" download>Download Resume</a>
+                        <a href="mailto:sname00012@gmail.com" class="btn secondary-btn">Let's Connect</a>
+                    </div>
+                </div>
+        </section>
+
+        <!-- Footer Section -->
+        <footer id="footer">
+            <div class="container">
+                <div class="footer-content">
+                </div>
+            </div>
+        </footer>
 
     </div>
     <script src="loader.js"></script>
     <script src="script.js"></script>
     <script src="cat-paw-trail.js"></script>
     <script src="Misc/chill-guy.js"></script>
+    <script src="Misc/concepts.js"></script>
+    <script src="CyberpunkPage/script.js"></script>
 </body>
 </html>

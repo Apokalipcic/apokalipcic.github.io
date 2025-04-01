@@ -101,7 +101,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add the CRT effects if enabled
   if (document.body.classList.contains('crt-enabled')) {
     addCRTEffects();
-  }
+    }
+
+    initConceptCardGlitches();
+
 });
 
 // Initialize all special text effects
@@ -1279,4 +1282,81 @@ function showRelicMalfunction() {
   relicMalfunction.style.display = 'none'; // Hide first
   relicMalfunction.offsetHeight; // Force reflow
   showWithGlitch(relicMalfunction);
+}
+
+// Function to apply repeating glitch effect to concept cards using showWithGlitch
+function initConceptCardGlitches() {
+    // Get only concept cards with data-glitch-repeat attribute
+    const glitchCards = document.querySelectorAll('.concept-card[data-glitch-repeat]');
+
+    glitchCards.forEach(card => {
+        // Get interval from data attribute or use default (5 seconds)
+        const interval = card.getAttribute('data-glitch-interval') ?
+            parseInt(card.getAttribute('data-glitch-interval')) : 5000;
+
+        // Apply initial glitch effect after a short delay
+        setTimeout(() => {
+            showWithGlitch(card);
+        }, 500);
+
+        // Set up repeating glitch effect
+        setInterval(() => {
+            // Temporarily hide card
+            card.style.opacity = '0';
+            // Force reflow
+            card.offsetHeight;
+            // Show with glitch effect
+            showWithGlitch(card);
+        }, interval);
+    });
+}
+
+// Call this function after the concepts section is loaded
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize concept card glitches when the page loads
+    initConceptCardGlitches();
+});
+
+// Function to apply glitch to a specific concept card by ID
+function glitchConceptCard(conceptId) {
+    const card = document.querySelector(`.concept-card[data-concept-id="${conceptId}"]`);
+    if (card) {
+        // Temporarily hide the card (without changing layout)
+        card.style.opacity = '0';
+
+        // Force reflow
+        card.offsetHeight;
+
+        // Apply the glitch effect
+        showWithGlitch(card);
+    }
+}
+
+// Function to set up repeating glitch on a specific concept card
+function setupRepeatingGlitch(conceptId, interval = 5000) {
+    const card = document.querySelector(`.concept-card[data-concept-id="${conceptId}"]`);
+    if (card) {
+        // Apply initial glitch
+        glitchConceptCard(conceptId);
+
+        // Set up repeating interval
+        const intervalId = setInterval(() => {
+            glitchConceptCard(conceptId);
+        }, interval);
+
+        // Store interval ID on the element for future reference
+        card.dataset.glitchIntervalId = intervalId;
+
+        return intervalId;
+    }
+    return null;
+}
+
+// Function to stop a repeating glitch
+function stopRepeatingGlitch(conceptId) {
+    const card = document.querySelector(`.concept-card[data-concept-id="${conceptId}"]`);
+    if (card && card.dataset.glitchIntervalId) {
+        clearInterval(parseInt(card.dataset.glitchIntervalId));
+        delete card.dataset.glitchIntervalId;
+    }
 }

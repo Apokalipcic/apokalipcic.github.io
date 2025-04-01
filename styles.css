@@ -69,6 +69,10 @@ ul {
     padding: 5rem 0;
 }
 
+.section-contrast {
+    background: var(--light-color);
+}
+
 .section-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -751,7 +755,6 @@ ul {
 
 /* ===== Game Jams ===== */
 .game-jams-section {
-    background-color: var(--light-color);
     position: relative;
 }
 
