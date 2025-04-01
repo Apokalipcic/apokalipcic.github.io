@@ -1,0 +1,363 @@
+/* cyberTranslation.css - Styling for Cyberpunk Japanese-English translation effect
+ * Designed to work with cyberTranslation.js
+ * Compatible with cyberpunk theme and existing scanner/glitch effects
+ */
+
+/* Container styling */
+.cyber-translate {
+  position: relative;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  overflow: visible;
+}
+
+/* Container mode styles */
+.translate-hover {
+  border-left: 3px solid var(--colors-secondary--500);
+  box-shadow: 0 0 15px rgba(43, 228, 234, 0.15);
+}
+
+.translate-click {
+  border-left: 3px solid var(--colors-primary--500);
+  box-shadow: 0 0 15px rgba(232, 97, 90, 0.15);
+}
+
+.translate-auto {
+  border-left: 3px solid var(--colors-tertiary--500);
+  box-shadow: 0 0 15px rgba(254, 211, 63, 0.15);
+}
+
+/* Hover effects for containers */
+.cyber-translate:hover {
+  transform: translateY(-2px);
+}
+
+.translate-hover:hover {
+  box-shadow: 0 0 20px rgba(43, 228, 234, 0.25);
+}
+
+.translate-click:hover {
+  box-shadow: 0 0 20px rgba(232, 97, 90, 0.25);
+}
+
+.translate-auto:hover {
+  box-shadow: 0 0 20px rgba(254, 211, 63, 0.25);
+}
+
+/* Status indicator and corner effect */
+.cyber-translate::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.translate-hover::before {
+  background-color: var(--colors-secondary--500);
+}
+
+.translate-click::before {
+  background-color: var(--colors-primary--500);
+}
+
+.translate-auto::before {
+  background-color: var(--colors-tertiary--500);
+}
+
+/* Status badges */
+.cyber-translate::after {
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  font-family: var(--fonts-secondary);
+  font-size: 0.7rem;
+  padding: 0.1rem 0.4rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.translate-hover::after {
+  content: "翻訳 HOVER";
+  color: var(--colors-secondary--500);
+  border: 1px solid var(--colors-secondary--500);
+}
+
+.translate-click::after {
+  content: "翻訳 CLICK";
+  color: var(--colors-primary--500);
+  border: 1px solid var(--colors-primary--500);
+}
+
+.translate-auto::after {
+  content: "翻訳 AUTO";
+  color: var(--colors-tertiary--500);
+  border: 1px solid var(--colors-tertiary--500);
+}
+
+.cyber-translate:hover::after {
+  opacity: 1;
+}
+
+/* Scanner effect for hover mode */
+.translate-hover.scanner-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 300%;
+  height: 2px;
+  background-color: var(--colors-secondary--500);
+  opacity: 0;
+  box-shadow: 0 0 10px var(--colors-secondary--500);
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.translate-hover.scanner-effect:hover::before {
+  opacity: 0.6;
+  animation: translator-scanner 2s linear infinite;
+}
+
+/* Scanner animation */
+@keyframes translator-scanner {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* Glitch effect during translation */
+.cyber-translate.glitching {
+  animation: translate-container-glitch 0.5s steps(2, start) forwards;
+}
+
+@keyframes translate-container-glitch {
+  0% { transform: translateY(-2px) skewX(0deg); }
+  20% { transform: translateY(2px) skewX(-2deg); }
+  40% { transform: translateY(-1px) skewX(2deg); }
+  60% { transform: translateY(1px) skewX(-1deg); }
+  80% { transform: translateY(-1px) skewX(1deg); }
+  100% { transform: translateY(0) skewX(0deg); }
+}
+
+/* Styling for translatable elements */
+[data-jp][data-en] {
+  position: relative;
+  display: inline-block;
+  color: var(--colors-secondary--500);
+  transition: all 0.3s ease;
+  border-bottom: 1px dashed rgba(43, 228, 234, 0.3);
+}
+
+/* Glitch effect for text elements */
+.cyber-translate.glitching [data-jp][data-en] {
+  animation: translate-text-glitch 0.3s steps(2) forwards;
+}
+
+@keyframes translate-text-glitch {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); color: var(--colors-primary--500); }
+  50% { transform: translateX(2px); color: var(--colors-secondary--500); }
+  75% { transform: translateX(-1px); color: var(--colors-tertiary--500); }
+  100% { transform: translateX(0); }
+}
+
+/* Styling for translated text */
+.translated-text {
+  color: var(--colors-tertiary--500) !important;
+  text-shadow: 0 0 5px rgba(254, 211, 63, 0.3);
+  border-bottom: 1px solid rgba(254, 211, 63, 0.5) !important;
+}
+
+/* Click mode prompt */
+.translate-click [data-jp][data-en]::after {
+  content: "⟲";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 0.7rem;
+  color: var(--colors-primary--500);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.translate-click:hover [data-jp][data-en]::after {
+  opacity: 0.7;
+}
+
+.translate-click.translated [data-jp][data-en]::after {
+  opacity: 0;
+}
+
+/* Translation status indicators */
+.cyber-translate .translation-status {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-family: var(--fonts-secondary);
+  font-size: 0.7rem;
+  padding: 0.1rem 0.3rem;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.translate-hover .translation-status {
+  color: var(--colors-secondary--500);
+}
+
+.translate-click .translation-status {
+  color: var(--colors-primary--500);
+}
+
+.translate-auto .translation-status {
+  color: var(--colors-tertiary--500);
+}
+
+.cyber-translate:hover .translation-status {
+  opacity: 1;
+}
+
+/* Active translation status */
+.cyber-translate.translating .translation-status-translating,
+.cyber-translate.translated .translation-status-complete {
+  display: block;
+}
+
+.cyber-translate:not(.translating) .translation-status-translating,
+.cyber-translate:not(.translated) .translation-status-complete {
+  display: none;
+}
+
+/* Typewriter cursor for auto translation */
+.translate-auto.translating [data-jp][data-en] {
+  border-right: 0.15em solid var(--colors-tertiary--500);
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--colors-tertiary--500); }
+}
+
+/* Support classes for different box styles */
+/* Red box style */
+.translate-box-red {
+  background-color: rgba(25, 26, 30, 0.85);
+  border: 1px solid var(--colors-primary--700);
+  border-left: 3px solid var(--colors-primary--500);
+  box-shadow: 0 0 15px rgba(232, 97, 90, 0.15);
+  padding: 1rem;
+}
+
+.translate-box-red::before, .translate-box-red::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.translate-box-red::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid var(--colors-primary--500);
+  border-left: 2px solid var(--colors-primary--500);
+}
+
+.translate-box-red::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid var(--colors-primary--500);
+  border-right: 2px solid var(--colors-primary--500);
+}
+
+/* Blue box style */
+.translate-box-blue {
+  background-color: rgba(25, 26, 30, 0.85);
+  border: 1px solid var(--colors-secondary--900);
+  border-left: 3px solid var(--colors-secondary--500);
+  box-shadow: 0 0 15px rgba(43, 228, 234, 0.15);
+  padding: 1rem;
+}
+
+.translate-box-blue::before, .translate-box-blue::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.translate-box-blue::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid var(--colors-secondary--500);
+  border-left: 2px solid var(--colors-secondary--500);
+}
+
+.translate-box-blue::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid var(--colors-secondary--500);
+  border-right: 2px solid var(--colors-secondary--500);
+}
+
+/* Yellow box style */
+.translate-box-yellow {
+  background-color: rgba(25, 26, 30, 0.85);
+  border: 1px solid var(--colors-tertiary--500);
+  border-left: 3px solid var(--colors-tertiary--500);
+  box-shadow: 0 0 15px rgba(254, 211, 63, 0.15);
+  padding: 1rem;
+}
+
+.translate-box-yellow::before, .translate-box-yellow::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.translate-box-yellow::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid var(--colors-tertiary--500);
+  border-left: 2px solid var(--colors-tertiary--500);
+}
+
+.translate-box-yellow::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid var(--colors-tertiary--500);
+  border-right: 2px solid var(--colors-tertiary--500);
+}
+
+/* Corner notch effect for boxes */
+.translate-with-notch {
+  position: relative;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--ui-notch-amount) + 2px),
+    calc(100% - var(--ui-notch-amount) + 2px) 100%,
+    0 100%
+  );
+}
+
+.translate-with-notch::before {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  right: -6px;
+  height: 3px;
+  transform: rotate(-45deg);
+  width: var(--ui-notch-hypotenuse);
+  z-index: 100;
+  background-color: currentColor;
+}

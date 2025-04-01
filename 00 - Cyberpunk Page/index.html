@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="cyberpunk_style.css">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ExtraScripts/expandingBoxes.css">
+  <link rel="stylesheet" href="ExtraScripts/cyberTranslation.css">
 </head>
 <body>
   <div class="app-skeleton">
@@ -42,7 +43,7 @@
           <!-- Navigation Menu - always below fixed area -->
           <div class="nav-section hidden" id="nav-section">
             <div class="nav-section__header">
-              <h2 class="nav-section__title">Quest Design</h2>
+              <h2 class="nav-section__title access-denied">Quest Design</h2>
             </div>
             <div class="nav-section__body">
               <ul class="nav">
@@ -365,65 +366,62 @@
           </div>
           
           <!-- Cyberware 2 -->
-          <div class="cyber-box cyber-box-blue" data-id="cyber-2">
-            <div class="cyber-box-corner"></div>
-            <div class="cyber-box-header">
-              <div>
-                <div class="cyber-box-subtitle">CYBERWARE//FRONTAL_CORTEX</div>
-                <h3 class="cyber-box-title">MIRROR BALANCE</h3>
+            <div class="cyber-box cyber-box-blue" data-id="cyber-2">
+              <div class="cyber-box-corner"></div>
+              <div class="cyber-box-header">
+                <div>
+                  <div class="cyber-box-subtitle"><span data-jp="サイバーウェア//前頭皮質" data-en="CYBERWARE//FRONTAL_CORTEX"></span></div>
+                  <h3 class="cyber-box-title"><span data-scramble="" data-scramble-mode="infinite">MIRR</span>OR <span class="redacted">EDGE</span></h3>
+                </div>
+                <div class="cyber-box-hint"><span data-jp="タップして展開" data-en="TAP TO EXPAND"></span></div>
               </div>
-              <div class="cyber-box-hint">TAP TO EXPAND</div>
-            </div>
-            
-            <div class="cyber-box-image">
-              <img src="Images/Cyberware/mirror-balance.png" alt="Mirror Balance System">
-            </div>
-            
-            <div class="cyber-box-scanlines"></div>
-            
-            <div class="cyber-box-expanded-content">
-              <div class="cyber-box-title-bar">
-                <h2>MIRROR BALANCE SYSTEM v8.4</h2>
-                <button class="cyber-box-close">[CLOSE]</button>
+  
+              <div class="cyber-box-image">
+                <img src="Images/Cyberware/mirror-balance.png" alt="Mirror Balance System">
               </div>
-              
-              <div class="cyber-data-section">
-                <div class="cyber-data-label">MANUFACTURER:</div>
-                <div class="cyber-data-value">Arasaka (Prototype)</div>
-                
-                <div class="cyber-data-label">CYBERWARE TYPE:</div>
-                <div class="cyber-data-value">Frontal Cortex Implant</div>
-                
-                <div class="cyber-data-grid">
-                  <div>
-                    <div class="cyber-data-label">EFFECTS:</div>
-                    <div class="cyber-data-bullet">Creates quantum entanglement field</div>
-                    <div class="cyber-data-bullet">Reflects 35% damage back to source</div>
-                    <div class="cyber-data-bullet">Reduces incoming damage by 20%</div>
+  
+              <div class="cyber-box-scanlines"></div>
+  
+              <div class="cyber-box-expanded-content cyber-translate translate-auto">
+                <div class="cyber-box-title-bar">
+                  <h2><span data-jp="ミラーエッジシステム v0.32" data-en="MIRROR EDGE SYSTEM v0.32"></span></h2>
+                  <button class="cyber-box-close">[<span data-jp="閉じる" data-en="CLOSE"></span>]</button>
+                </div>
+    
+                <div class="cyber-data-section">
+                  <div class="cyber-data-label"><span data-jp="製造元" data-en="MANUFACTURER"></span>:</div>
+                  <div class="cyber-data-value"><span data-jp="荒坂（プロトタイプ）" data-en="Arasaka (Prototype)"></span></div>
+      
+                  <div class="cyber-data-label"><span data-jp="サイバーウェアタイプ" data-en="CYBERWARE TYPE"></span>:</div>
+                  <div class="cyber-data-value"><span data-jp="前頭皮質インプラント" data-en="Frontal Cortex Implant"></span></div>
+      
+                  <div class="cyber-data-grid">
+                    <div>
+                      <div class="cyber-data-label"><span data-jp="効果" data-en="EFFECTS"></span>:</div>
+                      <div class="cyber-data-bullet"><span data-jp="指定されたHOSTからのダメージを全てのリンクされたUSERに100％反射します" data-en="Reflects 100% of damage from the designated HOST to all linked USERS."></span></div>
+                      <div class="cyber-data-bullet redacted">Reflects 100%</div>
+                      <div class="cyber-data-bullet redacted">Reflects 100%</div>
+                    </div>
+        
+                    <div>
+                      <div class="cyber-data-label"><span data-jp="欠陥" data-en="DEFECTS"></span>:</div>
+                      <div class="cyber-data-bullet redacted">Dont read this lol</div>
+                      <div class="cyber-data-bullet"><span data-jp="ネットワーク全体でHOSTの役割を継続的に再割り当てします" data-en="Continuously reassigns the HOST role across the network."></span></div>
+                      <div class="cyber-data-bullet redacted">DONT READ IT :(</div>
+                    </div>
                   </div>
-                  
-                  <div>
-                    <div class="cyber-data-label">REQUIREMENTS:</div>
-                    <div class="cyber-data-bullet">Intelligence: 18</div>
-                    <div class="cyber-data-bullet">Not commercially available</div>
-                    <div class="cyber-data-bullet">Experimental technology</div>
+      
+                  <div class="cyber-data-label"><span data-jp="ゲーム説明" data-en="GAME DESCRIPTION"></span>:</div>
+                  <div class="cyber-data-value">
+                    <span data-jp="荒坂の上級幹部によって委託された非常に不安定なプロトタイプ。動作範囲内の即時の脅威に対する比類のない保護を提供するように設計されています。しかし、重大なチップの誤動作により意図しないシステムオーバーライドが発生し、ネットワーク全体の標準USERに主要なHOSTの役割を再割り当てします。" data-en="A highly unstable prototype commissioned by senior Arasaka executives. Engineered to provide unparalleled protection against immediate threats within its operational range. However, a critical chip malfunction causes an unintended system override—reassigning the primary HOST role to standard USERS across the network."></span>
                   </div>
-                </div>
-                
-                <div class="cyber-data-label">GAME DESCRIPTION:</div>
-                <div class="cyber-data-value">
-                  Highly classified Arasaka prototype that creates a localized field of quantum
-                  entanglement, reflecting a portion of incoming damage back to attackers while
-                  simultaneously reducing damage to the user.
-                </div>
-                
-                <div class="cyber-data-warning">
-                  <strong>QUEST OBJECTIVE:</strong> Primary mission objective is to recover
-                  or destroy this experimental technology before it can be mass-produced.
+      
+                  <div class="cyber-data-warning">
+                    <strong><span data-jp="クエスト目標" data-en="QUEST OBJECTIVE"></span>:</strong> <span data-jp="主要ミッション目標は、この実験的技術を破壊し、" data-en="Primary mission objective is to destroy this experimental technology and indetify the "></span><span class="redacted">text</span>.
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
         </div>
         
         <!-- Row 3: Consumables (Blue Boxes) -->
@@ -634,5 +632,6 @@
   <script src="ExtraScripts/text-scramble.js"></script>
   <script src="ExtraScripts/mainContentSwitcher.js"></script>
   <script src="ExtraScripts/expandingBoxes.js"></script>
+  <script src="ExtraScripts/cyberTranslation.js"></script>
 </body>
 </html>
