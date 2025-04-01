@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just a moment...</title>
+    <title>Important Information</title>
     <style>
         body {
             margin: 0;
@@ -13,6 +13,7 @@
             align-items: center;
             height: 100vh;
             background-color: #000;
+            flex-direction: column;
         }
         .video-container {
             position: relative;
@@ -30,17 +31,80 @@
             height: 100%;
             border: 0;
         }
+        #start-button {
+            padding: 15px 30px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
-    <div class="video-container">
-        <iframe 
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-        </iframe>
+    <button id="start-button">CLICK HERE TO CONTINUE</button>
+    <div id="video-container" class="video-container hidden">
+        <!-- We'll inject the iframe here with JavaScript -->
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startButton = document.getElementById('start-button');
+            const videoContainer = document.getElementById('video-container');
+            
+            // First attempt - try auto-starting immediately (may not work)
+            attemptAutoplay();
+            
+            // Second approach - when the user clicks the button
+            startButton.addEventListener('click', function() {
+                startButton.classList.add('hidden');
+                videoContainer.classList.remove('hidden');
+                attemptAutoplay();
+            });
+            
+            // Attempt autoplay with multiple strategies
+            function attemptAutoplay() {
+                // Create the iframe with autoplay enabled
+                const iframe = document.createElement('iframe');
+                iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0";
+                iframe.title = "YouTube video player";
+                iframe.frameBorder = "0";
+                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                iframe.allowFullscreen = true;
+                
+                // Clear and add the iframe
+                videoContainer.innerHTML = '';
+                videoContainer.appendChild(iframe);
+                
+                // Try auto-clicking the YouTube player (may not work due to cross-origin)
+                setTimeout(function() {
+                    try {
+                        const youtubePlayer = iframe.contentWindow.document.querySelector('.ytp-large-play-button');
+                        if (youtubePlayer) {
+                            youtubePlayer.click();
+                        }
+                    } catch(e) {
+                        console.log('Could not auto-click YouTube player', e);
+                    }
+                }, 1000);
+            }
+            
+            // Attempt to play when user interacts with the page in any way
+            const userActions = ['click', 'touchstart', 'keydown', 'scroll'];
+            userActions.forEach(action => {
+                document.addEventListener(action, function onUserAction() {
+                    attemptAutoplay();
+                    // Remove this listener after first interaction
+                    userActions.forEach(a => document.removeEventListener(a, onUserAction));
+                }, { once: true });
+            });
+        });
+    </script>
 </body>
 </html>
