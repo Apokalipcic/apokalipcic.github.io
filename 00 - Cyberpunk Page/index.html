@@ -9,6 +9,7 @@
   <!-- Include existing stylesheets -->
   <link rel="stylesheet" href="cyberpunk_style.css">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ExtraScripts/expandingBoxes.css">
 </head>
 <body>
   <div class="app-skeleton">
@@ -52,7 +53,7 @@
                   <a href="#" class="nav__link dialog-trigger" data-section="quest-structure" data-dialog-group="quest-structure">Quest Structure</a>
                 </li>
                 <li class="nav__item">
-                  <a href="#" class="nav__link" data-section="core-loop">Main Core Loop</a>
+                  <a href="#" class="nav__link" data-section="game-items">Game Items</a>
                 </li>
               </ul>
             </div>
@@ -163,62 +164,397 @@
       </div>
     </section>
 
-    <!-- Main Core Loop Section -->
-    <section class="content-section" id="core-loop">
-      <div class="pad">
-        <div class="pad__body">
-          <h3 class="text-heading3">CORE GAMEPLAY LOOP</h3>
-          
-          <div class="text-paragraph1 mb-3 scanner-effect">
-            <span class="warning-text">PRIMARY ENGAGEMENT CYCLE</span>
+<!-- Game Items Section with Expanding Boxes -->
+<section class="content-section" id="game-items">
+  <div class="pad">
+    <div class="pad__body">
+      <h3 class="text-heading3">EQUIPMENT & LOOT DATABASE</h3>
+      
+      <!-- Row 1: Weapons (Red Boxes) -->
+      <div class="cyber-rows">
+        <div class="cyber-row">
+          <!-- Weapon 1 -->
+          <div class="cyber-box cyber-box-red" data-id="weapon-1">
+            <!-- Corner cutout -->
+            <div class="cyber-box-corner"></div>
+            
+            <!-- Box header (visible when collapsed) -->
+            <div class="cyber-box-header">
+              <div>
+                <div class="cyber-box-subtitle">WEAPON//PISTOL</div>
+                <h3 class="cyber-box-title">UNITY</h3>
+              </div>
+              <div class="cyber-box-hint">TAP TO EXPAND</div>
+            </div>
+            
+            <!-- Optional image -->
+            <div class="cyber-box-image">
+              <img src="Images/Weapons/unity-pistol.png" alt="Unity Pistol">
+            </div>
+            
+            <!-- Scanlines effect -->
+            <div class="cyber-box-scanlines"></div>
+            
+            <!-- Expanded view content -->
+            <div class="cyber-box-expanded-content">
+              <!-- Title bar (visible when expanded) -->
+              <div class="cyber-box-title-bar">
+                <h2>UNITY PISTOL</h2>
+                <button class="cyber-box-close">[CLOSE]</button>
+              </div>
+              
+              <div class="cyber-data-section">
+                <div class="cyber-data-label">MANUFACTURER:</div>
+                <div class="cyber-data-value">Militech</div>
+                
+                <div class="cyber-data-label">WEAPON TYPE:</div>
+                <div class="cyber-data-value">Pistol / Handgun</div>
+                
+                <div class="cyber-data-grid">
+                  <div>
+                    <div class="cyber-data-label">DAMAGE STATS:</div>
+                    <div class="cyber-data-bullet">Physical Damage: 85-105</div>
+                    <div class="cyber-data-bullet">Critical Chance: 15%</div>
+                    <div class="cyber-data-bullet">Headshot Multiplier: x2.5</div>
+                  </div>
+                  
+                  <div>
+                    <div class="cyber-data-label">TECHNICAL SPECS:</div>
+                    <div class="cyber-data-bullet">Magazine Size: 12</div>
+                    <div class="cyber-data-bullet">Rate of Fire: Semi-Auto</div>
+                    <div class="cyber-data-bullet">Reload Time: 1.5s</div>
+                  </div>
+                </div>
+                
+                <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                <div class="cyber-data-value">
+                  The Unity is standard-issue for NCPD officers and Militech security personnel. 
+                  Reliable, sturdy, and packs a punch without draining your wallet.
+                </div>
+                
+                <div class="cyber-data-warning">
+                  <strong>QUEST NOTE:</strong> A modified Unity with silencer can be found in
+                  the Watson warehouse armory during "The Ghost in the Machine" mission.
+                </div>
+              </div>
+            </div>
           </div>
           
-          <p class="text-paragraph1 mb-3">
-            1. <span class="glitch-text">INFORMATION GATHERING</span>
-            <br>
-            • Access <span class="terminal-typing">environmental clues</span> and computer terminals
-            <br>
-            • Scan for <span class="corrupted" data-text="datashards">datashards</span> containing facility information
-            <br>
-            • Engage with <span class="redacted-flicker">rogue AI fragments</span> for intel
-          </p>
-          
-          <p class="text-paragraph1 mb-3">
-            2. <span class="glitch-text">TACTICAL DECISIONS</span>
-            <br>
-            • Choose between <span class="access-granted">stealth</span>, <span class="access-granted">hacking</span>, or <span class="access-denied">combat</span> approaches
-            <br>
-            • Modify environment using <span class="corrupted" data-text="quickhacks">quickhacks</span> on connected devices
-            <br>
-            • <span class="warning-text">CAUTION: Security response increases with detection level</span>
-          </p>
-          
-          <p class="text-paragraph1 mb-3">
-            3. <span class="glitch-text">PROGRESSION & REWARDS</span>
-            <br>
-            • Unlock new areas by <span class="terminal-typing">hacking security protocols</span>
-            <br>
-            • Discover <span class="redacted">experimental cyberware fragments</span> for temporary abilities
-            <br>
-            • Dialogue choices affect <span class="corrupted" data-text="AI disposition">AI disposition</span> and mission outcomes
-          </p>
-          
-          <div class="text-paragraph1 mb-3">
-            <span class="warning-text warning-scroll">PLAYER RETENTION LOOP: Exploration → Discovery → Skill Application → Narrative Progression → Choice Consequences</span>
+          <!-- Weapon 2 -->
+          <div class="cyber-box cyber-box-red" data-id="weapon-2">
+            <div class="cyber-box-corner"></div>
+            <div class="cyber-box-header">
+              <div>
+                <div class="cyber-box-subtitle">WEAPON//RIFLE</div>
+                <h3 class="cyber-box-title">NEKOMATA</h3>
+              </div>
+              <div class="cyber-box-hint">TAP TO EXPAND</div>
+            </div>
+            
+            <div class="cyber-box-image">
+              <img src="Images/Weapons/nekomata-rifle.png" alt="Nekomata Sniper Rifle">
+            </div>
+            
+            <div class="cyber-box-scanlines"></div>
+            
+            <div class="cyber-box-expanded-content">
+              <div class="cyber-box-title-bar">
+                <h2>NEKOMATA SNIPER RIFLE</h2>
+                <button class="cyber-box-close">[CLOSE]</button>
+              </div>
+              
+              <div class="cyber-data-section">
+                <div class="cyber-data-label">MANUFACTURER:</div>
+                <div class="cyber-data-value">Tsunami Defense Systems</div>
+                
+                <div class="cyber-data-label">WEAPON TYPE:</div>
+                <div class="cyber-data-value">Tech Sniper Rifle</div>
+                
+                <div class="cyber-data-grid">
+                  <div>
+                    <div class="cyber-data-label">DAMAGE STATS:</div>
+                    <div class="cyber-data-bullet">Physical Damage: 250-320</div>
+                    <div class="cyber-data-bullet">Charge Multiplier: x3.5</div>
+                    <div class="cyber-data-bullet">Critical Chance: 25%</div>
+                  </div>
+                  
+                  <div>
+                    <div class="cyber-data-label">TECHNICAL SPECS:</div>
+                    <div class="cyber-data-bullet">Magazine Size: 4</div>
+                    <div class="cyber-data-bullet">Wall Penetration: Yes</div>
+                    <div class="cyber-data-bullet">Reload Time: 3.2s</div>
+                  </div>
+                </div>
+                
+                <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                <div class="cyber-data-value">
+                  Tsunami's Nekomata delivers devastating power at extreme ranges. Its tech-based 
+                  charging system allows rounds to penetrate cover, hitting targets who think they're safe.
+                </div>
+                
+                <div class="cyber-data-warning">
+                  <strong>QUEST NOTE:</strong> An Arasaka security specialist armed with a rare
+                  "Black Lotus" Nekomata variant patrols the warehouse roof.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Row 2: Cyberware (Blue Boxes) -->
+        <div class="cyber-row">
+          <!-- Cyberware 1 -->
+          <div class="cyber-box cyber-box-blue" data-id="cyber-1">
+            <div class="cyber-box-corner"></div>
+            <div class="cyber-box-header">
+              <div>
+                <div class="cyber-box-subtitle">CYBERWARE//OPERATING_SYSTEM</div>
+                <h3 class="cyber-box-title">SANDEVISTAN</h3>
+              </div>
+              <div class="cyber-box-hint">TAP TO EXPAND</div>
+            </div>
+            
+            <div class="cyber-box-image">
+              <img src="Images/Cyberware/sandevistan.png" alt="Sandevistan Operating System">
+            </div>
+            
+            <div class="cyber-box-scanlines"></div>
+            
+            <div class="cyber-box-expanded-content">
+              <div class="cyber-box-title-bar">
+                <h2>SANDEVISTAN MK.4</h2>
+                <button class="cyber-box-close">[CLOSE]</button>
+              </div>
+              
+              <div class="cyber-data-section">
+                <div class="cyber-data-label">MANUFACTURER:</div>
+                <div class="cyber-data-value">Zetatech</div>
+                
+                <div class="cyber-data-label">CYBERWARE TYPE:</div>
+                <div class="cyber-data-value">Operating System</div>
+                
+                <div class="cyber-data-grid">
+                  <div>
+                    <div class="cyber-data-label">EFFECTS:</div>
+                    <div class="cyber-data-bullet">Slows time by 75%</div>
+                    <div class="cyber-data-bullet">Duration: 8 seconds</div>
+                    <div class="cyber-data-bullet">Cooldown: 15 seconds</div>
+                  </div>
+                  
+                  <div>
+                    <div class="cyber-data-label">REQUIREMENTS:</div>
+                    <div class="cyber-data-bullet">Reflexes: 15</div>
+                    <div class="cyber-data-bullet">Street Cred: 20</div>
+                    <div class="cyber-data-bullet">Ripperdoc Certification</div>
+                  </div>
+                </div>
+                
+                <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                <div class="cyber-data-value">
+                  Zetatech's Sandevistan alters the user's perception of time, creating a
+                  temporary state where everything around them appears to move in slow motion.
+                  Perfect for combat situations requiring superhuman reflexes.
+                </div>
+                
+                <div class="cyber-data-warning">
+                  <strong>QUEST NOTE:</strong> Prototype records in the warehouse suggest
+                  Project Chimera incorporates a modified Sandevistan with no cooldown period.
+                </div>
+              </div>
+            </div>
           </div>
           
-          <p class="text-paragraph1 mb-3">
-            The mission features a <span class="redacted-flicker">hidden time constraint</span> that affects:
-            <br>
-            • AI behavior patterns
-            <br>
-            • Available exit strategies
-            <br>
-            • Final reward quality
-          </p>
+          <!-- Cyberware 2 -->
+          <div class="cyber-box cyber-box-blue" data-id="cyber-2">
+            <div class="cyber-box-corner"></div>
+            <div class="cyber-box-header">
+              <div>
+                <div class="cyber-box-subtitle">CYBERWARE//FRONTAL_CORTEX</div>
+                <h3 class="cyber-box-title">MIRROR BALANCE</h3>
+              </div>
+              <div class="cyber-box-hint">TAP TO EXPAND</div>
+            </div>
+            
+            <div class="cyber-box-image">
+              <img src="Images/Cyberware/mirror-balance.png" alt="Mirror Balance System">
+            </div>
+            
+            <div class="cyber-box-scanlines"></div>
+            
+            <div class="cyber-box-expanded-content">
+              <div class="cyber-box-title-bar">
+                <h2>MIRROR BALANCE SYSTEM v8.4</h2>
+                <button class="cyber-box-close">[CLOSE]</button>
+              </div>
+              
+              <div class="cyber-data-section">
+                <div class="cyber-data-label">MANUFACTURER:</div>
+                <div class="cyber-data-value">Arasaka (Prototype)</div>
+                
+                <div class="cyber-data-label">CYBERWARE TYPE:</div>
+                <div class="cyber-data-value">Frontal Cortex Implant</div>
+                
+                <div class="cyber-data-grid">
+                  <div>
+                    <div class="cyber-data-label">EFFECTS:</div>
+                    <div class="cyber-data-bullet">Creates quantum entanglement field</div>
+                    <div class="cyber-data-bullet">Reflects 35% damage back to source</div>
+                    <div class="cyber-data-bullet">Reduces incoming damage by 20%</div>
+                  </div>
+                  
+                  <div>
+                    <div class="cyber-data-label">REQUIREMENTS:</div>
+                    <div class="cyber-data-bullet">Intelligence: 18</div>
+                    <div class="cyber-data-bullet">Not commercially available</div>
+                    <div class="cyber-data-bullet">Experimental technology</div>
+                  </div>
+                </div>
+                
+                <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                <div class="cyber-data-value">
+                  Highly classified Arasaka prototype that creates a localized field of quantum
+                  entanglement, reflecting a portion of incoming damage back to attackers while
+                  simultaneously reducing damage to the user.
+                </div>
+                
+                <div class="cyber-data-warning">
+                  <strong>QUEST OBJECTIVE:</strong> Primary mission objective is to recover
+                  or destroy this experimental technology before it can be mass-produced.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Row 3: Consumables (Blue Boxes) -->
+        <div class="cyber-row">
+          <!-- Consumable 1 -->
+          <div class="cyber-box cyber-box-blue" data-id="consumable-1">
+            <div class="cyber-box-corner"></div>
+            <div class="cyber-box-header">
+              <div>
+                <div class="cyber-box-subtitle">CONSUMABLE//COMBAT_BOOSTER</div>
+                <h3 class="cyber-box-title">REFLEX BOOSTER</h3>
+              </div>
+              <div class="cyber-box-hint">TAP TO EXPAND</div>
+            </div>
+            
+            <div class="cyber-box-image">
+              <img src="Images/Items/reflex-booster.png" alt="Reflex Booster">
+            </div>
+            
+            <div class="cyber-box-scanlines"></div>
+            
+            <div class="cyber-box-expanded-content">
+              <div class="cyber-box-title-bar">
+                <h2>MILITECH REFLEX BOOSTER</h2>
+                <button class="cyber-box-close">[CLOSE]</button>
+              </div>
+              
+              <div class="cyber-data-section">
+                <div class="cyber-data-label">MANUFACTURER:</div>
+                <div class="cyber-data-value">Militech</div>
+                
+                <div class="cyber-data-label">ITEM TYPE:</div>
+                <div class="cyber-data-value">Combat Booster (Consumable)</div>
+                
+                <div class="cyber-data-grid">
+                  <div>
+                    <div class="cyber-data-label">EFFECTS:</div>
+                    <div class="cyber-data-bullet">+30% Reflexes for 4 minutes</div>
+                    <div class="cyber-data-bullet">+15% Attack Speed</div>
+                    <div class="cyber-data-bullet">+25% Evasion</div>
+                  </div>
+                  
+                  <div>
+                    <div class="cyber-data-label">SIDE EFFECTS:</div>
+                    <div class="cyber-data-bullet">-10% Health Regen</div>
+                    <div class="cyber-data-bullet">15% chance of minor cyberware glitch</div>
+                    <div class="cyber-data-bullet">Addiction risk: Moderate</div>
+                  </div>
+                </div>
+                
+                <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                <div class="cyber-data-value">
+                  Military-grade injectable chemical compound that temporarily enhances reflexes
+                  and neural response time. Popular with solos who need an edge in high-risk combat
+                  situations. Black market versions often contain unpredictable additives.
+                </div>
+                
+                <div class="cyber-data-warning">
+                  <strong>QUEST NOTE:</strong> Security footage shows the rogue AI monitoring
+                  warehouse staff who were required to take regular doses of these boosters.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Consumable 2 -->
+          <div class="cyber-box cyber-box-blue" data-id="consumable-2">
+            <div class="cyber-box-corner"></div>
+            <div class="cyber-box-header">
+              <div>
+                <div class="cyber-box-subtitle">CONSUMABLE//MEMORY_BOOSTER</div>
+                <h3 class="cyber-box-title">NEURALINK</h3>
+              </div>
+              <div class="cyber-box-hint">TAP TO EXPAND</div>
+            </div>
+            
+            <div class="cyber-box-image">
+              <img src="Images/Items/neuralink.png" alt="Neuralink Memory Booster">
+            </div>
+            
+            <div class="cyber-box-scanlines"></div>
+            
+            <div class="cyber-box-expanded-content">
+              <div class="cyber-box-title-bar">
+                <h2>ARASAKA NEURALINK</h2>
+                <button class="cyber-box-close">[CLOSE]</button>
+              </div>
+              
+              <div class="cyber-data-section">
+                <div class="cyber-data-label">MANUFACTURER:</div>
+                <div class="cyber-data-value">Arasaka</div>
+                
+                <div class="cyber-data-label">ITEM TYPE:</div>
+                <div class="cyber-data-value">Memory Booster (Consumable)</div>
+                
+                <div class="cyber-data-grid">
+                  <div>
+                    <div class="cyber-data-label">EFFECTS:</div>
+                    <div class="cyber-data-bullet">+40% RAM Recovery for 6 minutes</div>
+                    <div class="cyber-data-bullet">+25% Quickhack damage</div>
+                    <div class="cyber-data-bullet">+2 RAM capacity</div>
+                  </div>
+                  
+                  <div>
+                    <div class="cyber-data-label">SIDE EFFECTS:</div>
+                    <div class="cyber-data-bullet">-15% Physical damage dealt</div>
+                    <div class="cyber-data-bullet">Increased vulnerability to enemy quickhacks</div>
+                    <div class="cyber-data-bullet">Addiction risk: High</div>
+                  </div>
+                </div>
+                
+                <div class="cyber-data-label">GAME DESCRIPTION:</div>
+                <div class="cyber-data-value">
+                  Highly regulated neural stimulant designed for Netrunners and Arasaka cybersecurity
+                  specialists. Temporarily increases neural processing efficiency and cyberdeck performance
+                  at the cost of reduced physical capabilities.
+                </div>
+                
+                <div class="cyber-data-warning">
+                  <strong>QUEST NOTE:</strong> Lab records indicate Project Chimera researchers
+                  were experimenting with a permanent version of this formula, resulting in
+                  several fatalities due to neural overload.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
   </div>
 </div>
 
@@ -283,7 +619,7 @@
   <div class="fade-overlay"></div>
 
   <!-- Dialog data (hidden) -->
-  <div class="dialog-data" data-dialog-group="regina-intro" data-speaker="REGINA JONES"
+  <div class="dialog-data" data-dialog-group="regina-intro-" data-speaker="REGINA JONES"
     data-audio="Audio/Dialogues/Regina Johnes/Regina_Johnes_Intro.wav">
     V, I need someone with your particular skill set for a job. Interested?
   </div>
@@ -297,5 +633,6 @@
   <script src="script.js"></script>
   <script src="ExtraScripts/text-scramble.js"></script>
   <script src="ExtraScripts/mainContentSwitcher.js"></script>
+  <script src="ExtraScripts/expandingBoxes.js"></script>
 </body>
 </html>
