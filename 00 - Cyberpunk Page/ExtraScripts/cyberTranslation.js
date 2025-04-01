@@ -112,6 +112,9 @@ class CyberTranslation {
     
     this.containers.push(containerData);
     
+    // Ensure all translatable elements display Japanese text initially
+    this.ensureInitialContent(containerData);
+    
     // Add appropriate event handlers based on mode
     if (mode === 'hover') {
       container.addEventListener('mouseenter', () => this.startTranslation(containerData, false));
@@ -120,6 +123,7 @@ class CyberTranslation {
       container.addEventListener('click', () => this.startTranslation(containerData, true));
     } else if (mode === 'auto') {
       // Set a timeout to start the auto translation
+      // First display Japanese text, then after a delay start translation
       setTimeout(() => {
         this.startAutoTranslation(containerData);
       }, this.config.auto.initialDelay);
@@ -133,6 +137,30 @@ class CyberTranslation {
     if (this.config.debug) {
       console.log(`Container setup: Mode: ${mode}, Translatables: ${translatables.length}`);
     }
+  }
+  
+  // Ensure all translatable elements have visible Japanese content initially
+  ensureInitialContent(containerData) {
+    containerData.translatables.forEach(item => {
+      // Set initial content to Japanese text
+      if (item.element.innerHTML === '' || item.element.innerHTML !== item.japanese) {
+        item.element.innerHTML = item.japanese;
+      }
+      
+      // Make sure it's visible
+      item.element.style.opacity = '1';
+      
+      // Add Japanese text class
+      item.element.classList.add(this.config.classes.japanese);
+      
+      // Remove any translated indicators if they exist
+      item.element.removeAttribute('data-translated');
+      item.element.classList.remove('translated-text');
+      
+      // Reset custom styling
+      item.element.style.color = '';
+      item.element.style.textShadow = '';
+    });
   }
   
   // Find all elements with translation data
@@ -215,54 +243,63 @@ class CyberTranslation {
   
   // Translate a single element
   translateElement(element, japanese, english) {
-    // If the element has innerHTML, we update it
-    if (element.innerHTML === japanese) {
-      element.innerHTML = english;
-    }
-    // Otherwise, set a custom attribute to indicate it's translated
+    // Update content
+    element.innerHTML = english;
+    
+    // Set a custom attribute to indicate it's translated
     element.setAttribute('data-translated', 'true');
     
-    // Add translated class
-    element.classList.add('translated-text');
+    // Update classes
+    element.classList.remove(this.config.classes.japanese);
+    element.classList.add('translated-text', this.config.classes.english);
     
-    // Apply custom translation CSS if needed
+    // Apply custom translation CSS
     element.style.color = 'var(--colors-tertiary--500)';
     element.style.textShadow = '0 0 5px rgba(254, 211, 63, 0.3)';
+    element.style.opacity = '1';
   }
   
   // Revert a single element to Japanese
   revertElement(element, japanese) {
-    // If the element had its innerHTML updated, revert it
-    if (element.getAttribute('data-translated') === 'true') {
-      element.innerHTML = japanese;
-    }
+    // Update content
+    element.innerHTML = japanese;
     
     // Remove translated indicator
     element.removeAttribute('data-translated');
-    element.classList.remove('translated-text');
+    
+    // Update classes
+    element.classList.remove('translated-text', this.config.classes.english);
+    element.classList.add(this.config.classes.japanese);
     
     // Remove custom styling
     element.style.color = '';
     element.style.textShadow = '';
+    element.style.opacity = '1';
   }
   
   // Start auto translation with typewriter effect
   startAutoTranslation(containerData) {
-    containerData.isTranslating = true;
-    containerData.element.classList.add(this.config.classes.translating);
+    // First ensure Japanese text is visible
+    this.ensureInitialContent(containerData);
     
-    // Apply glitch effect
-    this.applyGlitchEffect(containerData.element);
-    
-    // Use typewriter effect if available in main script
-    if (this.config.auto.useTypewriter && typeof typeWriter === 'function') {
-      this.autoTranslateWithTypewriter(containerData);
-    } else {
-      this.autoTranslateBasic(containerData);
-    }
-    
-    containerData.isTranslated = true;
-    containerData.element.classList.add(this.config.classes.translated);
+    // Add a small delay to let the user see the Japanese text
+    setTimeout(() => {
+      containerData.isTranslating = true;
+      containerData.element.classList.add(this.config.classes.translating);
+      
+      // Apply glitch effect
+      this.applyGlitchEffect(containerData.element);
+      
+      // Use typewriter effect if available in main script
+      if (this.config.auto.useTypewriter && typeof typeWriter === 'function') {
+        this.autoTranslateWithTypewriter(containerData);
+      } else {
+        this.autoTranslateBasic(containerData);
+      }
+      
+      containerData.isTranslated = true;
+      containerData.element.classList.add(this.config.classes.translated);
+    }, 1500); // Delay to let user see Japanese text
   }
   
   // Auto translate with typewriter effect from main script
@@ -280,18 +317,28 @@ class CyberTranslation {
       const item = containerData.translatables[currentIndex];
       const el = item.element;
       
-      // Prepare for typewriter
+      // Apply glitch effect to this element
+      this.applyGlitchEffect(el);
+      
+      // Prepare for typewriter - clear content
       el.innerHTML = '';
       
-      // Use the typewriter function from main script
-      typeWriter(el, item.english, 0, this.config.auto.charDelay, () => {
-        // Mark as translated
-        item.isTranslated = true;
-        
-        // Move to next element
-        currentIndex++;
-        setTimeout(processNext, 300);
-      });
+      // Set a small delay to let the glitch effect finish
+      setTimeout(() => {
+        // Use the typewriter function from main script
+        typeWriter(el, item.english, 0, this.config.auto.charDelay, () => {
+          // Mark as translated
+          item.isTranslated = true;
+          el.classList.add('translated-text', this.config.classes.english);
+          el.classList.remove(this.config.classes.japanese);
+          el.style.color = 'var(--colors-tertiary--500)';
+          el.style.textShadow = '0 0 5px rgba(254, 211, 63, 0.3)';
+          
+          // Move to next element
+          currentIndex++;
+          setTimeout(processNext, 300);
+        });
+      }, this.config.glitch.duration);
     };
     
     // Start the sequence
@@ -381,6 +428,7 @@ class CyberTranslation {
     
     // Default to showing Japanese text
     element.textContent = japanese;
+    element.classList.add(this.config.classes.japanese);
     
     return element;
   }

@@ -8,6 +8,7 @@
   position: relative;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   overflow: visible;
+  cursor: pointer;
 }
 
 /* Container mode styles */
@@ -151,6 +152,20 @@
   color: var(--colors-secondary--500);
   transition: all 0.3s ease;
   border-bottom: 1px dashed rgba(43, 228, 234, 0.3);
+  opacity: 1; /* Ensure initial visibility */
+}
+
+/* Japanese text (initial state) */
+.jp-text {
+  color: var(--colors-secondary--500);
+  opacity: 1; /* Ensure initial visibility */
+}
+
+/* English text (translated state) */
+.en-text {
+  color: var(--colors-tertiary--500);
+  text-shadow: 0 0 5px rgba(254, 211, 63, 0.3);
+  opacity: 1;
 }
 
 /* Glitch effect for text elements */
@@ -171,6 +186,7 @@
   color: var(--colors-tertiary--500) !important;
   text-shadow: 0 0 5px rgba(254, 211, 63, 0.3);
   border-bottom: 1px solid rgba(254, 211, 63, 0.5) !important;
+  opacity: 1; /* Ensure visibility during translated state */
 }
 
 /* Click mode prompt */
