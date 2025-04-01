@@ -241,7 +241,7 @@ function typeWriter(element, text, i, speed, callback) {
   }
 }
 
-// Function to type HTML content (breaks it into nodes and types each)
+// Function to handle typewriting HTML content
 function typeWriterHTML(element, html, duration) {
   // Create a temporary container
   const temp = document.createElement('div');
@@ -270,7 +270,7 @@ function typeWriterHTML(element, html, duration) {
       element.appendChild(clone);
       
       // If it has special classes, initialize its effects later
-      const hasEffects = Array.from(node.classList).some(cls => 
+      const hasEffects = Array.from(node.classList || []).some(cls => 
         ['glitch-text', 'typewriter', 'scanner', 'redacted'].includes(cls));
       
       if (node.childNodes.length > 0) {
@@ -670,6 +670,31 @@ function initDialogSystem() {
   });
 }
 
+function ensureDialogElementsVisible() {
+  const dialogSpeaker = document.querySelector('.dialog-speaker');
+  const dialogText = document.querySelector('.dialog-text');
+  
+  // Check if elements are currently faded out
+  if (dialogSpeaker.style.opacity === '0' || dialogText.style.opacity === '0') {
+    // Apply transition for smooth fade-in
+    dialogSpeaker.style.transition = 'opacity 0.5s ease-in-out';
+    dialogText.style.transition = 'opacity 0.5s ease-in-out';
+    
+    // Apply glitch effect if available
+    if (typeof applyGlitch === 'function') {
+      // Create a container for the glitch effect
+      const dialogContainer = document.querySelector('.dialog-container');
+      if (dialogContainer) {
+        applyGlitch(dialogContainer, 400);
+      }
+    }
+    
+    // Fade in
+    dialogSpeaker.style.opacity = '1';
+    dialogText.style.opacity = '1';
+  }
+}
+
 function playDialogSequence(dialogGroupName) {
   const dialogs = document.querySelectorAll(`.dialog-data[data-dialog-group="${dialogGroupName}"]`);
   const dialogSpeaker = document.querySelector('.dialog-speaker');
@@ -683,39 +708,43 @@ function playDialogSequence(dialogGroupName) {
     function displayDialog() {
       if (currentIndex >= dialogs.length) {
         // All dialogs complete - dispatch an event we can listen for
-        document.dispatchEvent(new CustomEvent('dialogSequenceComplete', {
-          detail: { dialogGroup: dialogGroupName }
-        }));
+        // Hide dialog elements with a fade-out effect when sequence completes
+        fadeOutDialogFooter().then(() => {
+          // Dispatch event after fade-out completes
+          document.dispatchEvent(new CustomEvent('dialogSequenceComplete', {
+            detail: { dialogGroup: dialogGroupName }
+          }));
+        });
         return;
       }
+
+    ensureDialogElementsVisible();
+
       
       const dialog = dialogs[currentIndex];
       const speaker = dialog.getAttribute('data-speaker');
-      const text = dialog.innerHTML.trim(); // Use innerHTML instead of textContent
+      const text = dialog.innerHTML.trim(); // Use innerHTML to preserve HTML tags
       const duration = parseInt(dialog.getAttribute('data-duration')) || DIALOG_CONFIG.defaultDuration;
-      const useTypewriter = dialog.hasAttribute('data-typewriter');
+      
+      // Get custom typewriter speed if specified, otherwise use default
+      const typewriterSpeed = parseInt(dialog.getAttribute('data-typewriter-speed')) || 30;
       
       // Update active call indicator with current speaker
       updateActiveCallIndicator(speaker);
       
-      // Update dialog content
+      // Update dialog speaker immediately
       dialogSpeaker.textContent = speaker + ':';
       
-      // Apply typewriter effect if needed
-      if (useTypewriter) {
-        dialogText.innerHTML = ''; // Clear using innerHTML
-        if (text.includes('<')) {
-          // Complex content with HTML
-          typeWriterHTML(dialogText, text, duration);
-        } else {
-          // Simple text content
-          typeWriter(dialogText, text, 0, parseInt(dialog.getAttribute('data-typewriter-speed')) || 30);
-        }
+      // Clear dialog text area
+      dialogText.innerHTML = '';
+      
+      // Apply typewriter effect based on content complexity
+      if (text.includes('<')) {
+        // Complex content with HTML tags
+        typeWriterHTML(dialogText, text, duration);
       } else {
-        dialogText.innerHTML = text; // Set using innerHTML
-        
-        // Initialize any effect elements inside the dialog
-        initEffectsInElement(dialogText);
+        // Simple text content
+        typeWriter(dialogText, text, 0, typewriterSpeed);
       }
       
       // Apply glitch if requested for the whole dialog
@@ -771,7 +800,11 @@ function playDialogSequence(dialogGroupName) {
           }, waitTime);
         });
       } else {
-        // No audio - move to next dialog after duration
+        // No audio - calculate appropriate wait time based on text length for typewriter effect
+        const textLength = text.replace(/<[^>]*>/g, '').length; // Remove HTML tags for length calculation
+        waitTime = Math.max(textLength * typewriterSpeed + 1000, duration); // Minimum duration + extra time
+        
+        // Move to next dialog after waiting
         setTimeout(() => {
           currentIndex++;
           displayDialog();
@@ -793,7 +826,46 @@ function playDialogSequence(dialogGroupName) {
     });
   }
   
-  return Promise.resolve(); // Return resolved promise if no dialogs
+  // Function to fade out dialog footer elements
+function fadeOutDialogFooter() {
+  const dialogSpeaker = document.querySelector('.dialog-speaker');
+  const dialogText = document.querySelector('.dialog-text');
+  
+  // Return a promise that resolves when the fade-out is complete
+  return new Promise((resolve) => {
+    // Apply transition properties if not already set
+    dialogSpeaker.style.transition = 'opacity 0.8s ease-in-out';
+    dialogText.style.transition = 'opacity 0.8s ease-in-out';
+    
+    // Trigger a glitch effect if available
+    if (typeof applyGlitch === 'function') {
+      applyGlitch(dialogText, 500);
+      
+      // Small delay before starting fade out
+      setTimeout(() => {
+        // Start fade out
+        dialogSpeaker.style.opacity = '0';
+        dialogText.style.opacity = '0';
+        
+        // Wait for transition to complete before resolving
+        setTimeout(() => {
+          resolve();
+        }, 800);
+      }, 300);
+    } else {
+      // Fallback if glitch function isn't available
+      dialogSpeaker.style.opacity = '0';
+      dialogText.style.opacity = '0';
+      
+      // Wait for transition to complete
+      setTimeout(() => {
+        resolve();
+      }, 800);
+    }
+  });
+}
+
+return Promise.resolve(); // Return resolved promise if no dialogs
 }
 
 // Function to stop any playing dialog audio (useful when transitioning between sections)
