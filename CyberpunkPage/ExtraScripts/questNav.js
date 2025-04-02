@@ -1,6 +1,6 @@
-/* questNavigation.js - Cyberpunk Quest Navigation System
- * Handles Quest Structure, Gameplay Loop, and Map Carousel functionality
- * Uses existing effects and functions from main script.js
+/* questNav.js - Enhanced Cyberpunk Quest Navigation System
+ * Focuses on map carousel functionality with improved responsiveness
+ * and better error handling
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -10,8 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Configuration for quest navigation
 const QUEST_NAV_CONFIG = {
-    carouselAutoplayInterval: 6000, // Time between auto-advancing slides
-    loopCycleInterval: 5000        // Time between auto-cycling gameplay stages
+    carouselAutoplayInterval: 6000,    // Time between auto-advancing slides (ms)
+    transitionSpeed: 500,              // Transition speed for slides (ms)
+    loopCycleInterval: 5000,           // Time between auto-cycling gameplay stages
+    glitchProbability: 0.2,            // Probability of random glitch effect (0-1)
+    glitchDuration: 300                // Duration of glitch effect (ms)
 };
 
 /**
@@ -27,8 +30,11 @@ function initQuestNavigation() {
     // Initialize gameplay loop animation
     initGameplayLoop();
 
-    // Initialize map carousel
+    // Initialize map carousel - focus on this component
     initMapCarousel();
+
+    // Add periodic random glitch effects for cyberpunk feel
+    initRandomGlitches();
 }
 
 /**
@@ -46,6 +52,7 @@ function initQuestTabs() {
 
             // Get target section from data attribute
             const targetSection = this.getAttribute('data-section');
+            if (!targetSection) return;
 
             // Remove active class from all tabs and sections
             tabLinks.forEach(t => t.classList.remove('active'));
@@ -94,7 +101,6 @@ function initQuestTabs() {
  */
 function initQuestStructure() {
     const mainNodes = document.querySelectorAll('.quest-node-main');
-
     if (mainNodes.length === 0) return;
 
     // Add click event to each main node
@@ -186,99 +192,126 @@ function initGameplayLoop() {
 }
 
 /**
- * Initialize map carousel with controls
- */
-/**
- * Initialize map carousel with controls
+ * Enhanced map carousel with improved functionality
  */
 function initMapCarousel() {
     const carousel = document.querySelector('.carousel-wrapper');
-    if (!carousel) return;
+    if (!carousel) {
+        console.warn('Carousel wrapper not found');
+        return;
+    }
 
     const track = carousel.querySelector('.carousel-track');
+    if (!track) {
+        console.warn('Carousel track not found');
+        return;
+    }
+
     const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+    if (slides.length === 0) {
+        console.warn('No carousel slides found');
+        return;
+    }
+
     const nextButton = carousel.querySelector('.carousel-button-next');
     const prevButton = carousel.querySelector('.carousel-button-prev');
-    const indicators = Array.from(carousel.querySelectorAll('.carousel-indicator'));
+    const indicators = Array.from(document.querySelectorAll('.carousel-indicator'));
 
-    if (!track || slides.length === 0) return;
-
+    // Carousel state
     let currentIndex = 0;
     let autoplayInterval;
+    let isDragging = false;
+    let startPosX = 0;
+    let currentTranslateX = 0;
     let slideWidth = carousel.getBoundingClientRect().width;
+    let animationFrameId = null;
 
-    // Initialize carousel position
-    function setCarouselPosition() {
-        // Update the track position
-        track.style.transform = `translateX(${-slideWidth * currentIndex}px)`;
+    // For touch events
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    /**
+     * Set carousel position based on current index
+     */
+    function setCarouselPosition(animate = true) {
+        if (!track) return;
+
+        const translateValue = -slideWidth * currentIndex;
+
+        if (animate) {
+            track.style.transition = `transform ${QUEST_NAV_CONFIG.transitionSpeed}ms cubic-bezier(0.25, 1, 0.5, 1)`;
+        } else {
+            track.style.transition = 'none';
+        }
+
+        track.style.transform = `translateX(${translateValue}px)`;
 
         // Update active states for slides
         slides.forEach((slide, index) => {
-            if (index === currentIndex) {
-                slide.classList.add('active');
-            } else {
-                slide.classList.remove('active');
+            slide.classList.toggle('active', index === currentIndex);
+
+            // Apply random glitch effect to active slide sometimes
+            if (index === currentIndex && Math.random() < QUEST_NAV_CONFIG.glitchProbability) {
+                if (typeof glitchElement === 'function') {
+                    glitchElement(slide, QUEST_NAV_CONFIG.glitchDuration);
+                }
             }
         });
 
         // Update active states for indicators
         indicators.forEach((indicator, index) => {
-            if (index === currentIndex) {
-                indicator.classList.add('active');
-            } else {
-                indicator.classList.remove('active');
-            }
+            indicator.classList.toggle('active', index === currentIndex);
         });
-
-        // Log the current state for debugging
-        console.log('Current carousel index:', currentIndex);
     }
 
-    // Move to specific slide
-    function moveToSlide(index) {
+    /**
+     * Move to specific slide
+     */
+    function moveToSlide(index, animate = true) {
         // Use glitchElement from script.js if available
         if (typeof glitchElement === 'function') {
             glitchElement(track, 300);
         }
 
-        // Set the current index
-        currentIndex = index;
+        // Update current index with boundary checking
+        currentIndex = Math.max(0, Math.min(index, slides.length - 1));
 
-        // Handle bounds
-        if (currentIndex < 0) {
-            currentIndex = slides.length - 1;
-        } else if (currentIndex >= slides.length) {
+        // If we're at the end and try to go further, do a special glitch effect
+        if (index >= slides.length) {
             currentIndex = 0;
+            applyExtraGlitch();
+        } else if (index < 0) {
+            currentIndex = slides.length - 1;
+            applyExtraGlitch();
         }
 
         // Update carousel position
-        setCarouselPosition();
+        setCarouselPosition(animate);
         resetAutoplay();
     }
 
-    // Add click handler for next button
-    if (nextButton) {
-        nextButton.addEventListener('click', function () {
-            moveToSlide(currentIndex + 1);
+    /**
+     * Apply a more intense glitch effect for wrap-around
+     */
+    function applyExtraGlitch() {
+        if (typeof applyGlitch !== 'function') return;
+
+        // Apply glitch to multiple elements for more impact
+        applyGlitch(track, 500);
+
+        if (slides[currentIndex]) {
+            applyGlitch(slides[currentIndex], 400);
+        }
+
+        const titles = document.querySelectorAll('.carousel-title');
+        titles.forEach(title => {
+            applyGlitch(title, 300);
         });
     }
 
-    // Add click handler for previous button
-    if (prevButton) {
-        prevButton.addEventListener('click', function () {
-            moveToSlide(currentIndex - 1);
-        });
-    }
-
-    // Explicitly add click handlers for each indicator
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', function () {
-            console.log('Indicator clicked:', index);
-            moveToSlide(index);
-        });
-    });
-
-    // Start autoplay
+    /**
+     * Start autoplay function
+     */
     function startAutoplay() {
         // Clear any existing interval
         clearInterval(autoplayInterval);
@@ -289,54 +322,192 @@ function initMapCarousel() {
         }, QUEST_NAV_CONFIG.carouselAutoplayInterval);
     }
 
-    // Reset autoplay timer
+    /**
+     * Reset autoplay timer
+     */
     function resetAutoplay() {
         clearInterval(autoplayInterval);
         startAutoplay();
     }
 
-    // Reset carousel to first slide
+    /**
+     * Reset carousel to first slide
+     */
     function resetMapCarousel() {
         currentIndex = 0;
-        setCarouselPosition();
+        setCarouselPosition(false); // Don't animate for initial position
         resetAutoplay();
     }
 
-    // Handle window resize
-    window.addEventListener('resize', function () {
-        // Update slide width and recalculate position
-        slideWidth = carousel.getBoundingClientRect().width;
-        setCarouselPosition();
-    });
-
-    // Enable touch/swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    carousel.addEventListener('touchstart', function (e) {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    carousel.addEventListener('touchend', function (e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
-
-        // Detect swipe direction
-        if (touchEndX < touchStartX - swipeThreshold) {
-            // Swipe left - go to next slide
-            moveToSlide(currentIndex + 1);
-        } else if (touchEndX > touchStartX + swipeThreshold) {
-            // Swipe right - go to previous slide
-            moveToSlide(currentIndex - 1);
+    /**
+     * Handle touch/mouse start for dragging
+     */
+    function handleDragStart(e) {
+        // Prevent default only for mouse events, not touch
+        if (e.type === 'mousedown') {
+            e.preventDefault();
         }
+
+        isDragging = true;
+        startPosX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+
+        // Disable transition during drag
+        track.style.transition = 'none';
+
+        // Cancel any ongoing animation
+        cancelAnimationFrame(animationFrameId);
+
+        // Clear autoplay while dragging
+        clearInterval(autoplayInterval);
     }
 
+    /**
+     * Handle touch/mouse move for dragging
+     */
+    function handleDragMove(e) {
+        if (!isDragging) return;
+
+        const currentPosX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const diff = currentPosX - startPosX;
+
+        // Calculate what the new translate should be
+        const translateX = -currentIndex * slideWidth + diff;
+
+        // Apply resistance as user drags beyond limits
+        if (currentIndex === 0 && diff > 0) {
+            // Dragging left at first slide - add resistance
+            currentTranslateX = translateX * 0.3;
+        } else if (currentIndex === slides.length - 1 && diff < 0) {
+            // Dragging right at last slide - add resistance
+            currentTranslateX = -currentIndex * slideWidth + (diff * 0.3);
+        } else {
+            // Normal drag
+            currentTranslateX = translateX;
+        }
+
+        // Update position
+        track.style.transform = `translateX(${currentTranslateX}px)`;
+    }
+
+    /**
+     * Handle touch/mouse end for dragging
+     */
+    function handleDragEnd(e) {
+        if (!isDragging) return;
+
+        isDragging = false;
+
+        // Calculate how far the carousel was dragged
+        const endPosX = e.type.includes('touch') ?
+            (e.changedTouches ? e.changedTouches[0].clientX : startPosX) :
+            e.clientX;
+
+        const dragDistance = endPosX - startPosX;
+        const dragThreshold = slideWidth * 0.2; // 20% of slide width as threshold
+
+        // Enable transitions again
+        track.style.transition = `transform ${QUEST_NAV_CONFIG.transitionSpeed}ms cubic-bezier(0.25, 1, 0.5, 1)`;
+
+        // Determine direction based on drag distance
+        if (dragDistance > dragThreshold) {
+            // Dragged right enough to move to previous slide
+            moveToSlide(currentIndex - 1);
+        } else if (dragDistance < -dragThreshold) {
+            // Dragged left enough to move to next slide
+            moveToSlide(currentIndex + 1);
+        } else {
+            // Not dragged enough, snap back to current slide
+            setCarouselPosition();
+        }
+
+        // Restart autoplay
+        startAutoplay();
+    }
+
+    /**
+     * Add event listeners for drag/swipe
+     */
+    function addDragListeners() {
+        // Mouse events
+        carousel.addEventListener('mousedown', handleDragStart);
+        window.addEventListener('mousemove', handleDragMove);
+        window.addEventListener('mouseup', handleDragEnd);
+
+        // Touch events
+        carousel.addEventListener('touchstart', handleDragStart, { passive: true });
+        carousel.addEventListener('touchmove', handleDragMove, { passive: true });
+        carousel.addEventListener('touchend', handleDragEnd, { passive: true });
+    }
+
+    /**
+     * Remove event listeners for drag/swipe
+     */
+    function removeDragListeners() {
+        // Mouse events
+        carousel.removeEventListener('mousedown', handleDragStart);
+        window.removeEventListener('mousemove', handleDragMove);
+        window.removeEventListener('mouseup', handleDragEnd);
+
+        // Touch events
+        carousel.removeEventListener('touchstart', handleDragStart);
+        carousel.removeEventListener('touchmove', handleDragMove);
+        carousel.removeEventListener('touchend', handleDragEnd);
+    }
+
+    /**
+     * Initialize slide descriptions with cyberpunk effects
+     */
+    function initSlideDescriptions() {
+        slides.forEach(slide => {
+            const description = slide.querySelector('.carousel-description');
+            const title = slide.querySelector('.carousel-title');
+
+            if (title && Math.random() < 0.5 && typeof createTextScramble === 'function') {
+                // Randomly apply scramble effect to some titles
+                createTextScramble(title, title.textContent, 'finite', {
+                    finite: { duration: 2000 }
+                });
+            }
+        });
+    }
+
+    // Add click handler for next button
+    if (nextButton) {
+        nextButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            moveToSlide(currentIndex + 1);
+        });
+    }
+
+    // Add click handler for previous button
+    if (prevButton) {
+        prevButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            moveToSlide(currentIndex - 1);
+        });
+    }
+
+    // Add click handlers for indicators
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', function (e) {
+            e.preventDefault();
+            moveToSlide(index);
+        });
+    });
+
+    // Handle window resize
+    function handleResize() {
+        // Update slide width and recalculate position
+        slideWidth = carousel.getBoundingClientRect().width;
+        setCarouselPosition(false); // Don't animate for resize
+    }
+
+    window.addEventListener('resize', handleResize);
+
     // Initialize carousel
-    setCarouselPosition();
+    addDragListeners();
+    initSlideDescriptions();
+    resetMapCarousel();
     startAutoplay();
 
     // Pause autoplay on hover
@@ -351,3 +522,43 @@ function initMapCarousel() {
     // Make resetMapCarousel available globally
     window.resetMapCarousel = resetMapCarousel;
 }
+
+/**
+ * Add random glitch effects to elements across the quest UI
+ */
+function initRandomGlitches() {
+    // Exit if glitchElement function doesn't exist
+    if (typeof glitchElement !== 'function') return;
+
+    // Elements that could receive random glitches
+    const glitchTargets = [
+        '.quest-nav-title',
+        '.carousel-title',
+        '.quest-node-main-text',
+        '.loop-stage-title'
+    ];
+
+    // Apply random glitches periodically
+    setInterval(() => {
+        if (Math.random() < 0.3) { // 30% chance of triggering a glitch
+            // Select a random target group
+            const targetSelector = glitchTargets[Math.floor(Math.random() * glitchTargets.length)];
+            const targets = document.querySelectorAll(targetSelector);
+
+            if (targets.length > 0) {
+                // Select a random element from the group
+                const randomTarget = targets[Math.floor(Math.random() * targets.length)];
+
+                // Apply glitch effect
+                glitchElement(randomTarget, 300 + Math.random() * 500);
+            }
+        }
+    }, 3000 + Math.random() * 4000); // Random interval between 3-7 seconds
+}
+
+// Export functions for global use
+window.initQuestNavigation = initQuestNavigation;
+window.resetMapCarousel = function () {
+    // This function will be properly defined once initMapCarousel runs
+    console.log('Carousel reset requested but not yet initialized');
+};
