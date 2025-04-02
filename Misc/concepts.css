@@ -364,6 +364,44 @@ body.modal-open {
   overflow: hidden;
 }
 
+.modal-actions .secondary-btn:not([data-construction]) {
+    position: relative;
+    text-align: center;
+    box-sizing: border-box;
+    background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+    background-size: 400%;
+    z-index: 1;
+    animation: animate-btn 8s linear infinite;
+}
+
+    /* Add the glow effect element */
+    .modal-actions .secondary-btn:not([data-construction]):before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        z-index: -1;
+        background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+        background-size: 400%;
+        border-radius: 40px;
+        filter: blur(20px);
+        opacity: 1;
+        animation: animate-btn 8s linear infinite;
+    }
+
+/* Animation keyframes */
+@keyframes animate-btn {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 400%;
+    }
+}
+
 /* Responsive adjustments */
 @media (max-width: 767px) {
   .concept-image {
@@ -382,3 +420,4 @@ body.modal-open {
     width: 100%;
   }
 }
+

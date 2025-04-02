@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Set minimum loading time (in milliseconds)
-    const minimumLoadingTime = 100; // 0.1 seconds
+    const minimumLoadingTime = 450; // 0.45 seconds
     
     // Start timer to show main content after minimum loading time
     setTimeout(fadeOutLoader, minimumLoadingTime);

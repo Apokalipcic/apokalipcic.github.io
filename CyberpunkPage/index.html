@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="ExtraScripts/expandingBoxes.css">
     <link rel="stylesheet" href="ExtraScripts/cyberTranslation.css">
+    <link rel="stylesheet" href="ExtraScripts/questNav.css">
 </head>
 <body>
     <div class="app-skeleton">
@@ -51,7 +52,7 @@
                                 <a href="#" class="nav__link nav__link--active" data-section="quest-brief">Quest Brief Story</a>
                             </li>
                             <li class="nav__item">
-                                <a href="#" class="nav__link dialog-trigger" data-section="quest-structure" data-dialog-group="quest-structure">Quest Structure</a>
+                                <a href="#" class="nav__link" data-section="quest-design">Quest Design Details</a>
                             </li>
                             <li class="nav__item">
                                 <a href="#" class="nav__link" data-section="game-items">Game Items</a>
@@ -122,50 +123,269 @@
                         </div>
                     </section>
 
-                    <!-- Quest Structure Section -->
-                    <section class="content-section" id="quest-structure">
+                    <!-- Quest Design Section -->
+                    <section class="content-section" id="quest-design">
                         <div class="pad">
                             <div class="pad__body">
-                                <h3 class="text-heading3">MISSION STRUCTURE & FLOW</h3>
+                                <!-- Quest Navigation Container -->
+                                <div class="quest-nav-container">
+                                    <!-- Tab Navigation -->
+                                    <div class="quest-tabs">
+                                        <div class="quest-nav-tab active" data-section="quest-structure-section">
+                                            <span class="quest-tab-text">Quest Structure</span>
+                                        </div>
+                                        <div class="quest-nav-tab" data-section="gameplay-loop-section">
+                                            <span class="quest-tab-text">Gameplay Loop</span>
+                                        </div>
+                                        <div class="quest-nav-tab" data-section="map-sketch-section">
+                                            <span class="quest-tab-text">Map Sketch</span>
+                                        </div>
+                                    </div>
 
-                                <p class="text-paragraph1 mb-3">
-                                    Mission flow divided into <span class="corrupted" data-text="3">3</span> distinct phases:
-                                </p>
+                                    <!-- Quest Structure Section -->
+                                    <div class="quest-nav-section active" id="quest-structure-section">
+                                        <h2 class="quest-nav-title">QUEST STRUCTURE</h2>
 
-                                <h4 class="text-heading4">PHASE 1: <span class="glitch-text">INFILTRATION</span></h4>
-                                <p class="text-paragraph1 mb-3">
-                                    • Multiple entry points: <span class="access-granted">Roof access</span>,
-                                    <span class="access-granted">Service entrance</span>,
-                                    <span class="access-denied">Main entrance</span>
-                                </p>
-                                <p class="text-paragraph1 mb-3">
-                                    • Player choice-driven stealth mechanics with <span class="terminal-typing">hacking alternatives</span>
-                                </p>
-                                <p class="text-paragraph1 mb-3">
-                                    • Environmental storytelling reveals <span class="redacted-flicker">facility history</span>
-                                </p>
+                                        <div class="quest-structure-container">
+                                            <div class="quest-flowchart">
+                                                <!-- Main Node: Setup -->
+                                                <div class="quest-node-main">
+                                                    <div class="quest-node-main-text">SETUP</div>
+                                                </div>
 
-                                <h4 class="text-heading4">PHASE 2: <span class="glitch-text">DISCOVERY</span></h4>
-                                <p class="text-paragraph1 mb-3">
-                                    • Central lab area protected by <span class="warning-text">automated security systems</span>
-                                </p>
-                                <p class="text-paragraph1 mb-3">
-                                    • Dialogue with the <span class="corrupted" data-text="rogue AI">rogue AI</span> reveals corporate conspiracy
-                                </p>
-                                <p class="text-paragraph1 mb-3 scanner-effect">
-                                    • Player decision: Align with Arasaka remnants or the <span class="redacted">rogue AI</span>
-                                </p>
+                                                <!-- Setup Subnodes -->
+                                                <div class="quest-node-sub-container expanded">
+                                                    <!-- Regina's Call Subnode -->
+                                                    <div class="quest-node-sub">
+                                                        <div class="quest-node-sub-box">
+                                                            <div class="quest-node-sub-text">Regina's Call</div>
+                                                        </div>
 
-                                <h4 class="text-heading4">PHASE 3: <span class="glitch-text">EXTRACTION</span></h4>
-                                <p class="text-paragraph1 mb-3">
-                                    • High-intensity escape sequence with <span class="warning-text">waves of security drones</span>
-                                </p>
-                                <p class="text-paragraph1 mb-3">
-                                    • Choice-based ending determined by <span class="redacted-flicker">player allegiance</span>
-                                </p>
-                                <p class="text-paragraph1 mb-3">
-                                    • Multiple epilogues affect <span class="corrupted" data-text="Watson district">Watson district</span> and Regina's future missions
-                                </p>
+                                                        <!-- Detail Box -->
+                                                        <div class="quest-node-detail">
+                                                            <ul>
+                                                                <li>Regina's call about unusual cyberpsycho</li>
+                                                                <li>Warning about unique situation</li>
+                                                                <li>Mission acceptance</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Arrow between nodes -->
+                                                    <div class="quest-arrow"></div>
+                                                </div>
+
+                                                <!-- Main Node: Act 1 -->
+                                                <div class="quest-node-main">
+                                                    <div class="quest-node-main-text">ACT 1: THE TRAP</div>
+                                                </div>
+
+                                                <!-- Act 1 Subnodes -->
+                                                <div class="quest-node-sub-container">
+                                                    <!-- Investigation Subnode -->
+                                                    <div class="quest-node-sub">
+                                                        <div class="quest-node-sub-box">
+                                                            <div class="quest-node-sub-text">Investigation</div>
+                                                        </div>
+
+                                                        <!-- Detail Box -->
+                                                        <div class="quest-node-detail">
+                                                            <ul>
+                                                                <li>Discovery of dead Arasaka combat team</li>
+                                                                <li>Johnny's suspicion about the mission</li>
+                                                                <li>Finding deliberately placed chip</li>
+                                                                <li>V's infection by virus</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Arrow between nodes -->
+                                                    <div class="quest-arrow"></div>
+
+                                                    <!-- First Encounter Subnode -->
+                                                    <div class="quest-node-sub">
+                                                        <div class="quest-node-sub-box">
+                                                            <div class="quest-node-sub-text">First Encounter</div>
+                                                        </div>
+
+                                                        <!-- Detail Box -->
+                                                        <div class="quest-node-detail">
+                                                            <ul>
+                                                                <li>Rei reveals herself as spider-like figure</li>
+                                                                <li>Initial combat reveals Mirror's Edge mechanics</li>
+                                                                <li>Rei's retreat through ceiling</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Arrow between nodes -->
+                                                    <div class="quest-arrow"></div>
+                                                </div>
+
+                                                <!-- Main Node: Act 2 -->
+                                                <div class="quest-node-main">
+                                                    <div class="quest-node-main-text">ACT 2: THE HUNT</div>
+                                                </div>
+
+                                                <!-- Act 2 Subnodes -->
+                                                <div class="quest-node-sub-container">
+                                                    <!-- Hide and Seek Subnode -->
+                                                    <div class="quest-node-sub">
+                                                        <div class="quest-node-sub-box">
+                                                            <div class="quest-node-sub-text">Hide and Seek</div>
+                                                        </div>
+
+                                                        <!-- Detail Box -->
+                                                        <div class="quest-node-detail">
+                                                            <ul>
+                                                                <li>Pursuing Rei through the level</li>
+                                                                <li>Discovering data shards with backstory</li>
+                                                                <li>Using flashbangs and lights against Rei</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Arrow between nodes -->
+                                                    <div class="quest-arrow"></div>
+
+                                                    <!-- Confrontation Subnode -->
+                                                    <div class="quest-node-sub">
+                                                        <div class="quest-node-sub-box">
+                                                            <div class="quest-node-sub-text">Confrontation</div>
+                                                        </div>
+
+                                                        <!-- Detail Box -->
+                                                        <div class="quest-node-detail">
+                                                            <ul>
+                                                                <li>Mirror's Edge chip malfunction</li>
+                                                                <li>Rei's vulnerability revealed</li>
+                                                                <li>Player choice: help or eliminate</li>
+                                                                <li>Arasaka forces approaching alert</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Scanlines effect -->
+                                                    <div class="scanlines"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Gameplay Loop Section -->
+                                    <div class="quest-nav-section" id="gameplay-loop-section">
+                                        <h2 class="quest-nav-title">GAMEPLAY LOOP</h2>
+
+                                        <div class="gameplay-loop-container">
+                                            <div class="loop-stages">
+                                                <!-- Vertical connector line -->
+                                                <div class="loop-connector"></div>
+
+                                                <!-- First Stage -->
+                                                <div class="loop-stage">
+                                                    <div class="loop-stage-box active">
+                                                        <div class="loop-stage-title">DISCOVERY</div>
+                                                        <div class="loop-stage-subtitle">Phase 1</div>
+                                                    </div>
+                                                    <div class="loop-stage-description">
+                                                        <p>Player uncovers the unique mirror mechanic through gameplay. Combat encounters demonstrate how V's attacks reflect back onto themselves, teaching players to adapt their strategy.</p>
+                                                    </div>
+                                                    <!-- Down arrow -->
+                                                    <div class="loop-stage-arrow"></div>
+                                                </div>
+
+                                                <!-- Second Stage -->
+                                                <div class="loop-stage">
+                                                    <div class="loop-stage-box">
+                                                        <div class="loop-stage-title">ADAPTATION</div>
+                                                        <div class="loop-stage-subtitle">Phase 2</div>
+                                                    </div>
+                                                    <div class="loop-stage-description">
+                                                        <p>Player must utilize environmental elements to deal with Rei indirectly. This includes hacking light sources, using flashbangs, and navigating the environment strategically.</p>
+                                                    </div>
+                                                    <!-- Down arrow -->
+                                                    <div class="loop-stage-arrow"></div>
+                                                </div>
+
+                                                <!-- Third Stage -->
+                                                <div class="loop-stage">
+                                                    <div class="loop-stage-box">
+                                                        <div class="loop-stage-title">RESOLUTION</div>
+                                                        <div class="loop-stage-subtitle">Phase 3</div>
+                                                    </div>
+                                                    <div class="loop-stage-description">
+                                                        <p>Player's moral choice determines the final approach. Either cooperate with Rei against Arasaka forces, or eliminate her when she's vulnerable, each leading to different rewards and consequences.</p>
+                                                    </div>
+                                                    <!-- Down arrow (loops back up) -->
+                                                    <div class="loop-stage-arrow"></div>
+                                                </div>
+
+                                                <!-- Scanlines effect -->
+                                                <div class="scanlines"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Map Sketch Section -->
+                                    <div class="quest-nav-section" id="map-sketch-section">
+                                        <h2 class="quest-nav-title">MAP SKETCH</h2>
+
+                                        <div class="map-carousel-container">
+                                            <div class="carousel-wrapper">
+                                                <!-- Decorative frame -->
+                                                <div class="carousel-frame">
+                                                    <div class="carousel-frame-inner"></div>
+                                                </div>
+
+                                                <!-- Slides container -->
+                                                <div class="carousel-track">
+                                                    <!-- Slide 1 -->
+                                                    <div class="carousel-slide active">
+                                                        <img src="Images/Map_Sketches/cyberpunk_MapSketch_01.png" alt="Sketch 01" class="carousel-image">
+                                                        <div class="carousel-description">
+                                                            <h3 class="carousel-title">Sketch V1</h3>
+                                                            <p class="carousel-text">A sketch of a map with narrow passage to create anxisous feelin in the player.</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Slide 2 -->
+                                                    <div class="carousel-slide">
+                                                        <img src="Images/Map_Sketches/cyberpunk_MapSketch_02.png" alt="Sketch 02" class="carousel-image">
+                                                        <div class="carousel-description">
+                                                            <h3 class="carousel-title">Sketch - Visual Details</h3>
+                                                            <p class="carousel-text">To showcase potential visual details on the level, and it importance.</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Slide 3 -->
+                                                    <div class="carousel-slide">
+                                                        <img src="Images/Map_Sketches/cyberpunk_MapSketch_03.png" alt="Sketch 03" class="carousel-image">
+                                                        <div class="carousel-description">
+                                                            <h3 class="carousel-title">Sketch V2</h3>
+                                                            <p class="carousel-text">Showing the potential path player migth take, as well as iterating over unneccary zones, and possible enemy confrontation.</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Overlay for gradient effect -->
+                                                    <div class="carousel-overlay"></div>
+                                                </div>
+
+                                                <!-- Navigation controls -->
+                                                <div class="carousel-controls">
+                                                    <div class="carousel-button carousel-button-prev">&lt;</div>
+                                                    <div class="carousel-button carousel-button-next">&gt;</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Indicators -->
+                                            <div class="carousel-indicators">
+                                                <div class="carousel-indicator active"></div>
+                                                <div class="carousel-indicator"></div>
+                                                <div class="carousel-indicator"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -627,18 +847,11 @@
             V, I need someone with your particular skill set for a job. Interested?
         </div>
 
-<<<<<<< Updated upstream
-  <!-- Dialog data (hidden) -->
-  <div class="dialog-data" data-dialog-group="regina-intro" data-speaker="REGINA JONES"
-    data-audio="Audio/Dialogues/Regina Johnes/Regina_Johnes_Intro.wav">
-    V, I need someone with your particular skill set for a job. Interested?
-  </div>
-=======
-        <div class="dialog-data" data-dialog-group="quest-structure" data-speaker="V"
+        <div class="dialog-data" data-dialog-group="quest-structure-" data-speaker="V"
              data-audio="Audio/Dialogues/V/V_QuestStructure.wav">
             What exactly am I walking into here, Regina?
         </div>
->>>>>>> Stashed changes
+
 
         <!-- Script for animations -->
         <script src="script.js"></script>
@@ -646,5 +859,6 @@
         <script src="ExtraScripts/mainContentSwitcher.js"></script>
         <script src="ExtraScripts/expandingBoxes.js"></script>
         <script src="ExtraScripts/cyberTranslation.js"></script>
+        <script src="ExtraScripts/questNav.js"></script>
 </body>
 </html>
