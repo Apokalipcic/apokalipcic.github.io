@@ -20,34 +20,18 @@ function initConceptsSection() {
             title: "Elemental Tactics",
             category: "Strategy",
             images: [
-                "Images/Concepts/elemental-tactics-1.jpg",
-                "Images/Concepts/elemental-tactics-2.jpg",
-                "Images/Concepts/elemental-tactics-3.jpg"
+                "Images/Concepts/Cyberpunk/cyberpunk_concept_01.png",
+                "Images/Concepts/Cyberpunk/cyberpunk_concept_02.png",
+                "Images/Concepts/Cyberpunk/cyberpunk_concept_03.png",
+                "Images/Concepts/Cyberpunk/cyberpunk_concept_04.png"
             ],
-            description: "A turn-based strategy game where players command elemental forces to reshape the battlefield and outsmart opponents.",
+            description: "As a fan of Cyberpunk 2077 cyberpsycho encounters, I wanted to explore a more complex narrative within this quest type. Mirror's Edge showcases my ability to create engaging gameplay mechanics that serve the story, rather than just adding combat difficulty.A turn-based strategy game where players command elemental forces to reshape the battlefield and outsmart opponents.",
             features: [
-                "Dynamic terrain manipulation using elemental powers",
-                "Deep strategic combat with elemental interactions",
-                "Procedurally generated battlefields for endless replayability"
+                "A unique boss fight mechanic with the Mirror's Edge chip",
+                "Multi-phase encounter design",
+                "Integration with existing game characters and lore (Regina Jones, Johnny Silverhand)"
             ],
-            tags: ["Turn-based", "Tactical", "Elements"]
-        },
-        {
-            id: 'concept2',
-            title: "Neon Shadows",
-            category: "Action RPG",
-            images: [
-                "Images/Concepts/neon-shadows-1.jpg",
-                "Images/Concepts/neon-shadows-2.jpg",
-                "Images/Concepts/neon-shadows-3.jpg"
-            ],
-            description: "A cyberpunk action RPG exploring themes of identity and consciousness in a world where memories can be digitized and traded.",
-            features: [
-                "Memory-based progression system with unique abilities",
-                "Branching narrative affected by memory choices",
-                "Dynamic combat combining physical and digital abilities"
-            ],
-            tags: ["Cyberpunk", "Action", "Story-Rich"]
+            tags: ["RPG", "Action", "Horror", "Cyberpunk"]
         }
     ];
     
