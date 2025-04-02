@@ -1,661 +1,639 @@
-/* questNavigation.css - Cyberpunk Quest Navigation System
- * Custom styles for Quest Structure, Gameplay Loop, and Map Carousel
+/* questNav.css - Cyberpunk Quest Navigation System
+ * Designed to match the existing cyberpunk_style.css aesthetic
  */
 
 /********************************************************
- * COMMON STYLES
+ * QUEST TABS
  ********************************************************/
 
-.quest-nav-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  color: var(--colors-on_bg--500);
-  overflow: hidden;
+.quest-tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--colors-primary--500);
+    position: relative;
 }
 
-.quest-nav-section {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-  height: 100%;
-  overflow-y: auto;
+    .quest-tabs::after {
+        background-color: var(--colors-primary--500);
+        box-shadow: var(--ui-glow);
+        bottom: 0;
+        content: "";
+        height: 1px;
+        position: absolute;
+        left: 0;
+        width: 100%;
+    }
+
+.quest-nav-tab {
+    border: 1px solid var(--colors-primary--600);
+    border-bottom: none;
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--colors-bg--300);
+    color: var(--colors-secondary--500);
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.25s;
+    -webkit-clip-path: polygon( 0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100% );
+    clip-path: polygon( 0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100% );
 }
 
-.quest-nav-section.active {
-  display: block;
-  opacity: 1;
-}
+    .quest-nav-tab::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 12px;
+        height: 12px;
+        background-color: var(--colors-primary--600);
+        clip-path: polygon(0 0, 100% 100%, 100% 0);
+    }
 
-.quest-nav-title {
-  font-family: var(--fonts-secondary);
-  font-size: 2.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 2rem;
-  text-align: center;
-}
+    .quest-nav-tab:hover {
+        background-color: #391419;
+    }
 
-.quest-nav-subtitle {
-  font-family: var(--fonts-secondary);
-  font-size: 1.25rem;
-  color: var(--colors-secondary--500);
-  margin-bottom: 1rem;
-  letter-spacing: 0.05em;
-}
+    .quest-nav-tab.active {
+        background-color: #391419;
+        border-color: #9c3230;
+        color: var(--colors-secondary--500);
+    }
 
-/* Cyber Glow Box - Common container with consistent styling */
-.cyber-box {
-  background-color: rgba(25, 26, 30, 0.85);
-  border: 1px solid var(--colors-primary--500);
-  padding: 1rem;
-  margin-bottom: 1rem;
-  position: relative;
-  overflow: hidden;
-}
+        .quest-nav-tab.active::before {
+            background-color: #9c3230;
+        }
 
-.cyber-box::before, .cyber-box::after {
-  content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-}
-
-.cyber-box::before {
-  top: 0;
-  left: 0;
-  border-top: 2px solid var(--colors-primary--500);
-  border-left: 2px solid var(--colors-primary--500);
-}
-
-.cyber-box::after {
-  bottom: 0;
-  right: 0;
-  border-bottom: 2px solid var(--colors-primary--500);
-  border-right: 2px solid var(--colors-primary--500);
-}
-
-/* Animated scanline effect for containers */
-.scanlines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent 50%,
-    rgba(33, 34, 43, 0.05) 51%
-  );
-  background-size: 100% 4px;
-  z-index: 10;
+.quest-tab-text {
+    font-family: var(--fonts-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.045em;
 }
 
 /********************************************************
- * QUEST STRUCTURE STYLES
+ * QUEST NAVIGATION SECTIONS
+ ********************************************************/
+
+.quest-nav-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+    .quest-nav-section.active {
+        display: block;
+        opacity: 1;
+    }
+
+.quest-nav-title {
+    font-family: var(--fonts-secondary);
+    color: var(--colors-secondary--500);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+    text-shadow: var(--ui-glow-text--dimmed);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/********************************************************
+ * QUEST STRUCTURE FLOWCHART
  ********************************************************/
 
 .quest-structure-container {
-  padding: 0 1rem;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .quest-flowchart {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
-/* Flow line */
-.quest-flowchart::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  background-color: var(--colors-primary--500);
-  transform: translateX(-50%);
-  z-index: 1;
-}
+    /* Main vertical line */
+    .quest-flowchart::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 2px;
+        background-color: var(--colors-primary--500);
+        transform: translateX(-50%);
+        z-index: 0;
+    }
 
-/* Main flowchart nodes */
+/* Main nodes */
 .quest-node-main {
-  width: 350px;
-  background-color: #8B0000; /* Dark red */
-  border: 2px solid var(--colors-secondary--500);
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(43, 228, 234, 0.4);
-  padding: 1rem;
-  margin: 1.5rem 0;
-  position: relative;
-  z-index: 3;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    width: 280px;
+    background-color: var(--colors-bg--300);
+    border: 2px solid var(--colors-primary--600);
+    padding: 0.75rem;
+    margin: 1.5rem 0;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    -webkit-clip-path: var(--ui-notch-path);
+    clip-path: var(--ui-notch-path);
 }
 
-.quest-node-main:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 20px rgba(43, 228, 234, 0.6);
-}
+    .quest-node-main::before {
+        background-color: var(--colors-primary--600);
+        bottom: 5px;
+        content: "";
+        display: block;
+        height: 3px;
+        position: absolute;
+        right: -6px;
+        top: auto;
+        transform: rotate(-45deg);
+        width: var(--ui-notch-hypotenuse);
+        z-index: 100;
+    }
+
+    .quest-node-main:hover {
+        border-color: var(--colors-secondary--500);
+    }
 
 .quest-node-main-text {
-  text-align: center;
-  font-family: var(--fonts-secondary);
-  color: var(--colors-secondary--500);
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+    font-family: var(--fonts-secondary);
+    color: var(--colors-secondary--500);
+    font-size: 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
 }
+
+/* Sub-node containers */
+.quest-node-sub-container {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+    .quest-node-sub-container.expanded {
+        max-height: 1000px;
+        transition: max-height 1s ease-in-out;
+    }
 
 /* Sub-nodes */
-.quest-node-sub-container {
-  width: 100%;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease-in-out;
-}
-
-.quest-node-sub-container.expanded {
-  max-height: 1000px; /* Large enough to contain all content */
-}
-
 .quest-node-sub {
-  display: flex;
-  align-items: center;
-  margin: 1rem 0;
-  position: relative;
-  z-index: 2;
-}
-
-.quest-node-sub:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  height: 1.5rem;
-  width: 2px;
-  background-color: var(--colors-primary--500);
-  z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0;
+    position: relative;
+    z-index: 2;
 }
 
 .quest-node-sub-box {
-  width: 220px;
-  background-color: #2F4F4F; /* Dark slate gray */
-  border: 1px solid var(--colors-primary--500);
-  border-radius: 5px;
-  padding: 0.75rem;
-  position: relative;
-  z-index: 2;
+    width: 220px;
+    background-color: var(--colors-bg--300);
+    border: 1px solid var(--colors-primary--500);
+    padding: 0.75rem;
+    position: relative;
 }
+
+    .quest-node-sub-box:hover {
+        border-color: var(--colors-primary--200);
+    }
 
 .quest-node-sub-text {
-  text-align: center;
-  font-family: var(--fonts-primary);
-  color: var(--colors-primary--200);
-  font-size: 1rem;
+    font-family: var(--fonts-primary);
+    color: var(--colors-primary--200);
+    font-size: 1rem;
+    text-align: center;
 }
 
-/* Connection lines and detail boxes */
-.quest-node-detail {
-  width: 250px;
-  position: absolute;
-  right: -270px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(25, 26, 30, 0.85);
-  border: 1px dashed var(--colors-primary--500);
-  border-radius: 5px;
-  padding: 0.75rem;
-  z-index: 2;
-}
-
-.quest-node-detail::before {
-  content: "";
-  position: absolute;
-  left: -20px;
-  top: 50%;
-  width: 20px;
-  height: 2px;
-  background-color: var(--colors-primary--500);
-  transform: translateY(-50%);
-}
-
-.quest-node-detail ul {
-  margin: 0;
-  padding-left: 1.25rem;
-  color: var(--colors-primary--200);
-  font-size: 0.9rem;
-}
-
-.quest-node-detail li {
-  margin-bottom: 0.25rem;
-}
-
-/* Arrow connections */
+/* Connection arrows */
 .quest-arrow {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  border-bottom: 3px solid var(--colors-secondary--500);
-  border-right: 3px solid var(--colors-secondary--500);
-  margin-top: -10px;
-  z-index: 2;
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(135deg);
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid var(--colors-primary--500);
+    border-right: 2px solid var(--colors-primary--500);
+    z-index: 1;
 }
+
+/* Detail boxes */
+.quest-node-detail {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 240px;
+    background-color: var(--colors-bg--300);
+    border-left: 3px solid var(--colors-primary--500);
+    padding: 0.75rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 3;
+}
+
+    .quest-node-sub-box:hover + .quest-node-detail,
+    .quest-node-detail:hover {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .quest-node-detail ul {
+        margin: 0;
+        padding-left: 1.25rem;
+        color: var(--colors-on_bg--500);
+        font-size: 0.9rem;
+    }
+
+    .quest-node-detail li {
+        margin-bottom: 0.35rem;
+    }
 
 /********************************************************
- * GAMEPLAY LOOP STYLES
+ * GAMEPLAY LOOP SECTION
  ********************************************************/
 
 .gameplay-loop-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem 1rem;
-  max-width: 700px;
-  margin: 0 auto;
+    padding: 1rem 0;
 }
 
 .loop-stages {
-  width: 100%;
-  position: relative;
-  padding: 2rem 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* Vertical connector line */
 .loop-connector {
-  position: absolute;
-  left: 50%;
-  width: 2px;
-  background-color: var(--colors-secondary--500);
-  top: 0;
-  bottom: 0;
-  transform: translateX(-50%);
-  z-index: 1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-color: var(--colors-primary--500);
+    transform: translateX(-50%);
+    z-index: 0;
 }
 
-.loop-connector::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 50px;
-  height: 50px;
-  border: 2px solid var(--colors-secondary--500);
-  border-radius: 50%;
-  transform: translate(-50%, 50%);
-}
-
-.loop-connector::after {
-  content: "∞";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  font-size: 2rem;
-  color: var(--colors-secondary--500);
-  transform: translate(-50%, 60%);
-}
-
+/* Loop stages */
 .loop-stage {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 6rem;
-  z-index: 2;
+    position: relative;
+    margin-bottom: 4rem;
+    z-index: 1;
 }
 
-.loop-stage:last-child {
-  margin-bottom: 3rem;
-}
+    .loop-stage:last-child {
+        margin-bottom: 2rem;
+    }
 
 .loop-stage-box {
-  width: 200px;
-  background-color: rgba(25, 26, 30, 0.95);
-  border: 2px solid var(--colors-primary--500);
-  border-radius: 8px;
-  padding: 1rem;
-  text-align: center;
-  position: relative;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  z-index: 3;
+    width: 200px;
+    background-color: var(--colors-bg--300);
+    border: 2px solid var(--colors-primary--600);
+    padding: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    -webkit-clip-path: var(--ui-notch-path);
+    clip-path: var(--ui-notch-path);
 }
 
-.loop-stage-box.active {
-  border-color: var(--colors-secondary--500);
-  box-shadow: 0 0 15px rgba(43, 228, 234, 0.4);
-  transform: scale(1.05);
-}
+    .loop-stage-box::before {
+        background-color: var(--colors-primary--600);
+        bottom: 5px;
+        content: "";
+        display: block;
+        height: 3px;
+        position: absolute;
+        right: -6px;
+        top: auto;
+        transform: rotate(-45deg);
+        width: var(--ui-notch-hypotenuse);
+        z-index: 100;
+    }
 
-.loop-stage-box:hover {
-  border-color: var(--colors-secondary--500);
-  box-shadow: 0 0 15px rgba(43, 228, 234, 0.4);
-  transform: scale(1.05);
-}
+    .loop-stage-box:hover,
+    .loop-stage-box.active {
+        border-color: var(--colors-secondary--500);
+    }
 
 .loop-stage-title {
-  color: var(--colors-secondary--500);
-  font-family: var(--fonts-secondary);
-  font-size: 1.25rem;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
+    font-family: var(--fonts-secondary);
+    color: var(--colors-primary--200);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+    margin-bottom: 0.25rem;
 }
 
+.loop-stage-subtitle {
+    font-family: var(--fonts-primary);
+    color: var(--colors-primary--500);
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+}
+
+.loop-stage-box.active .loop-stage-title {
+    color: var(--colors-secondary--500);
+}
+
+/* Loop stage descriptions */
 .loop-stage-description {
-  position: absolute;
-  left: 220px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 250px;
-  background-color: rgba(10, 11, 15, 0.9);
-  border: 1px solid var(--colors-primary--500);
-  padding: 1rem;
-  border-radius: 5px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: 5;
+    position: absolute;
+    left: 220px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px;
+    background-color: var(--colors-bg--300);
+    border-left: 3px solid var(--colors-primary--500);
+    padding: 0.75rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 3;
 }
 
 .loop-stage:nth-child(even) .loop-stage-description {
-  left: auto;
-  right: 220px;
+    left: auto;
+    right: 220px;
+    border-left: none;
+    border-right: 3px solid var(--colors-primary--500);
 }
 
 .loop-stage-box:hover + .loop-stage-description,
 .loop-stage-box.active + .loop-stage-description {
-  opacity: 1;
-  transform: translateY(-50%) translateX(10px);
+    opacity: 1;
+    visibility: visible;
 }
 
-.loop-stage:nth-child(even) .loop-stage-box:hover + .loop-stage-description,
-.loop-stage:nth-child(even) .loop-stage-box.active + .loop-stage-description {
-  transform: translateY(-50%) translateX(-10px);
+.loop-stage-description p {
+    margin: 0;
+    color: var(--colors-on_bg--500);
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
 
-.loop-stage-description::before {
-  content: "";
-  position: absolute;
-  left: -10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 10px solid rgba(10, 11, 15, 0.9);
-}
-
-.loop-stage:nth-child(even) .loop-stage-description::before {
-  left: auto;
-  right: -10px;
-  border-right: none;
-  border-left: 10px solid rgba(10, 11, 15, 0.9);
-}
-
+/* Loop stage connector arrows */
 .loop-stage-arrow {
-  position: absolute;
-  bottom: -3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 20px;
-  border-bottom: 3px solid var(--colors-secondary--500);
-  border-right: 3px solid var(--colors-secondary--500);
-  transform: translateX(-50%) rotate(45deg);
-  z-index: 2;
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid var(--colors-primary--500);
+    border-right: 2px solid var(--colors-primary--500);
+    z-index: 1;
 }
 
 .loop-stage:last-child .loop-stage-arrow {
-  transform: translateX(-50%) rotate(-135deg);
-  bottom: -4rem;
+    transform: translateX(-50%) rotate(-135deg);
+    bottom: -2.5rem;
 }
 
 /********************************************************
- * MAP CAROUSEL STYLES
+ * MAP CAROUSEL SECTION
  ********************************************************/
 
 .map-carousel-container {
-  padding: 1rem;
-  max-width: 1000px;
-  margin: 0 auto;
+    padding: 1rem 0;
 }
 
 .carousel-wrapper {
-  position: relative;
-  overflow: hidden;
-  border: 2px solid var(--colors-primary--600);
-  box-shadow: 0 0 25px rgba(232, 59, 54, 0.2);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--colors-primary--600);
+    -webkit-clip-path: var(--ui-notch-path);
+    clip-path: var(--ui-notch-path);
+    background-color: var(--colors-bg--300);
 }
 
+    .carousel-wrapper::before {
+        background-color: var(--colors-primary--600);
+        bottom: 5px;
+        content: "";
+        display: block;
+        height: 3px;
+        position: absolute;
+        right: -6px;
+        top: auto;
+        transform: rotate(-45deg);
+        width: var(--ui-notch-hypotenuse);
+        z-index: 100;
+    }
+
+/* Track and slides */
 .carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  height: 500px;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: auto;
 }
 
 .carousel-slide {
-  min-width: 100%;
-  position: relative;
+    min-width: 100%;
+    position: relative;
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
 }
+
+    .carousel-slide.active {
+        opacity: 1;
+    }
 
 .carousel-image {
-  width: 100%;
-  height: 500px;
-  object-fit: contain;
-  display: block;
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
 }
 
+/* Slide description */
 .carousel-description {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(10, 11, 15, 0.85);
-  padding: 1rem;
-  border-top: 2px solid var(--colors-primary--500);
-  transform: translateY(100%);
-  transition: transform 0.5s ease-in-out;
-}
-
-.carousel-slide.active .carousel-description {
-  transform: translateY(0);
+    width: 100%;
+    background-color: rgba(25, 26, 30, 0.9);
+    border-top: 2px solid var(--colors-primary--500);
+    padding: 0.75rem;
+    margin-top: 0.5rem;
 }
 
 .carousel-title {
-  color: var(--colors-secondary--500);
-  font-family: var(--fonts-secondary);
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
+    font-family: var(--fonts-secondary);
+    color: var(--colors-secondary--500);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
 }
 
 .carousel-text {
-  color: var(--colors-tertiary--500);
-  font-size: 0.9rem;
-  line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--colors-primary--200);
 }
 
-.carousel-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, 
-    rgba(10, 11, 15, 0.1) 0%,
-    rgba(10, 11, 15, 0) 50%,
-    rgba(10, 11, 15, 0.8) 100%
-  );
-  pointer-events: none;
-}
-
-.carousel-indicators {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.carousel-indicator {
-  width: 12px;
-  height: 12px;
-  background-color: var(--colors-primary--800);
-  border: 1px solid var(--colors-primary--500);
-  border-radius: 50%;
-  margin: 0 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.carousel-indicator.active {
-  background-color: var(--colors-secondary--500);
-  transform: scale(1.2);
-  box-shadow: 0 0 8px rgba(43, 228, 234, 0.6);
-}
-
-.carousel-controls {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 0;
-  right: 0;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1rem;
-  z-index: 10;
-}
-
-.carousel-button {
-  background-color: rgba(10, 11, 15, 0.7);
-  border: 1px solid var(--colors-primary--500);
-  color: var(--colors-secondary--500);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1.25rem;
-}
-
-.carousel-button:hover {
-  background-color: rgba(10, 11, 15, 0.9);
-  border-color: var(--colors-secondary--500);
-  box-shadow: 0 0 10px rgba(43, 228, 234, 0.4);
-}
-
+/* Carousel frame corners */
 .carousel-frame {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
 }
 
-.carousel-frame::before, 
-.carousel-frame::after,
-.carousel-frame-inner::before, 
-.carousel-frame-inner::after {
-  content: "";
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border-color: var(--colors-secondary--500);
-  z-index: 10;
+.carousel-frame-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
+
+    .carousel-frame::before,
+    .carousel-frame::after,
+    .carousel-frame-inner::before,
+    .carousel-frame-inner::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+    }
 
 .carousel-frame::before {
-  top: 0;
-  left: 0;
-  border-top: 3px solid;
-  border-left: 3px solid;
+    top: 0;
+    left: 0;
+    border-top: 2px solid var(--colors-secondary--500);
+    border-left: 2px solid var(--colors-secondary--500);
 }
 
 .carousel-frame::after {
-  top: 0;
-  right: 0;
-  border-top: 3px solid;
-  border-right: 3px solid;
+    top: 0;
+    right: 0;
+    border-top: 2px solid var(--colors-secondary--500);
+    border-right: 2px solid var(--colors-secondary--500);
 }
 
 .carousel-frame-inner::before {
-  bottom: 0;
-  left: 0;
-  border-bottom: 3px solid;
-  border-left: 3px solid;
+    bottom: 0;
+    left: 0;
+    border-bottom: 2px solid var(--colors-secondary--500);
+    border-left: 2px solid var(--colors-secondary--500);
 }
 
 .carousel-frame-inner::after {
-  bottom: 0;
-  right: 0;
-  border-bottom: 3px solid;
-  border-right: 3px solid;
+    bottom: 0;
+    right: 0;
+    border-bottom: 2px solid var(--colors-secondary--500);
+    border-right: 2px solid var(--colors-secondary--500);
 }
 
-/* Scanner animation for carousel */
-.carousel-scanner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 10px;
-  background: linear-gradient(to bottom,
-    rgba(43, 228, 234, 0.1) 0%,
-    rgba(43, 228, 234, 0.5) 50%,
-    rgba(43, 228, 234, 0.1) 100%
-  );
-  box-shadow: 0 0 10px rgba(43, 228, 234, 0.3);
-  pointer-events: none;
-  z-index: 6;
-  animation: scanAnimation 8s linear infinite;
+/* Carousel controls */
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    z-index: 3;
 }
 
-@keyframes scanAnimation {
-  0% { top: -10px; opacity: 0; }
-  5% { top: 0; opacity: 1; }
-  95% { top: 490px; opacity: 1; }
-  100% { top: 500px; opacity: 0; }
+.carousel-button {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--colors-primary--500);
+    background-color: rgba(25, 26, 30, 0.7);
+    color: var(--colors-primary--500);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.25s;
+}
+
+    .carousel-button:hover {
+        background-color: var(--colors-primary--800);
+        color: var(--colors-on_primary--500);
+    }
+
+/* Carousel indicators */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.carousel-indicator {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: var(--colors-primary--800);
+    border: 1px solid var(--colors-primary--500);
+    cursor: pointer;
+    transition: background-color 0.25s;
+}
+
+    .carousel-indicator.active {
+        background-color: var(--colors-secondary--500);
+        border-color: var(--colors-secondary--500);
+    }
+
+/* Gradient overlay */
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient( to bottom, rgba(25, 26, 30, 0.2) 0%, rgba(25, 26, 30, 0) 40%, rgba(25, 26, 30, 0.3) 90% );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Scanlines effect */
+.scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient( to bottom, transparent 50%, rgba(30, 30, 30, 0.05) 51%, transparent 52% );
+    background-size: 100% 4px;
+    z-index: 5;
+    opacity: 0.2;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .quest-node-main {
-    width: 280px;
-  }
-  
-  .quest-node-sub-box {
-    width: 180px;
-  }
-  
-  .quest-node-detail {
-    width: 200px;
-    right: -210px;
-  }
-  
-  .loop-stage-box {
-    width: 180px;
-  }
-  
-  .loop-stage-description {
-    width: 200px;
-  }
-  
-  .carousel-track {
-    height: 400px;
-  }
-  
-  .carousel-image {
-    height: 400px;
-  }
+    .quest-node-main {
+        width: 240px;
+    }
+
+    .quest-node-sub-box {
+        width: 180px;
+    }
+
+    .loop-stage-box {
+        width: 180px;
+    }
+
+    .carousel-track {
+        height: 350px;
+    }
+
+    .loop-stage-description,
+    .quest-node-detail {
+        width: 200px;
+    }
 }
