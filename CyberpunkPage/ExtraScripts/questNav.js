@@ -1,6 +1,5 @@
 /* questNav.js - Enhanced Cyberpunk Quest Navigation System
- * Focuses on map carousel functionality with improved responsiveness
- * and better error handling
+ * Provides full navigation functionality for Cyberpunk 2077 quest design portfolio
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -12,9 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
 const QUEST_NAV_CONFIG = {
     carouselAutoplayInterval: 6000,    // Time between auto-advancing slides (ms)
     transitionSpeed: 500,              // Transition speed for slides (ms)
-    loopCycleInterval: 5000,           // Time between auto-cycling gameplay stages
+    loopCycleInterval: 4000,           // Time between auto-cycling gameplay stages
     glitchProbability: 0.2,            // Probability of random glitch effect (0-1)
-    glitchDuration: 300                // Duration of glitch effect (ms)
+    glitchDuration: 300,               // Duration of glitch effect (ms)
+    chipTransitionDelay: 500           // Delay for chip transition effect (ms)
 };
 
 /**
@@ -30,7 +30,7 @@ function initQuestNavigation() {
     // Initialize gameplay loop animation
     initGameplayLoop();
 
-    // Initialize map carousel - focus on this component
+    // Initialize map carousel
     initMapCarousel();
 
     // Add periodic random glitch effects for cyberpunk feel
@@ -130,51 +130,197 @@ function initQuestStructure() {
 }
 
 /**
- * Initialize gameplay loop with cycling stages
+ * Initialize gameplay loop with cycling stages in specified order
  */
 function initGameplayLoop() {
+    // Get all stage boxes
     const loopStages = document.querySelectorAll('.loop-stage-box');
     if (loopStages.length === 0) return;
 
-    // Set up hover interactions
-    loopStages.forEach(stage => {
-        stage.addEventListener('mouseenter', function () {
-            // Use glitchElement from script.js
-            if (typeof glitchElement === 'function') {
-                glitchElement(this, 300);
-            }
-        });
-    });
+    // Get tooltips
+    const tooltips = document.querySelectorAll('.loop-tooltip');
 
-    // Set up auto-cycling through stages
+    // Define the cycle order by stage title text
+    // Rei Owns Chip > Rei Attacks Player > Player Hides > Player Uses Environment > 
+    // Chip Changes Owner > Player Owns Chip > Rei Hides > Player Attacks Rei > loop
+    const cycleOrder = [
+        'REI OWNS THE CHIP',
+        'REI ATTACKS PLAYER',
+        'PLAYER HIDES',
+        'PLAYER USES ENVIRONMENT',
+        'CHIP CHANGES OWNER',
+        'PLAYER OWNS THE CHIP',
+        'REI HIDES',
+        'PLAYER ATTACKS REI'
+    ];
+
     let currentStageIndex = 0;
     let intervalId;
 
-    function cycleStages() {
+    // Map of stage titles to their DOM elements for quicker access
+    const stageMap = {};
+
+    // Initialize tooltips and stage mapping
+    function initTooltips() {
+        // Create a map of stage boxes by their title text
+        loopStages.forEach(stage => {
+            const titleElement = stage.querySelector('.loop-stage-title');
+            if (titleElement) {
+                const title = titleElement.textContent.trim();
+                stageMap[title] = stage;
+
+                // Position tooltip next to the corresponding stage box
+                const tooltip = Array.from(tooltips).find(t => t.getAttribute('data-for') === title);
+                if (tooltip) {
+                    positionTooltip(stage, tooltip);
+
+                    // Add mouse events to the stage box to show/hide tooltip
+                    stage.addEventListener('mouseenter', function () {
+                        showTooltip(tooltip);
+
+                        // Use glitchElement from script.js if available
+                        if (typeof glitchElement === 'function') {
+                            glitchElement(this, 300);
+                        }
+                    });
+
+                    stage.addEventListener('mouseleave', function () {
+                        hideTooltip(tooltip);
+                    });
+                }
+            }
+        });
+    }
+
+    /**
+     * Position tooltip relative to its stage box
+     */
+    function positionTooltip(stageBox, tooltip) {
+        // Get stage box position
+        const stageRect = stageBox.getBoundingClientRect();
+        const containerRect = stageBox.closest('.gameplay-diagram').getBoundingClientRect();
+
+        // Calculate relative position
+        const boxTop = stageRect.top - containerRect.top;
+        const boxLeft = stageRect.left - containerRect.left;
+
+        // Determine which column this box is in
+        const isRightColumn = stageBox.closest('.right-column') !== null;
+        const isConvergence = stageBox.closest('.loop-stage-convergence') !== null;
+        const isTransition = stageBox.closest('.loop-stage-transition') !== null;
+
+        // Position tooltip to the side of the box with slight offset
+        if (isConvergence || isTransition) {
+            // Position to the right for central elements
+            tooltip.style.top = `${boxTop}px`;
+            tooltip.style.left = `${boxLeft + stageRect.width + 20}px`;
+            tooltip.style.borderLeftColor = stageBox.classList.contains('env-box') ? '#00bcd4' : '#ff3b30';
+        } else if (isRightColumn) {
+            // Position to the left for right column elements
+            tooltip.style.top = `${boxTop}px`;
+            tooltip.style.left = `${boxLeft - 240}px`;
+            tooltip.style.borderRightColor = '#ff3b30';
+            tooltip.style.borderLeft = 'none';
+            tooltip.style.borderRight = '2px solid #ff3b30';
+        } else {
+            // Position to the right for left column elements
+            tooltip.style.top = `${boxTop}px`;
+            tooltip.style.left = `${boxLeft + stageRect.width + 20}px`;
+            tooltip.style.borderLeftColor = '#ff3b30';
+        }
+    }
+
+    /**
+     * Show tooltip with fade in effect
+     */
+    function showTooltip(tooltip) {
+        if (!tooltip) return;
+        tooltip.style.opacity = '1';
+        tooltip.style.visibility = 'visible';
+    }
+
+    /**
+     * Hide tooltip with fade out effect
+     */
+    function hideTooltip(tooltip) {
+        if (!tooltip) return;
+        tooltip.style.opacity = '0';
+        tooltip.style.visibility = 'hidden';
+    }
+
+    /**
+     * Cycle to the next stage in the defined order
+     */
+    function cycleToNextStage() {
         // Remove active class from all stages
         loopStages.forEach(stage => {
             stage.classList.remove('active');
         });
 
-        // Add active class to current stage
-        loopStages[currentStageIndex].classList.add('active');
+        // Find the current stage by title text
+        const currentStageName = cycleOrder[currentStageIndex];
+        const nextStage = stageMap[currentStageName];
 
-        // Use glitchElement from script.js
-        if (typeof glitchElement === 'function') {
-            glitchElement(loopStages[currentStageIndex], 300);
+        // If stage found, activate it
+        if (nextStage) {
+            nextStage.classList.add('active');
+
+            // Apply glitch effect to the active stage
+            if (typeof glitchElement === 'function') {
+                glitchElement(nextStage, 300);
+            }
+
+            // If this is a special stage like "CHIP CHANGES OWNER", apply extra effects
+            if (currentStageName === 'CHIP CHANGES OWNER') {
+                // Apply more dramatic glitch effect to the gameplay container
+                if (typeof applyGlitch === 'function') {
+                    setTimeout(() => {
+                        const gameplayContainer = document.querySelector('.gameplay-loop-container');
+                        if (gameplayContainer) {
+                            applyGlitch(gameplayContainer, 500);
+                        }
+                    }, QUEST_NAV_CONFIG.chipTransitionDelay || 500);
+                }
+
+                // Apply chip transition animation
+                nextStage.style.animation = 'chipTransition 2s';
+                setTimeout(() => {
+                    nextStage.style.animation = '';
+                }, 2000);
+            }
+
+            // Update stage index for next cycle
+            currentStageIndex = (currentStageIndex + 1) % cycleOrder.length;
         }
-
-        // Increment index, loop back to start if needed
-        currentStageIndex = (currentStageIndex + 1) % loopStages.length;
     }
 
-    // Start with first stage active
-    loopStages[0].classList.add('active');
+    // Handle window resize to reposition tooltips
+    function handleResize() {
+        // Reposition all tooltips
+        loopStages.forEach(stage => {
+            const titleElement = stage.querySelector('.loop-stage-title');
+            if (titleElement) {
+                const title = titleElement.textContent.trim();
+                const tooltip = Array.from(tooltips).find(t => t.getAttribute('data-for') === title);
+                if (tooltip) {
+                    positionTooltip(stage, tooltip);
+                }
+            }
+        });
+    }
 
-    // Start the auto-cycle
-    intervalId = setInterval(cycleStages, QUEST_NAV_CONFIG.loopCycleInterval);
+    window.addEventListener('resize', handleResize);
 
-    // Pause cycle on hover
+    // Initialize tooltips
+    initTooltips();
+
+    // Start with the first stage active
+    cycleToNextStage();
+
+    // Set up auto-cycling through stages
+    intervalId = setInterval(cycleToNextStage, QUEST_NAV_CONFIG.loopCycleInterval || 4000);
+
+    // Pause cycling on hover over the gameplay loop container
     const loopContainer = document.querySelector('.gameplay-loop-container');
     if (loopContainer) {
         loopContainer.addEventListener('mouseenter', function () {
@@ -186,7 +332,15 @@ function initGameplayLoop() {
             clearInterval(intervalId);
 
             // Restart the interval
-            intervalId = setInterval(cycleStages, QUEST_NAV_CONFIG.loopCycleInterval);
+            intervalId = setInterval(cycleToNextStage, QUEST_NAV_CONFIG.loopCycleInterval || 4000);
+        });
+    }
+
+    // Enhance timer elements with pulsing effect
+    const timerElements = document.querySelectorAll('.timer-icon');
+    if (timerElements.length > 0) {
+        timerElements.forEach(timer => {
+            timer.style.animation = 'timerPulse 3s infinite';
         });
     }
 }
@@ -225,10 +379,6 @@ function initMapCarousel() {
     let currentTranslateX = 0;
     let slideWidth = carousel.getBoundingClientRect().width;
     let animationFrameId = null;
-
-    // For touch events
-    let touchStartX = 0;
-    let touchEndX = 0;
 
     /**
      * Set carousel position based on current index
@@ -440,21 +590,6 @@ function initMapCarousel() {
     }
 
     /**
-     * Remove event listeners for drag/swipe
-     */
-    function removeDragListeners() {
-        // Mouse events
-        carousel.removeEventListener('mousedown', handleDragStart);
-        window.removeEventListener('mousemove', handleDragMove);
-        window.removeEventListener('mouseup', handleDragEnd);
-
-        // Touch events
-        carousel.removeEventListener('touchstart', handleDragStart);
-        carousel.removeEventListener('touchmove', handleDragMove);
-        carousel.removeEventListener('touchend', handleDragEnd);
-    }
-
-    /**
      * Initialize slide descriptions with cyberpunk effects
      */
     function initSlideDescriptions() {
@@ -558,7 +693,4 @@ function initRandomGlitches() {
 
 // Export functions for global use
 window.initQuestNavigation = initQuestNavigation;
-window.resetMapCarousel = function () {
-    // This function will be properly defined once initMapCarousel runs
-    console.log('Carousel reset requested but not yet initialized');
-};
+window.resetMapCarousel = resetMapCarousel;

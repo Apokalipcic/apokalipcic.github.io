@@ -348,51 +348,131 @@
                                     </div>
 
                                     <!-- Gameplay Loop Section -->
+                                    <!-- Gameplay Loop Section -->
                                     <div class="quest-nav-section" id="gameplay-loop-section">
                                         <h2 class="quest-nav-title">GAMEPLAY LOOP</h2>
 
                                         <div class="gameplay-loop-container">
-                                            <div class="loop-stages">
-                                                <!-- Vertical connector line -->
-                                                <div class="loop-connector"></div>
+                                            <!-- Main loop diagram with vertical divider -->
+                                            <div class="gameplay-diagram">
+                                                <div class="vertical-divider"></div>
 
-                                                <!-- First Stage -->
-                                                <div class="loop-stage">
-                                                    <div class="loop-stage-box active">
-                                                        <div class="loop-stage-title">DISCOVERY</div>
-                                                        <div class="loop-stage-subtitle">Phase 1</div>
+                                                <!-- Loop stages wrapper -->
+                                                <div class="gameplay-dual-flow">
+                                                    <!-- Left Column - Player Owns Chip flow -->
+                                                    <div class="loop-column left-column">
+                                                        <!-- First Stage - Player Owns Chip -->
+                                                        <div class="loop-stage">
+                                                            <div class="loop-stage-box player-box">
+                                                                <div class="loop-stage-title">PLAYER OWNS THE CHIP</div>
+                                                                <div class="loop-stage-subtitle">Mirror's Edge Active</div>
+                                                            </div>
+                                                            <div class="stage-connector"></div>
+                                                        </div>
+
+                                                        <!-- Second Stage - Rei Hides -->
+                                                        <div class="loop-stage">
+                                                            <div class="loop-stage-box player-box">
+                                                                <div class="loop-stage-title">REI HIDES</div>
+                                                                <div class="loop-stage-subtitle">Defensive Phase</div>
+                                                            </div>
+                                                            <div class="stage-connector"></div>
+                                                        </div>
+
+                                                        <!-- Third Stage - Player Attacks Rei -->
+                                                        <div class="loop-stage">
+                                                            <div class="loop-stage-box player-box">
+                                                                <div class="loop-stage-title">PLAYER ATTACKS REI</div>
+                                                                <div class="loop-stage-subtitle">Offensive Phase</div>
+                                                            </div>
+                                                            <div class="stage-connector diagonal-connector"></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="loop-stage-description">
-                                                        <p>Player uncovers the unique mirror mechanic through gameplay. Combat encounters demonstrate how V's attacks reflect back onto themselves, teaching players to adapt their strategy.</p>
+
+                                                    <!-- Right Column - Rei Owns Chip flow -->
+                                                    <div class="loop-column right-column">
+                                                        <!-- First Stage - Rei Owns Chip -->
+                                                        <div class="loop-stage">
+                                                            <div class="loop-stage-box rei-box">
+                                                                <div class="loop-stage-title">REI OWNS THE CHIP</div>
+                                                                <div class="loop-stage-subtitle">Mirror's Edge Active</div>
+                                                            </div>
+                                                            <div class="stage-connector"></div>
+                                                        </div>
+
+                                                        <!-- Second Stage - Rei Attacks Player -->
+                                                        <div class="loop-stage">
+                                                            <div class="loop-stage-box rei-box">
+                                                                <div class="loop-stage-title">REI ATTACKS PLAYER</div>
+                                                                <div class="loop-stage-subtitle">Offensive Phase</div>
+                                                            </div>
+                                                            <div class="stage-connector"></div>
+                                                        </div>
+
+                                                        <!-- Third Stage - Player Hides -->
+                                                        <div class="loop-stage">
+                                                            <div class="loop-stage-box rei-box">
+                                                                <div class="loop-stage-title">PLAYER HIDES</div>
+                                                                <div class="loop-stage-subtitle">Defensive Phase</div>
+                                                            </div>
+                                                            <div class="stage-connector diagonal-connector"></div>
+                                                        </div>
                                                     </div>
-                                                    <!-- Down arrow -->
-                                                    <div class="loop-stage-arrow"></div>
                                                 </div>
 
-                                                <!-- Second Stage -->
-                                                <div class="loop-stage">
-                                                    <div class="loop-stage-box">
-                                                        <div class="loop-stage-title">ADAPTATION</div>
-                                                        <div class="loop-stage-subtitle">Phase 2</div>
+                                                <!-- Convergence Point - Environment Use -->
+                                                <div class="loop-stage loop-stage-convergence">
+                                                    <div class="loop-stage-box env-box">
+                                                        <div class="loop-stage-title">PLAYER USES ENVIRONMENT</div>
+                                                        <div class="loop-stage-subtitle">Tactical Phase</div>
                                                     </div>
-                                                    <div class="loop-stage-description">
-                                                        <p>Player must utilize environmental elements to deal with Rei indirectly. This includes hacking light sources, using flashbangs, and navigating the environment strategically.</p>
-                                                    </div>
-                                                    <!-- Down arrow -->
-                                                    <div class="loop-stage-arrow"></div>
+                                                    <div class="stage-connector"></div>
                                                 </div>
 
-                                                <!-- Third Stage -->
-                                                <div class="loop-stage">
-                                                    <div class="loop-stage-box">
-                                                        <div class="loop-stage-title">RESOLUTION</div>
-                                                        <div class="loop-stage-subtitle">Phase 3</div>
+                                                <!-- Final stage - Chip Changes Owner -->
+                                                <div class="loop-stage loop-stage-transition">
+                                                    <div class="loop-stage-box chip-change-box">
+                                                        <div class="loop-stage-title">CHIP CHANGES OWNER</div>
+                                                        <div class="loop-stage-subtitle">60s Cycle</div>
+                                                        <!-- Timer indicators -->
+                                                        <div class="timer-indicators">
+                                                            <div class="timer-icon">60S</div>
+                                                            <div class="timer-icon">60S</div>
+                                                        </div>
                                                     </div>
-                                                    <div class="loop-stage-description">
-                                                        <p>Player's moral choice determines the final approach. Either cooperate with Rei against Arasaka forces, or eliminate her when she's vulnerable, each leading to different rewards and consequences.</p>
+                                                    <!-- Loop back arrows -->
+                                                    <div class="loop-back-indicators">
+                                                        <div class="loop-left-arrow"></div>
+                                                        <div class="loop-right-arrow"></div>
                                                     </div>
-                                                    <!-- Down arrow (loops back up) -->
-                                                    <div class="loop-stage-arrow"></div>
+                                                </div>
+
+                                                <!-- Invisible hover tooltips - will be positioned with JavaScript -->
+                                                <div class="loop-tooltips">
+                                                    <div class="loop-tooltip" data-for="PLAYER OWNS THE CHIP">
+                                                        <p>When the player has control of the Mirror's Edge chip, they become immune to direct damage - any attack against them is reflected back to the attacker.</p>
+                                                    </div>
+                                                    <div class="loop-tooltip" data-for="REI HIDES">
+                                                        <p>Rei retreats to the shadows since direct attacks would cause damage to reflect back to her. She uses stealth to evade the player.</p>
+                                                    </div>
+                                                    <div class="loop-tooltip" data-for="PLAYER ATTACKS REI">
+                                                        <p>The player actively hunts for Rei, using their immune status to engage aggressively, forcing her to stay hidden or face reflected damage.</p>
+                                                    </div>
+                                                    <div class="loop-tooltip" data-for="REI OWNS THE CHIP">
+                                                        <p>When Rei controls the Mirror's Edge chip, she becomes immune to direct damage - any attack against her is reflected back to the player.</p>
+                                                    </div>
+                                                    <div class="loop-tooltip" data-for="REI ATTACKS PLAYER">
+                                                        <p>Rei becomes the aggressor, actively hunting the player while protected by the Mirror's Edge chip's reflection ability.</p>
+                                                    </div>
+                                                    <div class="loop-tooltip" data-for="PLAYER HIDES">
+                                                        <p>The player must avoid direct confrontation and use stealth to evade Rei until the chip ownership changes or other tactics can be employed.</p>
+                                                    </div>
+                                                    <div class="loop-tooltip" data-for="PLAYER USES ENVIRONMENT">
+                                                        <p>Regardless of who owns the chip, the player can use environmental elements like flashbangs, hackable lights, and other indirect damage sources to progress.</p>
+                                                    </div>
+                                                    <div class="loop-tooltip" data-for="CHIP CHANGES OWNER">
+                                                        <p>Every 60 seconds, the Mirror's Edge chip automatically transfers ownership between Rei and the player, reversing the power dynamic and forcing both to adapt.</p>
+                                                    </div>
                                                 </div>
 
                                                 <!-- Scanlines effect -->

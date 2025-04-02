@@ -1,5 +1,5 @@
 /* questNav.css - Cyberpunk Quest Navigation System
- * Designed to match the existing cyberpunk_style.css aesthetic
+ * Optimized version with improved organization and reduced redundancy
  */
 
 /********************************************************
@@ -34,8 +34,8 @@
     cursor: pointer;
     position: relative;
     transition: background-color 0.25s;
-    -webkit-clip-path: polygon( 0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100% );
-    clip-path: polygon( 0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100% );
+    -webkit-clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
 }
 
     .quest-nav-tab::before {
@@ -219,13 +219,16 @@
     z-index: 1;
 }
 
+/* Detail boxes */
 .quest-node-detail {
     position: absolute;
     right: 50px;
-    transform: none; /* Remove the vertical centering */
+    top: 50%;
+    transform: translateY(-50%);
     width: 240px;
     background-color: var(--colors-bg--300);
     border-left: 3px solid var(--colors-primary--500);
+    padding: 0.75rem;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -255,6 +258,22 @@
 
 .gameplay-loop-container {
     padding: 1rem 0;
+    position: relative;
+}
+
+/* Dual flow container for side-by-side layout */
+.gameplay-dual-flow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+/* Loop columns for the dual flow */
+.loop-column {
+    width: 48%;
+    position: relative;
 }
 
 .loop-stages {
@@ -279,16 +298,24 @@
 /* Loop stages */
 .loop-stage {
     position: relative;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     z-index: 1;
+    width: 100%;
 }
 
-    .loop-stage:last-child {
-        margin-bottom: 2rem;
-    }
+.loop-column .loop-stage {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.loop-stage:last-child {
+    margin-bottom: 2rem;
+}
 
 .loop-stage-box {
-    width: 200px;
+    width: 220px;
+    max-width: 100%;
+    margin: 0 auto;
     background-color: var(--colors-bg--300);
     border: 2px solid var(--colors-primary--600);
     padding: 0.75rem;
@@ -298,6 +325,7 @@
     z-index: 2;
     -webkit-clip-path: var(--ui-notch-path);
     clip-path: var(--ui-notch-path);
+    transition: all 0.3s ease;
 }
 
     .loop-stage-box::before {
@@ -355,6 +383,7 @@
     z-index: 3;
 }
 
+.loop-column:nth-child(even) .loop-stage .loop-stage-description,
 .loop-stage:nth-child(even) .loop-stage-description {
     left: auto;
     right: 220px;
@@ -388,9 +417,93 @@
     z-index: 1;
 }
 
-.loop-stage:last-child .loop-stage-arrow {
-    transform: translateX(-50%) rotate(-135deg);
-    bottom: -2.5rem;
+.loop-convergence-arrow {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 15px;
+    height: 15px;
+}
+
+/* Convergence stage styling */
+.loop-stage-convergence {
+    position: relative;
+    z-index: 2;
+    width: 60%;
+    margin: 0 auto 2rem;
+}
+
+    .loop-stage-convergence .loop-stage-box {
+        background-color: rgba(25, 26, 30, 0.95);
+        border-color: var(--colors-secondary--500);
+    }
+
+    .loop-stage-convergence .loop-stage-title {
+        color: var(--colors-secondary--500);
+    }
+
+/* Transition stage styling (chip changes owner) */
+.loop-stage-transition {
+    position: relative;
+    z-index: 2;
+    width: 70%;
+    margin: 0 auto;
+}
+
+    .loop-stage-transition .loop-stage-box {
+        background-color: rgba(156, 50, 48, 0.2);
+        border-color: var(--colors-primary--500);
+    }
+
+/* Timer indicators */
+.timer-indicators {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.timer-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--colors-primary--500);
+    border-radius: 50%;
+    color: var(--colors-primary--200);
+    font-family: var(--fonts-secondary);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Loop back arrows */
+.loop-back-arrows {
+    position: absolute;
+    bottom: -2rem;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.loop-left-arrow,
+.loop-right-arrow {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-bottom: 2px solid var(--colors-primary--500);
+    border-left: 2px solid var(--colors-primary--500);
+}
+
+.loop-left-arrow {
+    transform: rotate(45deg);
+    left: 10%;
+}
+
+.loop-right-arrow {
+    transform: rotate(-135deg);
+    right: 10%;
 }
 
 /********************************************************
@@ -592,7 +705,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient( to bottom, rgba(25, 26, 30, 0.2) 0%, rgba(25, 26, 30, 0) 40%, rgba(25, 26, 30, 0.3) 90% );
+    background: linear-gradient(to bottom, rgba(25, 26, 30, 0.2) 0%, rgba(25, 26, 30, 0) 40%, rgba(25, 26, 30, 0.3) 90%);
     pointer-events: none;
     z-index: 1;
 }
@@ -605,13 +718,137 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    background: linear-gradient( to bottom, transparent 50%, rgba(30, 30, 30, 0.05) 51%, transparent 52% );
+    background: linear-gradient(to bottom, transparent 50%, rgba(30, 30, 30, 0.05) 51%, transparent 52%);
     background-size: 100% 4px;
     z-index: 5;
     opacity: 0.2;
 }
 
-/* Responsive adjustments */
+/********************************************************
+ * ANIMATIONS
+ ********************************************************/
+
+/* Pulse animation for timer icons and arrows */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+        box-shadow: 0 0 10px var(--colors-primary--500);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+}
+
+/* Animation for loop arrows */
+.loop-left-arrow {
+    animation: arrowPulse 3s infinite alternate;
+}
+
+@keyframes arrowPulse {
+    0% {
+        transform: translateX(0) rotate(45deg);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translateX(-5px) rotate(45deg);
+        opacity: 1;
+        border-color: #00bcd4;
+    }
+
+    100% {
+        transform: translateX(0) rotate(45deg);
+        opacity: 0.7;
+    }
+}
+
+.loop-right-arrow {
+    animation: arrowPulseRight 3s infinite alternate;
+}
+
+@keyframes arrowPulseRight {
+    0% {
+        transform: translateX(0) rotate(-135deg);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translateX(5px) rotate(-135deg);
+        opacity: 1;
+        border-color: #00bcd4;
+    }
+
+    100% {
+        transform: translateX(0) rotate(-135deg);
+        opacity: 0.7;
+    }
+}
+
+/* Enhancement for when chip changes owner */
+.loop-stage-transition .loop-stage-box.active {
+    animation: chipTransition 2s;
+}
+
+@keyframes chipTransition {
+    0% {
+        background-color: rgba(156, 50, 48, 0.2);
+        border-color: #ff3b30;
+    }
+
+    25% {
+        background-color: rgba(0, 188, 212, 0.2);
+        border-color: #00bcd4;
+    }
+
+    50% {
+        background-color: rgba(156, 50, 48, 0.3);
+        border-color: #ff3b30;
+    }
+
+    75% {
+        background-color: rgba(0, 188, 212, 0.3);
+        border-color: #00bcd4;
+    }
+
+    100% {
+        background-color: rgba(156, 50, 48, 0.2);
+        border-color: #ff3b30;
+    }
+}
+
+/* Make timer icons pulse with color change */
+.timer-icon {
+    animation: timerPulse 3s infinite;
+}
+
+@keyframes timerPulse {
+    0% {
+        box-shadow: 0 0 5px #ff3b30;
+    }
+
+    50% {
+        box-shadow: 0 0 15px #00bcd4;
+        color: #00bcd4;
+        border-color: #00bcd4;
+    }
+
+    100% {
+        box-shadow: 0 0 5px #ff3b30;
+    }
+}
+
+/********************************************************
+ * RESPONSIVE ADJUSTMENTS
+ ********************************************************/
+
 @media (max-width: 768px) {
     .quest-node-main {
         width: 240px;
@@ -621,16 +858,100 @@
         width: 180px;
     }
 
+    .gameplay-dual-flow {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .loop-column {
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
     .loop-stage-box {
         width: 180px;
     }
 
-    .carousel-track {
-        height: 350px;
+    .loop-stage-convergence,
+    .loop-stage-transition {
+        width: 90%;
     }
 
-    .loop-stage-description,
+    .vertical-divider {
+        display: none;
+    }
+
+    .diagonal-connector {
+        transform: none !important;
+    }
+
+    .loop-tooltip {
+        width: 180px;
+    }
+
+    .stage-connector {
+        height: 1rem;
+    }
+
+    .loop-back-indicators {
+        padding: 0 2rem;
+    }
+
     .quest-node-detail {
         width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .quest-tabs {
+        flex-wrap: wrap;
+    }
+
+    .quest-nav-tab {
+        margin-bottom: 0.5rem;
+    }
+
+    .loop-stage-description {
+        position: relative;
+        width: 90%;
+        left: auto;
+        right: auto;
+        top: auto;
+        transform: none;
+        margin: 0.5rem auto;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border-left: none;
+        border-top: 2px solid var(--colors-primary--500);
+    }
+
+    .loop-stage-box.active + .loop-stage-description {
+        opacity: 1;
+        max-height: 200px;
+        padding: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .loop-column:nth-child(even) .loop-stage .loop-stage-description,
+    .loop-stage:nth-child(even) .loop-stage-description {
+        border-right: none;
+        right: auto;
+    }
+
+    .quest-node-detail {
+        position: relative;
+        width: 90%;
+        right: auto;
+        top: auto;
+        transform: none;
+        margin: 0.5rem auto;
+        border-left: none;
+        border-top: 2px solid var(--colors-primary--500);
+    }
+
+    .quest-node-sub-box:hover + .quest-node-detail {
+        margin-top: 1rem;
     }
 }
