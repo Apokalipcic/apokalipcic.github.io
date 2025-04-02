@@ -219,16 +219,13 @@
     z-index: 1;
 }
 
-/* Detail boxes */
 .quest-node-detail {
     position: absolute;
     right: 50px;
-    top: 50%;
-    transform: translateY(-50%);
+    transform: none; /* Remove the vertical centering */
     width: 240px;
     background-color: var(--colors-bg--300);
     border-left: 3px solid var(--colors-primary--500);
-    padding: 0.75rem;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
