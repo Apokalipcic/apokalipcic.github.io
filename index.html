@@ -577,6 +577,15 @@
                                             <span class="platform platform-android" title="Android"></span>
                                         </div>
                                     </div>
+                                    <div class="game-stats">
+                                        <p class="stats-label">Statistics</p>
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <span class="stat-name">Null</span>
+                                                <span class="stat-value">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="portfolio-card" data-project="project9">
@@ -663,80 +672,79 @@
 
                     <!-- Concept Card 2 -->
                     <!--<div class="concept-card" data-concept-id="concept2">
-                        <div class="concept-image">
-                            <img src="Images/Concepts/neon-shadows-1.jpg" alt="Neon Shadows">
-                            <div class="concept-overlay">
-                                <span class="concept-category">Action RPG</span>
+                            <div class="concept-image">
+                                <img src="Images/Concepts/neon-shadows-1.jpg" alt="Neon Shadows">
+                                <div class="concept-overlay">
+                                    <span class="concept-category">Action RPG</span>
+                                </div>
+                            </div>
+
+                            <div class="concept-content">
+                                <h3 class="concept-title">Neon Shadows</h3>
+                                <p class="concept-description">A cyberpunk action RPG exploring themes of identity and consciousness in a world where memories can be digitized and traded.</p>
+
+                                <div class="concept-tags">
+                                    <span class="concept-tag">Cyberpunk</span>
+                                    <span class="concept-tag">Action</span>
+                                    <span class="concept-tag">Story-Rich</span>
+                                </div>
+
+                                <button class="btn secondary-btn">View Details</button>
                             </div>
                         </div>
+                    </div>-->
+                    <!-- Concept Detail Modal -->
+                    <div id="concept-modal" class="concept-modal">
+                        <div class="modal-backdrop"></div>
+                        <div class="modal-content">
+                            <button class="modal-close">×</button>
 
-                        <div class="concept-content">
-                            <h3 class="concept-title">Neon Shadows</h3>
-                            <p class="concept-description">A cyberpunk action RPG exploring themes of identity and consciousness in a world where memories can be digitized and traded.</p>
+                            <div class="modal-body">
+                                <!-- Image Carousel -->
+                                <div class="modal-gallery">
+                                    <div class="gallery-main">
+                                        <img src="" alt="">
 
-                            <div class="concept-tags">
-                                <span class="concept-tag">Cyberpunk</span>
-                                <span class="concept-tag">Action</span>
-                                <span class="concept-tag">Story-Rich</span>
-                            </div>
+                                        <button class="gallery-nav prev">&#10094;</button>
+                                        <button class="gallery-nav next">&#10095;</button>
+                                    </div>
 
-                            <button class="btn secondary-btn">View Details</button>
-                        </div>
-                    </div>
-                </div>-->
-
-                <!-- Concept Detail Modal -->
-                <div id="concept-modal" class="concept-modal">
-                    <div class="modal-backdrop"></div>
-                    <div class="modal-content">
-                        <button class="modal-close">×</button>
-
-                        <div class="modal-body">
-                            <!-- Image Carousel -->
-                            <div class="modal-gallery">
-                                <div class="gallery-main">
-                                    <img src="" alt="">
-
-                                    <button class="gallery-nav prev">&#10094;</button>
-                                    <button class="gallery-nav next">&#10095;</button>
+                                    <div class="gallery-thumbnails">
+                                        <!-- Thumbnails will be added by JavaScript -->
+                                    </div>
                                 </div>
 
-                                <div class="gallery-thumbnails">
-                                    <!-- Thumbnails will be added by JavaScript -->
-                                </div>
-                            </div>
+                                <!-- Concept Details -->
+                                <div class="modal-details">
+                                    <div class="modal-header">
+                                        <h2></h2>
+                                        <span class="modal-category"></span>
+                                    </div>
 
-                            <!-- Concept Details -->
-                            <div class="modal-details">
-                                <div class="modal-header">
-                                    <h2></h2>
-                                    <span class="modal-category"></span>
-                                </div>
+                                    <div class="modal-description">
+                                        <p></p>
+                                    </div>
 
-                                <div class="modal-description">
-                                    <p></p>
-                                </div>
+                                    <div class="modal-features">
+                                        <h3>Key Features</h3>
+                                        <ul>
+                                            <!-- Features will be added by JavaScript -->
+                                        </ul>
+                                    </div>
 
-                                <div class="modal-features">
-                                    <h3>Key Features</h3>
-                                    <ul>
-                                        <!-- Features will be added by JavaScript -->
-                                    </ul>
-                                </div>
+                                    <div class="modal-tags">
+                                        <!-- Tags will be added by JavaScript -->
+                                    </div>
 
-                                <div class="modal-tags">
-                                    <!-- Tags will be added by JavaScript -->
-                                </div>
-
-                                <div class="modal-actions">
-                                    <button class="btn primary-btn">View Figma Board</button>
-                                    <button class="btn secondary-btn">Interactive Site</button>
+                                    <div class="modal-actions">
+                                        <button class="btn primary-btn">View Figma Board</button>
+                                        <button class="btn secondary-btn">Interactive Site</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
 
         <!-- Game Jams Section -->
@@ -751,7 +759,7 @@
                 <!-- Game Jam Project Card -->
                 <div class="game-jam-project">
                     <!-- Project Title -->
-                    <h3 class="game-jam-title">Forgotten Echoes</h3>
+                    <h3 class="game-jam-title">Bet The Farm</h3>
 
                     <!-- Analytics Section -->
                     <div class="game-analytics">
@@ -890,7 +898,7 @@
                                         <li class="contribution-item">
                                             <div class="contribution-bullet"></div>
                                             <div class="contribution-text">
-                                                <strong>Game Design Document:</strong> Collaborated effectively on the design document, strategically dividing responsibilities among team members to maximize efficiency.RetryClaude can make mistakes. Please double-check responses.
+                                                <a href="https://docs.google.com/document/d/1eVKRxzwTjUPRrFPYi31OUuTBwzU_Zl4v/edit?usp=sharing&ouid=105387911928499441701&rtpof=true&sd=true"<strong>Game Design Document:</strong></a> Collaborated effectively on the design document, strategically dividing responsibilities among team members to maximize efficiency.RetryClaude can make mistakes. Please double-check responses.
                                             </div>
                                         </li>
                                     </ul>
@@ -946,8 +954,8 @@
 
                     <!-- Action Buttons -->
                     <div class="game-jam-actions">
-                        <a href="https://gingaabread.itch.io/bet-the-farm" class="btn primary-btn">Play on itch.io</a>
-                        <a href="#" class="btn secondary-btn" data-construction="small">Learn More</a>
+                        <a href="https://gingaabread.itch.io/bet-the-farm" target="_blank" class="btn primary-btn">Play on itch.io</a>
+                        <a href="#game-jams" class="btn secondary-btn" data-construction="small">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -985,7 +993,7 @@
                                 <h4><i class="fas fa-language"></i> Languages</h4>
                                 <div class="language-tags">
                                     <span class="language-tag"><span class="flag">🇺🇦</span> Ukrainian <span class="proficiency">(Native)</span></span>
-                                    <span class="language-tag"><span class="flag">🇷🇺</span> Russian <span class="proficiency">(Fleutn)</span></span>
+                                    <span class="language-tag"><span class="flag">🇷🇺</span> Russian <span class="proficiency">(Fluent)</span></span>
                                     <span class="language-tag"><span class="flag">🇬🇧</span> English <span class="proficiency">(Fluent)</span></span>
                                     <span class="language-tag"><span class="flag">🇩🇪</span> German <span class="proficiency">(A2)</span></span>
                                     <span class="language-tag"><span class="flag">🇯🇵</span> Japanese <span class="proficiency">(Basic)</span></span>
@@ -1189,7 +1197,7 @@
                         <!-- Course 1 -->
                         <div class="course-card">
                             <div class="course-image">
-                                <a href="https://gamedesignskills.com/courses/mechanics-bootcamp-scale-depth-alexander-brazie/">
+                                <a href="https://gamedesignskills.com/courses/mechanics-bootcamp-scale-depth-alexander-brazie/" target="_blank">
                                     <img src="Images/About Me/Courses/Course_MastergingGameMechanics.png" alt="Mastering Game Mechanics">
                                 </a>
                             </div>
@@ -1213,7 +1221,7 @@
                         <div class="course-card">
                             <div class="course-image">
                                 <a href="https://www.coursera.org/specializations/game-design">
-                                    <img src="Images/About Me/Courses/courses_GameDesign_Coursera.jpg" alt="Game Design">
+                                    <img src="Images/About Me/Courses/courses_GameDesign_Coursera.jpg" alt="Game Design" target="_blank">
                                 </a>
                             </div>
                             <div class="course-content">

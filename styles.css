@@ -1419,14 +1419,32 @@ ul {
 
 .courses-header {
     margin-bottom: 30px;
-}
-
-.courses-header h3 {
-    font-size: 1.8rem;
-    color: #192245;
-    margin-bottom: 10px;
+    position: relative;
     text-align: center;
 }
+
+.courses-header::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #ddd;
+    z-index: 0;
+}
+
+    .courses-header h3 {
+        font-size: 1.8rem;
+        color: #192245;
+        margin-bottom: 10px;
+        text-align: center;
+        background-color: #f9f9f9;  
+        display: inline-block; 
+        padding: 0 20px;
+        position: relative; 
+        z-index: 1; 
+    }
 
 .courses-header p {
     text-align: center;
