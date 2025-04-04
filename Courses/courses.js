@@ -1,173 +1,229 @@
-// courses.js - JavaScript functionality for the courses page
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize the certificate carousel
+            initCertificateCarousel();
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize navigation highlighting (same as main page)
-    initNavHighlight();
-    
-    // Initialize certificate modal functionality
-    initCertificateModal();
-    
-    // Initialize progress circles for current courses
-    initProgressCircles();
-    
-    // Initialize animations
-    initAnimations();
-});
+            // Initialize the certificate modal
+            initCertificateModal();
 
-// Handle navigation highlighting
-function initNavHighlight() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    // Add active class to navigation based on current page
-    navLinks.forEach(link => {
-        if (link.getAttribute('href') === '#' && window.location.pathname.includes('courses')) {
-            link.classList.add('active');
+            // Initialize the back to top button
+            initBackToTop();
+
+            // Initialize navigation highlighting
+            initNavHighlighting();
+        });
+
+        // Initialize certificate carousel (using your existing carousel logic)
+        function initCertificateCarousel() {
+            // This function should initialize the carousel for certificates
+            // It will use your existing carousel logic from script.js
+
+            // Example of how to call your existing carousel initialization
+            if (typeof initializeScreenshotCarousel === 'function') {
+                // Call your existing carousel initialization function
+                initializeScreenshotCarousel();
+            } else {
+                console.warn('Carousel initialization function not found in the main script');
+
+                // Fallback simple carousel initialization
+                const track = document.querySelector('.certificate-track');
+                const items = document.querySelectorAll('.certificate-item');
+                const prevBtn = document.querySelector('.prev-btn');
+                const nextBtn = document.querySelector('.next-btn');
+                const dotsContainer = document.querySelector('.carousel-dots');
+
+                if (!track || items.length === 0) return;
+
+                // Create dots based on the number of certificates
+                if (dotsContainer) {
+                    dotsContainer.innerHTML = '';
+
+                    for (let i = 0; i < items.length; i++) {
+                        const dot = document.createElement('span');
+                        dot.classList.add('dot');
+                        if (i === 0) dot.classList.add('active');
+                        dot.dataset.slide = i;
+                        dotsContainer.appendChild(dot);
+
+                        dot.addEventListener('click', function () {
+                            goToSlide(parseInt(this.dataset.slide));
+                        });
+                    }
+                }
+
+                let currentSlide = 0;
+
+                // Go to specified slide
+                function goToSlide(slideIndex) {
+                    currentSlide = slideIndex;
+                    const itemWidth = items[0].getBoundingClientRect().width;
+                    const offset = -currentSlide * itemWidth;
+                    track.style.transform = `translateX(${offset}px)`;
+
+                    // Update active dot
+                    const dots = document.querySelectorAll('.dot');
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentSlide);
+                    });
+                }
+
+                // Next slide
+                function nextSlide() {
+                    if (currentSlide >= items.length - 1) {
+                        goToSlide(0);
+                    } else {
+                        goToSlide(currentSlide + 1);
+                    }
+                }
+
+                // Previous slide
+                function prevSlide() {
+                    if (currentSlide <= 0) {
+                        goToSlide(items.length - 1);
+                    } else {
+                        goToSlide(currentSlide - 1);
+                    }
+                }
+
+                // Add event listeners for carousel
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', nextSlide);
+                }
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', prevSlide);
+                }
+            }
         }
-    });
-    
-    // Mobile menu toggle (same as main page)
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navbar = document.querySelector('#navbar');
 
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', function() {
-            navbar.classList.toggle('active');
-            this.classList.toggle('active');
-        });
-    }
+        // Initialize certificate modal
+        function initCertificateModal() {
+            const certificatePreviews = document.querySelectorAll('.certificate-preview');
+            const modal = document.getElementById('certificateModal');
+            const modalImage = document.getElementById('modalImage');
+            const closeButton = document.getElementById('closeModal');
+            const downloadButton = document.getElementById('downloadCertificate');
 
-    // Close menu when clicking a link on mobile
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            navbar.classList.remove('active');
-            if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
-        });
-    });
-}
+            // Open modal when clicking on a certificate
+            certificatePreviews.forEach(preview => {
+                preview.addEventListener('click', function () {
+                    const certificatePath = this.getAttribute('data-certificate');
+                    const imgSrc = this.querySelector('img').src;
 
-// Certificate modal functionality
-function initCertificateModal() {
-    const certificateContainers = document.querySelectorAll('.course-certificate');
-    const certificateButtons = document.querySelectorAll('.view-certificate-btn');
-    const certificateModal = document.getElementById('certificate-modal');
-    const certificateImage = document.getElementById('certificate-image');
-    const closeButton = document.querySelector('.close-modal');
-    const modalOverlay = document.querySelector('.modal-overlay');
-    const downloadButton = document.querySelector('.download-certificate');
-    
-    // Function to open the certificate modal
-    function openCertificateModal(certificatePath) {
-        // Set the certificate image source
-        certificateImage.src = `Images/About Me/Courses/${certificatePath}`;
-        
-        // Update download button href
-        downloadButton.href = `Images/About Me/Courses/${certificatePath}`;
-        
-        // Show the modal
-        certificateModal.classList.add('active');
-        
-        // Prevent body scrolling
-        document.body.style.overflow = 'hidden';
-    }
-    
-    // Function to close the certificate modal
-    function closeCertificateModal() {
-        certificateModal.classList.remove('active');
-        
-        // Re-enable body scrolling
-        document.body.style.overflow = '';
-        
-        // Clear the image source after animation completes
-        setTimeout(() => {
-            certificateImage.src = '';
-        }, 300);
-    }
-    
-    // Add click event to certificate containers
-    certificateContainers.forEach(container => {
-        container.addEventListener('click', function() {
-            const certificateImg = this.querySelector('img');
-            const certificatePath = certificateImg.getAttribute('src').split('/').pop();
-            openCertificateModal(certificatePath);
-        });
-    });
-    
-    // Add click event to view certificate buttons
-    certificateButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const certificatePath = this.getAttribute('data-certificate');
-            openCertificateModal(certificatePath);
-        });
-    });
-    
-    // Close modal when clicking the close button
-    if (closeButton) {
-        closeButton.addEventListener('click', closeCertificateModal);
-    }
-    
-    // Close modal when clicking the overlay
-    if (modalOverlay) {
-        modalOverlay.addEventListener('click', closeCertificateModal);
-    }
-    
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && certificateModal.classList.contains('active')) {
-            closeCertificateModal();
-        }
-    });
-}
+                    // Set modal image source
+                    modalImage.src = imgSrc;
 
-// Initialize progress circles for current courses
-function initProgressCircles() {
-    const progressCircles = document.querySelectorAll('.progress-circle');
-    
-    progressCircles.forEach(circle => {
-        const progress = circle.getAttribute('data-progress');
-        circle.style.setProperty('--progress', progress + '%');
-    });
-}
+                    // Update download link
+                    downloadButton.href = imgSrc;
+                    downloadButton.download = certificatePath;
 
-// Initialize animations for page elements
-function initAnimations() {
-    // Add animation classes with delays to elements
-    const addAnimationWithDelay = (selector, animationClass, baseDelay = 0) => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach((element, index) => {
-            const delay = baseDelay + (index * 0.1); // 0.1s delay between each element
-            element.style.animationDelay = `${delay}s`;
-            element.classList.add(animationClass);
-        });
-    };
-    
-    // Add animations to various elements
-    addAnimationWithDelay('.stat-card', 'fade-in', 0.2);
-    addAnimationWithDelay('.featured-course', 'slide-up', 0.3);
-    addAnimationWithDelay('.course-card', 'fade-in', 0.4);
-    addAnimationWithDelay('.current-course', 'slide-up', 0.4);
-    addAnimationWithDelay('.goal-card', 'fade-in', 0.5);
-    
-    // Add intersection observer for scroll-triggered animations
-    if ('IntersectionObserver' in window) {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
+                    // Show modal
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            });
+
+            // Close modal when clicking the close button
+            if (closeButton) {
+                closeButton.addEventListener('click', function () {
+                    closeModal();
+                });
+            }
+
+            // Close modal when clicking outside the image
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    closeModal();
                 }
             });
-        }, observerOptions);
-        
-        // Elements to observe
-        const elementsToObserve = document.querySelectorAll('.section-header, .featured-course, .course-card, .current-course, .goal-card');
-        elementsToObserve.forEach(element => {
-            observer.observe(element);
-        });
-    }
-}
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            // Function to close the modal
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Re-enable scrolling
+            }
+        }
+
+        // Initialize back to top button
+        function initBackToTop() {
+            const backToTopButton = document.getElementById('backToTop');
+
+            // Show button when user scrolls down
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+
+            // Scroll to top when button is clicked
+            backToTopButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // Initialize navigation highlighting
+        function initNavHighlighting() {
+            const sections = document.querySelectorAll('.course-section');
+            const navLinks = document.querySelectorAll('.course-nav-link');
+
+            // Add active class to navigation based on scroll position
+            function highlightNav() {
+                let current = '';
+                const scrollPosition = window.scrollY + 200; // Offset for better highlighting
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            // Highlight nav on scroll
+            window.addEventListener('scroll', highlightNav);
+
+            // Initial highlight check
+            highlightNav();
+
+            // Smooth scroll to sections when clicking nav links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href').slice(1);
+                    const targetSection = document.getElementById(targetId);
+
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 100; // Adjust offset as needed
+
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+    </script>
