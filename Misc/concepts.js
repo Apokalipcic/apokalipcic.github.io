@@ -17,8 +17,8 @@ function initConceptsSection() {
     const conceptsData = [
         {
             id: 'concept1',
-            title: "Elemental Tactics",
-            category: "Strategy",
+            title: "Mirror's Edge",
+            category: "RPG",
             images: [
                 "Images/Concepts/Cyberpunk/cyberpunk_concept_01.png",
                 "Images/Concepts/Cyberpunk/cyberpunk_concept_02.png",
@@ -36,6 +36,27 @@ function initConceptsSection() {
             tags: ["RPG", "Action", "Horror", "Cyberpunk"],
             primaryLink: "https://www.figma.com/design/V73MiKv3QF7GrvQTO123Cw/C2077-Quest-Design---Mirror's-Edge?node-id=88-88&t=yAvlESeT0H7vHBU0-1", // Add your actual link here
             secondaryLink: "CyberpunkPage/index.html" // Add your actual link here, or leave empty to use construction strip
+        },
+        {
+            id: 'concept2',
+            title: "River Mystery",
+            category: "RPG",
+            images: [
+                "Images/Concepts/Concept RPG/RPG_Concept_01.png",
+                "Images/Concepts/Concept RPG/RPG_Concept_02.png",
+                "Images/Concepts/Concept RPG/RPG_Concept_03.png",
+                "Images/Concepts/Concept RPG/RPG_Concept_04.png",
+                "Images/Concepts/Concept RPG/RPG_Concept_05.png"
+            ],
+            description: "I was inspired by Baldur's Gate 3 to create new Quest Design Location, with multiple choices and dialogues.",
+            features: [
+                "Branching Narrative",
+                "Multiple Approach",
+                "Standalone"
+            ],
+            tags: ["RPG", "Narrative", "Fantasy", ],
+            primaryLink: "https://www.figma.com/design/JoKhPJjWRTn1Su6JH0hKt0/RPG-Quest-Design---Design?node-id=134-1314&t=E5hGdwzL5WGnpAnA-1", // Add your actual link here
+            secondaryLink: "" // Add your actual link here, or leave empty to use construction strip
         }
     ];
 

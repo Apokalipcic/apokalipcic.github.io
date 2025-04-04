@@ -1434,17 +1434,17 @@ ul {
     z-index: 0;
 }
 
-    .courses-header h3 {
-        font-size: 1.8rem;
-        color: #192245;
-        margin-bottom: 10px;
-        text-align: center;
-        background-color: #f9f9f9;  
-        display: inline-block; 
-        padding: 0 20px;
-        position: relative; 
-        z-index: 1; 
-    }
+.courses-header h3 {
+    font-size: 1.8rem;
+    color: #192245;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: #f9f9f9;  
+    display: inline-block; 
+    padding: 0 20px;
+    position: relative; 
+    z-index: 1; 
+}
 
 .courses-header p {
     text-align: center;
