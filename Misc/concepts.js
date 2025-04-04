@@ -57,6 +57,22 @@ function initConceptsSection() {
             tags: ["RPG", "Narrative", "Fantasy", ],
             primaryLink: "https://www.figma.com/design/JoKhPJjWRTn1Su6JH0hKt0/RPG-Quest-Design---Design?node-id=134-1314&t=E5hGdwzL5WGnpAnA-1", // Add your actual link here
             secondaryLink: "" // Add your actual link here, or leave empty to use construction strip
+        },
+        {
+            id: 'concept3',
+            title: "Long Live The King",
+            category: "Tabletop",
+            images: [
+                "Images/Concepts/Tabletop/Tabletop_Concept_01.png",
+                "Images/Concepts/Tabletop/Tabletop_Concept_02.png",
+                "Images/Concepts/Tabletop/Tabletop_Concept_03.png"
+            ],
+            description: "This game was the part of an assigment for the 'Challenges for Game Designers' book, I have using for self-taught skill development in Game Design.",
+            features: [
+            ],
+            tags: ["Tabletop", ],
+            primaryLink: "https://docs.google.com/document/d/1LDeJQlY5h6JOtFKtLIPw4unxZFe5klbQ/edit", // Add your actual link here
+            secondaryLink: "" // Add your actual link here, or leave empty to use construction strip
         }
     ];
 
