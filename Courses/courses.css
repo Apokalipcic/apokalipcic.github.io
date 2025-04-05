@@ -139,19 +139,39 @@
     }
 
 /* Certificate Carousel Styles */
+/* Certificate Carousel Styles */
 .certificates-container {
-    margin: 30px 0;
+    margin: 40px 0;
+    position: relative;
+}
+
+.certificate-carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.certificate-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.certificate-item {
+    min-width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .certificate-card {
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    padding: 20px;
-    margin: 0 15px;
-    height: 350px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .certificate-preview {
@@ -160,26 +180,29 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     border: 1px solid #eee;
     border-radius: 5px;
+    background-color: #f9f9f9;
     padding: 10px;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
     .certificate-preview:hover {
-        transform: scale(1.03);
+        transform: scale(1.02);
     }
 
     .certificate-preview img {
         max-width: 100%;
-        max-height: 100%;
+        max-height: 500px;
         object-fit: contain;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
 .certificate-info {
     text-align: center;
+    padding: 10px 0;
 }
 
 .certificate-title {
@@ -191,6 +214,83 @@
 .certificate-date {
     font-size: 0.9rem;
     color: #666;
+    margin-bottom: 15px;
+}
+
+.download-link {
+    display: inline-block;
+    background-color: #4a6bff;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+    .download-link:hover {
+        background-color: #3a50cc;
+    }
+
+/* Controls */
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.carousel-btn {
+    background-color: #4a6bff;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 10px;
+}
+
+    .carousel-btn:hover {
+        background-color: #3a50cc;
+    }
+
+.carousel-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .dot.active {
+        background-color: #4a6bff;
+    }
+
+/* Hide controls if there's only one certificate */
+.certificate-carousel.single-item .carousel-controls {
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .certificate-preview img {
+        max-height: 350px;
+    }
+
+    .certificate-card {
+        padding: 15px;
+    }
 }
 
 /* Project Showcase Styles */
