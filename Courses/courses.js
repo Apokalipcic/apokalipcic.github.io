@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize the certificate carousel
     initCertificateCarousel();
 
-    // Initialize the certificate modal
-    initCertificateModal();
-
     // Initialize the back to top button
     initBackToTop();
 
