@@ -1,0 +1,511 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maxim Kornilov - Game Designer Resume</title>
+
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: white;
+            color: #333;
+            line-height: 1.3;
+        }
+
+        .page-container {
+            width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            background-color: white;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f97316; /* orange-500 */
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: bold;
+            padding-bottom: 3px;
+            margin-bottom: 6px;
+            border-bottom: 2px solid #f97316; /* orange-500 */
+        }
+
+        h4 {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .text-orange {
+            color: #f97316; /* orange-500 */
+        }
+
+        .text-sm {
+            font-size: 13px;
+        }
+
+        .text-xs {
+            font-size: 11px;
+        }
+
+        .text-gray {
+            color: #6b7280; /* gray-600 */
+        }
+
+        .text-blue {
+            color: #3b82f6; /* blue-600 */
+        }
+
+        .font-medium {
+            font-weight: bold;
+        }
+
+        /* Layout */
+        .header {
+            margin-bottom: 12px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .items-start {
+            align-items: flex-start;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .text-right {
+            text-align: left;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .gap-3 {
+            gap: 12px;
+        }
+
+        .mb-1 {
+            margin-bottom: 3px;
+        }
+
+        .mb-2 {
+            margin-bottom: 6px;
+        }
+
+        .mb-3 {
+            margin-bottom: 8px;
+        }
+
+        .mr-1 {
+            margin-right: 3px;
+        }
+
+        .mt-2 {
+            margin-top: 6px;
+        }
+
+        .pl-2 {
+            padding-left: 6px;
+        }
+
+        .p-1 {
+            padding: 4px;
+        }
+
+        /* Icons and contacts */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .contact-item {
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+            .contact-item:not(:last-child) {
+                border-right: 1px solid #e5e7eb;
+            }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            margin-right: 6px;
+            font-size: 12px;
+        }
+
+        .icon-telegram {
+            background-color: #3b82f6;
+        }
+
+        .icon-discord {
+            background-color: #4f46e5;
+        }
+
+        .icon-portfolio {
+            background-color: #22c55e;
+        }
+
+        .icon-linkedin {
+            background-color: #1d4ed8;
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .section {
+            margin-bottom: 12px;
+        }
+
+        .skill-category {
+            margin-bottom: 6px;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+        }
+
+        .job {
+            margin-bottom: 10px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+
+        .job-company {
+            color: #f97316;
+            margin-bottom: 2px;
+        }
+
+        .job-description {
+            margin-left: 8px;
+        }
+
+        .job-bullets {
+            list-style-type: disc;
+            margin-left: 16px;
+            margin-top: 3px;
+        }
+
+        .job-bullet {
+            margin-bottom: 2px;
+        }
+
+        .compact-text {
+            line-height: 1.2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1>Maksym Kornilov</h1>
+                    <h2>Game Designer</h2>
+                </div>
+                <div class="text-right">
+                    <div class="text-xs">
+                        <div><b>Citizenship:</b> 🇺🇦 Ukraine, work permit: Europe</div>
+                        <div><b>Location:</b> 🇪🇸 Spain (Willing to relocate)</div>
+                        <div><b>Email:</b> ✉️ sname00012@gmail.com</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Links Section -->
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="icon icon-telegram">💬</div>
+                    <div>
+                        <div class="text-xs font-medium">TELEGRAM</div>
+                        <div class="text-xs">@MaxSpaceX</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon icon-discord">💬</div>
+                    <div>
+                        <div class="text-xs font-medium">DISCORD</div>
+                        <div class="text-xs">Apokalipcic2012</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon icon-portfolio">🌐</div>
+                    <div>
+                        <div class="text-xs font-medium">PORTFOLIO</div>
+                        <div class="text-xs">apokalipcic.github.io</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon icon-linkedin">🌐</div>
+                    <div>
+                        <div class="text-xs font-medium">LINKEDIN</div>
+                        <div class="text-xs">linkedin.com/in/prudentibus</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Column -->
+            <div>
+                <!-- Professional Summary -->
+                <div class="section">
+                    <h3>PROFESSIONAL SUMMARY</h3>
+                    <p class="text-sm compact-text">
+                        Game Designer with expertise in Unity and Unreal Engine development. Specialized in creating engaging player experiences through intuitive mechanics and level design. Combines creative vision with technical implementation skills to deliver compelling gameplay across mobile and PC platforms.
+                    </p>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="section">
+                    <h3>SKILLS</h3>
+
+                    <div class="skill-category">
+                        <h4 class="text-sm text-orange">Game Development</h4>
+                        <p class="text-sm">Unity 3D, Unreal Engine, C#, GDD</p>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-sm text-orange">3D & Design</h4>
+                        <p class="text-sm">Blender 3D, Adobe Photoshop, Figma</p>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-sm text-orange">Technical</h4>
+                        <p class="text-sm">GitHub, Atlassian, Jira, Game Analytics Integration</p>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-sm text-orange">Soft Skills</h4>
+                        <p class="text-sm">Creative Problem-Solving, Fast Learning Ability, Results-Oriented, Team Collaboration</p>
+                    </div>
+                </div>
+                <!-- Education Section -->
+                <div class="section">
+                    <h3>EDUCATION</h3>
+
+                    <div class="mb-2">
+                        <div class="flex justify-between">
+                            <h4 class="text-sm">Kherson Polytechnical College</h4>
+                            <span class="text-xs text-gray">2019-2021</span>
+                        </div>
+                        <p class="text-xs text-orange">Bachelor, Computer Science</p>
+                        <p class="text-xs text-gray">Advanced studies in software development, object-oriented programming</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between">
+                            <h4 class="text-sm">Kherson Polytechnical College</h4>
+                            <span class="text-xs text-gray">2015-2019</span>
+                        </div>
+                        <p class="text-xs text-orange">Computer Science</p>
+                        <p class="text-xs text-gray">Fundamentals of programming, data structures, algorithms</p>
+                    </div>
+                </div>
+                <!-- Certification Section -->
+                <div class="section">
+                    <h3>CERTIFICATION</h3>
+
+                    <!-- Mastering Game Mechanics -->
+                    <div class="mb-3">
+                        <div class="flex justify-between">
+                            <h4 class="text-xs">Mastering Game Mechanics</h4>
+                            <span class="text-xs text-gray">10/2024</span>
+                        </div>
+                        <p class="text-xs text-gray">15-week mentorship program by Alex Brazier (ex-Blizzard developer) covering game mechanics, abilities, and combat systems</p>
+                    </div>
+                    <!-- Coursera -->
+                    <div class="mb-3">
+                        <div class="flex justify-between">
+                            <h4 class="text-xs">Game Design: Art and Concepts</h4>
+                            <span class="text-xs text-gray">07/2021</span>
+                        </div>
+                        <p class="text-xs text-gray">I completed courses by CalArts to deepen my understanding of Game Design principles and explore the nuanced aspects of professional game development.</p>
+                    </div>
+                </div>
+                <!-- Languages Section -->
+                <div class="section">
+                    <h3>LANGUAGES</h3>
+                    <div class="language-grid text-sm">
+                        <div class="font-medium">🇬🇧 English</div>
+                        <div>C2/Fluent</div>
+
+                        <div class="font-medium">🇷🇺 Russian</div>
+                        <div>C2/Fluent</div>
+
+                        <div class="font-medium">🇺🇦 Ukrainian</div>
+                        <div>C2/Fluent</div>
+
+                        <div class="font-medium">🇩🇪 German</div>
+                        <div>A2/Pre-Intermediate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Experience Section -->
+                <div class="section">
+                    <h3>PROFESSIONAL EXPERIENCE</h3>
+
+                    <!-- Jeez Unity Developer -->
+                    <div class="job">
+                        <div class="job-header">
+                            <h4 class="text-sm">Unity Developer</h4>
+                            <div class="text-xs">
+                                <span class="text-orange">📅</span>
+                                <span>April 2024 - Current</span>
+                            </div>
+                        </div>
+                        <div class="job-company text-sm">Jeez Games</div>
+                        <div class="job-description text-xs">
+                            <p>As a Unity Developer, I work on multiple projects across different platforms:</p>
+                            <ul class="job-bullets">
+                                <li class="job-bullet">Lead development of complex systems for a PC game built in Unity</li>
+                                <li class="job-bullet">Design and implement advanced gameplay mechanics and architecture</li>
+                                <li class="job-bullet">Assist clients in publishing Unreal-developed games to mobile platforms</li>
+                                <li class="job-bullet">Optimize game performance for various mobile device specifications</li>
+                                <li class="job-bullet">Provide technical solutions for cross-platform deployment challenges</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Level Designer -->
+                    <div class="job">
+                        <div class="job-header">
+                            <h4 class="text-sm">Level Designer</h4>
+                            <div class="text-xs">
+                                <span class="text-orange">📅</span>
+                                <span>Nov 2023 - Feb 2024</span>
+                            </div>
+                        </div>
+                        <div class="job-company text-sm">Shadow Eagle Studios</div>
+                        <div class="job-description text-xs">
+                            <p>As a Level Designer within a Unity development team, I contributed to the creation of engaging game levels for a mobile RPG project:</p>
+                            <ul class="job-bullets">
+                                <li class="job-bullet">Designed and implemented 8+ unique game levels optimized for mobile play</li>
+                                <li class="job-bullet">Balanced difficulty progression to maintain player engagement</li>
+                                <li class="job-bullet">Collaborated with artists to integrate visual elements into level designs</li>
+                                <li class="job-bullet">Conducted playtesting and iterated on designs based on feedback</li>
+                                <li class="job-bullet">Optimized level performance for varied mobile hardware specifications</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Freelance Unity Developer -->
+                    <div class="job">
+                        <div class="job-header">
+                            <h4 class="text-sm">Freelance Unity Developer</h4>
+                            <div class="text-xs">
+                                <span class="text-orange">📅</span>
+                                <span>Jul 2021 - Nov 2023</span>
+                            </div>
+                        </div>
+                        <div class="job-company text-sm">Self-employed</div>
+                        <div class="job-description text-xs">
+                            <p>As a freelance Game Developer, I specialize in both original game concept development and client-based projects:</p>
+                            <ul class="job-bullets">
+                                <li class="job-bullet">Created innovative game prototypes for mobile platforms</li>
+                                <li class="job-bullet">Collaborated with mobile publishers for testing and distribution</li>
+                                <li class="job-bullet">Delivered custom gaming solutions for individual clients</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Game Jams Section -->
+                    <div class="section">
+                        <h3>Game Jams</h3>
+                        <!-- Producer Game Jam -->
+                        <div class="job">
+                            <div class="job-header">
+                                <h4 class="text-sm">Producer</h4>
+                                <div class="text-xs">
+                                    <span class="text-orange">📅</span>
+                                    <span>April 2025 - May 2025</span>
+                                </div>
+                            </div>
+                            <div class="job-company text-sm">Mystery Jam (Theme: Last Message)</div>
+                            <div class="job-description text-xs">
+                                <p>During my second GameJam, I served as Game Producer in a team of 6 individuals:</p>
+                                <ul class="job-bullets">
+                                    <li class="job-bullet">Established and maintained the team's vision throughout the development process</li>
+                                    <li class="job-bullet">Created and assigned tasks based on individual strengths and project timeline</li>
+                                    <li class="job-bullet">Facilitated communication between team members to ensure alignment</li>
+                                    <li class="job-bullet">Managed scope and feature prioritization to meet the GameJam deadline</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Game Designer Game Jam -->
+                        <div class="job">
+                            <div class="job-header">
+                                <h4 class="text-sm">Game Designer</h4>
+                                <div class="text-xs">
+                                    <span class="text-orange">📅</span>
+                                    <span>Nov 2022 - Dec 2022</span>
+                                </div>
+                            </div>
+                            <div class="job-company text-sm">Game Off 2022 (Theme: Cliche)</div>
+                            <div class="job-description text-xs">
+                                <p>During my first GameJam, I collaborated with a team of 10 individuals:</p>
+                                <ul class="job-bullets">
+                                    <li class="job-bullet">Co-led game design responsibilities with two other team members</li>
+                                    <li class="job-bullet">Developed resource management mechanics for a farm-themed card game</li>
+                                    <li class="job-bullet">Balanced gameplay systems to ensure engaging player experience</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
