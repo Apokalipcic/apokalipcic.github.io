@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Retro Futuristic UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fallout-base-style.css">
+</head>
+<body>
+    <div class="retro-container scanline-effect old-crt-monitor">
+        <header>
+            <h1>PIP-BOY 3000</h1>
+            <nav role="navigation">
+                <ul>
+                    <li><a href="#screen-1">STATUS</a></li>
+                    <li><a href="#screen-2">INVENTORY</a></li>
+                    <li><a href="#screen-3">DATA</a></li>
+                    <li><a href="#screen-4" class="alert">ALERT</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section id="screen-1">
+                <article>
+                    <header>
+                        <h2>STATUS</h2>
+                    </header>
+                    <div class="content">
+                        <p>Welcome to Vault 101. All systems operational.</p>
+                        <table>
+                            <tr>
+                                <td>HEALTH</td>
+                                <td>▮▮▮▮▮▮▮▮▯▯</td>
+                            </tr>
+                            <tr>
+                                <td>RADIATION</td>
+                                <td>▮▮▯▯▯▯▯▯▯▯</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <figure>
+                        <img src="/api/placeholder/400/300" alt="Vault Boy Status">
+                    </figure>
+                </article>
+            </section>
+            <section id="screen-2">
+                <article>
+                    <header>
+                        <h2>INVENTORY</h2>
+                    </header>
+                    <div class="content">
+                        <ul>
+                            <li>10mm Pistol</li>
+                            <li>Stimpak x5</li>
+                            <li>Vault Suit</li>
+                        </ul>
+                    </div>
+                </article>
+            </section>
+            <section id="screen-3">
+                <article>
+                    <header>
+                        <h2>DATA</h2>
+                    </header>
+                    <div class="content">
+                        <p>Mission: Explore the Wasteland</p>
+                        <p>Location: Capital Wasteland</p>
+                    </div>
+                </article>
+            </section>
+            <section id="screen-4">
+                <article>
+                    <header>
+                        <h2 class="alert">WARNING</h2>
+                    </header>
+                    <div class="content">
+                        <p class="alert">⚠ RADIATION LEVELS CRITICAL ⚠</p>
+                    </div>
+                </article>
+            </section>
+        </main>
+        <footer>
+            <p>ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM v.85</p>
+        </footer>
+    </div>
+    <script src="fallout-scripts.js"></script>
+</body>
+</html>
