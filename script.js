@@ -365,46 +365,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Show/hide projects based on selection
                 gameJamProjects.forEach(project => {
                     if (project.id === targetProjectId) {
+                        // Show the selected project
                         project.style.display = 'block';
 
-                        // Add small animation effect
-                        setTimeout(() => {
-                            project.style.opacity = '1';
-                            project.style.transform = 'translateY(0)';
-                        }, 10);
+                        // Add class to help with targeting the active project
+                        project.classList.add('active');
 
-                        // Reinitialize any carousel or dynamic content in this project
-                        if (targetProjectId === 'forgotten-echoes') {
-                            // If necessary, you can initialize screenshot carousel here
-                            if (typeof initializeScreenshotCarousel === 'function') {
-                                setTimeout(initializeScreenshotCarousel, 100);
-                            }
-                        }
+                        // Wait a tiny bit for the DOM to update
+                        setTimeout(() => {
+                            // Re-initialize the screenshot carousel for this project
+                            initializeScreenshotCarousel();
+                        }, 100);
                     } else {
-                        project.style.opacity = '0';
-                        project.style.transform = 'translateY(20px)';
-
-                        // Hide after animation completes
-                        setTimeout(() => {
-                            project.style.display = 'none';
-                        }, 400);
+                        // Hide other projects
+                        project.style.display = 'none';
+                        project.classList.remove('active');
                     }
                 });
-
-                // Scroll to top of game jam section for better UX
-                const gameJamSection = document.getElementById('game-jams');
-                if (gameJamSection) {
-                    const headerOffset = 100; // Adjust based on your header height
-                    const sectionPosition = gameJamSection.getBoundingClientRect().top;
-                    const offsetPosition = sectionPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
             });
         });
+
+        // Mark the first project as active (it's visible by default)
+        if (gameJamProjects.length > 0) {
+            gameJamProjects[0].classList.add('active');
+        }
     }
 
 
