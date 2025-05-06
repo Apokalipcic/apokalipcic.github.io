@@ -754,6 +754,132 @@ ul {
 }
 
 /* ===== Game Jams ===== */
+
+/* Game Jam Navigation */
+.game-jam-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.jam-nav-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+    .jam-nav-btn:hover {
+        background: var(--accent-color-dark);
+        transform: scale(1.1);
+    }
+
+.jam-indicators {
+    display: flex;
+    margin: 0 1rem;
+}
+
+.jam-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .jam-indicator.active {
+        background: var(--accent-color);
+        transform: scale(1.2);
+    }
+
+/* Game Jam Container */
+.game-jam-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.game-jam-project {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    width: 100%;
+}
+
+    .game-jam-project.active {
+        display: block;
+        opacity: 1;
+    }
+
+/* Animation for project transitions */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.game-jam-project.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+.game-jam-project.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .jam-nav-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    .jam-indicator {
+        width: 10px;
+        height: 10px;
+        margin: 0 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .jam-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .jam-indicator {
+        width: 8px;
+        height: 8px;
+        margin: 0 3px;
+    }
+}
 .game-jams-section {
     position: relative;
 }

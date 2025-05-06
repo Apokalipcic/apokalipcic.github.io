@@ -338,6 +338,116 @@ document.addEventListener('DOMContentLoaded', function () {
         initGameInfoBoxes();
     }
 
+    // Game Jam Projects Navigation
+    function initializeGameJamNavigation() {
+        const gameJamContainer = document.querySelector('.game-jam-container');
+        const gameJamProjects = document.querySelectorAll('.game-jam-project');
+        const jamIndicatorsContainer = document.querySelector('.jam-indicators');
+        const prevJamBtn = document.querySelector('.prev-jam');
+        const nextJamBtn = document.querySelector('.next-jam');
+
+        // If no game jam projects found, exit
+        if (!gameJamContainer || gameJamProjects.length === 0) return;
+
+        let currentJamIndex = 0;
+
+        // Create indicators based on number of game jam projects
+        function createJamIndicators() {
+            // Clear existing indicators
+            if (jamIndicatorsContainer) {
+                jamIndicatorsContainer.innerHTML = '';
+
+                // Create new indicators
+                for (let i = 0; i < gameJamProjects.length; i++) {
+                    const indicator = document.createElement('span');
+                    indicator.classList.add('jam-indicator');
+                    if (i === currentJamIndex) {
+                        indicator.classList.add('active');
+                    }
+                    indicator.dataset.index = i;
+                    jamIndicatorsContainer.appendChild(indicator);
+
+                    // Add click event to indicators
+                    indicator.addEventListener('click', function () {
+                        goToJam(parseInt(this.dataset.index));
+                    });
+                }
+            }
+        }
+
+        // Go to specified game jam project
+        function goToJam(jamIndex) {
+            if (jamIndex === currentJamIndex) return;
+
+            // Hide current project
+            gameJamProjects[currentJamIndex].classList.remove('active');
+
+            // Show new project
+            currentJamIndex = jamIndex;
+            gameJamProjects[currentJamIndex].classList.add('active');
+
+            // Update active indicator
+            const indicators = document.querySelectorAll('.jam-indicator');
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentJamIndex);
+            });
+
+            // Reset any screenshot carousels in the new project
+            resetScreenshotCarousels(gameJamProjects[currentJamIndex]);
+        }
+
+        // Reset screenshot carousels within a game jam project
+        function resetScreenshotCarousels(jamProject) {
+            const screenshotTracks = jamProject.querySelectorAll('.screenshot-track');
+            screenshotTracks.forEach(track => {
+                track.style.transform = 'translateX(0)';
+
+                // Reset dots if they exist
+                const carouselDots = track.closest('.screenshots-carousel').querySelectorAll('.dot');
+                carouselDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === 0);
+                });
+            });
+        }
+
+        // Next jam
+        function nextJam() {
+            if (currentJamIndex >= gameJamProjects.length - 1) {
+                goToJam(0);
+            } else {
+                goToJam(currentJamIndex + 1);
+            }
+        }
+
+        // Previous jam
+        function prevJam() {
+            if (currentJamIndex <= 0) {
+                goToJam(gameJamProjects.length - 1);
+            } else {
+                goToJam(currentJamIndex - 1);
+            }
+        }
+
+        // Add event listeners for navigation
+        if (nextJamBtn) {
+            nextJamBtn.addEventListener('click', nextJam);
+        }
+
+        if (prevJamBtn) {
+            prevJamBtn.addEventListener('click', prevJam);
+        }
+
+        // Initial setup
+        createJamIndicators();
+
+        // Hide nav buttons if only one project
+        if (gameJamProjects.length <= 1) {
+            if (prevJamBtn) prevJamBtn.style.display = 'none';
+            if (nextJamBtn) nextJamBtn.style.display = 'none';
+            if (jamIndicatorsContainer) jamIndicatorsContainer.style.display = 'none';
+        }
+    }
+
     // Initialize Game Jam Videos
     function initializeGameJamVideos() {
         const gameJamVideoContainers = document.querySelectorAll('.game-jam-video-container .video-container[data-video-id]');
@@ -371,35 +481,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // *** SCREENSHOTS CAROUSEL - GAME JAM SECTION ***
     function initializeScreenshotCarousel() {
-        const screenshotTrack = document.querySelector('.screenshots-carousel .screenshot-track');
-        const screenshotItems = document.querySelectorAll('.screenshots-carousel .screenshot-item');
-        const screenshotPrevBtn = document.querySelector('.screenshots-carousel .prev-btn');
-        const screenshotNextBtn = document.querySelector('.screenshots-carousel .next-btn');
-        const screenshotDotsContainer = document.querySelector('.screenshots-carousel .carousel-dots');
-        
+        // Default screenshot carousel elements
+        let screenshotTrack = document.querySelector('.screenshots-carousel .screenshot-track');
+        let screenshotItems = document.querySelectorAll('.screenshots-carousel .screenshot-item');
+        let screenshotPrevBtn = document.querySelector('.screenshots-carousel .prev-btn');
+        let screenshotNextBtn = document.querySelector('.screenshots-carousel .next-btn');
+        let screenshotDotsContainer = document.querySelector('.screenshots-carousel .carousel-dots');
+
+        // Find the active game-jam-project if we're in that section
+        const activeGameJamProject = document.querySelector('.game-jam-project.active');
+
+        // If in an active game jam, use its carousel
+        if (activeGameJamProject) {
+            screenshotTrack = activeGameJamProject.querySelector('.screenshots-carousel .screenshot-track');
+            screenshotItems = activeGameJamProject.querySelectorAll('.screenshots-carousel .screenshot-item');
+            screenshotPrevBtn = activeGameJamProject.querySelector('.screenshots-carousel .prev-btn');
+            screenshotNextBtn = activeGameJamProject.querySelector('.screenshots-carousel .next-btn');
+            screenshotDotsContainer = activeGameJamProject.querySelector('.screenshots-carousel .carousel-dots');
+        }
+
         let autoplayInterval;
         const autoplayDelay = 5000; // 5 seconds between slides
-        
+
         if (!screenshotTrack || screenshotItems.length === 0) return;
 
         // Create dots based on number of slides
         function createScreenshotDots() {
             const windowWidth = window.innerWidth;
-            
+
             // Determine how many items per view based on screen size
-            let itemsPerView;
-            if (windowWidth < 768) {
-                itemsPerView = 1;
-            } else {
-                itemsPerView = 1; // Show only 1 screenshot at a time regardless of screen size
-            }
-            
+            let itemsPerView = 1; // Show only 1 screenshot at a time regardless of screen size
+
             const slideCount = Math.ceil(screenshotItems.length / itemsPerView);
-            
+
             // Clear existing dots
             if (screenshotDotsContainer) {
                 screenshotDotsContainer.innerHTML = '';
-                
+
                 // Create new dots
                 for (let i = 0; i < slideCount; i++) {
                     const dot = document.createElement('span');
@@ -409,42 +527,42 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                     dot.dataset.slide = i;
                     screenshotDotsContainer.appendChild(dot);
-                    
+
                     // Add click event to dots
-                    dot.addEventListener('click', function() {
+                    dot.addEventListener('click', function () {
                         goToSlide(parseInt(this.dataset.slide));
                         resetAutoplay(); // Reset autoplay timer when manually changing slides
                     });
                 }
             }
-            
+
             return {
                 itemsPerView,
                 slideCount
             };
         }
-        
+
         // Calculate carousel properties
         let screenshotCarouselProps = createScreenshotDots();
         let currentScreenshotSlide = 0;
-        
+
         // Go to specified slide
         function goToSlide(slideIndex) {
             const itemWidth = screenshotItems[0].getBoundingClientRect().width;
             const gapWidth = 32; // 2rem gap
-            
+
             currentScreenshotSlide = slideIndex;
             const offset = -1 * currentScreenshotSlide * screenshotCarouselProps.itemsPerView * (itemWidth + gapWidth);
             screenshotTrack.style.transform = `translateX(${offset}px)`;
             screenshotTrack.style.transition = 'transform 0.5s ease-in-out';
-            
+
             // Update active dot
-            const dots = document.querySelectorAll('.screenshots-carousel .dot');
+            const dots = screenshotDotsContainer ? screenshotDotsContainer.querySelectorAll('.dot') : [];
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentScreenshotSlide);
             });
         }
-        
+
         // Next slide
         function nextSlide() {
             if (currentScreenshotSlide >= screenshotCarouselProps.slideCount - 1) {
@@ -453,7 +571,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 goToSlide(currentScreenshotSlide + 1);
             }
         }
-        
+
         // Previous slide
         function prevSlide() {
             if (currentScreenshotSlide <= 0) {
@@ -462,52 +580,57 @@ document.addEventListener('DOMContentLoaded', function () {
                 goToSlide(currentScreenshotSlide - 1);
             }
         }
-        
+
         // Start autoplay
         function startAutoplay() {
             stopAutoplay(); // Clear any existing interval first
             autoplayInterval = setInterval(nextSlide, autoplayDelay);
         }
-        
+
         // Stop autoplay
         function stopAutoplay() {
             if (autoplayInterval) {
                 clearInterval(autoplayInterval);
             }
         }
-        
+
         // Reset autoplay - used when manually changing slides
         function resetAutoplay() {
             stopAutoplay();
             startAutoplay();
         }
-        
+
         // Add event listeners for carousel
         if (screenshotNextBtn) {
-            screenshotNextBtn.addEventListener('click', function() {
+            screenshotNextBtn.addEventListener('click', function () {
                 nextSlide();
                 resetAutoplay();
             });
         }
-        
+
         if (screenshotPrevBtn) {
-            screenshotPrevBtn.addEventListener('click', function() {
+            screenshotPrevBtn.addEventListener('click', function () {
                 prevSlide();
                 resetAutoplay();
             });
         }
-        
+
         // Pause autoplay on hover
-        screenshotTrack.addEventListener('mouseenter', stopAutoplay);
-        screenshotTrack.addEventListener('mouseleave', startAutoplay);
-        
+        if (screenshotTrack) {
+            screenshotTrack.addEventListener('mouseenter', stopAutoplay);
+            screenshotTrack.addEventListener('mouseleave', startAutoplay);
+        }
+
         // Recalculate on window resize
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
+            // Exit if elements are no longer in the DOM (e.g., if another game jam is now active)
+            if (!screenshotTrack || !screenshotItems.length) return;
+
             screenshotCarouselProps = createScreenshotDots();
             goToSlide(0);
             resetAutoplay();
         });
-        
+
         // Start autoplay
         startAutoplay();
     }
@@ -577,4 +700,5 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeGameJamVideos();
     initializeScreenshotCarousel();
     initializeSkillBars();
+    initializeGameJamNavigation();
 });
