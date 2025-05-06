@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         break;
                     case 'project8':
                         gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.BurgerMania";
-                        break; 
+                        break;
                     case 'project9':
                         gameUrl = "https://play.google.com/store/apps/details?id=com.Prudentibus.JustTanky";
                         break;
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function updateGameInfoBoxVisibility() {
             const carouselItems = document.querySelectorAll('#Mobile-Games .carousel-item');
             const windowWidth = window.innerWidth;
-            
+
             // Determine how many items per view based on screen size
             let itemsPerView;
             if (windowWidth < 768) {
@@ -288,11 +288,11 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 itemsPerView = 3;
             }
-            
+
             // Calculate start and end indices for visible items
             const startIndex = currentSlide * itemsPerView;
             const endIndex = Math.min(startIndex + itemsPerView, carouselItems.length);
-            
+
             // Hide all game info boxes first
             carouselItems.forEach(item => {
                 const gameInfoBox = item.querySelector('.game-info-box');
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     gameInfoBox.style.overflow = 'hidden';
                 }
             });
-            
+
             // Show only the game info boxes for visible slides
             for (let i = startIndex; i < endIndex; i++) {
                 if (i < carouselItems.length) {
@@ -317,11 +317,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
-        
+
         // Initialize game info boxes with transitions
         function initGameInfoBoxes() {
             const gameInfoBoxes = document.querySelectorAll('#Mobile-Games .game-info-box');
-            
+
             gameInfoBoxes.forEach(box => {
                 box.style.transition = 'all 0.3s ease-in-out';
                 box.style.opacity = '0';
@@ -329,124 +329,84 @@ document.addEventListener('DOMContentLoaded', function () {
                 box.style.margin = '0';
                 box.style.overflow = 'hidden';
             });
-            
+
             // Initial update to show the correct boxes
             setTimeout(updateGameInfoBoxVisibility, 300);
         }
-        
+
         // Initialize game info boxes
         initGameInfoBoxes();
     }
 
-    // Game Jam Projects Navigation
+    // Function to handle the Game Jam Navigation
     function initializeGameJamNavigation() {
-        const gameJamContainer = document.querySelector('.game-jam-container');
+        // Get all navigation buttons
+        const navButtons = document.querySelectorAll('.game-jam-nav-btn');
+
+        // Get all game jam projects
         const gameJamProjects = document.querySelectorAll('.game-jam-project');
-        const jamIndicatorsContainer = document.querySelector('.jam-indicators');
-        const prevJamBtn = document.querySelector('.prev-jam');
-        const nextJamBtn = document.querySelector('.next-jam');
 
-        // If no game jam projects found, exit
-        if (!gameJamContainer || gameJamProjects.length === 0) return;
+        // Exit if elements don't exist
+        if (!navButtons.length || !gameJamProjects.length) return;
 
-        let currentJamIndex = 0;
+        // Add click event to each navigation button
+        navButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Get the target project id from data attribute
+                const targetProjectId = this.getAttribute('data-project');
 
-        // Create indicators based on number of game jam projects
-        function createJamIndicators() {
-            // Clear existing indicators
-            if (jamIndicatorsContainer) {
-                jamIndicatorsContainer.innerHTML = '';
+                // Skip if clicking already active button
+                if (this.classList.contains('active')) return;
 
-                // Create new indicators
-                for (let i = 0; i < gameJamProjects.length; i++) {
-                    const indicator = document.createElement('span');
-                    indicator.classList.add('jam-indicator');
-                    if (i === currentJamIndex) {
-                        indicator.classList.add('active');
+                // Update button active states
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show/hide projects based on selection
+                gameJamProjects.forEach(project => {
+                    if (project.id === targetProjectId) {
+                        project.style.display = 'block';
+
+                        // Add small animation effect
+                        setTimeout(() => {
+                            project.style.opacity = '1';
+                            project.style.transform = 'translateY(0)';
+                        }, 10);
+
+                        // Reinitialize any carousel or dynamic content in this project
+                        if (targetProjectId === 'forgotten-echoes') {
+                            // If necessary, you can initialize screenshot carousel here
+                            if (typeof initializeScreenshotCarousel === 'function') {
+                                setTimeout(initializeScreenshotCarousel, 100);
+                            }
+                        }
+                    } else {
+                        project.style.opacity = '0';
+                        project.style.transform = 'translateY(20px)';
+
+                        // Hide after animation completes
+                        setTimeout(() => {
+                            project.style.display = 'none';
+                        }, 400);
                     }
-                    indicator.dataset.index = i;
-                    jamIndicatorsContainer.appendChild(indicator);
+                });
 
-                    // Add click event to indicators
-                    indicator.addEventListener('click', function () {
-                        goToJam(parseInt(this.dataset.index));
+                // Scroll to top of game jam section for better UX
+                const gameJamSection = document.getElementById('game-jams');
+                if (gameJamSection) {
+                    const headerOffset = 100; // Adjust based on your header height
+                    const sectionPosition = gameJamSection.getBoundingClientRect().top;
+                    const offsetPosition = sectionPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
                     });
                 }
-            }
-        }
-
-        // Go to specified game jam project
-        function goToJam(jamIndex) {
-            if (jamIndex === currentJamIndex) return;
-
-            // Hide current project
-            gameJamProjects[currentJamIndex].classList.remove('active');
-
-            // Show new project
-            currentJamIndex = jamIndex;
-            gameJamProjects[currentJamIndex].classList.add('active');
-
-            // Update active indicator
-            const indicators = document.querySelectorAll('.jam-indicator');
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === currentJamIndex);
             });
-
-            // Reset any screenshot carousels in the new project
-            resetScreenshotCarousels(gameJamProjects[currentJamIndex]);
-        }
-
-        // Reset screenshot carousels within a game jam project
-        function resetScreenshotCarousels(jamProject) {
-            const screenshotTracks = jamProject.querySelectorAll('.screenshot-track');
-            screenshotTracks.forEach(track => {
-                track.style.transform = 'translateX(0)';
-
-                // Reset dots if they exist
-                const carouselDots = track.closest('.screenshots-carousel').querySelectorAll('.dot');
-                carouselDots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === 0);
-                });
-            });
-        }
-
-        // Next jam
-        function nextJam() {
-            if (currentJamIndex >= gameJamProjects.length - 1) {
-                goToJam(0);
-            } else {
-                goToJam(currentJamIndex + 1);
-            }
-        }
-
-        // Previous jam
-        function prevJam() {
-            if (currentJamIndex <= 0) {
-                goToJam(gameJamProjects.length - 1);
-            } else {
-                goToJam(currentJamIndex - 1);
-            }
-        }
-
-        // Add event listeners for navigation
-        if (nextJamBtn) {
-            nextJamBtn.addEventListener('click', nextJam);
-        }
-
-        if (prevJamBtn) {
-            prevJamBtn.addEventListener('click', prevJam);
-        }
-
-        // Initial setup
-        createJamIndicators();
-
-        // Hide nav buttons if only one project
-        if (gameJamProjects.length <= 1) {
-            if (prevJamBtn) prevJamBtn.style.display = 'none';
-            if (nextJamBtn) nextJamBtn.style.display = 'none';
-            if (jamIndicatorsContainer) jamIndicatorsContainer.style.display = 'none';
-        }
+        });
     }
+
 
     // Initialize Game Jam Videos
     function initializeGameJamVideos() {
@@ -638,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Animation for skill bars in the About section
     function initializeSkillBars() {
         const skillLevels = document.querySelectorAll('.skill-bar');
-        
+
         // Function to check if element is in viewport
         function isInViewport(element) {
             const rect = element.getBoundingClientRect();
@@ -649,25 +609,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 rect.right <= (window.innerWidth || document.documentElement.clientWidth)
             );
         }
-        
+
         // Function to animate skill bars
         function animateSkills() {
             skillLevels.forEach(skill => {
                 if (isInViewport(skill)) {
                     const targetWidth = skill.style.width;
                     skill.style.width = '0%';
-                    
+
                     setTimeout(() => {
                         skill.style.width = targetWidth;
                     }, 200);
                 }
             });
         }
-        
+
         // Use Intersection Observer if supported
         if ('IntersectionObserver' in window) {
             const skillsSection = document.querySelector('.skills-container');
-            
+
             if (skillsSection) {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -678,7 +638,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     });
                 }, { threshold: 0.2 });
-                
+
                 // Observe both skill sections
                 document.querySelectorAll('.skills-container').forEach(section => {
                     observer.observe(section);
@@ -686,10 +646,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         } else {
             // Fallback for browsers that don't support Intersection Observer
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', function () {
                 animateSkills();
             });
-            
+
             // Initial animation
             setTimeout(animateSkills, 500);
         }

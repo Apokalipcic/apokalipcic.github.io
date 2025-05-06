@@ -770,7 +770,6 @@
         </section>
 
         <!-- Game Jams Section -->
-        <!-- Updated Game Jams Section Structure -->
         <section id="game-jams" class="section game-jams-section">
             <div class="container">
                 <div class="section-header">
@@ -779,419 +778,409 @@
                     <p>My projects from game development competitions</p>
                 </div>
 
-                <!-- Game Jam Navigation Controls -->
+                <!-- Game Jam Navigation -->
                 <div class="game-jam-navigation">
-                    <button class="jam-nav-btn prev-jam" aria-label="Previous game jam">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="jam-indicators">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                    <button class="jam-nav-btn next-jam" aria-label="Next game jam">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                    <button class="game-jam-nav-btn active" data-project="bet-the-farm">Bet The Farm</button>
+                    <button class="game-jam-nav-btn" data-project="forgotten-echoes">Forgotten Echoes</button>
                 </div>
 
-                <!-- Game Jam Projects Container -->
-                <div class="game-jam-container">
-                    <!-- Game Jam Project 1: Bet The Farm -->
-                    <div class="game-jam-project active">
-                        <!-- Project Title -->
-                        <h3 class="game-jam-title">Bet The Farm</h3>
+                <!-- Game Jam Project 1: Bet The Farm (visible by default) -->
+                <div class="game-jam-project" id="bet-the-farm" style="opacity: 1; transform: translateY(0px); display: block;">
+                    <!-- Project Title -->
+                    <h3 class="game-jam-title">Bet The Farm</h3>
 
-                        <!-- Analytics Section -->
-                        <div class="game-analytics">
-                            <div class="analytics-item">
-                                <div class="analytics-value">6,658</div>
-                                <div class="analytics-label">Views</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">139</div>
-                                <div class="analytics-label">Downloads</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">4,136</div>
-                                <div class="analytics-label">Browser Plays</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">76</div>
-                                <div class="analytics-label">Ratings</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">119</div>
-                                <div class="analytics-label">Collections</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">0.84%</div>
-                                <div class="analytics-label">CTR</div>
-                            </div>
+                    <!-- Analytics Section -->
+                    <div class="game-analytics">
+                        <div class="analytics-item">
+                            <div class="analytics-value">6,658</div>
+                            <div class="analytics-label">Views</div>
                         </div>
-
-                        <!-- Project Info Box -->
-                        <div class="project-info-box game-jam-info-box">
-                            <div class="project-info-item">
-                                <span class="info-label">My Role:</span> Game Designer
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Event:</span> <a href="https://itch.io/jam/game-off-2022/rate/1803542">Game Off 2022</a>
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Team Size:</span> 9
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Engine:</span> Unity (C#)
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Theme:</span> "Cliche"
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Duration:</span> 1 Month
-                            </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">139</div>
+                            <div class="analytics-label">Downloads</div>
                         </div>
-
-                        <!-- Main content area with video -->
-                        <div class="game-jam-content">
-                            <!-- Video section -->
-                            <div class="game-jam-video-container">
-                                <div class="video-container" data-video-id="HhlAAdkYrBY">
-                                    <a href="https://www.youtube.com/watch?v=HhlAAdkYrBY" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                                        <img src="https://img.youtube.com/vi/HhlAAdkYrBY/maxresdefault.jpg" alt="Video thumbnail">
-                                        <div class="play-button">
-                                            <i class="fas fa-play-circle"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <!-- Game Details Section (Results and Contributions) -->
-                            <div class="game-details">
-                                <h2 class="section-subtitle">Game Details</h2>
-
-                                <div class="details-container">
-                                    <!-- Game Jam Results Column -->
-                                    <div class="details-column">
-                                        <div class="details-title">Game Jam Results</div>
-                                        <div class="details-subtitle">Ranked from 76 ratings</div>
-
-                                        <table class="ratings-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Criteria</th>
-                                                    <th>Rank</th>
-                                                    <th>Score</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="highlight-row">
-                                                    <td>Graphics</td>
-                                                    <td>#4</td>
-                                                    <td>4.526</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Audio</td>
-                                                    <td>#14</td>
-                                                    <td>4.066</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Overall</td>
-                                                    <td>#21</td>
-                                                    <td>4.053</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gameplay</td>
-                                                    <td>#44</td>
-                                                    <td>3.671</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Innovation</td>
-                                                    <td>#107</td>
-                                                    <td>3.276</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Theme Interpretation</td>
-                                                    <td>#145</td>
-                                                    <td>3.329</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- My Contributions Column -->
-                                    <div class="details-column">
-                                        <div class="details-title">My Contributions</div>
-
-                                        <ul class="contributions-list">
-                                            <li class="contribution-item">
-                                                <div class="contribution-bullet"></div>
-                                                <div class="contribution-text">
-                                                    <strong>Game Mechanics Design:</strong> Crafted polished and engaging game mechanics that aligned perfectly with our team's vision and the game jam theme.
-                                                </div>
-                                            </li>
-                                            <li class="contribution-item">
-                                                <div class="contribution-bullet"></div>
-                                                <div class="contribution-text">
-                                                    <strong>Team Cooperation:</strong> Facilitated seamless collaboration between team members to ensure a unified vision and consistent approach throughout development.
-                                                </div>
-                                            </li>
-                                            <li class="contribution-item">
-                                                <div class="contribution-bullet"></div>
-                                                <div class="contribution-text">
-                                                    <a href="https://docs.google.com/document/d/1eVKRxzwTjUPRrFPYi31OUuTBwzU_Zl4v/edit?usp=sharing&ouid=105387911928499441701&rtpof=true&sd=true"<strong>Game Design Document:</strong></a> Collaborated effectively on the design document, strategically dividing responsibilities among team members to maximize efficiency.
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">4,136</div>
+                            <div class="analytics-label">Browser Plays</div>
                         </div>
-
-                        <!-- Screenshots Carousel -->
-                        <div class="screenshots-carousel">
-                            <h2 class="section-subtitle">Screenshots</h2>
-                            <div class="carousel-container">
-                                <div class="carousel-track screenshot-track">
-                                    <!-- Screenshot 1 -->
-                                    <div class="carousel-item screenshot-item">
-                                        <div class="screenshot-card">
-                                            <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_01.png" alt="Forgotten Echoes - Screenshot 1">
-                                        </div>
-                                    </div>
-                                    <!-- Screenshot 2 -->
-                                    <div class="carousel-item screenshot-item">
-                                        <div class="screenshot-card">
-                                            <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_02.png" alt="Forgotten Echoes - Screenshot 2">
-                                        </div>
-                                    </div>
-                                    <!-- Screenshot 3 -->
-                                    <div class="carousel-item screenshot-item">
-                                        <div class="screenshot-card">
-                                            <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_03.png" alt="Forgotten Echoes - Screenshot 3">
-                                        </div>
-                                    </div>
-                                    <!-- Screenshot 4 -->
-                                    <div class="carousel-item screenshot-item">
-                                        <div class="screenshot-card">
-                                            <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_04.png" alt="Forgotten Echoes - Screenshot 4">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="carousel-controls">
-                                <button class="carousel-btn prev-btn" aria-label="Previous screenshot">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <div class="carousel-dots">
-                                    <!-- Dots will be added dynamically with JavaScript -->
-                                </div>
-                                <button class="carousel-btn next-btn" aria-label="Next screenshot">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">76</div>
+                            <div class="analytics-label">Ratings</div>
                         </div>
-
-                        <!-- Action Buttons -->
-                        <div class="game-jam-actions">
-                            <a href="https://gingaabread.itch.io/bet-the-farm" target="_blank" class="btn primary-btn">Play on itch.io</a>
-                            <a href="#game-jams" class="btn secondary-btn" data-construction="small">Learn More</a>
+                        <div class="analytics-item">
+                            <div class="analytics-value">119</div>
+                            <div class="analytics-label">Collections</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">0.84%</div>
+                            <div class="analytics-label">CTR</div>
                         </div>
                     </div>
 
-                    <!-- Game Jam Project 2: Your New Game Jam -->
-                    <div class="game-jam-project">
-                        <!-- Project Title -->
-                        <h3 class="game-jam-title">World Building Jam 2023</h3>
+                    <!-- Project Info Box -->
+                    <div class="project-info-box game-jam-info-box">
+                        <div class="project-info-item">
+                            <span class="info-label">My Role:</span> Game Designer
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Event:</span> <a href="https://itch.io/jam/game-off-2022/rate/1803542">Game Off 2022</a>
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Team Size:</span> 9
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Engine:</span> Unity (C#)
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Theme:</span> "Cliche"
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Duration:</span> 1 Month
+                        </div>
+                    </div>
 
-                        <!-- Analytics Section -->
-                        <div class="game-analytics">
-                            <div class="analytics-item">
-                                <div class="analytics-value">3,241</div>
-                                <div class="analytics-label">Views</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">87</div>
-                                <div class="analytics-label">Downloads</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">1,892</div>
-                                <div class="analytics-label">Browser Plays</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">43</div>
-                                <div class="analytics-label">Ratings</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">65</div>
-                                <div class="analytics-label">Collections</div>
-                            </div>
-                            <div class="analytics-item">
-                                <div class="analytics-value">1.2%</div>
-                                <div class="analytics-label">CTR</div>
+                    <!-- Main content area with video -->
+                    <div class="game-jam-content">
+                        <!-- Video section -->
+                        <div class="game-jam-video-container">
+                            <div class="video-container" data-video-id="HhlAAdkYrBY">
+                                <a href="https://www.youtube.com/watch?v=HhlAAdkYrBY" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                    <img src="https://img.youtube.com/vi/HhlAAdkYrBY/maxresdefault.jpg" alt="Video thumbnail">
+                                    <div class="play-button">
+                                        <i class="fas fa-play-circle"></i>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Project Info Box -->
-                        <div class="project-info-box game-jam-info-box">
-                            <div class="project-info-item">
-                                <span class="info-label">My Role:</span> Game & Narrative Designer
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Event:</span> <a href="#game-jams">World Building Jam 2023</a>
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Team Size:</span> 6
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Engine:</span> Unity (C#)
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Theme:</span> "Forgotten Worlds"
-                            </div>
-                            <div class="project-info-item">
-                                <span class="info-label">Duration:</span> 2 Weeks
-                            </div>
-                        </div>
+                        <!-- Game Details Section (Results and Contributions) -->
+                        <div class="game-details">
+                            <h2 class="section-subtitle">Game Details</h2>
 
-                        <!-- Main content area with video -->
-                        <div class="game-jam-content">
-                            <!-- Video section -->
-                            <div class="game-jam-video-container">
-                                <div class="video-container" data-video-id="dQw4w9WgXcQ">
-                                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
-                                        <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Video thumbnail">
-                                        <div class="play-button">
-                                            <i class="fas fa-play-circle"></i>
-                                        </div>
-                                    </a>
+                            <div class="details-container">
+                                <!-- Game Jam Results Column -->
+                                <div class="details-column">
+                                    <div class="details-title">Game Jam Results</div>
+                                    <div class="details-subtitle">Ranked from 76 ratings</div>
+
+                                    <table class="ratings-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Criteria</th>
+                                                <th>Rank</th>
+                                                <th>Score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="highlight-row">
+                                                <td>Graphics</td>
+                                                <td>#4</td>
+                                                <td>4.526</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Audio</td>
+                                                <td>#14</td>
+                                                <td>4.066</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Overall</td>
+                                                <td>#21</td>
+                                                <td>4.053</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gameplay</td>
+                                                <td>#44</td>
+                                                <td>3.671</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Innovation</td>
+                                                <td>#107</td>
+                                                <td>3.276</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Theme Interpretation</td>
+                                                <td>#145</td>
+                                                <td>3.329</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
 
-                            <!-- Game Details Section (Results and Contributions) -->
-                            <div class="game-details">
-                                <h2 class="section-subtitle">Game Details</h2>
+                                <!-- My Contributions Column -->
+                                <div class="details-column">
+                                    <div class="details-title">My Contributions</div>
 
-                                <div class="details-container">
-                                    <!-- Game Jam Results Column -->
-                                    <div class="details-column">
-                                        <div class="details-title">Game Jam Results</div>
-                                        <div class="details-subtitle">Ranked from 43 ratings</div>
-
-                                        <table class="ratings-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Criteria</th>
-                                                    <th>Rank</th>
-                                                    <th>Score</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="highlight-row">
-                                                    <td>Narrative</td>
-                                                    <td>#3</td>
-                                                    <td>4.721</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Theme Interpretation</td>
-                                                    <td>#5</td>
-                                                    <td>4.487</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Overall</td>
-                                                    <td>#12</td>
-                                                    <td>4.195</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Graphics</td>
-                                                    <td>#19</td>
-                                                    <td>3.842</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Audio</td>
-                                                    <td>#22</td>
-                                                    <td>3.765</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gameplay</td>
-                                                    <td>#31</td>
-                                                    <td>3.524</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- My Contributions Column -->
-                                    <div class="details-column">
-                                        <div class="details-title">My Contributions</div>
-
-                                        <ul class="contributions-list">
-                                            <li class="contribution-item">
-                                                <div class="contribution-bullet"></div>
-                                                <div class="contribution-text">
-                                                    <strong>World & Narrative Design:</strong> Created a rich, immersive world with compelling lore and engaging story arcs that resonated with players and judges.
-                                                </div>
-                                            </li>
-                                            <li class="contribution-item">
-                                                <div class="contribution-bullet"></div>
-                                                <div class="contribution-text">
-                                                    <strong>Character Development:</strong> Designed multi-dimensional characters with unique backgrounds, motivations, and growth arcs throughout the game.
-                                                </div>
-                                            </li>
-                                            <li class="contribution-item">
-                                                <div class="contribution-bullet"></div>
-                                                <div class="contribution-text">
-                                                    <strong>Unity Integration:</strong> Implemented dialogue systems and narrative-based gameplay mechanics, ensuring seamless integration with other game systems.
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <ul class="contributions-list">
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <strong>Game Mechanics Design:</strong> Crafted polished and engaging game mechanics that aligned perfectly with our team's vision and the game jam theme.
+                                            </div>
+                                        </li>
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <strong>Team Cooperation:</strong> Facilitated seamless collaboration between team members to ensure a unified vision and consistent approach throughout development.
+                                            </div>
+                                        </li>
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <a href="https://docs.google.com/document/d/1eVKRxzwTjUPRrFPYi31OUuTBwzU_Zl4v/edit?usp=sharing&ouid=105387911928499441701&rtpof=true&sd=true"><strong>Game Design Document:</strong></a> Collaborated effectively on the design document, strategically dividing responsibilities among team members to maximize efficiency.
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Screenshots Carousel -->
-                        <div class="screenshots-carousel">
-                            <h2 class="section-subtitle">Screenshots</h2>
-                            <div class="carousel-container">
-                                <div class="carousel-track screenshot-track">
-                                    <!-- Screenshot 1 -->
-                                    <div class="carousel-item screenshot-item">
-                                        <div class="screenshot-card">
-                                            <img src="Images/Elements/under-construction.png" alt="World Building Jam - Screenshot 1">
-                                        </div>
+                    <!-- Screenshots Carousel -->
+                    <div class="screenshots-carousel">
+                        <h2 class="section-subtitle">Screenshots</h2>
+                        <div class="carousel-container">
+                            <div class="carousel-track screenshot-track">
+                                <!-- Screenshot 1 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_01.png" alt="Bet The Farm - Screenshot 1">
                                     </div>
-                                    <!-- Screenshot 2 -->
-                                    <div class="carousel-item screenshot-item">
-                                        <div class="screenshot-card">
-                                            <img src="Images/Elements/under-construction.png" alt="World Building Jam - Screenshot 2">
-                                        </div>
+                                </div>
+                                <!-- Screenshot 2 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_02.png" alt="Bet The Farm - Screenshot 2">
                                     </div>
-                                    <!-- Screenshot 3 -->
-                                    <div class="carousel-item screenshot-item">
-                                        <div class="screenshot-card">
-                                            <img src="Images/Elements/under-construction.png" alt="World Building Jam - Screenshot 3">
-                                        </div>
+                                </div>
+                                <!-- Screenshot 3 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_03.png" alt="Bet The Farm - Screenshot 3">
+                                    </div>
+                                </div>
+                                <!-- Screenshot 4 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="Images/Game Jams/Bet The Farm/betTheFarm_Image_04.png" alt="Bet The Farm - Screenshot 4">
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="carousel-controls">
-                                <button class="carousel-btn prev-btn" aria-label="Previous screenshot">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <div class="carousel-dots">
-                                    <!-- Dots will be added dynamically with JavaScript -->
-                                </div>
-                                <button class="carousel-btn next-btn" aria-label="Next screenshot">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
+                        <div class="carousel-controls">
+                            <button class="carousel-btn prev-btn" aria-label="Previous screenshot">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <div class="carousel-dots">
+                                <!-- Dots will be added dynamically with JavaScript -->
+                            </div>
+                            <button class="carousel-btn next-btn" aria-label="Next screenshot">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="game-jam-actions">
+                        <a href="https://gingaabread.itch.io/bet-the-farm" target="_blank" class="btn primary-btn">Play on itch.io</a>
+                        <a href="#game-jams" class="btn secondary-btn" data-construction="small">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Game Jam Project 2: Forgotten Echoes (hidden by default) -->
+                <div class="game-jam-project" id="forgotten-echoes" style="display: none;">
+                    <!-- Project Title -->
+                    <h3 class="game-jam-title">Forgotten Echoes</h3>
+
+                    <!-- Analytics Section -->
+                    <div class="game-analytics">
+                        <div class="analytics-item">
+                            <div class="analytics-value">3,420</div>
+                            <div class="analytics-label">Views</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">95</div>
+                            <div class="analytics-label">Downloads</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">2,184</div>
+                            <div class="analytics-label">Browser Plays</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">42</div>
+                            <div class="analytics-label">Ratings</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">73</div>
+                            <div class="analytics-label">Collections</div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-value">0.65%</div>
+                            <div class="analytics-label">CTR</div>
+                        </div>
+                    </div>
+
+                    <!-- Project Info Box -->
+                    <div class="project-info-box game-jam-info-box">
+                        <div class="project-info-item">
+                            <span class="info-label">My Role:</span> Game Designer & Programmer
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Event:</span> <a href="#">Global Game Jam 2023</a>
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Team Size:</span> 5
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Engine:</span> Unity (C#)
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Theme:</span> "Roots"
+                        </div>
+                        <div class="project-info-item">
+                            <span class="info-label">Duration:</span> 48 Hours
+                        </div>
+                    </div>
+
+                    <!-- Main content area with video -->
+                    <div class="game-jam-content">
+                        <!-- Video section -->
+                        <div class="game-jam-video-container">
+                            <div class="video-container" data-video-id="dQw4w9WgXcQ">
+                                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                                    <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Video thumbnail">
+                                    <div class="play-button">
+                                        <i class="fas fa-play-circle"></i>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Action Buttons -->
-                        <div class="game-jam-actions">
-                            <a href="#game-jams" class="btn primary-btn" data-construction="small">Play on itch.io</a>
-                            <a href="#game-jams" class="btn secondary-btn" data-construction="small">Learn More</a>
+                        <!-- Game Details Section (Results and Contributions) -->
+                        <div class="game-details">
+                            <h2 class="section-subtitle">Game Details</h2>
+
+                            <div class="details-container">
+                                <!-- Game Jam Results Column -->
+                                <div class="details-column">
+                                    <div class="details-title">Game Jam Results</div>
+                                    <div class="details-subtitle">Ranked from 42 ratings</div>
+
+                                    <table class="ratings-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Criteria</th>
+                                                <th>Rank</th>
+                                                <th>Score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="highlight-row">
+                                                <td>Innovation</td>
+                                                <td>#12</td>
+                                                <td>4.120</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Theme Interpretation</td>
+                                                <td>#15</td>
+                                                <td>4.080</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Overall</td>
+                                                <td>#18</td>
+                                                <td>3.950</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Audio</td>
+                                                <td>#22</td>
+                                                <td>3.840</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gameplay</td>
+                                                <td>#25</td>
+                                                <td>3.780</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Graphics</td>
+                                                <td>#28</td>
+                                                <td>3.650</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- My Contributions Column -->
+                                <div class="details-column">
+                                    <div class="details-title">My Contributions</div>
+
+                                    <ul class="contributions-list">
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <strong>Game Programming:</strong> Implemented core gameplay mechanics, including character movement, interaction systems, and environmental puzzles.
+                                            </div>
+                                        </li>
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <strong>Level Design:</strong> Created engaging, atmospheric level layouts that complemented the narrative while providing varied gameplay challenges.
+                                            </div>
+                                        </li>
+                                        <li class="contribution-item">
+                                            <div class="contribution-bullet"></div>
+                                            <div class="contribution-text">
+                                                <strong>Systems Design:</strong> Developed the memory collection system that served as both a narrative device and core gameplay progression mechanic.
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Screenshots Carousel -->
+                    <div class="screenshots-carousel">
+                        <h2 class="section-subtitle">Screenshots</h2>
+                        <div class="carousel-container">
+                            <div class="carousel-track screenshot-track">
+                                <!-- Screenshot 1 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="/api/placeholder/800/450" alt="Forgotten Echoes - Screenshot 1">
+                                    </div>
+                                </div>
+                                <!-- Screenshot 2 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="/api/placeholder/800/450" alt="Forgotten Echoes - Screenshot 2">
+                                    </div>
+                                </div>
+                                <!-- Screenshot 3 -->
+                                <div class="carousel-item screenshot-item">
+                                    <div class="screenshot-card">
+                                        <img src="/api/placeholder/800/450" alt="Forgotten Echoes - Screenshot 3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-controls">
+                            <button class="carousel-btn prev-btn" aria-label="Previous screenshot">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <div class="carousel-dots">
+                                <!-- Dots will be added dynamically with JavaScript -->
+                            </div>
+                            <button class="carousel-btn next-btn" aria-label="Next screenshot">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="game-jam-actions">
+                        <a href="#" target="_blank" class="btn primary-btn">Play on itch.io</a>
+                        <a href="#game-jams" class="btn secondary-btn" data-construction="small">Learn More</a>
                     </div>
                 </div>
             </div>

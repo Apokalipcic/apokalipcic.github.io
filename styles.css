@@ -755,55 +755,86 @@ ul {
 
 /* ===== Game Jams ===== */
 
-/* Game Jam Navigation */
+/* Game Jam Navigation Styles */
+
+/* Navigation Container */
 .game-jam-navigation {
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-bottom: 2rem;
-    width: 100%;
+    gap: 16px;
+    margin: 30px 0;
 }
 
-.jam-nav-btn {
-    background: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Navigation Buttons */
+.game-jam-nav-btn {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 2px solid #4a6bff;
+    border-radius: 30px;
+    color: #4a6bff;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.5px;
 }
 
-    .jam-nav-btn:hover {
-        background: var(--accent-color-dark);
-        transform: scale(1.1);
+    /* Hover State */
+    .game-jam-nav-btn:hover {
+        background-color: rgba(74, 107, 255, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(74, 107, 255, 0.2);
     }
 
-.jam-indicators {
-    display: flex;
-    margin: 0 1rem;
-}
-
-.jam-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ccc;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-    .jam-indicator.active {
-        background: var(--accent-color);
-        transform: scale(1.2);
+    /* Active State */
+    .game-jam-nav-btn.active {
+        background-color: #4a6bff;
+        color: white;
+        box-shadow: 0 4px 12px rgba(74, 107, 255, 0.3);
     }
 
+    /* Focus State (for accessibility) */
+    .game-jam-nav-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.4);
+    }
+
+/* Game Jam Projects */
+.game-jam-project {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+    .game-jam-project[style*="display: none"] {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .game-jam-navigation {
+        gap: 12px;
+    }
+
+    .game-jam-nav-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .game-jam-navigation {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .game-jam-nav-btn {
+        width: 80%;
+        padding: 10px 0;
+        text-align: center;
+    }
+}
 /* Game Jam Container */
 .game-jam-container {
     position: relative;
