@@ -441,37 +441,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // *** SCREENSHOTS CAROUSEL - GAME JAM SECTION ***
     function initializeScreenshotCarousel() {
-        // Default screenshot carousel elements
-        let screenshotTrack = document.querySelector('.screenshots-carousel .screenshot-track');
-        let screenshotItems = document.querySelectorAll('.screenshots-carousel .screenshot-item');
-        let screenshotPrevBtn = document.querySelector('.screenshots-carousel .prev-btn');
-        let screenshotNextBtn = document.querySelector('.screenshots-carousel .next-btn');
-        let screenshotDotsContainer = document.querySelector('.screenshots-carousel .carousel-dots');
+        // Find the active game-jam-project
+        const activeGameJamProject = document.querySelector('.game-jam-project[style*="display: block"], .game-jam-project.active');
 
-        // Find the active game-jam-project if we're in that section
-        const activeGameJamProject = document.querySelector('.game-jam-project.active');
+        // If no project is active, exit
+        if (!activeGameJamProject) return;
 
-        // If in an active game jam, use its carousel
-        if (activeGameJamProject) {
-            screenshotTrack = activeGameJamProject.querySelector('.screenshots-carousel .screenshot-track');
-            screenshotItems = activeGameJamProject.querySelectorAll('.screenshots-carousel .screenshot-item');
-            screenshotPrevBtn = activeGameJamProject.querySelector('.screenshots-carousel .prev-btn');
-            screenshotNextBtn = activeGameJamProject.querySelector('.screenshots-carousel .next-btn');
-            screenshotDotsContainer = activeGameJamProject.querySelector('.screenshots-carousel .carousel-dots');
-        }
+        // Get carousel elements from active project
+        const screenshotTrack = activeGameJamProject.querySelector('.screenshots-carousel .screenshot-track');
+        const screenshotItems = activeGameJamProject.querySelectorAll('.screenshots-carousel .screenshot-item');
+        const screenshotPrevBtn = activeGameJamProject.querySelector('.screenshots-carousel .prev-btn');
+        const screenshotNextBtn = activeGameJamProject.querySelector('.screenshots-carousel .next-btn');
+        const screenshotDotsContainer = activeGameJamProject.querySelector('.screenshots-carousel .carousel-dots');
+
+        // Exit if carousel elements don't exist
+        if (!screenshotTrack || screenshotItems.length === 0) return;
 
         let autoplayInterval;
         const autoplayDelay = 5000; // 5 seconds between slides
 
-        if (!screenshotTrack || screenshotItems.length === 0) return;
-
         // Create dots based on number of slides
         function createScreenshotDots() {
-            const windowWidth = window.innerWidth;
-
-            // Determine how many items per view based on screen size
-            let itemsPerView = 1; // Show only 1 screenshot at a time regardless of screen size
-
+            // Always show 1 screenshot at a time
+            const itemsPerView = 1;
             const slideCount = Math.ceil(screenshotItems.length / itemsPerView);
 
             // Clear existing dots
@@ -491,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Add click event to dots
                     dot.addEventListener('click', function () {
                         goToSlide(parseInt(this.dataset.slide));
-                        resetAutoplay(); // Reset autoplay timer when manually changing slides
+                        resetAutoplay();
                     });
                 }
             }
