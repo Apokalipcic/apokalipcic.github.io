@@ -18,7 +18,7 @@ function initConceptsSection() {
         {
             id: 'concept1',
             title: "Mirror's Edge",
-            category: "RPG",
+            category: "Side Quest",
             images: [
                 "Images/Concepts/Cyberpunk/cyberpunk_concept_01.png",
                 "Images/Concepts/Cyberpunk/cyberpunk_concept_02.png",
@@ -40,7 +40,7 @@ function initConceptsSection() {
         {
             id: 'concept2',
             title: "River Mystery",
-            category: "RPG",
+            category: "Side Quest",
             images: [
                 "Images/Concepts/Concept RPG/RPG_Concept_01.png",
                 "Images/Concepts/Concept RPG/RPG_Concept_02.png",
@@ -60,18 +60,22 @@ function initConceptsSection() {
         },
         {
             id: 'concept3',
-            title: "Long Live The King",
-            category: "Tabletop",
+            title: "The Prodigy",
+            category: "Side Quest",
             images: [
-                "Images/Concepts/Tabletop/Tabletop_Concept_01.png",
-                "Images/Concepts/Tabletop/Tabletop_Concept_02.png",
-                "Images/Concepts/Tabletop/Tabletop_Concept_03.png"
+                "Images/Concepts/Split Fiction/SplitFiction_Image_01.png",
+                "Images/Concepts/Split Fiction/SplitFiction_Image_02.png",
+                "Images/Concepts/Split Fiction/SplitFiction_Image_03.png",
+                "Images/Concepts/Split Fiction/SplitFiction_Image_04.png"
             ],
-            description: "This game was the part of an assigment for the 'Challenges for Game Designers' book, I have using for self-taught skill development in Game Design.",
+            description: "I really was stunned by the diversity of the game, and wanted to add something special to the game, that would be fun and memorable",
             features: [
+                "Multiplayer Coop",
+                "Rhythm Game",
+                "Emotional Resonance"
             ],
-            tags: ["Tabletop", ],
-            primaryLink: "https://docs.google.com/document/d/1LDeJQlY5h6JOtFKtLIPw4unxZFe5klbQ/edit", // Add your actual link here
+            tags: ["Co-op", "Side Quest"],
+            primaryLink: "https://www.figma.com/design/cp7Flh9Qx85Cp2MIONwFv4/Split-Fiction---Side-Story?node-id=0-1", // Add your actual link here
             secondaryLink: "" // Add your actual link here, or leave empty to use construction strip
         }
     ];
