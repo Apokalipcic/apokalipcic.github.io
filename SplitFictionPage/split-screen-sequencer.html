@@ -8,47 +8,51 @@
 </head>
 <body>
     <!-- Main container -->
-    <div id="app-container">
-        <!-- Left side (Player A) -->
-        <div id="player-a-side" class="player-side">
-            <div class="side-header">
-                <h2>Player A</h2>
-            </div>
+    <div id="app-container" class="splitview">
+        <!-- Bottom layer (Player B) -->
+        <div id="player-b-side" class="player-side panel bottom">
+            <div class="content">
+                <div class="side-header">
+                    <h2>Mia</h2>
+                </div>
 
-            <!-- Notes container for Player A -->
-            <div class="notes-area" id="notes-area-a">
-                <!-- Notes will be dynamically created by JavaScript -->
-            </div>
+                <!-- Notes container for Player B -->
+                <div class="notes-area" id="notes-area-b">
+                    <!-- Notes will be dynamically created by JavaScript -->
+                </div>
 
-            <!-- Visual sequencer for Player A -->
-            <div class="sequencer-container">
-                <div class="sequencer" id="sequencer-a">
-                    <!-- Cells will be dynamically created by JavaScript -->
+                <!-- Visual sequencer for Player B -->
+                <div class="sequencer-container">
+                    <div class="sequencer" id="sequencer-b">
+                        <!-- Cells will be dynamically created by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top layer (Player A) -->
+        <div id="player-a-side" class="player-side panel top">
+            <div class="content">
+                <div class="side-header">
+                    <h2>Zoe</h2>
+                </div>
+
+                <!-- Notes container for Player A -->
+                <div class="notes-area" id="notes-area-a">
+                    <!-- Notes will be dynamically created by JavaScript -->
+                </div>
+
+                <!-- Visual sequencer for Player A -->
+                <div class="sequencer-container">
+                    <div class="sequencer" id="sequencer-a">
+                        <!-- Cells will be dynamically created by JavaScript -->
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Draggable divider -->
-        <div id="divider" draggable="true"></div>
-
-        <!-- Right side (Player B) -->
-        <div id="player-b-side" class="player-side">
-            <div class="side-header">
-                <h2>Player B</h2>
-            </div>
-
-            <!-- Notes container for Player B -->
-            <div class="notes-area" id="notes-area-b">
-                <!-- Notes will be dynamically created by JavaScript -->
-            </div>
-
-            <!-- Visual sequencer for Player B -->
-            <div class="sequencer-container">
-                <div class="sequencer" id="sequencer-b">
-                    <!-- Cells will be dynamically created by JavaScript -->
-                </div>
-            </div>
-        </div>
+        <div id="divider" class="handle"></div>
 
         <!-- Playback controls -->
         <div id="playback-controls">
@@ -64,6 +68,5 @@
     </div>
 
     <script src="split-screen-sequencer.js"></script>
-
 </body>
 </html>
