@@ -43,6 +43,22 @@ let state = {
     draggedNoteData: null,           // Data for the currently dragged note
 };
 
+// Global dragging state
+let activeNote = null;
+let offsetX = 0;
+let offsetY = 0;
+let targetX = 0;  // Target position for smooth movement
+let targetY = 0;
+let currentX = 0; // Current position during animation
+let currentY = 0;
+let isAnimating = false;
+let animationFrameId = null;
+
+// Movement speed factor (1.0 = instant, lower values = slower movement)
+const MOVEMENT_SPEED = 0.15; // Adjust this value to control speed
+// Minimum distance threshold for stopping animation
+const MIN_DISTANCE_THRESHOLD = 0.5;
+
 // Calculate step duration in milliseconds from tempo
 const stepDuration = 60000 / config.tempo;
 
@@ -90,16 +106,18 @@ function createNoteElement(noteNumber, player) {
     noteElement.setAttribute('data-player', player);
     noteElement.textContent = noteNumber;
 
-    // Create a shadow duplicate for dimensional effect
-    const shadowNote = document.createElement('div');
-    shadowNote.className = `note note-${player} shadow-note shadow-${player}`;
-    shadowNote.setAttribute('data-note', noteNumber);
-    shadowNote.setAttribute('data-shadow-for', player);
-    shadowNote.textContent = noteNumber;
+    // Create a portal counterpart for dimensional effect
+    // We'll create it with the opposite styling already applied
+    const oppositePlayer = player === 'a' ? 'b' : 'a';
+    const portalCounterpart = document.createElement('div');
+    portalCounterpart.className = `note note-${oppositePlayer} portal-counterpart`;
+    portalCounterpart.setAttribute('data-note', noteNumber);
+    portalCounterpart.setAttribute('data-counterpart-for', player);
+    portalCounterpart.textContent = noteNumber;
 
     // Link the notes
-    noteElement.setAttribute('data-shadow-id', `shadow-${player}-${noteNumber}`);
-    shadowNote.id = `shadow-${player}-${noteNumber}`;
+    noteElement.setAttribute('data-counterpart-id', `counterpart-${player}-${noteNumber}`);
+    portalCounterpart.id = `counterpart-${player}-${noteNumber}`;
 
     // Position notes initially
     if (player === 'a') {
@@ -110,12 +128,10 @@ function createNoteElement(noteNumber, player) {
         noteElement.style.left = `${100 + (col * 100)}px`;
         noteElement.style.top = `${100 + (row * 100)}px`;
 
-        // Position the shadow note at the same coordinates
-        shadowNote.style.left = `${100 + (col * 100)}px`;
-        shadowNote.style.top = `${100 + (row * 100)}px`;
-
-        // Add the shadow note to Player B side
-        playerBSide.appendChild(shadowNote);
+        // Add the portal counterpart to Player B side (initialized at the same position)
+        portalCounterpart.style.left = `${100 + (col * 100)}px`;
+        portalCounterpart.style.top = `${100 + (row * 100)}px`;
+        playerBSide.appendChild(portalCounterpart);
     } else {
         // Position Player B notes on the right side
         const index = config.playerBNotes.indexOf(noteNumber);
@@ -125,12 +141,10 @@ function createNoteElement(noteNumber, player) {
         noteElement.style.left = `${rightOffset - (col * 100)}px`;
         noteElement.style.top = `${100 + (row * 100)}px`;
 
-        // Position the shadow note at the same coordinates
-        shadowNote.style.left = `${rightOffset - (col * 100)}px`;
-        shadowNote.style.top = `${100 + (row * 100)}px`;
-
-        // Add the shadow note to Player A side
-        playerASide.appendChild(shadowNote);
+        // Add the portal counterpart to Player A side (initialized at the same position)
+        portalCounterpart.style.left = `${rightOffset - (col * 100)}px`;
+        portalCounterpart.style.top = `${100 + (row * 100)}px`;
+        playerASide.appendChild(portalCounterpart);
     }
 
     // Make notes draggable with click
@@ -144,11 +158,6 @@ let crossOverDetection = {
     isActive: false,
     currentArea: null // 'a' or 'b'
 };
-
-// Global dragging state
-let activeNote = null;
-let offsetX = 0;
-let offsetY = 0;
 
 // Check which side of the screen the note is on
 function checkNoteSide(x) {
@@ -166,6 +175,14 @@ function makeClickDraggable(element) {
         const rect = element.getBoundingClientRect();
         offsetX = e.clientX - rect.left;
         offsetY = e.clientY - rect.top;
+
+        // Initialize current position
+        currentX = rect.left;
+        currentY = rect.top;
+
+        // Set initial target (same as current)
+        targetX = currentX;
+        targetY = currentY;
 
         // Set as active element
         activeNote = element;
@@ -187,6 +204,12 @@ function makeClickDraggable(element) {
 
         // Add dragging class to container to disable pointer events
         appContainer.classList.add('dragging-active');
+
+        // Start the animation loop
+        if (!isAnimating) {
+            isAnimating = true;
+            animateMovement();
+        }
     });
 
     // Touch version
@@ -197,6 +220,14 @@ function makeClickDraggable(element) {
         const rect = element.getBoundingClientRect();
         offsetX = touch.clientX - rect.left;
         offsetY = touch.clientY - rect.top;
+
+        // Initialize current position
+        currentX = rect.left;
+        currentY = rect.top;
+
+        // Set initial target (same as current)
+        targetX = currentX;
+        targetY = currentY;
 
         activeNote = element;
         element.classList.add('dragging');
@@ -212,54 +243,111 @@ function makeClickDraggable(element) {
 
         element.style.zIndex = '30';
         appContainer.classList.add('dragging-active');
+
+        // Start the animation loop
+        if (!isAnimating) {
+            isAnimating = true;
+            animateMovement();
+        }
     });
+}
+
+// Animate the movement of the active note
+function animateMovement() {
+    if (!isAnimating || !activeNote) {
+        isAnimating = false;
+        return;
+    }
+
+    // Calculate distance to target
+    const dx = targetX - currentX;
+    const dy = targetY - currentY;
+
+    // Check if movement is small enough to stop
+    if (Math.abs(dx) < MIN_DISTANCE_THRESHOLD && Math.abs(dy) < MIN_DISTANCE_THRESHOLD) {
+        // Just set to exact target
+        currentX = targetX;
+        currentY = targetY;
+    } else {
+        // Move a percentage of the distance to the target (smooth follow)
+        currentX += dx * MOVEMENT_SPEED;
+        currentY += dy * MOVEMENT_SPEED;
+    }
+
+    // Update the position of the active note
+    activeNote.style.left = `${currentX}px`;
+    activeNote.style.top = `${currentY}px`;
+
+    // Get the portal counterpart
+    const counterpartId = activeNote.getAttribute('data-counterpart-id');
+    const portalCounterpart = document.getElementById(counterpartId);
+
+    if (portalCounterpart) {
+        // Also update the position of the portal counterpart
+        portalCounterpart.style.left = `${currentX}px`;
+        portalCounterpart.style.top = `${currentY}px`;
+
+        // Get divider position
+        const dividerPosition = parseInt(divider.style.left);
+
+        // Get note dimensions - DEFINE noteRect here
+        const noteRect = activeNote.getBoundingClientRect();
+        const noteWidth = noteRect.width;
+
+        // Get original player side
+        const originalSide = activeNote.getAttribute('data-player');
+
+        // Check if the note is crossing the divider based on its ACTUAL position
+        // (not the mouse position)
+        if (originalSide === 'a') {
+            if (currentX + noteWidth > dividerPosition) {
+                // Note is crossing from left to right
+                const overlapAmount = currentX + noteWidth - dividerPosition;
+                const overlapPercent = (overlapAmount / noteWidth) * 100;
+
+                // Show the counterpart with clip path only showing the part that's crossing
+                portalCounterpart.style.clipPath = `inset(0 0 0 ${100 - overlapPercent}%)`;
+                portalCounterpart.classList.add('portal-active');
+            } else {
+                // Not crossing, hide counterpart
+                portalCounterpart.classList.remove('portal-active');
+            }
+        } else { // originalSide === 'b'
+            if (currentX < dividerPosition) {
+                // Note is crossing from right to left
+                const overlapAmount = dividerPosition - currentX;
+                const overlapPercent = (overlapAmount / noteWidth) * 100;
+
+                // Show the counterpart with clip path only showing the part that's crossing
+                portalCounterpart.style.clipPath = `inset(0 ${100 - overlapPercent}% 0 0)`;
+                portalCounterpart.classList.add('portal-active');
+            } else {
+                // Not crossing, hide counterpart
+                portalCounterpart.classList.remove('portal-active');
+            }
+        }
+    }
+
+    // Get note dimensions for center calculation
+    const rect = activeNote.getBoundingClientRect();
+
+    // Check which side the note is on for drop targeting
+    const noteSide = checkNoteSide(currentX + rect.width / 2);
+    crossOverDetection.currentArea = noteSide;
+
+    // Check if over any sequencer cell - based on the NOTE'S actual position
+    checkDropTargets(currentX + rect.width / 2, currentY + rect.height / 2);
+
+    // Continue the animation loop
+    animationFrameId = requestAnimationFrame(animateMovement);
 }
 
 // Global document mouse move
 document.addEventListener('mousemove', function (e) {
     if (activeNote) {
-        // Move the active note
-        const newLeft = e.clientX - offsetX;
-        const newTop = e.clientY - offsetY;
-
-        activeNote.style.left = newLeft + 'px';
-        activeNote.style.top = newTop + 'px';
-
-        // Sync the shadow note position
-        const shadowId = activeNote.getAttribute('data-shadow-id');
-        const shadowNote = document.getElementById(shadowId);
-        if (shadowNote) {
-            shadowNote.style.left = newLeft + 'px';
-            shadowNote.style.top = newTop + 'px';
-        }
-
-        // Check which side the note is on
-        const noteSide = checkNoteSide(e.clientX);
-        const originalSide = state.draggedNoteData.player;
-
-        // Update classes for crossover styling
-        if (noteSide !== crossOverDetection.currentArea) {
-            crossOverDetection.currentArea = noteSide;
-
-            if (noteSide !== originalSide) {
-                // Note has crossed to the other side
-                if (originalSide === 'a') {
-                    activeNote.classList.add('in-player-b-area');
-                    if (shadowNote) shadowNote.classList.add('shadow-visible');
-                } else {
-                    activeNote.classList.add('in-player-a-area');
-                    if (shadowNote) shadowNote.classList.add('shadow-visible');
-                }
-            } else {
-                // Note has returned to its original side
-                activeNote.classList.remove('in-player-a-area');
-                activeNote.classList.remove('in-player-b-area');
-                if (shadowNote) shadowNote.classList.remove('shadow-visible');
-            }
-        }
-
-        // Check if over any sequencer cell
-        checkDropTargets(e.clientX, e.clientY);
+        // Update the target position (where the note should move to)
+        targetX = e.clientX - offsetX;
+        targetY = e.clientY - offsetY;
     }
 });
 
@@ -268,48 +356,9 @@ document.addEventListener('touchmove', function (e) {
     if (activeNote) {
         const touch = e.touches[0];
 
-        // Move the active note
-        const newLeft = touch.clientX - offsetX;
-        const newTop = touch.clientY - offsetY;
-
-        activeNote.style.left = newLeft + 'px';
-        activeNote.style.top = newTop + 'px';
-
-        // Sync the shadow note position
-        const shadowId = activeNote.getAttribute('data-shadow-id');
-        const shadowNote = document.getElementById(shadowId);
-        if (shadowNote) {
-            shadowNote.style.left = newLeft + 'px';
-            shadowNote.style.top = newTop + 'px';
-        }
-
-        // Check which side the note is on
-        const noteSide = checkNoteSide(touch.clientX);
-        const originalSide = state.draggedNoteData.player;
-
-        // Update classes for crossover styling
-        if (noteSide !== crossOverDetection.currentArea) {
-            crossOverDetection.currentArea = noteSide;
-
-            if (noteSide !== originalSide) {
-                // Note has crossed to the other side
-                if (originalSide === 'a') {
-                    activeNote.classList.add('in-player-b-area');
-                    if (shadowNote) shadowNote.classList.add('shadow-visible');
-                } else {
-                    activeNote.classList.add('in-player-a-area');
-                    if (shadowNote) shadowNote.classList.add('shadow-visible');
-                }
-            } else {
-                // Note has returned to its original side
-                activeNote.classList.remove('in-player-a-area');
-                activeNote.classList.remove('in-player-b-area');
-                if (shadowNote) shadowNote.classList.remove('shadow-visible');
-            }
-        }
-
-        // Check if over any sequencer cell
-        checkDropTargets(touch.clientX, touch.clientY);
+        // Update the target position (where the note should move to)
+        targetX = touch.clientX - offsetX;
+        targetY = touch.clientY - offsetY;
 
         e.preventDefault(); // Prevent scrolling
     }
@@ -318,35 +367,38 @@ document.addEventListener('touchmove', function (e) {
 // Mouse up - drop the element
 document.addEventListener('mouseup', function (e) {
     if (activeNote) {
-        dropActiveNote(e.clientX, e.clientY);
+        dropActiveNote(currentX + activeNote.offsetWidth / 2, currentY + activeNote.offsetHeight / 2);
     }
 });
 
 // Touch end
 document.addEventListener('touchend', function (e) {
     if (activeNote) {
-        if (e.changedTouches.length > 0) {
-            const touch = e.changedTouches[0];
-            dropActiveNote(touch.clientX, touch.clientY);
-        } else {
-            // If no touch position available, just drop where it is
-            dropActiveNote();
-        }
+        dropActiveNote(currentX + activeNote.offsetWidth / 2, currentY + activeNote.offsetHeight / 2);
     }
 });
 
 // Drop the active note
 function dropActiveNote(x, y) {
+    // Stop the animation
+    isAnimating = false;
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
     // Check for drop on a cell
     const dropCell = document.querySelector('.sequencer-cell.drag-over');
 
-    // Get the shadow note
-    const shadowId = activeNote.getAttribute('data-shadow-id');
-    const shadowNote = document.getElementById(shadowId);
+    // Get the portal counterpart
+    const counterpartId = activeNote.getAttribute('data-counterpart-id');
+    const portalCounterpart = document.getElementById(counterpartId);
 
     if (dropCell) {
         handleDrop(dropCell);
     } else if (x && y) {
+        // Get divider position
+        const dividerPosition = parseInt(divider.style.left);
         // Note is dropped outside a cell - let it stay where it was dropped
         // We'll create a new note in the appropriate player's area based on where it was dropped
         const player = checkNoteSide(x);
@@ -359,8 +411,6 @@ function dropActiveNote(x, y) {
             activeNote.setAttribute('data-player', player);
             activeNote.classList.remove(`note-${originalPlayer}`);
             activeNote.classList.add(`note-${player}`);
-            activeNote.classList.remove('in-player-a-area');
-            activeNote.classList.remove('in-player-b-area');
 
             // Move the note to the appropriate container
             const targetContainer = player === 'a' ? playerASide : playerBSide;
@@ -371,39 +421,41 @@ function dropActiveNote(x, y) {
             }
             targetContainer.appendChild(activeNote);
 
-            // Remove the shadow note from its container
-            if (shadowNote && shadowNote.parentNode) {
-                shadowNote.parentNode.removeChild(shadowNote);
+            // Remove the portal counterpart from its container
+            if (portalCounterpart && portalCounterpart.parentNode) {
+                portalCounterpart.parentNode.removeChild(portalCounterpart);
             }
 
-            // Create a new shadow note for the transferred note
-            const newShadowNote = document.createElement('div');
-            newShadowNote.className = `note note-${player} shadow-note shadow-${player}`;
-            newShadowNote.setAttribute('data-note', noteNumber);
-            newShadowNote.setAttribute('data-shadow-for', player);
-            newShadowNote.id = `shadow-${player}-${noteNumber}`;
-            newShadowNote.textContent = noteNumber;
-            newShadowNote.style.left = activeNote.style.left;
-            newShadowNote.style.top = activeNote.style.top;
+            // Create a new portal counterpart for the transferred note
+            const oppositePlayer = player === 'a' ? 'b' : 'a';
+            const newCounterpart = document.createElement('div');
+            newCounterpart.className = `note note-${oppositePlayer} portal-counterpart`;
+            newCounterpart.setAttribute('data-note', noteNumber);
+            newCounterpart.setAttribute('data-counterpart-for', player);
+            newCounterpart.id = `counterpart-${player}-${noteNumber}`;
+            newCounterpart.textContent = noteNumber;
+            newCounterpart.style.left = activeNote.style.left;
+            newCounterpart.style.top = activeNote.style.top;
 
-            // Add the new shadow note to the opposite side
-            const shadowContainer = player === 'a' ? playerBSide : playerASide;
-            shadowContainer.appendChild(newShadowNote);
+            // Add the new portal counterpart to the opposite side
+            const counterpartContainer = player === 'a' ? playerBSide : playerASide;
+            counterpartContainer.appendChild(newCounterpart);
 
             // Update the link in the original note
-            activeNote.setAttribute('data-shadow-id', `shadow-${player}-${noteNumber}`);
+            activeNote.setAttribute('data-counterpart-id', `counterpart-${player}-${noteNumber}`);
         }
     }
 
     // Reset active note appearance
-    activeNote.classList.remove('dragging');
     activeNote.style.zIndex = '5';
 
-    // Reset shadow note appearance
-    if (shadowNote) {
-        shadowNote.classList.remove('shadow-visible');
+    // Hide portal counterpart
+    if (portalCounterpart) {
+        portalCounterpart.classList.remove('portal-active');
     }
 
+    // Remove dragging class
+    activeNote.classList.remove('dragging');
     activeNote = null;
 
     // Clear drag state
@@ -415,13 +467,20 @@ function dropActiveNote(x, y) {
     const cells = document.querySelectorAll('.sequencer-cell');
     cells.forEach(cell => cell.classList.remove('drag-over'));
 
-    // Remove dragging class from container
+    // Remove dragging-active class from container
     appContainer.classList.remove('dragging-active');
 }
 
 // Handle dropping a note on a cell
 function handleDrop(cell) {
     if (!state.draggedNoteData) return;
+
+    // Stop the animation
+    isAnimating = false;
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
 
     const position = parseInt(cell.getAttribute('data-position'));
     const player = cell.getAttribute('data-player');
@@ -444,13 +503,13 @@ function handleDrop(cell) {
     // Move the original note to the appropriate side based on the drop position
     const draggedNote = state.draggedNote;
 
-    // Get the shadow note
-    const shadowId = draggedNote.getAttribute('data-shadow-id');
-    const shadowNote = document.getElementById(shadowId);
+    // Get the portal counterpart
+    const counterpartId = draggedNote.getAttribute('data-counterpart-id');
+    const portalCounterpart = document.getElementById(counterpartId);
 
-    // Remove the shadow note if it exists
-    if (shadowNote && shadowNote.parentNode) {
-        shadowNote.parentNode.removeChild(shadowNote);
+    // Remove the portal counterpart if it exists
+    if (portalCounterpart && portalCounterpart.parentNode) {
+        portalCounterpart.parentNode.removeChild(portalCounterpart);
     }
 
     // Remove the dragged note from wherever it is
@@ -506,107 +565,6 @@ function createAudioElements() {
         audio.src = audioPath;
         audio.preload = 'auto';
         audioContainer.appendChild(audio);
-    });
-}
-
-// Set up all event listeners
-function setupEventListeners() {
-    // Divider drag events
-    setupDividerDrag();
-
-    // Note drag events
-    setupNoteDragEvents();
-
-    // Playback control buttons
-    playButton.addEventListener('click', startPlayback);
-    stopButton.addEventListener('click', stopPlayback);
-    resetButton.addEventListener('click', resetSequencer);
-}
-
-// Set up the divider drag functionality
-function setupDividerDrag() {
-    let isDraggingDivider = false;
-    let startX = 0;
-    let startPosition = 50; // Percentage position
-
-    // Mouse events
-    divider.addEventListener('mousedown', startDividerDrag);
-    document.addEventListener('mousemove', moveDivider);
-    document.addEventListener('mouseup', stopDividerDrag);
-
-    // Touch events for mobile
-    divider.addEventListener('touchstart', function (e) {
-        const touch = e.touches[0];
-        startDividerDrag({ clientX: touch.clientX });
-        e.preventDefault();
-    });
-
-    document.addEventListener('touchmove', function (e) {
-        if (!isDraggingDivider) return;
-        const touch = e.touches[0];
-        moveDivider({ clientX: touch.clientX });
-        e.preventDefault(); // Prevent scrolling while dragging
-    });
-
-    document.addEventListener('touchend', stopDividerDrag);
-
-    function startDividerDrag(e) {
-        isDraggingDivider = true;
-        startX = e.clientX;
-
-        // Get current position from the divider's left value
-        const dividerLeft = parseInt(divider.style.left) || appContainer.offsetWidth / 2;
-        startPosition = (dividerLeft / appContainer.offsetWidth) * 100;
-
-        divider.classList.add('dragging');
-    }
-
-    function moveDivider(e) {
-        if (!isDraggingDivider) return;
-
-        const containerWidth = appContainer.offsetWidth;
-        const mouseX = e.clientX;
-
-        // Calculate percentage position (0-100)
-        let newPosition = startPosition + ((mouseX - startX) / containerWidth) * 100;
-        newPosition = Math.max(0, Math.min(100, newPosition));
-
-        // Update divider position
-        const dividerPos = (newPosition / 100) * containerWidth;
-        divider.style.left = `${dividerPos}px`;
-
-        // Update clip paths for both panels
-        playerASide.style.clipPath = `inset(0 ${100 - newPosition}% 0 0)`;
-        playerBSide.style.clipPath = `inset(0 0 0 ${newPosition}%)`;
-    }
-
-    function stopDividerDrag() {
-        isDraggingDivider = false;
-        divider.classList.remove('dragging');
-    }
-
-    // Add window resize handler
-    window.addEventListener('resize', function () {
-        // Get current percentage position
-        const dividerLeft = parseInt(divider.style.left) || appContainer.offsetWidth / 2;
-        const currentPosition = (dividerLeft / appContainer.offsetWidth) * 100;
-
-        // Recalculate divider position based on percentage
-        const newLeft = (currentPosition / 100) * appContainer.offsetWidth;
-        divider.style.left = `${newLeft}px`;
-    });
-}
-
-// Set up note drag and drop events
-function setupNoteDragEvents() {
-    // The note event listeners are now set up in makeClickDraggable function
-    // and global document event listeners
-
-    // Set up cells as drop targets
-    const cells = document.querySelectorAll('.sequencer-cell');
-    cells.forEach(cell => {
-        // These are now handled in the global checkDropTargets function
-        // We keep the cell setup for any additional cell-specific functionality
     });
 }
 
@@ -687,6 +645,19 @@ function addNoteToCell(cell, noteNumber, player) {
 
     // Add the has-note class
     cell.classList.add('has-note');
+}
+
+// Set up note drag and drop events
+function setupNoteDragEvents() {
+    // The note event listeners are now set up in makeClickDraggable function
+    // and global document event listeners
+
+    // Set up cells as drop targets
+    const cells = document.querySelectorAll('.sequencer-cell');
+    cells.forEach(cell => {
+        // These are now handled in the global checkDropTargets function
+        // We keep the cell setup for any additional cell-specific functionality
+    });
 }
 
 // Start the sequencer playback
@@ -787,6 +758,94 @@ function resetSequencer() {
     state.playerACellsContent = {};
     state.playerBCellsContent = {};
     state.currentStep = 0;
+}
+
+// Set up the divider drag functionality
+function setupDividerDrag() {
+    let isDraggingDivider = false;
+    let startX = 0;
+    let startPosition = 50; // Percentage position
+
+    // Mouse events
+    divider.addEventListener('mousedown', startDividerDrag);
+    document.addEventListener('mousemove', moveDivider);
+    document.addEventListener('mouseup', stopDividerDrag);
+
+    // Touch events for mobile
+    divider.addEventListener('touchstart', function (e) {
+        const touch = e.touches[0];
+        startDividerDrag({ clientX: touch.clientX });
+        e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', function (e) {
+        if (!isDraggingDivider) return;
+        const touch = e.touches[0];
+        moveDivider({ clientX: touch.clientX });
+        e.preventDefault(); // Prevent scrolling while dragging
+    });
+
+    document.addEventListener('touchend', stopDividerDrag);
+
+    function startDividerDrag(e) {
+        isDraggingDivider = true;
+        startX = e.clientX;
+
+        // Get current position from the divider's left value
+        const dividerLeft = parseInt(divider.style.left) || appContainer.offsetWidth / 2;
+        startPosition = (dividerLeft / appContainer.offsetWidth) * 100;
+
+        divider.classList.add('dragging');
+    }
+
+    function moveDivider(e) {
+        if (!isDraggingDivider) return;
+
+        const containerWidth = appContainer.offsetWidth;
+        const mouseX = e.clientX;
+
+        // Calculate percentage position (0-100)
+        let newPosition = startPosition + ((mouseX - startX) / containerWidth) * 100;
+        newPosition = Math.max(0, Math.min(100, newPosition));
+
+        // Update divider position
+        const dividerPos = (newPosition / 100) * containerWidth;
+        divider.style.left = `${dividerPos}px`;
+
+        // Update clip paths for both panels
+        playerASide.style.clipPath = `inset(0 ${100 - newPosition}% 0 0)`;
+        playerBSide.style.clipPath = `inset(0 0 0 ${newPosition}%)`;
+    }
+
+    function stopDividerDrag() {
+        isDraggingDivider = false;
+        divider.classList.remove('dragging');
+    }
+
+    // Add window resize handler
+    window.addEventListener('resize', function () {
+        // Get current percentage position
+        const dividerLeft = parseInt(divider.style.left) || appContainer.offsetWidth / 2;
+        const currentPosition = (dividerLeft / appContainer.offsetWidth) * 100;
+
+        // Recalculate divider position based on percentage
+        const newLeft = (currentPosition / 100) * appContainer.offsetWidth;
+        divider.style.left = `${newLeft}px`;
+    });
+}
+
+// Set up all event listeners
+function setupEventListeners() {
+    // Divider drag events
+    setupDividerDrag();
+
+    // Note drag events
+    setupNoteDragEvents();
+
+    // Playback control buttons
+    playButton.addEventListener('click', startPlayback);
+    stopButton.addEventListener('click', stopPlayback);
+    resetButton.addEventListener('click', resetSequencer);
 }
 
 // Initialize on page load
