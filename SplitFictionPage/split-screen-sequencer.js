@@ -18,10 +18,10 @@ const config = {
     tempo: 120,                      // Beats per minute
     playerACells: [1, 3, 5],      // Cell positions for Player A (1-based)
     playerBCells: [2, 4, 6],      // Cell positions for Player B (1-based)
-    playerANotes: [1, 3, 5],      // Note numbers for Player A (matching cell positions)
-    playerBNotes: [2, 4, 6],      // Note numbers for Player B (matching cell positions)
+    playerANotes: [1, 4, 6],      // Note numbers for Player B (matching cell positions)
+    playerBNotes: [2, 3, 5],      // Note numbers for Player A (matching cell positions)
     audioFiles: {                    // Audio file paths for each note
-        1: 'Audio/note1.ogg',          // Replace with actual paths to audio files
+        1: 'Audio/note1.ogg',          
         2: 'Audio/note2.ogg',
         3: 'Audio/note3.ogg',
         4: 'Audio/note4.ogg',
@@ -69,6 +69,8 @@ function init() {
     createSequencerCells();
     createAudioElements();
     setupEventListeners();
+
+    startPlayback();
 
     // Initialize divider position to 50%
     const containerWidth = appContainer.offsetWidth;
@@ -517,14 +519,6 @@ function handleDrop(cell) {
     if (draggedNote.parentNode) {
         draggedNote.parentNode.removeChild(draggedNote);
     }
-
-    // Create a fresh copy of the note in its original player's area
-    const newNote = createNoteElement(noteNumber, originalPlayer);
-    if (originalPlayer === 'a') {
-        notesAreaA.appendChild(newNote);
-    } else {
-        notesAreaB.appendChild(newNote);
-    }
 }
 
 // Create sequencer cells for both players
@@ -759,6 +753,13 @@ function resetSequencer() {
     state.playerACellsContent = {};
     state.playerBCellsContent = {};
     state.currentStep = 0;
+
+    // Clear the notes areas
+    notesAreaA.innerHTML = '';
+    notesAreaB.innerHTML = '';
+
+    // Recreate all original notes
+    createNotes();
 }
 
 // Set up the divider drag functionality
