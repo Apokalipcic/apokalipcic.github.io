@@ -1,0 +1,261 @@
+/* Base styles and reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+  background: #121212;
+  color: #fff;
+}
+
+/* Main container */
+#app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Player sides */
+.player-side {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+#player-a-side {
+  width: 50%;
+  background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#player-b-side {
+  width: 50%;
+  background: linear-gradient(135deg, #711c91, #822da1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Side headers */
+.side-header {
+  padding: 15px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.side-header h2 {
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* Notes area */
+.notes-area {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 20px;
+}
+
+/* Note styling */
+.note {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: grab;
+  user-select: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.note:active {
+  cursor: grabbing;
+  transform: scale(1.05);
+}
+
+/* Player A notes */
+.note-a {
+  background: #00c6ff;
+  color: #003366;
+  border: 2px solid #0099cc;
+}
+
+/* Player B notes */
+.note-b {
+  background: #ff00cc;
+  color: #660066;
+  border: 2px solid #cc0099;
+}
+
+/* Sequencer container */
+.sequencer-container {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Sequencer */
+.sequencer {
+  display: flex;
+  gap: 10px;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sequencer cells */
+.sequencer-cell {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/* Player A cells */
+.sequencer-cell[data-player="a"] {
+  background: rgba(0, 198, 255, 0.1);
+  border-color: rgba(0, 153, 204, 0.5);
+}
+
+/* Player B cells */
+.sequencer-cell[data-player="b"] {
+  background: rgba(255, 0, 204, 0.1);
+  border-color: rgba(204, 0, 153, 0.5);
+}
+
+/* Cell with note */
+.sequencer-cell.has-note {
+  background: rgba(255, 255, 255, 0.2);
+  border-style: solid;
+}
+
+/* Active cell during playback */
+.sequencer-cell.active {
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+/* Divider */
+#divider {
+  width: 10px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  cursor: ew-resize;
+  z-index: 10;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: background 0.2s ease;
+}
+
+#divider:hover,
+#divider:active {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Playback controls */
+#playback-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+}
+
+#playback-controls button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#playback-controls button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+#play-button {
+  background: rgba(0, 255, 127, 0.4) !important;
+}
+
+#play-button:hover {
+  background: rgba(0, 255, 127, 0.6) !important;
+}
+
+#stop-button {
+  background: rgba(255, 99, 71, 0.4) !important;
+}
+
+#stop-button:hover {
+  background: rgba(255, 99, 71, 0.6) !important;
+}
+
+/* Note when being dragged */
+.note.dragging {
+  opacity: 0.6;
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .note, .sequencer-cell {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .sequencer-container {
+    padding: 10px;
+  }
+  
+  .sequencer {
+    height: 80px;
+  }
+  
+  #divider {
+    width: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .note, .sequencer-cell {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  
+  .side-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  #playback-controls button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+}

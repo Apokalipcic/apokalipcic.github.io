@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Screen Music Sequencer</title>
+    <link rel="stylesheet" href="split-screen-sequencer.css">
+</head>
+<body>
+    <!-- Main container -->
+    <div id="app-container">
+        <!-- Left side (Player A) -->
+        <div id="player-a-side" class="player-side">
+            <div class="side-header">
+                <h2>Player A</h2>
+            </div>
+
+            <!-- Notes container for Player A -->
+            <div class="notes-area" id="notes-area-a">
+                <!-- Notes will be dynamically created by JavaScript -->
+            </div>
+
+            <!-- Visual sequencer for Player A -->
+            <div class="sequencer-container">
+                <div class="sequencer" id="sequencer-a">
+                    <!-- Cells will be dynamically created by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Draggable divider -->
+        <div id="divider" draggable="true"></div>
+
+        <!-- Right side (Player B) -->
+        <div id="player-b-side" class="player-side">
+            <div class="side-header">
+                <h2>Player B</h2>
+            </div>
+
+            <!-- Notes container for Player B -->
+            <div class="notes-area" id="notes-area-b">
+                <!-- Notes will be dynamically created by JavaScript -->
+            </div>
+
+            <!-- Visual sequencer for Player B -->
+            <div class="sequencer-container">
+                <div class="sequencer" id="sequencer-b">
+                    <!-- Cells will be dynamically created by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Playback controls -->
+        <div id="playback-controls">
+            <button id="play-button">Play</button>
+            <button id="stop-button">Stop</button>
+            <button id="reset-button">Reset</button>
+        </div>
+
+        <!-- Audio elements container (will be populated by JavaScript) -->
+        <div id="audio-container" style="display: none;">
+            <!-- Audio elements will be created dynamically -->
+        </div>
+    </div>
+
+    <script src="split-screen-sequencer.js"></script>
+
+</body>
+</html>
