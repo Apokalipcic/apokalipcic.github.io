@@ -90,6 +90,17 @@ function createNoteElement(noteNumber, player) {
     noteElement.setAttribute('data-player', player);
     noteElement.textContent = noteNumber;
 
+    // Create a shadow duplicate for dimensional effect
+    const shadowNote = document.createElement('div');
+    shadowNote.className = `note note-${player} shadow-note shadow-${player}`;
+    shadowNote.setAttribute('data-note', noteNumber);
+    shadowNote.setAttribute('data-shadow-for', player);
+    shadowNote.textContent = noteNumber;
+
+    // Link the notes
+    noteElement.setAttribute('data-shadow-id', `shadow-${player}-${noteNumber}`);
+    shadowNote.id = `shadow-${player}-${noteNumber}`;
+
     // Position notes initially
     if (player === 'a') {
         // Position Player A notes on the left side
@@ -98,6 +109,13 @@ function createNoteElement(noteNumber, player) {
         const col = index % 2;
         noteElement.style.left = `${100 + (col * 100)}px`;
         noteElement.style.top = `${100 + (row * 100)}px`;
+
+        // Position the shadow note at the same coordinates
+        shadowNote.style.left = `${100 + (col * 100)}px`;
+        shadowNote.style.top = `${100 + (row * 100)}px`;
+
+        // Add the shadow note to Player B side
+        playerBSide.appendChild(shadowNote);
     } else {
         // Position Player B notes on the right side
         const index = config.playerBNotes.indexOf(noteNumber);
@@ -106,6 +124,13 @@ function createNoteElement(noteNumber, player) {
         const rightOffset = appContainer.offsetWidth - 180;
         noteElement.style.left = `${rightOffset - (col * 100)}px`;
         noteElement.style.top = `${100 + (row * 100)}px`;
+
+        // Position the shadow note at the same coordinates
+        shadowNote.style.left = `${rightOffset - (col * 100)}px`;
+        shadowNote.style.top = `${100 + (row * 100)}px`;
+
+        // Add the shadow note to Player A side
+        playerASide.appendChild(shadowNote);
     }
 
     // Make notes draggable with click
@@ -200,6 +225,14 @@ document.addEventListener('mousemove', function (e) {
         activeNote.style.left = newLeft + 'px';
         activeNote.style.top = newTop + 'px';
 
+        // Sync the shadow note position
+        const shadowId = activeNote.getAttribute('data-shadow-id');
+        const shadowNote = document.getElementById(shadowId);
+        if (shadowNote) {
+            shadowNote.style.left = newLeft + 'px';
+            shadowNote.style.top = newTop + 'px';
+        }
+
         // Check which side the note is on
         const noteSide = checkNoteSide(e.clientX);
         const originalSide = state.draggedNoteData.player;
@@ -212,13 +245,16 @@ document.addEventListener('mousemove', function (e) {
                 // Note has crossed to the other side
                 if (originalSide === 'a') {
                     activeNote.classList.add('in-player-b-area');
+                    if (shadowNote) shadowNote.classList.add('shadow-visible');
                 } else {
                     activeNote.classList.add('in-player-a-area');
+                    if (shadowNote) shadowNote.classList.add('shadow-visible');
                 }
             } else {
                 // Note has returned to its original side
                 activeNote.classList.remove('in-player-a-area');
                 activeNote.classList.remove('in-player-b-area');
+                if (shadowNote) shadowNote.classList.remove('shadow-visible');
             }
         }
 
@@ -239,6 +275,14 @@ document.addEventListener('touchmove', function (e) {
         activeNote.style.left = newLeft + 'px';
         activeNote.style.top = newTop + 'px';
 
+        // Sync the shadow note position
+        const shadowId = activeNote.getAttribute('data-shadow-id');
+        const shadowNote = document.getElementById(shadowId);
+        if (shadowNote) {
+            shadowNote.style.left = newLeft + 'px';
+            shadowNote.style.top = newTop + 'px';
+        }
+
         // Check which side the note is on
         const noteSide = checkNoteSide(touch.clientX);
         const originalSide = state.draggedNoteData.player;
@@ -251,13 +295,16 @@ document.addEventListener('touchmove', function (e) {
                 // Note has crossed to the other side
                 if (originalSide === 'a') {
                     activeNote.classList.add('in-player-b-area');
+                    if (shadowNote) shadowNote.classList.add('shadow-visible');
                 } else {
                     activeNote.classList.add('in-player-a-area');
+                    if (shadowNote) shadowNote.classList.add('shadow-visible');
                 }
             } else {
                 // Note has returned to its original side
                 activeNote.classList.remove('in-player-a-area');
                 activeNote.classList.remove('in-player-b-area');
+                if (shadowNote) shadowNote.classList.remove('shadow-visible');
             }
         }
 
@@ -293,6 +340,10 @@ function dropActiveNote(x, y) {
     // Check for drop on a cell
     const dropCell = document.querySelector('.sequencer-cell.drag-over');
 
+    // Get the shadow note
+    const shadowId = activeNote.getAttribute('data-shadow-id');
+    const shadowNote = document.getElementById(shadowId);
+
     if (dropCell) {
         handleDrop(dropCell);
     } else if (x && y) {
@@ -319,12 +370,40 @@ function dropActiveNote(x, y) {
                 activeNote.parentNode.removeChild(activeNote);
             }
             targetContainer.appendChild(activeNote);
+
+            // Remove the shadow note from its container
+            if (shadowNote && shadowNote.parentNode) {
+                shadowNote.parentNode.removeChild(shadowNote);
+            }
+
+            // Create a new shadow note for the transferred note
+            const newShadowNote = document.createElement('div');
+            newShadowNote.className = `note note-${player} shadow-note shadow-${player}`;
+            newShadowNote.setAttribute('data-note', noteNumber);
+            newShadowNote.setAttribute('data-shadow-for', player);
+            newShadowNote.id = `shadow-${player}-${noteNumber}`;
+            newShadowNote.textContent = noteNumber;
+            newShadowNote.style.left = activeNote.style.left;
+            newShadowNote.style.top = activeNote.style.top;
+
+            // Add the new shadow note to the opposite side
+            const shadowContainer = player === 'a' ? playerBSide : playerASide;
+            shadowContainer.appendChild(newShadowNote);
+
+            // Update the link in the original note
+            activeNote.setAttribute('data-shadow-id', `shadow-${player}-${noteNumber}`);
         }
     }
 
     // Reset active note appearance
     activeNote.classList.remove('dragging');
     activeNote.style.zIndex = '5';
+
+    // Reset shadow note appearance
+    if (shadowNote) {
+        shadowNote.classList.remove('shadow-visible');
+    }
+
     activeNote = null;
 
     // Clear drag state
@@ -364,6 +443,15 @@ function handleDrop(cell) {
 
     // Move the original note to the appropriate side based on the drop position
     const draggedNote = state.draggedNote;
+
+    // Get the shadow note
+    const shadowId = draggedNote.getAttribute('data-shadow-id');
+    const shadowNote = document.getElementById(shadowId);
+
+    // Remove the shadow note if it exists
+    if (shadowNote && shadowNote.parentNode) {
+        shadowNote.parentNode.removeChild(shadowNote);
+    }
 
     // Remove the dragged note from wherever it is
     if (draggedNote.parentNode) {
@@ -534,6 +622,34 @@ function isValidDropTarget(cell) {
     // Notes can only be dropped in cells belonging to the same player
     // AND the note number must match the cell position
     return cellPlayer === notePlayer && noteNumber === cellPosition;
+}
+
+// Check if the dragged note is over a drop target
+function checkDropTargets(x, y) {
+    if (!state.draggedNote) return;
+
+    // Remove highlight from all cells
+    const cells = document.querySelectorAll('.sequencer-cell');
+    cells.forEach(cell => cell.classList.remove('drag-over'));
+
+    // Check if the note is over any cell
+    cells.forEach(cell => {
+        const rect = cell.getBoundingClientRect();
+        const inBounds = (
+            x >= rect.left &&
+            x <= rect.right &&
+            y >= rect.top &&
+            y <= rect.bottom
+        );
+
+        // If in bounds and a valid target, highlight the cell
+        if (inBounds) {
+            const validTarget = isValidDropTarget(cell);
+            if (validTarget) {
+                cell.classList.add('drag-over');
+            }
+        }
+    });
 }
 
 // Remove a note from a cell

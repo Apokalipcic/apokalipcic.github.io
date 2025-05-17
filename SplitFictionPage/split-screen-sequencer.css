@@ -131,18 +131,66 @@ body {
     transition: background 0.3s ease, color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Player A notes */
-.note-a {
-    background: #00c6ff;
-    color: #003366;
-    border: 2px solid #0099cc;
+/* Shadow note styling */
+.shadow-note {
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none; /* Make shadow notes non-interactive */
+    z-index: 3;
 }
 
-/* Player B notes */
-.note-b {
-    background: #ff00cc;
-    color: #660066;
-    border: 2px solid #cc0099;
+/* Shadow A notes (blue) */
+.shadow-a {
+    filter: brightness(0.6) blur(3px);
+    box-shadow: 0 0 15px 5px rgba(0, 198, 255, 0.6);
+}
+
+/* Shadow B notes (pink) */
+.shadow-b {
+    filter: brightness(0.6) blur(3px);
+    box-shadow: 0 0 15px 5px rgba(255, 0, 204, 0.6);
+}
+
+/* When a note crosses to the opposite side, make its shadow visible */
+.shadow-note.shadow-visible {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+/* Transition effect for notes crossing between sides */
+.note.in-player-a-area {
+    filter: brightness(0.9) drop-shadow(0 0 8px rgba(0, 198, 255, 0.7));
+    transition: filter 0.3s ease, transform 0.3s ease;
+    transform: scale(1.1);
+}
+
+.note.in-player-b-area {
+    filter: brightness(0.9) drop-shadow(0 0 8px rgba(255, 0, 204, 0.7));
+    transition: filter 0.3s ease, transform 0.3s ease;
+    transform: scale(1.1);
+}
+
+/* Portal effect animations */
+@keyframes portalPulsate {
+    0% {
+        filter: brightness(1) blur(0px);
+        box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5);
+    }
+
+    50% {
+        filter: brightness(1.3) blur(2px);
+        box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7);
+    }
+
+    100% {
+        filter: brightness(1) blur(0px);
+        box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.note.dragging.in-player-a-area,
+.note.dragging.in-player-b-area {
+    animation: portalPulsate 1s infinite;
 }
 
 /* Sequencer container */
@@ -197,6 +245,14 @@ body {
     /* Active cell during playback */
     .sequencer-cell.active {
         box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+    }
+
+    /* Drop target highlight */
+    .sequencer-cell.drag-over {
+        background: rgba(255, 255, 255, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         transform: scale(1.05);
     }
 
