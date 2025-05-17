@@ -16,19 +16,17 @@ const audioContainer = document.getElementById('audio-container');
 const config = {
     totalCells: 8,                   // Total number of sequencer cells
     tempo: 120,                      // Beats per minute
-    playerACells: [1, 3, 5, 7],      // Cell positions for Player A (1-based)
-    playerBCells: [2, 4, 6, 8],      // Cell positions for Player B (1-based)
-    playerANotes: [1, 3, 5, 7],      // Note numbers for Player A (matching cell positions)
-    playerBNotes: [2, 4, 6, 8],      // Note numbers for Player B (matching cell positions)
+    playerACells: [1, 3, 5],      // Cell positions for Player A (1-based)
+    playerBCells: [2, 4, 6],      // Cell positions for Player B (1-based)
+    playerANotes: [1, 3, 5],      // Note numbers for Player A (matching cell positions)
+    playerBNotes: [2, 4, 6],      // Note numbers for Player B (matching cell positions)
     audioFiles: {                    // Audio file paths for each note
-        1: 'audio/note1.mp3',          // Replace with actual paths to audio files
-        2: 'audio/note2.mp3',
-        3: 'audio/note3.mp3',
-        4: 'audio/note4.mp3',
-        5: 'audio/note5.mp3',
-        6: 'audio/note6.mp3',
-        7: 'audio/note7.mp3',
-        8: 'audio/note8.mp3',
+        1: 'Audio/note1.ogg',          // Replace with actual paths to audio files
+        2: 'Audio/note2.ogg',
+        3: 'Audio/note3.ogg',
+        4: 'Audio/note4.ogg',
+        5: 'Audio/note5.ogg',
+        5: 'Audio/note6.ogg',
     }
 };
 
@@ -55,12 +53,15 @@ let isAnimating = false;
 let animationFrameId = null;
 
 // Movement speed factor (1.0 = instant, lower values = slower movement)
-const MOVEMENT_SPEED = 0.15; // Adjust this value to control speed
+const MOVEMENT_SPEED = 0.1; // Adjust this value to control speed
 // Minimum distance threshold for stopping animation
-const MIN_DISTANCE_THRESHOLD = 0.5;
+const MIN_DISTANCE_THRESHOLD = 0;
 
-// Calculate step duration in milliseconds from tempo
-const stepDuration = 60000 / config.tempo;
+//const stepDuration = 60000 / config.tempo;
+
+// Ensure step duration is at least as long as audio files
+// Temp solution for testing
+const stepDuration = Math.max(60000 / config.tempo, 1650);
 
 // Initialize the application
 function init() {
