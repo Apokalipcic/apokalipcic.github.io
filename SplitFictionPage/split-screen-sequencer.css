@@ -51,7 +51,7 @@ body {
 
 /* Top player (Player A) */
 .top {
-    background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
+    background: linear-gradient(135deg, #1a6c31, #2a7c3a);
     z-index: 2;
     left: 0;
     clip-path: inset(0 50% 0 0); /* Initially show left half */
@@ -114,9 +114,9 @@ body {
 
 /* Player A notes */
 .note-a {
-    background: #00c6ff;
-    color: #003366;
-    border: 2px solid #0099cc;
+    background: #00ff9d;
+    color: #003629;
+    border: 2px solid #00cc7a;
 }
 
 /* Player B notes */
@@ -173,8 +173,8 @@ body {
 
     /* Player A cells */
     .sequencer-cell[data-player="a"] {
-        background: rgba(0, 198, 255, 0.1);
-        border-color: rgba(0, 153, 204, 0.5);
+        background: rgba(0, 255, 130, 0.1);
+        border-color: rgba(0, 204, 102, 0.5);
     }
 
     /* Player B cells */
