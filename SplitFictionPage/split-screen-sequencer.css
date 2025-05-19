@@ -155,7 +155,7 @@ body {
 /* Triangle shape using clip-path */
 .note.shape-triangle {
     clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-    position: relative;
+    position: absolute;
     overflow: visible;
 }
 
@@ -171,12 +171,21 @@ body {
         z-index: 1;
     }
 
-    .note.shape-triangle.portal-counterpart::before {
-        z-index: -1; /* Make sure it doesn't interfere with visibility */
+/* Special handling for triangle portal counterparts */
+.shape-triangle.portal-counterpart {
+    transition: opacity 0.1s ease, clip-path 0.1s ease;
+}
+
+    /* Fix for triangle shape during transitions */
+    .shape-triangle.portal-counterpart.portal-active {
+        opacity: 1;
+        clip-path: polygon(50% 0%, 100% 100%, 0% 100%); /* Default triangle */
     }
-    .note.shape-triangle.portal-counterpart.portal-active::before {
-        opacity: 0; /* Hide the inner triangle when active/crossing */
-    }
+
+        /* Hide the hollow effect for triangles when they're part of a portal transition */
+        .shape-triangle.portal-counterpart.portal-active::before {
+            opacity: 0;
+        }
 
 /* Player A triangle */
 .note-a.shape-triangle {
@@ -203,6 +212,10 @@ body {
 
     .note.shape-diamond span {
         transform: rotate(-45deg); /* Counter-rotate the text */
+    }
+
+    .note.shape-diamond.note-in-cell {
+        transform: rotate(0deg); /* Counter-rotate the text */
     }
 
 /* Player A diamond */
@@ -251,7 +264,7 @@ body {
     opacity: 0;
     pointer-events: none; /* Make portal counterparts non-interactive */
     z-index: 6; /* Above regular notes but below active dragged notes */
-    transition: clip-path 0.05s linear, opacity 0.1s ease; /* Smooth transitions */
+    transition: opacity 0.1s ease; /* Remove clip-path from transition for triangles */
     overflow: visible;
 }
 
@@ -321,6 +334,43 @@ body {
         border: 2px solid rgba(255, 255, 255, 0.8);
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         transform: scale(1.05);
+    }
+
+    /* Cell for square notes */
+    .sequencer-cell[data-note-shape="shape-square"] {
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Cell for circle notes */
+    .sequencer-cell[data-note-shape="shape-circle"] {
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Cell for diamond notes */
+    .sequencer-cell[data-note-shape="shape-diamond"] {
+        transform: rotate(45deg);
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+        .sequencer-cell[data-note-shape="shape-diamond"] .position-label {
+            transform: rotate(-45deg);
+        }
+
+    /* Cell for triangle notes */
+    .sequencer-cell[data-note-shape="shape-triangle"] {
+        clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Player specific colors for cells */
+    .sequencer-cell[data-player="a"][data-note-shape] {
+        border-color: rgba(0, 204, 102, 0.8);
+    }
+
+    .sequencer-cell[data-player="b"][data-note-shape] {
+        border-color: rgba(204, 0, 153, 0.8);
     }
 
 /* Divider */

@@ -304,6 +304,9 @@ function animateMovement() {
         // Get original player side
         const originalSide = activeNote.getAttribute('data-player');
 
+        // Check if the active note is a triangle
+        const isTriangle = activeNote.classList.contains('shape-triangle');
+
         // Check if crossing the divider
         if (originalSide === 'a') {
             if (currentX + noteWidth > dividerPosition) {
@@ -311,20 +314,34 @@ function animateMovement() {
                 const overlapAmount = currentX + noteWidth - dividerPosition;
                 const overlapPercent = (overlapAmount / noteWidth) * 100;
 
-                // Important: For triangles, we need to ensure opacity is set correctly
-                portalCounterpart.style.opacity = "1";
+                // Special handling for triangles
+                if (isTriangle) {
+                    // Make sure the counterpart is fully visible when crossing
+                    portalCounterpart.style.opacity = overlapPercent > 10 ? "1" : "0";
+                    portalCounterpart.classList.add('portal-active');
 
-                // Show only the part crossing the divider
-                portalCounterpart.style.clipPath = `inset(0 0 0 ${100 - overlapPercent}%)`;
-                portalCounterpart.classList.add('portal-active');
+                    // For triangles we use a different approach to show the partial visibility
+                    portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
 
-                // Remove hollow state to show filled version
-                portalCounterpart.classList.remove('hollow');
+                    // Remove hollow state to show filled version
+                    portalCounterpart.classList.remove('hollow');
+                } else {
+                    // Standard handling for other shapes
+                    portalCounterpart.style.opacity = "1";
+                    portalCounterpart.style.clipPath = `inset(0 0 0 ${100 - overlapPercent}%)`;
+                    portalCounterpart.classList.add('portal-active');
+                    portalCounterpart.classList.remove('hollow');
+                }
             } else {
                 // Not crossing, hide counterpart
                 portalCounterpart.style.opacity = "0";
                 portalCounterpart.classList.remove('portal-active');
                 portalCounterpart.classList.add('hollow');
+
+                // Reset clipPath for triangles when not crossing
+                if (isTriangle) {
+                    portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
+                }
             }
         } else { // originalSide === 'b'
             if (currentX < dividerPosition) {
@@ -332,23 +349,38 @@ function animateMovement() {
                 const overlapAmount = dividerPosition - currentX;
                 const overlapPercent = (overlapAmount / noteWidth) * 100;
 
-                // Important: For triangles, we need to ensure opacity is set correctly
-                portalCounterpart.style.opacity = "1";
+                // Special handling for triangles
+                if (isTriangle) {
+                    // Make sure the counterpart is fully visible when crossing
+                    portalCounterpart.style.opacity = overlapPercent > 10 ? "1" : "0";
+                    portalCounterpart.classList.add('portal-active');
 
-                // Show only the part crossing the divider
-                portalCounterpart.style.clipPath = `inset(0 ${100 - overlapPercent}% 0 0)`;
-                portalCounterpart.classList.add('portal-active');
+                    // For triangles we use a different approach for right to left transition
+                    portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
 
-                // Remove hollow state to show filled version
-                portalCounterpart.classList.remove('hollow');
+                    // Remove hollow state to show filled version
+                    portalCounterpart.classList.remove('hollow');
+                } else {
+                    // Standard handling for other shapes
+                    portalCounterpart.style.opacity = "1";
+                    portalCounterpart.style.clipPath = `inset(0 ${100 - overlapPercent}% 0 0)`;
+                    portalCounterpart.classList.add('portal-active');
+                    portalCounterpart.classList.remove('hollow');
+                }
             } else {
                 // Not crossing, hide counterpart
                 portalCounterpart.style.opacity = "0";
                 portalCounterpart.classList.remove('portal-active');
                 portalCounterpart.classList.add('hollow');
+
+                // Reset clipPath for triangles when not crossing
+                if (isTriangle) {
+                    portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
+                }
             }
         }
     }
+
 
     // Get note dimensions for center calculation
     const rect = activeNote.getBoundingClientRect();
@@ -570,6 +602,11 @@ function createCellElement(position, player) {
     cellElement.className = 'sequencer-cell';
     cellElement.setAttribute('data-position', position);
     cellElement.setAttribute('data-player', player);
+
+    // Add shape attribute based on position number
+    // This will use the same shape logic as for notes
+    const shapeClass = getShapeForNote(position);
+    cellElement.setAttribute('data-note-shape', shapeClass);
 
     // Add position number to the cell
     const positionLabel = document.createElement('span');
