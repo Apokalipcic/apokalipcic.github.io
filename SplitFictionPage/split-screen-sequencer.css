@@ -134,8 +134,8 @@ body {
 
 .note-b.hollow {
     background-color: transparent;
-    border: 2px solid #cc0099;
-    color: #cc0099;
+    border: 2px solid #ff00cc;
+    color: #ff00cc;
 }
 
 /* Ensure text is visible and centered for all shapes */
@@ -208,6 +208,8 @@ body {
 /* Diamond shape */
 .note.shape-diamond {
     transform: rotate(45deg);
+    width: 65px;
+    height: 65px;
 }
 
     .note.shape-diamond span {
@@ -283,7 +285,7 @@ body {
 /* Sequencer */
 .sequencer {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     height: 100px;
     align-items: center;
     justify-content: center;
@@ -352,6 +354,8 @@ body {
     .sequencer-cell[data-note-shape="shape-diamond"] {
         transform: rotate(45deg);
         background: rgba(255, 255, 255, 0.15);
+        width: 65px;
+        height: 65px;
     }
 
         .sequencer-cell[data-note-shape="shape-diamond"] .position-label {
