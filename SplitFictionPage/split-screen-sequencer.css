@@ -82,7 +82,7 @@ body {
     position: relative;
 }
 
-/* Note styling */
+/* Note styling - Base styles for all notes */
 .note {
     width: 80px;
     height: 80px;
@@ -91,10 +91,10 @@ body {
     justify-content: center;
     font-size: 2rem;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 20%; /* Added slight rounding to all shapes */
     cursor: pointer;
     user-select: none;
-    transition: all 0.2s ease;
+    transition: all 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: absolute; /* Make notes absolute positioned */
     z-index: 5; /* Above panels but below divider */
@@ -112,32 +112,152 @@ body {
         z-index: 30 !important; /* Ensure it's on top of everything while dragging */
     }
 
-/* Player A notes */
+/* Note colors by player */
 .note-a {
     background: #00ff9d;
     color: #003629;
     border: 2px solid #00cc7a;
 }
 
-/* Player B notes */
 .note-b {
     background: #ff00cc;
     color: #660066;
     border: 2px solid #cc0099;
 }
 
+/* Hollow state base styles */
+.note-a.hollow {
+    background-color: transparent;
+    border: 2px solid #00cc7a;
+    color: #00cc7a;
+}
+
+.note-b.hollow {
+    background-color: transparent;
+    border: 2px solid #cc0099;
+    color: #cc0099;
+}
+
+/* Ensure text is visible and centered for all shapes */
+.note span {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+}
+
+/* ===== SHAPE DEFINITIONS ===== */
+
+/* Square shape (default) */
+.note.shape-square {
+    border-radius: 10px; /* Keep the existing rounded corner style */
+}
+
+/* Triangle shape using clip-path */
+.note.shape-triangle {
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    position: relative;
+    overflow: visible;
+}
+
+    .note.shape-triangle.hollow::before {
+        content: '';
+        position: absolute;
+        top: 3px; /* Adjust for border thickness */
+        left: 3px;
+        right: 3px;
+        bottom: 1px;
+        clip-path: polygon(50% 0%, 100% 100%, 0% 100%); /* Smaller inner triangle */
+        background-color: transparent;
+        z-index: 1;
+    }
+
+    .note.shape-triangle.portal-counterpart::before {
+        z-index: -1; /* Make sure it doesn't interfere with visibility */
+    }
+    .note.shape-triangle.portal-counterpart.portal-active::before {
+        opacity: 0; /* Hide the inner triangle when active/crossing */
+    }
+
+/* Player A triangle */
+.note-a.shape-triangle {
+    background-color: #00ff9d; /* Filled state */
+}
+
+    .note-a.shape-triangle.hollow::before {
+        background-color: rgba(26, 108, 49, 0.9); /* Match the background color of player A */
+    }
+
+/* Player B triangle */
+.note-b.shape-triangle {
+    background-color: #ff00cc; /* Filled state */
+}
+
+    .note-b.shape-triangle.hollow::before {
+        background-color: rgba(113, 28, 145, 0.9); /* Match the background color of player B */
+    }
+
+/* Diamond shape */
+.note.shape-diamond {
+    transform: rotate(45deg);
+}
+
+    .note.shape-diamond span {
+        transform: rotate(-45deg); /* Counter-rotate the text */
+    }
+
+/* Player A diamond */
+.note-a.shape-diamond {
+    background-color: #00ff9d; /* Filled state */
+}
+
+    .note-a.shape-diamond.hollow {
+        background-color: transparent;
+    }
+
+/* Player B diamond */
+.note-b.shape-diamond {
+    background-color: #ff00cc; /* Filled state */
+}
+
+    .note-b.shape-diamond.hollow {
+        background-color: transparent;
+    }
+
+/* Circle shape */
+.note.shape-circle {
+    border-radius: 50%;
+}
+
+/* Player A circle */
+.note-a.shape-circle {
+    background-color: #00ff9d; /* Filled state */
+}
+
+    .note-a.shape-circle.hollow {
+        background-color: transparent;
+    }
+
+/* Player B circle */
+.note-b.shape-circle {
+    background-color: #ff00cc; /* Filled state */
+}
+
+    .note-b.shape-circle.hollow {
+        background-color: transparent;
+    }
+
 /* Portal counterpart styling */
 .portal-counterpart {
     opacity: 0;
     pointer-events: none; /* Make portal counterparts non-interactive */
     z-index: 6; /* Above regular notes but below active dragged notes */
-    transition: clip-path 0.05s linear; /* Smooth clip path transitions */
+    transition: clip-path 0.05s linear, opacity 0.1s ease; /* Smooth transitions */
+    overflow: visible;
 }
 
     /* When a note crosses the divider, make its counterpart visible */
     .portal-counterpart.portal-active {
         opacity: 1;
-        /* No transform or filter effects - just clean visibility */
     }
 
 /* Sequencer container */
@@ -269,12 +389,6 @@ body {
         background: rgba(255, 99, 71, 0.6) !important;
     }
 
-/* Note when being dragged */
-.note.dragging {
-    opacity: 0.9;
-    transform: scale(1.1);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .note, .sequencer-cell {
@@ -282,6 +396,12 @@ body {
         height: 60px;
         font-size: 1.5rem;
     }
+
+        /* Update clip-path triangle for responsive */
+        .note.shape-triangle,
+        .note.shape-triangle.hollow::before {
+            /* Clip-path scales automatically with element size */
+        }
 
     .sequencer-container {
         padding: 10px;
@@ -302,6 +422,19 @@ body {
         height: 50px;
         font-size: 1.2rem;
     }
+
+        /* Update clip-path triangle for mobile */
+        .note.shape-triangle,
+        .note.shape-triangle.hollow::before {
+            /* Clip-path scales automatically with element size */
+        }
+
+            .note.shape-triangle.hollow::before {
+                top: 2px;
+                left: 2px;
+                right: 2px;
+                bottom: 2px;
+            }
 
     .side-header h2 {
         font-size: 1.4rem;

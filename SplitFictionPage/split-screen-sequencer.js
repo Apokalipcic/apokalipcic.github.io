@@ -101,28 +101,55 @@ function createNotes() {
     });
 }
 
-// Create a note element
+// Function to get shape class based on number
+function getShapeForNote(noteNumber) {
+    // Assign shapes based on note numbers
+    if ([1, 3, 5].includes(noteNumber)) {
+        return 'shape-triangle';
+    } else if (noteNumber === 2) {
+        return 'shape-diamond';
+    } else if (noteNumber === 4) {
+        return 'shape-circle';
+    } else {
+        return 'shape-square'; // Default shape
+    }
+}
+
+// Function to create a note element with the appropriate shape
 function createNoteElement(noteNumber, player) {
     const noteElement = document.createElement('div');
-    noteElement.className = `note note-${player} draggable`;
+
+    // Get shape class based on note number
+    const shapeClass = getShapeForNote(noteNumber);
+
+    // Apply all necessary classes including shape and hollow state
+    noteElement.className = `note note-${player} ${shapeClass} hollow draggable`;
     noteElement.setAttribute('data-note', noteNumber);
     noteElement.setAttribute('data-player', player);
-    noteElement.textContent = noteNumber;
+
+    // Create a span for the text to allow separate styling/positioning
+    const textSpan = document.createElement('span');
+    textSpan.textContent = noteNumber;
+    noteElement.appendChild(textSpan);
 
     // Create a portal counterpart for dimensional effect
     // We'll create it with the opposite styling already applied
     const oppositePlayer = player === 'a' ? 'b' : 'a';
     const portalCounterpart = document.createElement('div');
-    portalCounterpart.className = `note note-${oppositePlayer} portal-counterpart`;
+    portalCounterpart.className = `note note-${oppositePlayer} ${shapeClass} hollow portal-counterpart`;
     portalCounterpart.setAttribute('data-note', noteNumber);
     portalCounterpart.setAttribute('data-counterpart-for', player);
-    portalCounterpart.textContent = noteNumber;
+
+    // Add span for text
+    const counterpartTextSpan = document.createElement('span');
+    counterpartTextSpan.textContent = noteNumber;
+    portalCounterpart.appendChild(counterpartTextSpan);
 
     // Link the notes
     noteElement.setAttribute('data-counterpart-id', `counterpart-${player}-${noteNumber}`);
     portalCounterpart.id = `counterpart-${player}-${noteNumber}`;
 
-    // Position notes initially
+    // Position notes initially (keep your existing positioning code)
     if (player === 'a') {
         // Position Player A notes on the left side
         const index = config.playerANotes.indexOf(noteNumber);
@@ -170,8 +197,8 @@ function checkNoteSide(x) {
 
 // Make an element draggable with click
 function makeClickDraggable(element) {
-    // Pick up on first click
-    element.addEventListener('mousedown', function (e) {
+    // Event handler for starting a drag operation
+    const startDrag = function (e) {
         e.preventDefault(); // Prevent default browser drag
 
         // Get offset within the element
@@ -190,6 +217,9 @@ function makeClickDraggable(element) {
         // Set as active element
         activeNote = element;
         element.classList.add('dragging');
+
+        // Fill the shape by removing hollow class
+        element.classList.remove('hollow');
 
         // Set dragging state for other functions
         state.draggedNote = element;
@@ -213,45 +243,19 @@ function makeClickDraggable(element) {
             isAnimating = true;
             animateMovement();
         }
-    });
+    };
+
+    // Pick up on first click or touch
+    element.addEventListener('mousedown', startDrag);
 
     // Touch version
     element.addEventListener('touchstart', function (e) {
-        e.preventDefault(); // Prevent default browser behavior
-
         const touch = e.touches[0];
-        const rect = element.getBoundingClientRect();
-        offsetX = touch.clientX - rect.left;
-        offsetY = touch.clientY - rect.top;
-
-        // Initialize current position
-        currentX = rect.left;
-        currentY = rect.top;
-
-        // Set initial target (same as current)
-        targetX = currentX;
-        targetY = currentY;
-
-        activeNote = element;
-        element.classList.add('dragging');
-
-        state.draggedNote = element;
-        state.draggedNoteData = {
-            note: parseInt(element.getAttribute('data-note')),
-            player: element.getAttribute('data-player')
-        };
-
-        crossOverDetection.isActive = true;
-        crossOverDetection.currentArea = state.draggedNoteData.player;
-
-        element.style.zIndex = '30';
-        appContainer.classList.add('dragging-active');
-
-        // Start the animation loop
-        if (!isAnimating) {
-            isAnimating = true;
-            animateMovement();
-        }
+        startDrag({
+            preventDefault: () => e.preventDefault(),
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
     });
 }
 
@@ -286,47 +290,62 @@ function animateMovement() {
     const portalCounterpart = document.getElementById(counterpartId);
 
     if (portalCounterpart) {
-        // Also update the position of the portal counterpart
+        // Update position
         portalCounterpart.style.left = `${currentX}px`;
         portalCounterpart.style.top = `${currentY}px`;
 
         // Get divider position
         const dividerPosition = parseInt(divider.style.left);
 
-        // Get note dimensions - DEFINE noteRect here
+        // Get note dimensions
         const noteRect = activeNote.getBoundingClientRect();
         const noteWidth = noteRect.width;
 
         // Get original player side
         const originalSide = activeNote.getAttribute('data-player');
 
-        // Check if the note is crossing the divider based on its ACTUAL position
-        // (not the mouse position)
+        // Check if crossing the divider
         if (originalSide === 'a') {
             if (currentX + noteWidth > dividerPosition) {
-                // Note is crossing from left to right
+                // Crossing from left to right
                 const overlapAmount = currentX + noteWidth - dividerPosition;
                 const overlapPercent = (overlapAmount / noteWidth) * 100;
 
-                // Show the counterpart with clip path only showing the part that's crossing
+                // Important: For triangles, we need to ensure opacity is set correctly
+                portalCounterpart.style.opacity = "1";
+
+                // Show only the part crossing the divider
                 portalCounterpart.style.clipPath = `inset(0 0 0 ${100 - overlapPercent}%)`;
                 portalCounterpart.classList.add('portal-active');
+
+                // Remove hollow state to show filled version
+                portalCounterpart.classList.remove('hollow');
             } else {
                 // Not crossing, hide counterpart
+                portalCounterpart.style.opacity = "0";
                 portalCounterpart.classList.remove('portal-active');
+                portalCounterpart.classList.add('hollow');
             }
         } else { // originalSide === 'b'
             if (currentX < dividerPosition) {
-                // Note is crossing from right to left
+                // Crossing from right to left
                 const overlapAmount = dividerPosition - currentX;
                 const overlapPercent = (overlapAmount / noteWidth) * 100;
 
-                // Show the counterpart with clip path only showing the part that's crossing
+                // Important: For triangles, we need to ensure opacity is set correctly
+                portalCounterpart.style.opacity = "1";
+
+                // Show only the part crossing the divider
                 portalCounterpart.style.clipPath = `inset(0 ${100 - overlapPercent}% 0 0)`;
                 portalCounterpart.classList.add('portal-active');
+
+                // Remove hollow state to show filled version
+                portalCounterpart.classList.remove('hollow');
             } else {
                 // Not crossing, hide counterpart
+                portalCounterpart.style.opacity = "0";
                 portalCounterpart.classList.remove('portal-active');
+                portalCounterpart.classList.add('hollow');
             }
         }
     }
@@ -398,12 +417,15 @@ function dropActiveNote(x, y) {
     const portalCounterpart = document.getElementById(counterpartId);
 
     if (dropCell) {
+        // Note is dropped on a cell - keep it filled
         handleDrop(dropCell);
     } else if (x && y) {
+        // Return to hollow state when not dropped on a cell
+        activeNote.classList.add('hollow');
+
         // Get divider position
         const dividerPosition = parseInt(divider.style.left);
         // Note is dropped outside a cell - let it stay where it was dropped
-        // We'll create a new note in the appropriate player's area based on where it was dropped
         const player = checkNoteSide(x);
         const noteNumber = parseInt(activeNote.getAttribute('data-note'));
         const originalPlayer = activeNote.getAttribute('data-player');
@@ -431,12 +453,18 @@ function dropActiveNote(x, y) {
 
             // Create a new portal counterpart for the transferred note
             const oppositePlayer = player === 'a' ? 'b' : 'a';
+            const shapeClass = getShapeForNote(noteNumber);
             const newCounterpart = document.createElement('div');
-            newCounterpart.className = `note note-${oppositePlayer} portal-counterpart`;
+            newCounterpart.className = `note note-${oppositePlayer} ${shapeClass} hollow portal-counterpart`;
             newCounterpart.setAttribute('data-note', noteNumber);
             newCounterpart.setAttribute('data-counterpart-for', player);
             newCounterpart.id = `counterpart-${player}-${noteNumber}`;
-            newCounterpart.textContent = noteNumber;
+
+            // Add span for text
+            const textSpan = document.createElement('span');
+            textSpan.textContent = noteNumber;
+            newCounterpart.appendChild(textSpan);
+
             newCounterpart.style.left = activeNote.style.left;
             newCounterpart.style.top = activeNote.style.top;
 
@@ -455,6 +483,7 @@ function dropActiveNote(x, y) {
     // Hide portal counterpart
     if (portalCounterpart) {
         portalCounterpart.classList.remove('portal-active');
+        portalCounterpart.classList.add('hollow');
     }
 
     // Remove dragging class
@@ -473,7 +502,6 @@ function dropActiveNote(x, y) {
     // Remove dragging-active class from container
     appContainer.classList.remove('dragging-active');
 }
-
 // Handle dropping a note on a cell
 function handleDrop(cell) {
     if (!state.draggedNoteData) return;
@@ -627,13 +655,22 @@ function removeNoteFromCell(cell) {
     }
 }
 
-// Add a note to a cell
+// And similarly for the function that adds notes to cells
 function addNoteToCell(cell, noteNumber, player) {
+    // Get shape class for this note
+    const shapeClass = getShapeForNote(noteNumber);
+
     // Create a clone of the note to display in the cell
     const noteClone = document.createElement('div');
-    noteClone.className = `note note-${player} note-in-cell`;
+
+    // Notes in cells should be filled (not hollow)
+    noteClone.className = `note note-${player} ${shapeClass} note-in-cell`;
     noteClone.setAttribute('data-note', noteNumber);
-    noteClone.textContent = noteNumber;
+
+    // Add a span for the text
+    const textSpan = document.createElement('span');
+    textSpan.textContent = noteNumber;
+    noteClone.appendChild(textSpan);
 
     // Add note to cell
     cell.appendChild(noteClone);
