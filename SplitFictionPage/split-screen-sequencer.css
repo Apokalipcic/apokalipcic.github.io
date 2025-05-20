@@ -171,22 +171,6 @@ body {
         z-index: 1;
     }
 
-/* Special handling for triangle portal counterparts */
-.shape-triangle.portal-counterpart {
-    transition: opacity 0.1s ease, clip-path 0.1s ease;
-}
-
-    /* Fix for triangle shape during transitions */
-    .shape-triangle.portal-counterpart.portal-active {
-        opacity: 1;
-        clip-path: polygon(50% 0%, 100% 100%, 0% 100%); /* Default triangle */
-    }
-
-        /* Hide the hollow effect for triangles when they're part of a portal transition */
-        .shape-triangle.portal-counterpart.portal-active::before {
-            opacity: 0;
-        }
-
 /* Player A triangle */
 .note-a.shape-triangle {
     background-color: #00ff9d; /* Filled state */
@@ -266,7 +250,6 @@ body {
     opacity: 0;
     pointer-events: none; /* Make portal counterparts non-interactive */
     z-index: 6; /* Above regular notes but below active dragged notes */
-    transition: opacity 0.1s ease; /* Remove clip-path from transition for triangles */
     overflow: visible;
 }
 
