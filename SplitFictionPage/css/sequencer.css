@@ -31,68 +31,73 @@
     transition: all 0.2s ease;
 }
 
-    /* Player A cells */
-    .sequencer-cell[data-player="a"] {
-        background: rgba(0, 255, 130, 0.1);
-        border-color: rgba(0, 204, 102, 0.5);
-    }
+/* Player A cells */
+.sequencer-cell[data-player="a"] {
+    background: rgba(0, 255, 130, 0.1);
+    border-color: rgba(0, 204, 102, 0.5);
+}
 
-    /* Player B cells */
-    .sequencer-cell[data-player="b"] {
-        background: rgba(255, 0, 204, 0.1);
-        border-color: rgba(204, 0, 153, 0.5);
-    }
+/* Player B cells */
+.sequencer-cell[data-player="b"] {
+    background: rgba(255, 0, 204, 0.1);
+    border-color: rgba(204, 0, 153, 0.5);
+}
 
-    /* Cell with note */
-    .sequencer-cell.has-note {
-        background: rgba(255, 255, 255, 0.2);
-        border-style: solid;
-    }
+/* Cell with note */
+.sequencer-cell.has-note {
+    background: rgba(255, 255, 255, 0.2);
+    border-style: solid;
+}
 
-    /* Active cell during playback */
-    .sequencer-cell.active {
-        box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
-        transform: scale(1.05);
-    }
+/* Active cell during playback */
+.sequencer-cell.active {
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
 
-    /* Drop target highlight */
-    .sequencer-cell.drag-over {
-        background: rgba(255, 255, 255, 0.4);
-        border: 2px solid rgba(255, 255, 255, 0.8);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        transform: scale(1.05);
-    }
+/* Drop target highlight */
+.sequencer-cell.drag-over {
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
 
-    /* Base style for shaped cells */
-    .sequencer-cell[data-note-shape] {
-        background: rgba(255, 255, 255, 0.15);
-    }
+/* Cell for square notes */
+.sequencer-cell[data-note-shape="shape-square"] {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+}
 
-    /* Cell for square notes */
-    .sequencer-cell[data-note-shape="shape-square"] {
-        clip-path: polygon( 0% 0%, 100% 0%, 100% 100%, 0% 100% );
-    }
+/* Cell for circle notes */
+.sequencer-cell[data-note-shape="shape-circle"] {
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+}
 
-    /* Cell for circle notes (octagon) */
-    .sequencer-cell[data-note-shape="shape-circle"] {
-        clip-path: polygon( 30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30% );
-    }
+/* Cell for diamond notes */
+.sequencer-cell[data-note-shape="shape-diamond"] {
+    transform: rotate(45deg);
+    background: rgba(255, 255, 255, 0.15);
+    width: 65px;
+    height: 65px;
+}
 
-    /* Cell for diamond notes */
-    .sequencer-cell[data-note-shape="shape-diamond"] {
-        clip-path: polygon( 50% 0%, 100% 50%, 50% 100%, 0% 50% );
-    }
+.sequencer-cell[data-note-shape="shape-diamond"] .position-label {
+    transform: rotate(-45deg);
+}
 
-    /* Cell for triangle notes */
-    .sequencer-cell[data-note-shape="shape-triangle"] {
-        clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-    }
+/* Cell for triangle notes */
+.sequencer-cell[data-note-shape="shape-triangle"] {
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    background: rgba(255, 255, 255, 0.15);
+}
 
-    /* Player specific colors for cells */
-    .sequencer-cell[data-player="a"][data-note-shape] {
-        border-color: rgba(0, 204, 102, 0.8);
-    }
+/* Player specific colors for cells */
+.sequencer-cell[data-player="a"][data-note-shape] {
+    border-color: rgba(0, 204, 102, 0.8);
+}
 
-    .sequencer-cell[data-player="b"][data-note-shape] {
-        border-color: rgba(204, 0, 153, 0.8);
-    }
+.sequencer-cell[data-player="b"][data-note-shape] {
+    border-color: rgba(204, 0, 153, 0.8);
+}
