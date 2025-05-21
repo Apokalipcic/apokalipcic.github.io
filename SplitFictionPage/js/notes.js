@@ -1,4 +1,4 @@
-// notes.js - Handles note creation and management
+// notes.js - With direct parent container fix
 
 /**
  * Create draggable notes for both players
@@ -9,8 +9,9 @@
 export function createNotes(config, elements, makeClickDraggable) {
     // Create Player A notes
     config.playerANotes.forEach(noteNumber => {
+        // Create note element - ATTACH DIRECTLY TO PLAYER SIDE
         const noteElement = createNoteElement(noteNumber, 'a', config, elements, makeClickDraggable);
-        elements.notesAreaA.appendChild(noteElement);
+        elements.playerASide.appendChild(noteElement); // Change: Use playerASide instead of notesAreaA
 
         // Create portal counterpart for each note
         createPortalCounterpart(noteElement, noteNumber, 'a', elements);
@@ -18,8 +19,9 @@ export function createNotes(config, elements, makeClickDraggable) {
 
     // Create Player B notes
     config.playerBNotes.forEach(noteNumber => {
+        // Create note element - ATTACH DIRECTLY TO PLAYER SIDE
         const noteElement = createNoteElement(noteNumber, 'b', config, elements, makeClickDraggable);
-        elements.notesAreaB.appendChild(noteElement);
+        elements.playerBSide.appendChild(noteElement); // Change: Use playerBSide instead of notesAreaB
 
         // Create portal counterpart for each note
         createPortalCounterpart(noteElement, noteNumber, 'b', elements);
@@ -121,7 +123,7 @@ export function createPortalCounterpart(noteElement, noteNumber, player, element
     noteElement.setAttribute('data-counterpart-id', counterpartId);
     portalCounterpart.id = counterpartId;
 
-    // Position the counterpart at the same location as the original note
+    // Position the counterpart at the EXACT same position
     portalCounterpart.style.left = noteElement.style.left;
     portalCounterpart.style.top = noteElement.style.top;
 
