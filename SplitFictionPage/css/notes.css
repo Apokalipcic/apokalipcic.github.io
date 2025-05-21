@@ -1,0 +1,185 @@
+/* notes.css - Styles for notes, shapes, and portal effects */
+
+/* Note styling - Base styles for all notes */
+.note {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 20%; /* Added slight rounding to all shapes */
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: absolute; /* Make notes absolute positioned */
+    z-index: 5; /* Above panels but below divider */
+}
+
+    .note.draggable {
+        position: absolute;
+    }
+
+    .note.dragging {
+        cursor: grabbing;
+        transform: scale(1.1);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        opacity: 0.9;
+        z-index: 30 !important; /* Ensure it's on top of everything while dragging */
+    }
+
+/* Note colors by player */
+.note-a {
+    background: #00ff9d;
+    color: #003629;
+    border: 2px solid #00cc7a;
+}
+
+.note-b {
+    background: #ff00cc;
+    color: #660066;
+    border: 2px solid #cc0099;
+}
+
+/* Hollow state base styles */
+.note-a.hollow {
+    background-color: transparent;
+    border: 2px solid #00cc7a;
+    color: #00cc7a;
+}
+
+.note-b.hollow {
+    background-color: transparent;
+    border: 2px solid #ff00cc;
+    color: #ff00cc;
+}
+
+/* Ensure text is visible and centered for all shapes */
+.note span {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    transform: none; /* Reset any transform */
+}
+
+/* ===== SHAPE DEFINITIONS ===== */
+
+/* Base shape properties */
+.note {
+    border-radius: 0; /* Remove default border radius for all shapes */
+    overflow: visible;
+    position: absolute;
+}
+
+    /* Applying the hollow state with pseudo-elements for all shapes */
+    .note.hollow::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    /* Square shape (default) - now using polygon */
+    .note.shape-square {
+        clip-path: polygon( 0% 0%, 100% 0%, 100% 100%, 0% 100% );
+    }
+
+        .note.shape-square.hollow::before {
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            clip-path: polygon( 0% 0%, 100% 0%, 100% 100%, 0% 100% );
+        }
+
+    /* Triangle shape */
+    .note.shape-triangle {
+        clip-path: polygon( 50% 0%, 100% 100%, 0% 100% );
+    }
+
+        .note.shape-triangle.hollow::before {
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 1px;
+            clip-path: polygon( 50% 0%, 100% 100%, 0% 100% );
+        }
+
+    /* Diamond shape - now using polygon instead of rotate */
+    .note.shape-diamond {
+        clip-path: polygon( 50% 0%, 100% 50%, 50% 100%, 0% 50% );
+        width: 80px; /* Reset width to match other shapes */
+        height: 80px; /* Reset height to match other shapes */
+    }
+
+        .note.shape-diamond.hollow::before {
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            clip-path: polygon( 50% 0%, 100% 50%, 50% 100%, 0% 50% );
+        }
+
+    /* Circle shape - using octagon polygon for more complex shape */
+    .note.shape-circle {
+        clip-path: polygon( 30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30% );
+    }
+
+        .note.shape-circle.hollow::before {
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            clip-path: polygon( 30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30% );
+        }
+
+/* Player A shape colors */
+.note-a.shape-square,
+.note-a.shape-triangle,
+.note-a.shape-diamond,
+.note-a.shape-circle {
+    background-color: #00ff9d; /* Filled state */
+}
+
+    .note-a.shape-square.hollow::before,
+    .note-a.shape-triangle.hollow::before,
+    .note-a.shape-diamond.hollow::before,
+    .note-a.shape-circle.hollow::before {
+        background-color: rgba(26, 108, 49, 0.9); /* Match the background color of player A */
+    }
+
+/* Player B shape colors */
+.note-b.shape-square,
+.note-b.shape-triangle,
+.note-b.shape-diamond,
+.note-b.shape-circle {
+    background-color: #ff00cc; /* Filled state */
+}
+
+    .note-b.shape-square.hollow::before,
+    .note-b.shape-triangle.hollow::before,
+    .note-b.shape-diamond.hollow::before,
+    .note-b.shape-circle.hollow::before {
+        background-color: rgba(113, 28, 145, 0.9); /* Match the background color of player B */
+    }
+
+/* Fix for hollow state */
+.note-a.hollow,
+.note-b.hollow {
+    background-color: transparent;
+}
+
+/* Portal counterpart styling */
+.portal-counterpart {
+    opacity: 0;
+    pointer-events: none; /* Make portal counterparts non-interactive */
+    z-index: 6; /* Above regular notes but below active dragged notes */
+    overflow: visible;
+}
+
+    /* When a note crosses the divider, make its counterpart visible */
+    .portal-counterpart.portal-active {
+        opacity: 1;
+    }

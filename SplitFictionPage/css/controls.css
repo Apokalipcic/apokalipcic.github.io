@@ -1,0 +1,43 @@
+/* controls.css - Styles for playback controls */
+
+/* Playback controls */
+#playback-controls {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+}
+
+#playback-controls button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#playback-controls button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+#play-button {
+    background: rgba(0, 255, 127, 0.4) !important;
+}
+
+#play-button:hover {
+    background: rgba(0, 255, 127, 0.6) !important;
+}
+
+#stop-button {
+    background: rgba(255, 99, 71, 0.4) !important;
+}
+
+#stop-button:hover {
+    background: rgba(255, 99, 71, 0.6) !important;
+}

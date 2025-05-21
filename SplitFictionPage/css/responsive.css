@@ -1,0 +1,58 @@
+/* responsive.css - Media queries for responsive design */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .note, .sequencer-cell {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    /* Update clip-path triangle for responsive */
+    .note.shape-triangle,
+    .note.shape-triangle.hollow::before {
+        /* Clip-path scales automatically with element size */
+    }
+
+    .sequencer-container {
+        padding: 10px;
+    }
+
+    .sequencer {
+        height: 80px;
+    }
+
+    #divider {
+        width: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .note, .sequencer-cell {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    /* Update clip-path triangle for mobile */
+    .note.shape-triangle,
+    .note.shape-triangle.hollow::before {
+        /* Clip-path scales automatically with element size */
+    }
+
+    .note.shape-triangle.hollow::before {
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        bottom: 2px;
+    }
+
+    .side-header h2 {
+        font-size: 1.4rem;
+    }
+
+    #playback-controls button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}

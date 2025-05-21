@@ -1,0 +1,25 @@
+/* divider.css - Styles for the screen divider */
+
+/* Divider */
+#divider {
+    height: 100%;
+    position: absolute;
+    display: block;
+    background: rgba(255, 255, 255, 0.4);
+    width: 10px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Center the divider on its position */
+    z-index: 10;
+    cursor: ew-resize;
+    transition: background 0.2s ease;
+}
+
+#divider:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+#divider.dragging {
+    background: rgba(255, 255, 255, 0.8);
+    width: 10px;
+}

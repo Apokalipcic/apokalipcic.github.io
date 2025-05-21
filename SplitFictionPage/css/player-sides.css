@@ -1,0 +1,63 @@
+/* player-sides.css - Styles for player panels and screen splitting */
+
+/* Player sides */
+.player-side {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Panel positioning */
+.panel {
+    width: 100vw;
+    height: 100vh;
+}
+
+.panel .content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Bottom player (Player B) */
+.bottom {
+    background: linear-gradient(135deg, #711c91, #822da1);
+    z-index: 1;
+    right: 0;
+    clip-path: inset(0 0 0 50%); /* Initially show right half */
+}
+
+/* Top player (Player A) */
+.top {
+    background: linear-gradient(135deg, #1a6c31, #2a7c3a);
+    z-index: 2;
+    left: 0;
+    clip-path: inset(0 50% 0 0); /* Initially show left half */
+}
+
+/* Side headers */
+.side-header {
+    padding: 15px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.side-header h2 {
+    font-size: 1.8rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* Notes area */
+.notes-area {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 20px;
+    position: relative;
+}

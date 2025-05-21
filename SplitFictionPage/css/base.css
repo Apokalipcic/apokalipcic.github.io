@@ -1,0 +1,28 @@
+/* base.css - Base styles, resets, and general layout */
+
+/* Base styles and reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    background: #121212;
+    color: #fff;
+}
+
+/* Main container */
+#app-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* When dragging is active, disable pointer events on container */
+#app-container.dragging-active {
+    pointer-events: none;
+}
