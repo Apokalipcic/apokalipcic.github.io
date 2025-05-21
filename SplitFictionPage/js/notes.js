@@ -11,12 +11,18 @@ export function createNotes(config, elements, makeClickDraggable) {
     config.playerANotes.forEach(noteNumber => {
         const noteElement = createNoteElement(noteNumber, 'a', config, elements, makeClickDraggable);
         elements.notesAreaA.appendChild(noteElement);
+
+        // Create portal counterpart for each note
+        createPortalCounterpart(noteElement, noteNumber, 'a', elements);
     });
 
     // Create Player B notes
     config.playerBNotes.forEach(noteNumber => {
         const noteElement = createNoteElement(noteNumber, 'b', config, elements, makeClickDraggable);
         elements.notesAreaB.appendChild(noteElement);
+
+        // Create portal counterpart for each note
+        createPortalCounterpart(noteElement, noteNumber, 'b', elements);
     });
 }
 
@@ -116,9 +122,11 @@ export function createPortalCounterpart(noteElement, noteNumber, player, element
     portalCounterpart.id = counterpartId;
 
     // Position the counterpart at the same location as the original note
-    const rect = noteElement.getBoundingClientRect();
     portalCounterpart.style.left = noteElement.style.left;
     portalCounterpart.style.top = noteElement.style.top;
+
+    // Initially hide the counterpart (opacity 0)
+    portalCounterpart.style.opacity = "0";
 
     // Add to appropriate container
     if (player === 'a') {
