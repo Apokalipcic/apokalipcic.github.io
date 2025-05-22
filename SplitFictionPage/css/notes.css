@@ -146,8 +146,10 @@
 
 /* Note inside sequencer cell */
 .note-in-cell {
-    position: relative;
-    top: 0;
-    left: 0;
-    margin: 0 auto;
+
+    /* Keep it empty, because it doesn't require any specific styles (just yet)*/
 }
+
+    .note-in-cell.shape-diamond {
+        transform: rotate(315deg);
+    }
