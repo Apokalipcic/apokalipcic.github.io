@@ -941,7 +941,6 @@ ul {
     border-bottom: 1px solid var(--border-color);
     margin: 0;
     text-align: center;
-    background-color: rgba(255, 107, 74, 0.03);
 }
 
 /* Analytics section */
@@ -1148,10 +1147,7 @@ ul {
 /* Screenshot Carousel Styles */
 .screenshots-carousel {
     margin: 2rem 0;
-    background-color: rgba(245, 245, 245, 0.8); /* Match Game Details background */
-    border-radius: 8px;
     padding: 1.5rem;
-    border: 1px solid #eaeaea; /* Subtle border like Game Details */
 }
 
 .screenshots-carousel .section-subtitle {
@@ -1486,7 +1482,6 @@ ul {
 .skills-header h3 {
     font-size: 1.8rem;
     color: #192245;
-    background-color: #f9f9f9;
     display: inline-block;
     padding: 0 20px;
     position: relative;
@@ -1596,7 +1591,6 @@ ul {
     color: #192245;
     margin-bottom: 10px;
     text-align: center;
-    background-color: #f9f9f9;  
     display: inline-block; 
     padding: 0 20px;
     position: relative; 
