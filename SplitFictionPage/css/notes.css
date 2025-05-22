@@ -11,10 +11,13 @@
     font-weight: bold;
     cursor: pointer;
     user-select: none;
-    transition: all 0.2s ease;
+    transition: opacity 0.15s ease, clip-path 0.15s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: absolute; /* Make notes absolute positioned */
     z-index: 5; /* Above panels but below divider */
+    background-color: transparent; /* Transparent background by default */
+    border: none;
+    overflow: visible;
 }
 
     .note.draggable {
@@ -29,139 +32,105 @@
         z-index: 30 !important; /* Ensure it's on top of everything while dragging */
     }
 
-/* Note colors by player */
-.note-a {
-    background: #00ff9d;
-    color: #003629;
-    border: 2px solid #00cc7a;
+/* Border element - actual DOM element rather than pseudo-element */
+.note-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
-.note-b {
-    background: #ff00cc;
-    color: #660066;
-    border: 2px solid #cc0099;
+/* Background fill element - actual DOM element rather than pseudo-element */
+.note-fill {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    z-index: 2;
 }
 
-/* Hollow state base styles */
-.note-a.hollow {
-    background-color: transparent;
-    border: 2px solid #00cc7a;
-    color: #00cc7a;
-}
-
-.note-b.hollow {
-    background-color: transparent;
-    border: 2px solid #ff00cc;
-    color: #ff00cc;
-}
-
-/* Ensure text is visible and centered for all shapes */
+/* Text content styling */
 .note span {
     position: relative;
-    z-index: 2;
+    z-index: 3; /* Above background and border */
     display: inline-block;
-    transform: none; /* Reset any transform */
 }
 
 /* ===== SHAPE DEFINITIONS ===== */
 
-/* Base shape properties */
-.note {
-    border: none; /* Remove default borders */
-    border-radius: 0; /* Remove default border radius */
-    overflow: visible;
-    position: relative;
-    background-color: transparent; /* All notes have transparent background by default */
+/* Square shape */
+.note.shape-square,
+.note.shape-square .note-border,
+.note.shape-square .note-fill {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
 
-    /* Double-element technique for consistent borders with clip-path */
-    .note::before, .note::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
+/* Triangle shape */
+.note.shape-triangle,
+.note.shape-triangle .note-border,
+.note.shape-triangle .note-fill {
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
 
-    /* The outer element (border) */
-    .note::before {
-        background-color: currentColor; /* Use text color for border */
-    }
+/* Diamond shape */
+.note.shape-diamond,
+.note.shape-diamond .note-border,
+.note.shape-diamond .note-fill {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
 
-    /* The inner element (background) */
-    .note::after {
-        background-color: inherit; /* For filled state */
-        top: 2px;
-        left: 2px;
-        width: calc(100% - 4px);
-        height: calc(100% - 4px);
-        z-index: 2;
-    }
-
-    /* Ensure text is on top */
-    .note span {
-        position: relative;
-        z-index: 3; /* Above both pseudo-elements */
-        display: inline-block;
-    }
-
-    /* Square shape */
-    .note.shape-square::before,
-    .note.shape-square::after {
-        clip-path: polygon( 0% 0%, 100% 0%, 100% 100%, 0% 100% );
-    }
-
-    /* Triangle shape */
-    .note.shape-triangle::before,
-    .note.shape-triangle::after {
-        clip-path: polygon( 50% 0%, 100% 100%, 0% 100% );
-    }
-
-    /* Diamond shape */
-    .note.shape-diamond::before,
-    .note.shape-diamond::after {
-        clip-path: polygon( 50% 0%, 100% 50%, 50% 100%, 0% 50% );
-    }
-
-    /* Circle shape - using octagon polygon */
-    .note.shape-circle::before,
-    .note.shape-circle::after {
-        clip-path: polygon( 30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30% );
-    }
+/* Circle shape - using octagon polygon */
+.note.shape-circle,
+.note.shape-circle .note-border,
+.note.shape-circle .note-fill {
+    clip-path: polygon( 30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30% );
+}
 
 /* Player A styles */
-.note-a {
-    color: #00cc7a; /* Border color */
+.note-a .note-border {
+    background-color: #00cc7a; /* Border color */
 }
 
-    .note-a::after {
-        background-color: rgba(26, 108, 49, 0.9); /* Background matches player A side */
-    }
+.note-a .note-fill {
+    background-color: rgba(26, 108, 49, 0.9); /* Default fill (hollow state) */
+}
+
+.note-a:not(.hollow) .note-fill {
+    background-color: #00ff9d; /* Filled state */
+}
 
 /* Player B styles */
-.note-b {
-    color: #ff00cc; /* Border color */
+.note-b .note-border {
+    background-color: #ff00cc; /* Border color */
 }
 
-    .note-b::after {
-        background-color: rgba(113, 28, 145, 0.9); /* Background matches player B side */
+.note-b .note-fill {
+    background-color: rgba(113, 28, 145, 0.9); /* Default fill (hollow state) */
+}
+
+.note-b:not(.hollow) .note-fill {
+    background-color: #ff00cc; /* Filled state */
+}
+
+/* Text colors */
+.note-a {
+    color: #003629;
+}
+
+    .note-a.hollow {
+        color: #00cc7a;
     }
 
-/* Filled state - overrides for both players */
-.note-a:not(.hollow)::after {
-    background-color: #00ff9d; /* Filled state for player A */
+.note-b {
+    color: #660066;
 }
 
-.note-b:not(.hollow)::after {
-    background-color: #ff00cc; /* Filled state for player B */
-}
-
-/* Hollow state overrides */
-.note.hollow::after {
-    /* Background already set to player colors above */
-}
+    .note-b.hollow {
+        color: #ff00cc;
+    }
 
 /* Portal counterpart styling */
 .portal-counterpart {
@@ -174,15 +143,6 @@
     .portal-counterpart.portal-active {
         opacity: 1;
     }
-
-/* Dragging state */
-.note.dragging {
-    cursor: grabbing;
-    transform: scale(1.1);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-    opacity: 0.9;
-    z-index: 30 !important; /* Ensure it's on top of everything while dragging */
-}
 
 /* Note inside sequencer cell */
 .note-in-cell {

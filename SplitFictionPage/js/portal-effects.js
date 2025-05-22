@@ -1,6 +1,7 @@
 // portal-effects.js - Manages portal transition effects when notes cross boundaries
 
 import { checkNoteSide } from './note-drag.js';
+import { getShapeForNote } from './notes.js';
 
 // Global state for crossover detection
 let crossOverDetection = {
@@ -46,27 +47,22 @@ export function updatePortalEffects(activeNote, currentX, currentY, elements) {
     // Get original player side
     const originalSide = activeNote.getAttribute('data-player');
 
-    // Check if the active note is a triangle
-    const isTriangle = activeNote.classList.contains('shape-triangle');
-
     // Handle crossing effects based on original side
     if (originalSide === 'a') {
         handleLeftToRightCrossing(
-            activeNote, 
-            portalCounterpart, 
-            currentX, 
-            noteWidth, 
-            dividerPosition, 
-            isTriangle
+            activeNote,
+            portalCounterpart,
+            currentX,
+            noteWidth,
+            dividerPosition
         );
     } else { // originalSide === 'b'
         handleRightToLeftCrossing(
-            activeNote, 
-            portalCounterpart, 
-            currentX, 
-            noteWidth, 
-            dividerPosition, 
-            isTriangle
+            activeNote,
+            portalCounterpart,
+            currentX,
+            noteWidth,
+            dividerPosition
         );
     }
 
@@ -76,48 +72,119 @@ export function updatePortalEffects(activeNote, currentX, currentY, elements) {
 }
 
 /**
+ * Update portal effects during dragging (for use in note-drag.js)
+ * @param {HTMLElement} portalCounterpart - The portal counterpart element
+ * @param {number} currentX - Current X position
+ * @param {HTMLElement} activeNote - The active note
+ * @param {Object} elements - DOM elements object with divider
+ */
+export function updatePortalEffectsDuringDrag(portalCounterpart, currentX, activeNote, elements) {
+    // Get divider position
+    const dividerPosition = parseInt(elements.divider.style.left);
+
+    // Get note dimensions
+    const noteRect = activeNote.getBoundingClientRect();
+    const noteWidth = noteRect.width;
+
+    // Get original player side
+    const originalSide = activeNote.getAttribute('data-player');
+
+    // Get border and fill elements
+    const borderElement = portalCounterpart.querySelector('.note-border');
+    const fillElement = portalCounterpart.querySelector('.note-fill');
+
+    // Check if crossing the divider
+    if (originalSide === 'a') {
+        // Handle crossing from left to right
+        if (currentX + noteWidth > dividerPosition) {
+            const overlapAmount = currentX + noteWidth - dividerPosition;
+            const overlapPercent = (overlapAmount / noteWidth) * 100;
+
+            // Make the counterpart visible
+            portalCounterpart.style.opacity = "1";
+
+            // Create clip-path value based on how much is overlapping
+            const clipPathValue = `inset(0 0 0 ${100 - overlapPercent}%)`;
+
+            // Apply clip-path ONLY to child elements, not the parent
+            if (borderElement) borderElement.style.clipPath = clipPathValue;
+            if (fillElement) fillElement.style.clipPath = clipPathValue;
+
+            portalCounterpart.classList.add('portal-active');
+            portalCounterpart.classList.add('crossing-divider');
+            portalCounterpart.classList.remove('hollow');
+        } else {
+            // Not crossing, hide counterpart
+            hideCounterpart(portalCounterpart);
+        }
+    } else { // originalSide === 'b'
+        // Handle crossing from right to left
+        if (currentX < dividerPosition) {
+            const overlapAmount = dividerPosition - currentX;
+            const overlapPercent = (overlapAmount / noteWidth) * 100;
+
+            // Make the counterpart visible
+            portalCounterpart.style.opacity = "1";
+
+            // Create clip-path value based on how much is overlapping
+            const clipPathValue = `inset(0 ${100 - overlapPercent}% 0 0)`;
+
+            // Apply clip-path ONLY to child elements, not the parent
+            if (borderElement) borderElement.style.clipPath = clipPathValue;
+            if (fillElement) fillElement.style.clipPath = clipPathValue;
+
+            portalCounterpart.classList.add('portal-active');
+            portalCounterpart.classList.add('crossing-divider');
+            portalCounterpart.classList.remove('hollow');
+        } else {
+            // Not crossing, hide counterpart
+            hideCounterpart(portalCounterpart);
+        }
+    }
+}
+
+/**
  * Handle effects when crossing from left to right
  * @param {HTMLElement} activeNote - The active note
  * @param {HTMLElement} portalCounterpart - The portal counterpart
  * @param {number} currentX - Current X position
  * @param {number} noteWidth - Width of the note
  * @param {number} dividerPosition - Position of the divider
- * @param {boolean} isTriangle - Whether the note is a triangle shape
  */
 function handleLeftToRightCrossing(
-    activeNote, 
-    portalCounterpart, 
-    currentX, 
-    noteWidth, 
-    dividerPosition, 
-    isTriangle
+    activeNote,
+    portalCounterpart,
+    currentX,
+    noteWidth,
+    dividerPosition
 ) {
     if (currentX + noteWidth > dividerPosition) {
         // Crossing from left to right
         const overlapAmount = currentX + noteWidth - dividerPosition;
         const overlapPercent = (overlapAmount / noteWidth) * 100;
 
-        // Special handling for triangles
-        if (isTriangle) {
-            // Make sure the counterpart is fully visible when crossing
-            portalCounterpart.style.opacity = overlapPercent > 10 ? "1" : "0";
-            portalCounterpart.classList.add('portal-active');
+        // Make counterpart visible
+        portalCounterpart.style.opacity = "1";
+        portalCounterpart.classList.add('portal-active');
 
-            // For triangles we use a different approach to show the partial visibility
-            portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
+        // Remove hollow state to show filled version
+        portalCounterpart.classList.remove('hollow');
 
-            // Remove hollow state to show filled version
-            portalCounterpart.classList.remove('hollow');
-        } else {
-            // Standard handling for other shapes
-            portalCounterpart.style.opacity = "1";
-            portalCounterpart.style.clipPath = `inset(0 0 0 ${100 - overlapPercent}%)`;
-            portalCounterpart.classList.add('portal-active');
-            portalCounterpart.classList.remove('hollow');
-        }
+        // Get border and fill elements
+        const borderElement = portalCounterpart.querySelector('.note-border');
+        const fillElement = portalCounterpart.querySelector('.note-fill');
+
+        // Apply clipping to create the reveal effect
+        const clipPathValue = `inset(0 0 0 ${100 - overlapPercent}%)`;
+
+        // Apply clip-path ONLY to child elements, not the parent
+        if (borderElement) borderElement.style.clipPath = clipPathValue;
+        if (fillElement) fillElement.style.clipPath = clipPathValue;
+
+        portalCounterpart.classList.add('crossing-divider');
     } else {
         // Not crossing, hide counterpart
-        hideCounterpart(portalCounterpart, isTriangle);
+        hideCounterpart(portalCounterpart);
     }
 }
 
@@ -128,59 +195,62 @@ function handleLeftToRightCrossing(
  * @param {number} currentX - Current X position
  * @param {number} noteWidth - Width of the note
  * @param {number} dividerPosition - Position of the divider
- * @param {boolean} isTriangle - Whether the note is a triangle shape
  */
 function handleRightToLeftCrossing(
-    activeNote, 
-    portalCounterpart, 
-    currentX, 
-    noteWidth, 
-    dividerPosition, 
-    isTriangle
+    activeNote,
+    portalCounterpart,
+    currentX,
+    noteWidth,
+    dividerPosition
 ) {
     if (currentX < dividerPosition) {
         // Crossing from right to left
         const overlapAmount = dividerPosition - currentX;
         const overlapPercent = (overlapAmount / noteWidth) * 100;
 
-        // Special handling for triangles
-        if (isTriangle) {
-            // Make sure the counterpart is fully visible when crossing
-            portalCounterpart.style.opacity = overlapPercent > 10 ? "1" : "0";
-            portalCounterpart.classList.add('portal-active');
+        // Make counterpart visible
+        portalCounterpart.style.opacity = "1";
+        portalCounterpart.classList.add('portal-active');
 
-            // For triangles we use a different approach for right to left transition
-            portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
+        // Remove hollow state to show filled version
+        portalCounterpart.classList.remove('hollow');
 
-            // Remove hollow state to show filled version
-            portalCounterpart.classList.remove('hollow');
-        } else {
-            // Standard handling for other shapes
-            portalCounterpart.style.opacity = "1";
-            portalCounterpart.style.clipPath = `inset(0 ${100 - overlapPercent}% 0 0)`;
-            portalCounterpart.classList.add('portal-active');
-            portalCounterpart.classList.remove('hollow');
-        }
+        // Get border and fill elements
+        const borderElement = portalCounterpart.querySelector('.note-border');
+        const fillElement = portalCounterpart.querySelector('.note-fill');
+
+        // Apply clipping to create the reveal effect
+        const clipPathValue = `inset(0 ${100 - overlapPercent}% 0 0)`;
+
+        // Apply clip-path ONLY to child elements, not the parent
+        if (borderElement) borderElement.style.clipPath = clipPathValue;
+        if (fillElement) fillElement.style.clipPath = clipPathValue;
+
+        portalCounterpart.classList.add('crossing-divider');
     } else {
         // Not crossing, hide counterpart
-        hideCounterpart(portalCounterpart, isTriangle);
+        hideCounterpart(portalCounterpart);
     }
 }
 
 /**
  * Hide a portal counterpart
  * @param {HTMLElement} portalCounterpart - The portal counterpart element
- * @param {boolean} isTriangle - Whether the counterpart is a triangle shape
  */
-function hideCounterpart(portalCounterpart, isTriangle) {
+export function hideCounterpart(portalCounterpart) {
     portalCounterpart.style.opacity = "0";
     portalCounterpart.classList.remove('portal-active');
     portalCounterpart.classList.add('hollow');
+    portalCounterpart.classList.remove('crossing-divider');
 
-    // Reset clipPath for triangles when not crossing
-    if (isTriangle) {
-        portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
-    }
+    // Get border and fill elements
+    const borderElement = portalCounterpart.querySelector('.note-border');
+    const fillElement = portalCounterpart.querySelector('.note-fill');
+
+    // Reset clip-path ONLY on child elements
+    if (borderElement) borderElement.style.clipPath = "";
+    if (fillElement) fillElement.style.clipPath = "";
+
 }
 
 /**
@@ -204,16 +274,25 @@ export function createAllPortalCounterparts(notes, elements) {
  * @param {Object} elements - DOM elements
  * @returns {HTMLElement} The portal counterpart element
  */
-function createPortalCounterpart(noteElement, noteNumber, player, elements) {
-    // Get properties from the original note
-    const shapeClass = noteElement.className.match(/shape-[a-z]+/)[0];
-    
-    // Create a portal counterpart with opposite styling
+export function createPortalCounterpart(noteElement, noteNumber, player, elements) {
+    // Create a portal counterpart for dimensional effect
+    // with the opposite styling already applied
     const oppositePlayer = player === 'a' ? 'b' : 'a';
+    const shapeClass = getShapeForNote(noteNumber);
     const portalCounterpart = document.createElement('div');
     portalCounterpart.className = `note note-${oppositePlayer} ${shapeClass} hollow portal-counterpart`;
     portalCounterpart.setAttribute('data-note', noteNumber);
     portalCounterpart.setAttribute('data-counterpart-for', player);
+
+    // Create border element
+    const borderElement = document.createElement('div');
+    borderElement.className = 'note-border';
+    portalCounterpart.appendChild(borderElement);
+
+    // Create fill element
+    const fillElement = document.createElement('div');
+    fillElement.className = 'note-fill';
+    portalCounterpart.appendChild(fillElement);
 
     // Add span for text
     const counterpartTextSpan = document.createElement('span');
@@ -225,9 +304,12 @@ function createPortalCounterpart(noteElement, noteNumber, player, elements) {
     noteElement.setAttribute('data-counterpart-id', counterpartId);
     portalCounterpart.id = counterpartId;
 
-    // Copy the position
+    // Position the counterpart at the EXACT same position
     portalCounterpart.style.left = noteElement.style.left;
     portalCounterpart.style.top = noteElement.style.top;
+
+    // Initially hide the counterpart (opacity 0)
+    portalCounterpart.style.opacity = "0";
 
     // Add to appropriate container
     if (player === 'a') {
@@ -247,12 +329,10 @@ export function resetPortalEffects(elements) {
     // Reset crossover detection
     crossOverDetection.isActive = false;
     crossOverDetection.currentArea = null;
-    
+
     // Hide all portal counterparts
     const counterparts = document.querySelectorAll('.portal-counterpart');
     counterparts.forEach(counterpart => {
-        counterpart.style.opacity = "0";
-        counterpart.classList.remove('portal-active');
-        counterpart.classList.add('hollow');
+        hideCounterpart(counterpart);
     });
 }

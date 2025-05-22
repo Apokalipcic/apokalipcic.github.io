@@ -1,4 +1,5 @@
-// notes.js - With direct parent container fix
+// notes.js - Creates note elements with DOM-based visual structure
+import { createPortalCounterpart } from './portal-effects.js';
 
 /**
  * Create draggable notes for both players
@@ -13,7 +14,7 @@ export function createNotes(config, elements, makeClickDraggable) {
         const noteElement = createNoteElement(noteNumber, 'a', config, elements, makeClickDraggable);
         elements.playerASide.appendChild(noteElement); // Change: Use playerASide instead of notesAreaA
 
-        // Create portal counterpart for each note
+        // Create portal counterpart for each note - using imported function
         createPortalCounterpart(noteElement, noteNumber, 'a', elements);
     });
 
@@ -23,7 +24,7 @@ export function createNotes(config, elements, makeClickDraggable) {
         const noteElement = createNoteElement(noteNumber, 'b', config, elements, makeClickDraggable);
         elements.playerBSide.appendChild(noteElement); // Change: Use playerBSide instead of notesAreaB
 
-        // Create portal counterpart for each note
+        // Create portal counterpart for each note - using imported function
         createPortalCounterpart(noteElement, noteNumber, 'b', elements);
     });
 }
@@ -66,6 +67,16 @@ function createNoteElement(noteNumber, player, config, elements, makeClickDragga
     noteElement.setAttribute('data-note', noteNumber);
     noteElement.setAttribute('data-player', player);
 
+    // Create border element
+    const borderElement = document.createElement('div');
+    borderElement.className = 'note-border';
+    noteElement.appendChild(borderElement);
+
+    // Create fill element
+    const fillElement = document.createElement('div');
+    fillElement.className = 'note-fill';
+    noteElement.appendChild(fillElement);
+
     // Create a span for the text to allow separate styling/positioning
     const textSpan = document.createElement('span');
     textSpan.textContent = noteNumber;
@@ -93,49 +104,4 @@ function createNoteElement(noteNumber, player, config, elements, makeClickDragga
     makeClickDraggable(noteElement);
 
     return noteElement;
-}
-
-/**
- * Create a portal counterpart for a note
- * @param {HTMLElement} noteElement - The original note element
- * @param {number} noteNumber - The note number
- * @param {string} player - The player identifier ('a' or 'b')
- * @param {Object} elements - DOM elements
- * @returns {HTMLElement} The portal counterpart element
- */
-export function createPortalCounterpart(noteElement, noteNumber, player, elements) {
-    // Create a portal counterpart for dimensional effect
-    // with the opposite styling already applied
-    const oppositePlayer = player === 'a' ? 'b' : 'a';
-    const shapeClass = getShapeForNote(noteNumber);
-    const portalCounterpart = document.createElement('div');
-    portalCounterpart.className = `note note-${oppositePlayer} ${shapeClass} hollow portal-counterpart`;
-    portalCounterpart.setAttribute('data-note', noteNumber);
-    portalCounterpart.setAttribute('data-counterpart-for', player);
-
-    // Add span for text
-    const counterpartTextSpan = document.createElement('span');
-    counterpartTextSpan.textContent = noteNumber;
-    portalCounterpart.appendChild(counterpartTextSpan);
-
-    // Link the notes
-    const counterpartId = `counterpart-${player}-${noteNumber}`;
-    noteElement.setAttribute('data-counterpart-id', counterpartId);
-    portalCounterpart.id = counterpartId;
-
-    // Position the counterpart at the EXACT same position
-    portalCounterpart.style.left = noteElement.style.left;
-    portalCounterpart.style.top = noteElement.style.top;
-
-    // Initially hide the counterpart (opacity 0)
-    portalCounterpart.style.opacity = "0";
-
-    // Add to appropriate container
-    if (player === 'a') {
-        elements.playerBSide.appendChild(portalCounterpart);
-    } else {
-        elements.playerASide.appendChild(portalCounterpart);
-    }
-
-    return portalCounterpart;
 }

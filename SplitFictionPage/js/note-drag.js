@@ -2,6 +2,11 @@
 
 import { addNoteToCell, removeNoteFromCell } from './sequencer.js';
 import { getShapeForNote } from './notes.js';
+import {
+    updatePortalEffectsDuringDrag,
+    hideCounterpart,
+    createPortalCounterpart
+} from './portal-effects.js';
 
 // Global dragging state
 let activeNote = null;
@@ -165,8 +170,8 @@ function animateMovement() {
         portalCounterpart.style.left = `${currentX}px`;
         portalCounterpart.style.top = `${currentY}px`;
 
-        // Handle portal effects
-        updatePortalEffects(portalCounterpart, currentX, activeNote);
+        // Handle portal effects using the imported function
+        updatePortalEffectsDuringDrag(portalCounterpart, currentX, activeNote, globalElements);
     }
 
     // Get note dimensions for center calculation
@@ -180,90 +185,6 @@ function animateMovement() {
 
     // Continue the animation loop
     animationFrameId = requestAnimationFrame(animateMovement);
-}
-
-/**
- * Update portal effects when crossing boundary
- * @param {HTMLElement} portalCounterpart - The portal counterpart element
- * @param {number} currentX - Current X position
- * @param {HTMLElement} activeNote - The active note
- */
-function updatePortalEffects(portalCounterpart, currentX, activeNote) {
-    // Get divider position
-    const dividerPosition = parseInt(globalElements.divider.style.left);
-
-    // Get note dimensions
-    const noteRect = activeNote.getBoundingClientRect();
-    const noteWidth = noteRect.width;
-
-    // Get original player side
-    const originalSide = activeNote.getAttribute('data-player');
-
-    // Check if the active note is a triangle
-    const isTriangle = activeNote.classList.contains('shape-triangle');
-
-    // Check if crossing the divider
-    if (originalSide === 'a') {
-        // Handle crossing from left to right
-        if (currentX + noteWidth > dividerPosition) {
-            const overlapAmount = currentX + noteWidth - dividerPosition;
-            const overlapPercent = (overlapAmount / noteWidth) * 100;
-
-            // Special handling for triangles
-            if (isTriangle) {
-                portalCounterpart.style.opacity = overlapPercent > 10 ? "1" : "0";
-                portalCounterpart.classList.add('portal-active');
-                portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
-                portalCounterpart.classList.remove('hollow');
-            } else {
-                portalCounterpart.style.opacity = "1";
-                portalCounterpart.style.clipPath = `inset(0 0 0 ${100 - overlapPercent}%)`;
-                portalCounterpart.classList.add('portal-active');
-                portalCounterpart.classList.remove('hollow');
-            }
-        } else {
-            // Not crossing, hide counterpart
-            hideCounterpart(portalCounterpart, isTriangle);
-        }
-    } else { // originalSide === 'b'
-        // Handle crossing from right to left
-        if (currentX < dividerPosition) {
-            const overlapAmount = dividerPosition - currentX;
-            const overlapPercent = (overlapAmount / noteWidth) * 100;
-
-            // Special handling for triangles
-            if (isTriangle) {
-                portalCounterpart.style.opacity = overlapPercent > 10 ? "1" : "0";
-                portalCounterpart.classList.add('portal-active');
-                portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
-                portalCounterpart.classList.remove('hollow');
-            } else {
-                portalCounterpart.style.opacity = "1";
-                portalCounterpart.style.clipPath = `inset(0 ${100 - overlapPercent}% 0 0)`;
-                portalCounterpart.classList.add('portal-active');
-                portalCounterpart.classList.remove('hollow');
-            }
-        } else {
-            // Not crossing, hide counterpart
-            hideCounterpart(portalCounterpart, isTriangle);
-        }
-    }
-}
-
-/**
- * Hide a portal counterpart
- * @param {HTMLElement} portalCounterpart - The portal counterpart element
- * @param {boolean} isTriangle - Whether the counterpart is a triangle shape
- */
-function hideCounterpart(portalCounterpart, isTriangle) {
-    portalCounterpart.style.opacity = "0";
-    portalCounterpart.classList.remove('portal-active');
-    portalCounterpart.classList.add('hollow');
-
-    // Reset clipPath for triangles when not crossing
-    if (isTriangle) {
-        portalCounterpart.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
-    }
 }
 
 /**
@@ -360,10 +281,10 @@ function dropActiveNote(x, y) {
     // Reset active note appearance
     activeNote.style.zIndex = '5';
 
-    // Hide portal counterpart
+    // Hide portal counterpart and remove effect classes
     if (portalCounterpart) {
-        portalCounterpart.classList.remove('portal-active');
-        portalCounterpart.classList.add('hollow');
+        // Use the imported hideCounterpart function
+        hideCounterpart(portalCounterpart, activeNote.classList.contains('shape-triangle'));
     }
 
     // Remove dragging class
@@ -421,26 +342,9 @@ function handleCrossSideDrop(x, y) {
             portalCounterpart.parentNode.removeChild(portalCounterpart);
         }
 
-        // Create a new portal counterpart for the transferred note
+        // Create a new portal counterpart using the imported function
         const oppositePlayer = player === 'a' ? 'b' : 'a';
-        const shapeClass = getShapeForNote(noteNumber);
-        const newCounterpart = document.createElement('div');
-        newCounterpart.className = `note note-${oppositePlayer} ${shapeClass} hollow portal-counterpart`;
-        newCounterpart.setAttribute('data-note', noteNumber);
-        newCounterpart.setAttribute('data-counterpart-for', player);
-        newCounterpart.id = `counterpart-${player}-${noteNumber}`;
-
-        // Add span for text
-        const textSpan = document.createElement('span');
-        textSpan.textContent = noteNumber;
-        newCounterpart.appendChild(textSpan);
-
-        newCounterpart.style.left = activeNote.style.left;
-        newCounterpart.style.top = activeNote.style.top;
-
-        // Add the new portal counterpart to the opposite side
-        const counterpartContainer = player === 'a' ? globalElements.playerBSide : globalElements.playerASide;
-        counterpartContainer.appendChild(newCounterpart);
+        createPortalCounterpart(activeNote, noteNumber, player, globalElements);
 
         // Update the link in the original note
         activeNote.setAttribute('data-counterpart-id', `counterpart-${player}-${noteNumber}`);

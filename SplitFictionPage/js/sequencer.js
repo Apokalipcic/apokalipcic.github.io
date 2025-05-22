@@ -212,6 +212,16 @@ export function addNoteToCell(cell, noteNumber, player, getShapeForNote, state) 
     noteClone.className = `note note-${player} ${shapeClass} note-in-cell`;
     noteClone.setAttribute('data-note', noteNumber);
 
+    // Create border element
+    const borderElement = document.createElement('div');
+    borderElement.className = 'note-border';
+    noteClone.appendChild(borderElement);
+
+    // Create fill element
+    const fillElement = document.createElement('div');
+    fillElement.className = 'note-fill';
+    noteClone.appendChild(fillElement);
+
     // Add a span for the text
     const textSpan = document.createElement('span');
     textSpan.textContent = noteNumber;
