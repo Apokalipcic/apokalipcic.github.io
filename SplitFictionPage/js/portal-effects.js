@@ -275,8 +275,6 @@ export function createAllPortalCounterparts(notes, elements) {
  * @returns {HTMLElement} The portal counterpart element
  */
 export function createPortalCounterpart(noteElement, noteNumber, player, elements) {
-    // Create a portal counterpart for dimensional effect
-    // with the opposite styling already applied
     const oppositePlayer = player === 'a' ? 'b' : 'a';
     const shapeClass = getShapeForNote(noteNumber);
     const portalCounterpart = document.createElement('div');
@@ -299,6 +297,9 @@ export function createPortalCounterpart(noteElement, noteNumber, player, element
     counterpartTextSpan.textContent = noteNumber;
     portalCounterpart.appendChild(counterpartTextSpan);
 
+    // Copy visual nested indicators to portal counterpart
+    copyVisualIndicatorsToCounterpart(noteElement, portalCounterpart);
+
     // Link the notes
     const counterpartId = `counterpart-${player}-${noteNumber}`;
     noteElement.setAttribute('data-counterpart-id', counterpartId);
@@ -319,6 +320,40 @@ export function createPortalCounterpart(noteElement, noteNumber, player, element
     }
 
     return portalCounterpart;
+}
+
+// New function to copy visual indicators to portal counterparts
+function copyVisualIndicatorsToCounterpart(originalNote, portalCounterpart) {
+    const visualIndicators = originalNote.querySelectorAll('.nested-visual');
+
+    visualIndicators.forEach(indicator => {
+        const indicatorClone = indicator.cloneNode(true);
+        portalCounterpart.appendChild(indicatorClone);
+    });
+
+    // Copy has-nested-child class if present
+    if (originalNote.classList.contains('has-nested-child')) {
+        portalCounterpart.classList.add('has-nested-child');
+    }
+}
+
+// Add new function to update portal counterpart visual indicators
+export function updatePortalCounterpartIndicators(noteNumber, player, elements) {
+    const counterpartId = `counterpart-${player}-${noteNumber}`;
+    const portalCounterpart = document.getElementById(counterpartId);
+    const originalNote = document.querySelector(`[data-note="${noteNumber}"][data-player="${player}"]:not(.portal-counterpart):not(.nested-visual)`);
+
+    if (portalCounterpart && originalNote) {
+        // Remove existing visual indicators from counterpart
+        const existingIndicators = portalCounterpart.querySelectorAll('.nested-visual');
+        existingIndicators.forEach(indicator => indicator.remove());
+
+        // Remove has-nested-child class
+        portalCounterpart.classList.remove('has-nested-child');
+
+        // Copy current visual indicators from original
+        copyVisualIndicatorsToCounterpart(originalNote, portalCounterpart);
+    }
 }
 
 /**

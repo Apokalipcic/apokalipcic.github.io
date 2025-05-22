@@ -26,13 +26,13 @@ const audioContainer = document.getElementById('audio-container');
 
 // Application configuration
 const config = {
-    totalCells: 8,                   // Total number of sequencer cells
-    tempo: 120,                      // Beats per minute
-    playerACells: [1, 3, 5],         // Cell positions for Player A (1-based)
-    playerBCells: [2, 4, 6],         // Cell positions for Player B (1-based)
-    playerANotes: [1, 4, 6],         // Note numbers for Player A
-    playerBNotes: [2, 3, 5],         // Note numbers for Player B
-    audioFiles: {                    // Audio file paths for each note
+    totalCells: 8,
+    tempo: 120,
+    playerACells: [1, 3, 5],
+    playerBCells: [2, 4, 6],
+    playerANotes: [1, 4, 6],
+    playerBNotes: [2, 3, 5],
+    audioFiles: {
         1: 'Audio/note1.ogg',
         2: 'Audio/note2.ogg',
         3: 'Audio/note3.ogg',
@@ -40,18 +40,27 @@ const config = {
         5: 'Audio/note5.ogg',
         6: 'Audio/note6.ogg'
     },
-    stepDuration: 1650               // Minimum step duration in ms
+    stepDuration: 1650,
+    nestedItems: {
+        1: [2],
+        2: [3],
+        4: [5],
+    }
 };
 
-// Application state
 const state = {
-    isPlaying: false,                // Whether the sequencer is currently playing
-    currentStep: 0,                  // Current step in the sequence (0-based)
-    intervalId: null,                // ID for the playback interval
-    playerACellsContent: {},         // Contents of Player A cells: { position: noteNumber }
-    playerBCellsContent: {},         // Contents of Player B cells: { position: noteNumber }
-    draggedNote: null,               // Currently dragged note element
-    draggedNoteData: null,           // Data for the currently dragged note
+    isPlaying: false,
+    currentStep: 0,
+    intervalId: null,
+    playerACellsContent: {},
+    playerBCellsContent: {},
+    draggedNote: null,
+    draggedNoteData: null,
+    nestedRelationships: {
+        2: 1,
+        3: 2,
+        5: 4
+    }
 };
 
 // Collect DOM elements for sharing with modules
@@ -80,7 +89,7 @@ function init() {
     createAudioElements(config, audioContainer);
 
     // Set up event handlers
-    setupNoteDragEvents(elements, state);
+    setupNoteDragEvents(elements, state, config);
     setupDividerDrag(elements, updateScreenSplit);
     setupSequencerEvents(elements, state, config, () => createNotes(config, elements, makeClickDraggable));
 

@@ -153,3 +153,18 @@
     .note-in-cell.shape-diamond {
         transform: rotate(315deg);
     }
+
+.nested-visual {
+    position: absolute;
+    left: 25%;
+    top: 25%;
+    width: 50%;
+    height: 50%;
+    z-index: 7;
+    pointer-events: none;
+    clip-path: unset;
+}
+
+.note.nested-hidden {
+    opacity: 0;
+}

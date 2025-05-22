@@ -1,7 +1,7 @@
 // note-drag.js - Handles note dragging and dropping
 
 import { addNoteToCell, removeNoteFromCell } from './sequencer.js';
-import { getShapeForNote } from './notes.js';
+import { getShapeForNote, updateVisibilityAfterExtraction } from './notes.js';
 import {
     updatePortalEffectsDuringDrag,
     hideCounterpart,
@@ -47,6 +47,12 @@ export function makeClickDraggable(element) {
         targetX = currentX;
         targetY = currentY;
 
+        // Check if this nested object is being extracted
+        const noteNumber = parseInt(element.getAttribute('data-note'));
+        if (globalState.nestedRelationships[noteNumber]) {
+            extractFromParent(noteNumber);
+        }
+
         // Set as active element
         activeNote = element;
         element.classList.add('dragging');
@@ -89,14 +95,68 @@ export function makeClickDraggable(element) {
 }
 
 /**
+ * Extract nested object from parent
+ * @param {number} nestedNoteNumber - The nested note number to extract
+ */
+function extractFromParent(nestedNoteNumber) {
+    const parentNoteNumber = globalState.nestedRelationships[nestedNoteNumber];
+
+    // Remove visual indicator from parent
+    const parentNotes = document.querySelectorAll(`[data-note="${parentNoteNumber}"]:not(.nested-visual)`);
+    parentNotes.forEach(parentNote => {
+        const visualIndicator = parentNote.querySelector(`.nested-visual[data-note="${nestedNoteNumber}"]`);
+        if (visualIndicator) {
+            parentNote.removeChild(visualIndicator);
+
+            // Remove has-nested-child class if no more visual indicators
+            if (!parentNote.querySelector('.nested-visual')) {
+                parentNote.classList.remove('has-nested-child');
+            }
+        }
+    });
+
+    // Remove from nested relationships
+    delete globalState.nestedRelationships[nestedNoteNumber];
+
+    // Make nested object visible and draggable
+    const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual)`);
+    nestedObjects.forEach(note => {
+        note.classList.remove('nested-hidden');
+    });
+
+    // Use imported function to update visibility after extraction
+    updateVisibilityAfterExtraction(nestedNoteNumber, globalElements.config);
+}
+
+// New function to update visibility when extraction happens
+function updateNestedVisibility(parentNoteNumber) {
+    // Import config from main.js scope or pass it as parameter
+    // For now, assume we have access to config through global scope or import
+    const config = globalElements.config || window.config;
+
+    if (config && config.nestedItems[parentNoteNumber]) {
+        config.nestedItems[parentNoteNumber].forEach(nestedNoteNumber => {
+            const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual)`);
+            nestedObjects.forEach(note => {
+                note.classList.remove('nested-hidden');
+            });
+        });
+    }
+}
+
+/**
  * Set up note drag events on document
  * @param {Object} elements - DOM elements
  * @param {Object} state - Application state
  */
-export function setupNoteDragEvents(elements, state) {
+export function setupNoteDragEvents(elements, state, config) {
     // Store references to elements and state for global access
     globalElements = elements;
     globalState = state;
+    globalElements.config = config;
+
+    // Store config reference for easier access
+    globalElements.config = elements.config || window.config;
 
     // Global document mouse move
     document.addEventListener('mousemove', function (e) {
@@ -161,6 +221,9 @@ function animateMovement() {
     activeNote.style.left = `${currentX}px`;
     activeNote.style.top = `${currentY}px`;
 
+    // Update positions of linked nested objects
+    updateLinkedNestedPositions();
+
     // Get the portal counterpart
     const counterpartId = activeNote.getAttribute('data-counterpart-id');
     const portalCounterpart = document.getElementById(counterpartId);
@@ -189,6 +252,36 @@ function animateMovement() {
 
     // Continue the animation loop
     animationFrameId = requestAnimationFrame(animateMovement);
+}
+
+/**
+ * Update positions of linked nested objects
+ */
+function updateLinkedNestedPositions() {
+    if (!activeNote) return;
+
+    const activeNoteNumber = parseInt(activeNote.getAttribute('data-note'));
+
+    // Find nested objects that should move with this parent
+    Object.entries(globalState.nestedRelationships).forEach(([nestedNoteStr, parentNoteNumber]) => {
+        if (parentNoteNumber === activeNoteNumber) {
+            const nestedNoteNumber = parseInt(nestedNoteStr);
+            const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual)`);
+
+            nestedObjects.forEach(nestedObject => {
+                nestedObject.style.left = `${currentX}px`;
+                nestedObject.style.top = `${currentY}px`;
+
+                // Also update portal counterpart position if it exists
+                const counterpartId = nestedObject.getAttribute('data-counterpart-id');
+                const portalCounterpart = document.getElementById(counterpartId);
+                if (portalCounterpart) {
+                    portalCounterpart.style.left = `${currentX}px`;
+                    portalCounterpart.style.top = `${currentY}px`;
+                }
+            });
+        }
+    });
 }
 
 /**
