@@ -76,7 +76,7 @@ function initConceptsSection() {
             ],
             tags: ["Co-op", "Side Quest"],
             primaryLink: "https://www.figma.com/design/cp7Flh9Qx85Cp2MIONwFv4/Split-Fiction---Side-Story?node-id=0-1", // Add your actual link here
-            secondaryLink: "" // Add your actual link here, or leave empty to use construction strip
+            secondaryLink: "SplitFictionPage/SplitFiction_Index.html" // Add your actual link here, or leave empty to use construction strip
         }
     ];
 
