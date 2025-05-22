@@ -30,8 +30,8 @@ const config = {
     tempo: 120,
     playerACells: [1, 3, 5],
     playerBCells: [2, 4, 6],
-    playerANotes: [1, 4, 6],
-    playerBNotes: [2, 3, 5],
+    playerANotes: [1, 4, 3],
+    playerBNotes: [2, 6, 5],
     audioFiles: {
         1: 'Audio/note1.ogg',
         2: 'Audio/note2.ogg',
