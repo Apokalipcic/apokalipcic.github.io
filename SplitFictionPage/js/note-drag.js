@@ -180,6 +180,10 @@ function animateMovement() {
     // Check which side the note is on for drop targeting
     const noteSide = checkNoteSide(currentX + rect.width / 2);
 
+    if (globalState.draggedNoteData && globalState.draggedNoteData.player !== noteSide) {
+        globalState.draggedNoteData.player = noteSide;
+    }
+
     // Check if over any sequencer cell - based on the NOTE'S actual position
     checkDropTargets(currentX + rect.width / 2, currentY + rect.height / 2);
 
