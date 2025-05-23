@@ -162,6 +162,69 @@
             box-shadow: 0 0 15px #ffaa3c;
         }
 
+/* Split Fiction concept - Step 1: Just the divider */
+.split-fiction-concept {
+    position: relative;
+}
+
+    .split-fiction-concept .concept-content {
+        background: linear-gradient(324deg, #064e3b 45%, #0f172a 55%);
+    }
+
+    .split-fiction-concept .concept-title {
+        color: #00ccff;
+    }
+
+    .split-fiction-concept .concept-tag {
+        border-radius: 0px;
+        background-color: transparent;
+        border: 2px solid #00ccff;
+        color: #00ccff;
+        text-shadow: 0 0 15px rgba(0, 204, 255, 0.6);
+    }
+
+        .split-fiction-concept .concept-tag.crossing {
+            border: 2px solid;
+            border-image: linear-gradient(320deg, #00ff7f 5%, #00ccff 42%) 1;
+        }
+
+    .split-fiction-concept .fontA {
+        /*font-family: 'FantasyFont', serif;*/
+        color: #00ff7f;
+        text-shadow: 0 0 15px rgba(0, 255, 127, 0.6);
+    }
+
+    .split-fiction-concept .fontB {
+        /*font-family: 'SciFiFont', sans-serif;*/
+        color: #00ccff;
+        text-shadow: 0 0 15px rgba(0, 204, 255, 0.6);
+    }
+
+    .split-fiction-concept .secondary-btn {
+        /*font-family: 'SciFiFont', sans-serif;*/
+        color: #00ff7f;
+        border: 2px solid transparent;
+        border-image: linear-gradient(324deg, #00ff7f 80%, #00ccff 75%) 1;
+    }
+
+        .split-fiction-concept .secondary-btn:hover {
+            color: white;
+            background: linear-gradient(324deg, #00ff7f69 80%, #00ccff5c 75%);
+        }
+
+    .split-fiction-concept .portal-divider {
+        position: absolute;
+        left: 20%;
+        top: 25%;
+        width: 2px;
+        background: linear-gradient(to bottom, #34d399, #ffffff, #67e8f9);
+        transform: translateY(-3%) rotate(55deg);
+        transform-origin: center;
+        z-index: 10;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        height: 140%;
+    }
+
 .concept-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
