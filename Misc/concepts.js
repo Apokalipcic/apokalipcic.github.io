@@ -466,13 +466,7 @@ function initConceptsSection() {
                 left: 0;
                 width: 100%;
                 height: 5px;
-                background: linear-gradient(90deg,
-                    transparent,
-                    #d4af37cc,
-                    #ffaa3c,
-                    #d4af37cc,
-                    transparent
-                );
+                background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), rgb(255 170 60 / 43%), rgba(212, 175, 55, 0.8), transparent);
                 box-shadow: 0 0 10px #d4af37;
                 z-index: 1000;
                 pointer-events: none;
