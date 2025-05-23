@@ -1,4 +1,4 @@
-// divider-drag.js - Handles divider dragging functionality
+// divider-drag.js - Handles divider dragging functionality with portal effects
 
 /**
  * Set up the divider drag functionality
@@ -124,4 +124,42 @@ export function getDividerPositionPercent(elements) {
     const containerWidth = elements.appContainer.offsetWidth;
     const dividerLeft = parseInt(elements.divider.style.left) || containerWidth / 2;
     return (dividerLeft / containerWidth) * 100;
+}
+
+// Portal effects functionality
+let portalFlowOffset = 0;
+let portalFlowInterval = null;
+
+/**
+ * Initialize portal effects
+ * @param {Object} elements - DOM elements
+ */
+export function initializePortalEffects(elements) {
+    // Start the flowing energy animation
+    startPortalFlow();
+
+    // Hover effects removed - just keep the flowing animation
+}
+
+/**
+ * Start the flowing energy animation
+ */
+function startPortalFlow() {
+    const flowPath = document.getElementById('flow-path');
+    if (!flowPath) return;
+
+    portalFlowInterval = setInterval(() => {
+        portalFlowOffset = (portalFlowOffset + 0.6) % 100;
+        flowPath.style.strokeDashoffset = portalFlowOffset;
+    }, 50);
+}
+
+/**
+ * Clean up portal effects when needed
+ */
+export function cleanupPortalEffects() {
+    if (portalFlowInterval) {
+        clearInterval(portalFlowInterval);
+        portalFlowInterval = null;
+    }
 }

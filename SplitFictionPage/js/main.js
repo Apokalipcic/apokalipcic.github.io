@@ -6,7 +6,7 @@ import { createSequencerCells, setupSequencerEvents, startPlayback, stopPlayback
 import { createNotes, getShapeForNote } from './notes.js';
 import { makeClickDraggable, setupNoteDragEvents } from './note-drag.js';
 import { initCrossoverDetection, updatePortalEffects, createAllPortalCounterparts } from './portal-effects.js';
-import { setupDividerDrag, initializeDividerPosition } from './divider-drag.js';
+import { setupDividerDrag, initializeDividerPosition, initializePortalEffects } from './divider-drag.js';
 import { initializeScreenSplit, updateScreenSplit } from './screen-split.js';
 import { bpmToMs } from './utils.js';
 
@@ -91,6 +91,7 @@ function init() {
     // Set up event handlers
     setupNoteDragEvents(elements, state, config);
     setupDividerDrag(elements, updateScreenSplit);
+    initializePortalEffects(elements);
     setupSequencerEvents(elements, state, config, () => createNotes(config, elements, makeClickDraggable));
 
     // Initialize screen splitting

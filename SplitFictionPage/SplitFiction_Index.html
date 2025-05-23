@@ -58,7 +58,63 @@
         </div>
 
         <!-- Draggable divider -->
-        <div id="divider" class="handle"></div>
+        <div id="divider" class="handle">
+            <svg width="16" height="100%" viewBox="0 0 16 100" preserveAspectRatio="none">
+                <!-- Outer neon glow - largest -->
+                <path d="M 8 0 L 2 8 L 14 15 L 4 25 L 12 32 L 6 42 L 10 48 L 3 58 L 13 65 L 5 75 L 11 82 L 7 92 L 8 100"
+                      stroke="url(#outerGlow)" stroke-width="12" fill="none" style="filter: blur(8px); opacity: 0.6;" />
+
+                <!-- Middle neon glow -->
+                <path d="M 8 0 L 2 8 L 14 15 L 4 25 L 12 32 L 6 42 L 10 48 L 3 58 L 13 65 L 5 75 L 11 82 L 7 92 L 8 100"
+                      stroke="url(#middleGlow)" stroke-width="6" fill="none" style="filter: blur(4px); opacity: 0.8;" />
+
+                <!-- Inner bright glow -->
+                <path d="M 8 0 L 2 8 L 14 15 L 4 25 L 12 32 L 6 42 L 10 48 L 3 58 L 13 65 L 5 75 L 11 82 L 7 92 L 8 100"
+                      stroke="url(#innerGlow)" stroke-width="3" fill="none" style="filter: blur(1px); opacity: 0.9;" />
+
+                <!-- Core portal line -->
+                <path d="M 8 0 L 2 8 L 14 15 L 4 25 L 12 32 L 6 42 L 10 48 L 3 58 L 13 65 L 5 75 L 11 82 L 7 92 L 8 100"
+                      stroke="url(#coreGradient)" stroke-width="1" fill="none" style="filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));" />
+
+                <!-- Energy flow animation -->
+                <path d="M 8 0 L 2 8 L 14 15 L 4 25 L 12 32 L 6 42 L 10 48 L 3 58 L 13 65 L 5 75 L 11 82 L 7 92 L 8 100"
+                      stroke="url(#flowGradient)" stroke-width="2" fill="none" stroke-dasharray="4 8"
+                      style="opacity: 0.7; filter: blur(0.5px);" id="flow-path" />
+
+                <!-- Gradient definitions -->
+                <defs>
+                    <linearGradient id="outerGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#10b981" stop-opacity="0.3" />
+                        <stop offset="25%" stop-color="#06b6d4" stop-opacity="0.4" />
+                        <stop offset="75%" stop-color="#8b5cf6" stop-opacity="0.4" />
+                        <stop offset="100%" stop-color="#a855f7" stop-opacity="0.3" />
+                    </linearGradient>
+                    <linearGradient id="middleGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#059669" stop-opacity="0.5" />
+                        <stop offset="30%" stop-color="#0891b2" stop-opacity="0.6" />
+                        <stop offset="70%" stop-color="#7c3aed" stop-opacity="0.6" />
+                        <stop offset="100%" stop-color="#9333ea" stop-opacity="0.5" />
+                    </linearGradient>
+                    <linearGradient id="innerGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#34d399" stop-opacity="0.8" />
+                        <stop offset="30%" stop-color="#22d3ee" stop-opacity="0.9" />
+                        <stop offset="70%" stop-color="#a78bfa" stop-opacity="0.9" />
+                        <stop offset="100%" stop-color="#c084fc" stop-opacity="0.8" />
+                    </linearGradient>
+                    <linearGradient id="coreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.9" />
+                        <stop offset="25%" stop-color="#67e8f9" stop-opacity="1" />
+                        <stop offset="75%" stop-color="#c4b5fd" stop-opacity="1" />
+                        <stop offset="100%" stop-color="#ddd6fe" stop-opacity="0.9" />
+                    </linearGradient>
+                    <linearGradient id="flowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+                        <stop offset="50%" stop-color="#ffffff" stop-opacity="0.8" />
+                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
 
         <!-- Playback controls -->
         <div id="playback-controls">
