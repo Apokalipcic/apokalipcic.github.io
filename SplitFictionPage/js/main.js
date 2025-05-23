@@ -9,6 +9,8 @@ import { initCrossoverDetection, updatePortalEffects, createAllPortalCounterpart
 import { setupDividerDrag, initializeDividerPosition, initializePortalEffects } from './divider-drag.js';
 import { initializeScreenSplit, updateScreenSplit } from './screen-split.js';
 import { bpmToMs } from './utils.js';
+import { initializeParticleSystems } from './visual_effects.js';
+
 
 // Get DOM Elements
 const appContainer = document.getElementById('app-container');
@@ -100,6 +102,9 @@ function init() {
 
     // Start playback immediately
     startPlayback(state, config, elements);
+
+    // Initialize particle systems for enhanced visual effects
+    initializeParticleSystems();
 }
 
 // Initialize on page load

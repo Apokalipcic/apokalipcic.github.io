@@ -11,12 +11,18 @@
     <link rel="stylesheet" href="css/divider.css">
     <link rel="stylesheet" href="css/controls.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/visual_effects.css">
 </head>
 <body>
     <!-- Main container -->
     <div id="app-container" class="splitview">
-        <!-- Bottom layer (Player B) -->
+        <!-- Bottom layer (Player B) - Enhanced with Sci-Fi particles -->
         <div id="player-b-side" class="player-side panel bottom">
+            <!-- Star particles container for Sci-Fi effects -->
+            <div class="star-particles" id="star-particles-b">
+                <!-- Star particles will be dynamically created by JavaScript -->
+            </div>
+
             <div class="content">
                 <div class="side-header">
                     <h2>Screen B</h2>
@@ -36,8 +42,18 @@
             </div>
         </div>
 
-        <!-- Top layer (Player A) -->
+        <!-- Top layer (Player A) - Enhanced with Fantasy particles -->
         <div id="player-a-side" class="player-side panel top">
+            <!-- Magical particles container for Fantasy effects -->
+            <div class="magical-particles" id="magical-particles-a">
+                <!-- Magical particles will be dynamically created by JavaScript -->
+            </div>
+
+            <!-- Floating runes container for Fantasy effects -->
+            <div class="floating-runes" id="floating-runes-a">
+                <!-- Floating runes will be dynamically created by JavaScript -->
+            </div>
+
             <div class="content">
                 <div class="side-header">
                     <h2>Screen A</h2>
