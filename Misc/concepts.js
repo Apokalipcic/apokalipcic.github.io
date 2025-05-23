@@ -439,4 +439,76 @@ function initConceptsSection() {
         nextButtonHandler = null;
         keyboardHandler = null;
     }
+
+    // Simple CRT scanner effect that moves from top to bottom
+    function addSimpleCRTScanner() {
+        // Find all elements with fallout-crt class
+        const crtElements = document.querySelectorAll('.fallout-crt');
+
+        crtElements.forEach(element => {
+            // Make sure element has relative positioning
+            const position = getComputedStyle(element).position;
+            if (position === 'static') {
+                element.style.position = 'relative';
+            }
+
+            // Ensure overflow is hidden for clean effect
+            element.style.overflow = 'hidden';
+
+            // Create scanner line if it doesn't exist
+            let scanner = element.querySelector('.crt-scanner-line');
+            if (!scanner) {
+                scanner = document.createElement('div');
+                scanner.className = 'crt-scanner-line';
+                scanner.style.cssText = `
+                position: absolute;
+                top: -2px;
+                left: 0;
+                width: 100%;
+                height: 5px;
+                background: linear-gradient(90deg,
+                    transparent,
+                    #d4af37cc,
+                    #ffaa3c,
+                    #d4af37cc,
+                    transparent
+                );
+                box-shadow: 0 0 10px #d4af37;
+                z-index: 1000;
+                pointer-events: none;
+                animation: crt-scan 12s linear infinite;
+            `;
+                element.appendChild(scanner);
+            }
+        });
+
+        // Add CSS animation if not already added
+        if (!document.querySelector('#crt-scanner-styles')) {
+            const style = document.createElement('style');
+            style.id = 'crt-scanner-styles';
+            style.textContent = `
+            @keyframes crt-scan {
+                0% {
+                    top: -2px;
+                    opacity: 0;
+                }
+                5% {
+                    opacity: 1;
+                }
+                95% {
+                    opacity: 1;
+                }
+                100% {
+                    top: 100%;
+                    opacity: 0;
+                }
+            }
+        `;
+            document.head.appendChild(style);
+        }
+    }
+
+    addSimpleCRTScanner();
+
 }
+
