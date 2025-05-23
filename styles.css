@@ -23,7 +23,6 @@
     --box-shadow-hover: 0 8px 28px rgba(0,0,0,0.15);
     /* Transitions */
     --transition: all 0.3s ease;
-
     --gamejam-color: #ff6b4a; /* Orange-red that contrasts with the blue */
     --gamejam-dark: #e25a3a;
     --gamejam-light: rgba(255, 107, 74, 0.05);
@@ -216,6 +215,7 @@ ul {
     font-weight: 400;
     color: var(--text-light);
 }
+
 .profile-picture {
     width: 40px;
     height: 40px;
@@ -355,123 +355,123 @@ ul {
 
 /* ===== Mobile Games SECTION ===== */
 .game-info-box {
-  width: 100%;
-  max-width: 100%;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  overflow: hidden;
-  border: 1px solid #e0e4e8;
-  margin-bottom: 20px;
-  transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+    border: 1px solid #e0e4e8;
+    margin-bottom: 20px;
+    transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease;
 }
 
 .game-main-info {
-  padding: 12px 15px;
-  display: flex;
-  align-items: center;
-  background: transparent;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    background: transparent;
 }
 
 /* Make the icon smaller */
 .game-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
 }
 
 /* Adjust the text details */
 .game-main-info .game-details {
-  margin-left: 15px;
-  flex-grow: 1;
+    margin-left: 15px;
+    flex-grow: 1;
 }
 
 .game-title {
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0 0 2px 0;
-  color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 2px 0;
+    color: #333;
 }
 
 .game-genre {
-  font-size: 13px;
-  color: #777;
-  margin: 0;
+    font-size: 13px;
+    color: #777;
+    margin: 0;
 }
 
 /* Position platform icons to the right */
 .game-main-info .platform-icons {
-  display: flex;
-  gap: 6px;
-  margin-left: auto;
-  flex-shrink: 0;
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 .platform {
-  width: 22px;
-  height: 22px;
+    width: 22px;
+    height: 22px;
 }
 
-.platform img {
-  max-width: 100%;
-  max-height: 100%;
-}
+    .platform img {
+        max-width: 100%;
+        max-height: 100%;
+    }
 
 /* Statistics Section */
 .game-stats {
-  border-top: 1px solid #e0e4e8;
-  padding: 15px 20px;
+    border-top: 1px solid #e0e4e8;
+    padding: 15px 20px;
 }
 
 .stats-label {
-  font-size: 12px;
-  color: #999;
-  margin: 0 0 10px 0;
+    font-size: 12px;
+    color: #999;
+    margin: 0 0 10px 0;
 }
 
 .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
 
 .stat-box {
-  background: #f5f8ff;
-  border: 1px solid #e6eeff;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
+    background: #f5f8ff;
+    border: 1px solid #e6eeff;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
 }
 
 .stat-name {
-  display: block;
-  font-size: 12px;
-  color: #8c8c8c;
-  margin-bottom: 5px;
+    display: block;
+    font-size: 12px;
+    color: #8c8c8c;
+    margin-bottom: 5px;
 }
 
 .stat-value {
-  display: block;
-  font-size: 15px;
-  font-weight: bold;
-  color: #4a6bff;
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    color: #4a6bff;
 }
 
 /* Platform-specific icons */
 .platform-ios {
-  background-image: url('Images/Elements/Icons/ios_icon.png');
-  background-size: 16px;
-  background-position: center;
-  background-repeat: no-repeat;
+    background-image: url('Images/Elements/Icons/ios_icon.png');
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .platform-android {
-  background-image: url('Images/Elements/Icons/android_icon.png');
-  background-size: 16px;
-  background-position: center;
-  background-repeat: no-repeat;
+    background-image: url('Images/Elements/Icons/android_icon.png');
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 
@@ -516,10 +516,10 @@ ul {
         transform: translateY(-10px);
     }
 
-    /* Common styles for side buttons */
+/* Common styles for side buttons */
 .phone-button {
     position: absolute;
-    right: -10px;  /* Position buttons outside the phone frame */
+    right: -10px; /* Position buttons outside the phone frame */
     height: 25px;
     width: 4px;
     background-color: #bbbbbb;
@@ -535,13 +535,13 @@ ul {
 
 /* Volume down button */
 .volume-down-button {
-    top: 150px; 
+    top: 150px;
 }
 
 /* Power/lock button */
 .power-button {
     top: 225px;
-    height: 40px;  /* Make power button slightly larger */
+    height: 40px; /* Make power button slightly larger */
 }
 
 /* NEW: Always visible header at the top */
@@ -558,13 +558,13 @@ ul {
 
     /* Position icon next to title */
     .portfolio-card-header .portfolio-icon {
-    position: absolute;
-    left: 12px; 
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    overflow: hidden;
-    flex-shrink: 0;
+        position: absolute;
+        left: 12px;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
     }
 
 .portfolio-icon .app-icon {
@@ -911,6 +911,7 @@ ul {
         margin: 0 3px;
     }
 }
+
 .game-jams-section {
     position: relative;
 }
@@ -1035,8 +1036,8 @@ ul {
     border-radius: 8px;
 }
 
-.game-details .section-subtitle{
-      text-align: center;
+.game-details .section-subtitle {
+    text-align: center;
 }
 
 .details-container {
@@ -1150,34 +1151,34 @@ ul {
     padding: 1.5rem;
 }
 
-.screenshots-carousel .section-subtitle {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-    color: #333;
-    text-align:center;
-}
+    .screenshots-carousel .section-subtitle {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        color: #333;
+        text-align: center;
+    }
 
-.screenshots-carousel .carousel-container {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
-}
+    .screenshots-carousel .carousel-container {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+    }
 
-.screenshots-carousel .carousel-track {
-    display: flex;
-    gap: 2rem;
-    transition: transform 0.5s ease-in-out;
-}
+    .screenshots-carousel .carousel-track {
+        display: flex;
+        gap: 2rem;
+        transition: transform 0.5s ease-in-out;
+    }
 
-.screenshots-carousel .carousel-item {
-    min-width: 100%;
-    flex: 0 0 100%;
-}
+    .screenshots-carousel .carousel-item {
+        min-width: 100%;
+        flex: 0 0 100%;
+    }
 
 .screenshot-card {
     overflow: hidden;
@@ -1188,19 +1189,19 @@ ul {
     background-color: #000; /* Black background for any image gaps */
 }
 
-.screenshot-card img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
+    .screenshot-card img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
 
-.screenshot-card:hover img {
-    transform: scale(1.03);
-}
+    .screenshot-card:hover img {
+        transform: scale(1.03);
+    }
 
 /* Carousel Controls - using the same styling as your Mobile Games carousel */
 .screenshots-carousel .carousel-controls {
@@ -1225,9 +1226,9 @@ ul {
     transition: background-color 0.3s ease;
 }
 
-.screenshots-carousel .carousel-btn:hover {
-    background-color: var(--primary-dark, #5753d9);
-}
+    .screenshots-carousel .carousel-btn:hover {
+        background-color: var(--primary-dark, #5753d9);
+    }
 
 .screenshots-carousel .carousel-dots {
     display: flex;
@@ -1262,17 +1263,18 @@ ul {
 }
 
 @media screen and (max-width: 768px) {
-      .stats-grid {
+    .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-      }
-  
-      .game-info-box {
-        margin-bottom: 15px;
-      }
+    }
 
-        .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .game-info-box {
+        margin-bottom: 15px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .game-jam-title {
         font-size: 1.5rem;
         padding: 1.2rem;
@@ -1298,11 +1300,12 @@ ul {
         width: 36px;
         height: 36px;
     }
-    
+
     .screenshots-carousel .dot {
         width: 10px;
         height: 10px;
     }
+
     .game-details {
         padding: 1.2rem;
     }
@@ -1320,7 +1323,6 @@ ul {
         padding: 0.5rem;
         font-size: 0.9rem;
     }
-
 }
 
 /* About Section Styles */
@@ -1347,46 +1349,46 @@ ul {
     border: 2px solid var(--primary-color)
 }
 
-.img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: all 0.3s ease;
-}
+    .img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: all 0.3s ease;
+    }
 
-.img-container:hover img {
-    transform: scale(1.03);
-}
+    .img-container:hover img {
+        transform: scale(1.03);
+    }
 
 .about-text {
     flex: 1;
     min-width: 300px;
 }
 
-.about-text h3 {
-    font-size: 1.8rem;
-    color: #192245;
-    margin-bottom: 15px;
-    position: relative;
-    display: inline-block;
-}
+    .about-text h3 {
+        font-size: 1.8rem;
+        color: #192245;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+    }
 
-.about-text h3::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 40px;
-    height: 3px;
-    background-color: #4a6bff;
-    border-radius: 2px;
-}
+        .about-text h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: #4a6bff;
+            border-radius: 2px;
+        }
 
-.about-text p {
-    margin-bottom: 25px;
-    font-size: 1.05rem;
-}
+    .about-text p {
+        margin-bottom: 25px;
+        font-size: 1.05rem;
+    }
 
 /* Location and Languages section */
 .location-languages {
@@ -1402,19 +1404,19 @@ ul {
     min-width: 250px;
 }
 
-.location-info h4, .languages-info h4 {
-    font-size: 1.2rem;
-    color: #192245;
-    margin-bottom: 12px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-}
+    .location-info h4, .languages-info h4 {
+        font-size: 1.2rem;
+        color: #192245;
+        margin-bottom: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
 
-.location-info h4 i, .languages-info h4 i {
-    margin-right: 10px;
-    color: #4a6bff;
-}
+        .location-info h4 i, .languages-info h4 i {
+            margin-right: 10px;
+            color: #4a6bff;
+        }
 
 .language-tags {
     display: flex;
@@ -1432,15 +1434,15 @@ ul {
     font-weight: 500;
 }
 
-.language-tag .flag {
-    margin-right: 6px;
-}
+    .language-tag .flag {
+        margin-right: 6px;
+    }
 
-.language-tag .proficiency {
-    font-weight: 400;
-    opacity: 0.8;
-    margin-left: 5px;
-}
+    .language-tag .proficiency {
+        font-weight: 400;
+        opacity: 0.8;
+        margin-left: 5px;
+    }
 
 .location-tag {
     display: inline-flex;
@@ -1452,9 +1454,9 @@ ul {
     font-weight: 500;
 }
 
-.location-tag .flag {
-    margin-right: 8px;
-}
+    .location-tag .flag {
+        margin-right: 8px;
+    }
 
 .relocate-badge {
     display: inline-flex;
@@ -1479,25 +1481,25 @@ ul {
     position: relative;
 }
 
-.skills-header h3 {
-    font-size: 1.8rem;
-    color: #192245;
-    display: inline-block;
-    padding: 0 20px;
-    position: relative;
-    z-index: 1;
-}
+    .skills-header h3 {
+        font-size: 1.8rem;
+        color: #192245;
+        display: inline-block;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+    }
 
-.skills-header::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: #ddd;
-    z-index: 0;
-}
+    .skills-header::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: #ddd;
+        z-index: 0;
+    }
 
 .skills-grid {
     display: grid;
@@ -1513,10 +1515,10 @@ ul {
     transition: all 0.3s ease;
 }
 
-.skill-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
+    .skill-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 
 .skill-icon {
     width: 60px;
@@ -1575,33 +1577,33 @@ ul {
     text-align: center;
 }
 
-.courses-header::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: #ddd;
-    z-index: 0;
-}
+    .courses-header::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: #ddd;
+        z-index: 0;
+    }
 
-.courses-header h3 {
-    font-size: 1.8rem;
-    color: #192245;
-    margin-bottom: 10px;
-    text-align: center;
-    display: inline-block; 
-    padding: 0 20px;
-    position: relative; 
-    z-index: 1; 
-}
+    .courses-header h3 {
+        font-size: 1.8rem;
+        color: #192245;
+        margin-bottom: 10px;
+        text-align: center;
+        display: inline-block;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+    }
 
-.courses-header p {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-}
+    .courses-header p {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
 .courses-grid {
     display: grid;
@@ -1617,22 +1619,22 @@ ul {
     transition: all 0.3s ease;
 }
 
-.course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 
 .course-image {
     height: 180px;
     overflow: hidden;
 }
 
-.course-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: all 0.3s ease;
-}
+    .course-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
 
 .course-card:hover .course-image img {
     transform: scale(1.05);
@@ -1642,16 +1644,16 @@ ul {
     padding: 20px;
 }
 
-.course-content .btn {
-  display: block;
-  width: fit-content;
-  margin: 1.5rem auto 0; /* This adds top margin and centers horizontally */
-  padding: 0.75rem 2rem;
-  border-radius: 4px;
-  font-weight: 500;
-  text-align: center;
-  transition: all 0.3s ease;
-}
+    .course-content .btn {
+        display: block;
+        width: fit-content;
+        margin: 1.5rem auto 0; /* This adds top margin and centers horizontally */
+        padding: 0.75rem 2rem;
+        border-radius: 4px;
+        font-weight: 500;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
 
 .course-title {
     font-size: 1.1rem;
@@ -1673,15 +1675,15 @@ ul {
     align-items: center;
 }
 
-.course-platform .platform-icon {
-  width: 40px;
-  height: 40px;
-  border: main;
-  border-radius: 50%;
-  border: 2px solid var(--primary-color);
-    margin-right: 5px;
-    object-fit: contain;
-}
+    .course-platform .platform-icon {
+        width: 40px;
+        height: 40px;
+        border: main;
+        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+        margin-right: 5px;
+        object-fit: contain;
+    }
 
 .course-year {
     font-weight: 500;
@@ -1708,10 +1710,10 @@ ul {
     text-align: center;
 }
 
-.reading-header h3 {
-    color: #f5f5f5;
-    font-size: 1.8rem;
-}
+    .reading-header h3 {
+        color: #f5f5f5;
+        font-size: 1.8rem;
+    }
 
 .books-grid {
     display: grid;
@@ -1727,10 +1729,10 @@ ul {
     transition: all 0.3s ease;
 }
 
-.book-card:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-5px);
-}
+    .book-card:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+    }
 
 .book-cover {
     width: 100px;
@@ -1741,11 +1743,11 @@ ul {
     overflow: hidden;
 }
 
-.book-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    .book-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
 .book-title {
     font-weight: 600;
@@ -1764,9 +1766,9 @@ ul {
     text-align: center;
 }
 
-.about-cta .btn {
-    margin: 0 10px;
-}
+    .about-cta .btn {
+        margin: 0 10px;
+    }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -1775,36 +1777,36 @@ ul {
         align-items: center;
         text-align: center;
     }
-    
+
     .about-img {
         margin-right: 0;
         margin-bottom: 30px;
     }
-    
+
     .about-text h3::after {
         left: 50%;
         transform: translateX(-50%);
     }
-    
+
     .location-languages {
         justify-content: center;
         text-align: center;
     }
-    
+
     .language-tags, .location-tag {
         justify-content: center;
     }
-    
+
     .skills-grid, .courses-grid, .books-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .about-cta .btn {
         display: block;
         width: 100%;
         margin: 10px 0;
     }
-    
+
     .reading-container {
         padding: 25px 20px;
     }
@@ -1933,26 +1935,27 @@ ul {
 }
 
 @media screen and (max-width: 480px) {
-      .game-main-info {
-    flex-wrap: wrap;
-  }
+    .game-main-info {
+        flex-wrap: wrap;
+    }
+
     .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .platform-icons {
-    margin-top: 10px;
-    width: 100%;
-    justify-content: flex-start;
-  }
-  
-  .game-details {
-    width: calc(100% - 75px);
-  }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
+        grid-template-columns: 1fr;
+    }
+
+    .platform-icons {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .game-details {
+        width: calc(100% - 75px);
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
 
     .carousel-item {
         flex: 0 0 80%; /* Take up most of the screen on very small devices */
@@ -1979,5 +1982,147 @@ ul {
 
     .contribution-item {
         margin-bottom: 1rem;
+    }
+}
+
+/* Back to top button and navigation */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #4a6bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+    .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .back-to-top:hover {
+        background-color: #3a50cc;
+        transform: translateY(-3px);
+    }
+
+/* Back to Top Button */
+[data-theme="dark"] .back-to-top {
+    background-color: var(--accent-primary);
+    box-shadow: 0 2px 10px var(--shadow-medium);
+}
+
+    [data-theme="dark"] .back-to-top:hover {
+        background-color: var(--accent-secondary);
+    }
+
+/* Scroll Progress Bar Styles */
+.scroll-progress-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #4a6bff 0%, #6a83ff 50%, #8497ff 100%);
+    width: 0%;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 8px rgba(74, 107, 255, 0.5);
+}   
+/* Subtle glow effect */
+.scroll-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+    filter: blur(2px);
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+    .scroll-progress-container {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-progress-bar {
+        background: linear-gradient(90deg, #4a6bff 0%, #6a83ff 50%, #8497ff 100%);
+        box-shadow: 0 0 12px rgba(74, 107, 255, 0.7);
+    }
+
+        .scroll-progress-bar::after {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2));
+        }
+}
+/* Responsive Design */
+/* Mobile devices (up to 480px) */
+@media (max-width: 480px) {
+    .scroll-progress-container {
+        height: 2px;
+    }
+
+    .scroll-progress-bar {
+        box-shadow: 0 0 4px rgba(74, 107, 255, 0.4);
+    }
+
+        .scroll-progress-bar::after {
+            width: 10px;
+            filter: blur(1px);
+        }
+}
+
+/* Tablets (481px to 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .scroll-progress-container {
+        height: 3px;
+    }
+
+    .scroll-progress-bar {
+        box-shadow: 0 0 6px rgba(74, 107, 255, 0.5);
+    }
+
+        .scroll-progress-bar::after {
+            width: 15px;
+        }
+}
+
+/* Desktop and larger screens (769px and up) */
+@media (min-width: 769px) {
+    .scroll-progress-container {
+        height: 3px;
+    }
+
+    .scroll-progress-bar {
+        box-shadow: 0 0 8px rgba(74, 107, 255, 0.5);
+    }
+
+        .scroll-progress-bar::after {
+            width: 20px;
+            filter: blur(2px);
+        }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .scroll-progress-bar {
+        box-shadow: 0 0 10px rgba(74, 107, 255, 0.6);
     }
 }

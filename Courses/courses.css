@@ -390,6 +390,16 @@
         transform: translateY(-3px);
     }
 
+/* Back to Top Button */
+[data-theme="dark"] .back-to-top {
+    background-color: var(--accent-primary);
+    box-shadow: 0 2px 10px var(--shadow-medium);
+}
+
+    [data-theme="dark"] .back-to-top:hover {
+        background-color: var(--accent-secondary);
+    }
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .course-meta-row {
@@ -660,16 +670,6 @@
 
     [data-theme="dark"] .project-link:hover {
         color: var(--accent-secondary);
-    }
-
-/* Back to Top Button */
-[data-theme="dark"] .back-to-top {
-    background-color: var(--accent-primary);
-    box-shadow: 0 2px 10px var(--shadow-medium);
-}
-
-    [data-theme="dark"] .back-to-top:hover {
-        background-color: var(--accent-secondary);
     }
 
 /* Certificate Modal */

@@ -20,6 +20,7 @@ function initConceptsSection() {
             title: "Mirror's Edge",
             category: "Side Quest",
             images: [
+                "Images/Concepts/Cyberpunk/cyberpunk_concept_00.png",
                 "Images/Concepts/Cyberpunk/cyberpunk_concept_01.png",
                 "Images/Concepts/Cyberpunk/cyberpunk_concept_02.png",
                 "Images/Concepts/Cyberpunk/cyberpunk_concept_03.png",
