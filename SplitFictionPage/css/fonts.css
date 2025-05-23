@@ -1,0 +1,15 @@
+/* fonts.css - Custom font definitions */
+
+@font-face {
+    font-family: 'FantasyFont';
+    src: url('../fonts/Fantasy.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SciFiFont';
+    src: url('../fonts/Scifi.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}

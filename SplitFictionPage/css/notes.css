@@ -59,6 +59,14 @@
     display: inline-block;
 }
 
+.note-a span {
+    font-family: 'FantasyFont', serif;
+}
+
+.note-b span {
+    font-family: 'SciFiFont', sans-serif;
+}
+
 /* ===== SHAPE DEFINITIONS ===== */
 
 /* Square shape */
