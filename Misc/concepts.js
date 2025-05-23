@@ -35,8 +35,8 @@ function initConceptsSection() {
                 "Integration with existing game characters and lore (Regina Jones, Johnny Silverhand)"
             ],
             tags: ["RPG", "Action", "Horror", "Cyberpunk"],
-            primaryLink: "https://www.figma.com/design/V73MiKv3QF7GrvQTO123Cw/C2077-Quest-Design---Mirror's-Edge?node-id=88-88&t=yAvlESeT0H7vHBU0-1", // Add your actual link here
-            secondaryLink: "CyberpunkPage/index.html" // Add your actual link here, or leave empty to use construction strip
+            primaryLink: "https://www.figma.com/design/V73MiKv3QF7GrvQTO123Cw/C2077-Quest-Design---Mirror's-Edge?node-id=88-88&t=yAvlESeT0H7vHBU0-1", 
+            secondaryLink: "Interactive Pages/CyberpunkPage/index.html" // Add your actual link here, or leave empty to use construction strip
         },
         {
             id: 'concept2',
@@ -56,7 +56,7 @@ function initConceptsSection() {
                 "Standalone"
             ],
             tags: ["RPG", "Narrative", "Fantasy", ],
-            primaryLink: "https://www.figma.com/design/JoKhPJjWRTn1Su6JH0hKt0/RPG-Quest-Design---Design?node-id=134-1314&t=E5hGdwzL5WGnpAnA-1", // Add your actual link here
+            primaryLink: "https://www.figma.com/design/JoKhPJjWRTn1Su6JH0hKt0/RPG-Quest-Design---Design?node-id=134-1314&t=E5hGdwzL5WGnpAnA-1", 
             secondaryLink: "" // Add your actual link here, or leave empty to use construction strip
         },
         {
@@ -76,8 +76,27 @@ function initConceptsSection() {
                 "Emotional Resonance"
             ],
             tags: ["Co-op", "Side Quest"],
-            primaryLink: "https://www.figma.com/design/cp7Flh9Qx85Cp2MIONwFv4/Split-Fiction---Side-Story?node-id=0-1", // Add your actual link here
-            secondaryLink: "SplitFictionPage/SplitFiction_Index.html" // Add your actual link here, or leave empty to use construction strip
+            primaryLink: "https://www.figma.com/design/cp7Flh9Qx85Cp2MIONwFv4/Split-Fiction---Side-Story?node-id=0-1", 
+            secondaryLink: "Interactive Pages/SplitFictionPage/SplitFiction_Index.html" // Add your actual link here, or leave empty to use construction strip
+        },
+        {
+            id: 'concept4',
+            title: "Vault-Tec Mystery",
+            category: "Main Quest",
+            images: [
+                "Images/Concepts/Fallout/Fallout_Concept_01.png",
+                "Images/Concepts/Fallout/Fallout_Concept_02.png",
+                "Images/Concepts/Fallout/Fallout_Concept_03.png",
+                "Images/Concepts/Fallout/Fallout_Concept_04.png",
+            ],
+            description: "I wanted to create my own mystery within Fallout Valut Designs. I came with different ideas and land with Neurolink as a core idea.",
+            features: [
+                "Multiple Approach",
+                "Lore Friendly",
+            ],
+            tags: ["Post-Apocalyptic", "RPG", "Side Quest"],
+            primaryLink: "https://www.figma.com/design/xW8CFX3pzKpvaRdE4fsz3V/Fallout---Vault-Design-Quest?node-id=0-1&t=iFt7RDuihpMZvVRS-1", 
+            secondaryLink: "" // Add your actual link here, or leave empty to use construction strip
         }
     ];
 
