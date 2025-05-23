@@ -58,7 +58,7 @@
 
 /* Top player (Player A) - Fantasy Enhanced */
 .top {
-    background: linear-gradient(135deg, #1a4a1a, #2d4a2d, #0f2f0f, #1a6c31, #2a7c3a);
+    background: linear-gradient(326deg, #1a4a1a, #2d4a2d, #0f2f0f, #4a6c1a75, #2a7c3a99);
     z-index: 2;
     left: 0;
     clip-path: inset(0 50% 0 0);
