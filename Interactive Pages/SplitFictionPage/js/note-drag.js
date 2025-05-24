@@ -1,4 +1,4 @@
-// note-drag.js - Handles note dragging and dropping with improved error handling while preserving core logic
+// note-drag.js - Handles note dragging and dropping with improved error handling and nested visibility logic
 
 import { addNoteToCell, removeNoteFromCell } from './sequencer.js';
 import { getShapeForNote, updateVisibilityAfterExtraction } from './notes.js';
@@ -34,6 +34,71 @@ function validateGlobals() {
         globalState &&
         globalElements.appContainer &&
         globalElements.divider;
+}
+
+/**
+ * Check if a note has nested children
+ * @param {number} noteNumber - The note number to check
+ * @returns {boolean} Whether the note has nested children
+ */
+function hasNestedChildren(noteNumber) {
+    // Only check current relationships, ignore static config
+    return globalState.nestedRelationships &&
+        Object.values(globalState.nestedRelationships).includes(noteNumber);
+}
+
+/**
+ * Hide visual nested children when drag starts
+ * @param {HTMLElement} element - The note element being dragged
+ */
+function hideVisualNestedChildren(element) {
+    if (!element) return;
+
+    try {
+        const visualIndicators = element.querySelectorAll('.nested-visual');
+        visualIndicators.forEach(indicator => {
+            indicator.style.display = 'none';
+        });
+    } catch (error) {
+        console.warn('Error hiding visual nested children:', error);
+    }
+}
+
+/**
+ * Show/hide visual nested children based on current side vs their native side
+ * @param {HTMLElement} element - The note element
+ * @param {string} currentSide - Current side ('a' or 'b')
+ */
+function updateVisualNestedChildrenVisibility(element, currentSide) {
+    if (!element || !globalElements.config) return;
+
+    try {
+        const noteNumber = parseInt(element.getAttribute('data-note'));
+        if (isNaN(noteNumber)) return;
+
+        // Determine the note's TRUE native screen from config
+        const noteNativeScreen = globalElements.config.playerANotes.includes(noteNumber) ? 'a' : 'b';
+
+        const visualIndicators = element.querySelectorAll('.nested-visual');
+        visualIndicators.forEach(indicator => {
+            try {
+                const nestedNoteNumber = parseInt(indicator.getAttribute('data-note'));
+                if (isNaN(nestedNoteNumber)) return;
+
+                // Nested item's native screen is opposite of parent's native screen
+                const nestedNativeScreen = noteNativeScreen === 'a' ? 'b' : 'a';
+
+                // Show if current side is opposite of nested item's native screen
+                // Hide if current side is same as nested item's native screen
+                const shouldShow = currentSide !== nestedNativeScreen;
+                indicator.style.display = shouldShow ? '' : 'none';
+            } catch (error) {
+                console.warn('Error updating individual visual indicator:', error);
+            }
+        });
+    } catch (error) {
+        console.warn('Error updating visual nested children visibility:', error);
+    }
 }
 
 /**
@@ -78,6 +143,9 @@ export function makeClickDraggable(element) {
             if (globalState.nestedRelationships && globalState.nestedRelationships[noteNumber]) {
                 extractFromParent(noteNumber);
             }
+
+            // Hide visual nested children when drag starts
+            hideVisualNestedChildren(element);
 
             // Set as active element
             activeNote = element;
@@ -307,12 +375,6 @@ function animateMovement() {
                             // If we're moving AWAY from the nested item's native screen, show it
                             const shouldHide = noteSide === nestedItemNativeScreen;
 
-                            // Handle visual indicators inside the active note
-                            const visualIndicators = activeNote.querySelectorAll(`.nested-visual[data-note="${nestedNoteNumber}"]`);
-                            visualIndicators.forEach(indicator => {
-                                indicator.style.display = shouldHide ? 'none' : '';
-                            });
-
                             // Handle actual nested objects that are following
                             const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual):not(.note-in-cell)`);
                             nestedObjects.forEach(nestedObject => {
@@ -437,7 +499,7 @@ function checkDropTargets(x, y) {
 }
 
 /**
- * Check if a cell is a valid drop target
+ * Check if a cell is a valid drop target - FORBIDS NOTES WITH NESTED CHILDREN
  * @param {HTMLElement} cell - The cell element
  * @returns {boolean} Whether the cell is a valid drop target
  */
@@ -450,7 +512,16 @@ function isValidDropTarget(cell) {
         const cellPosition = parseInt(cell.getAttribute('data-position'));
         const noteNumber = globalState.draggedNoteData.note;
 
-        return cellPlayer === notePlayer && noteNumber === cellPosition;
+        // Check basic drop rules
+        const basicRulesValid = cellPlayer === notePlayer && noteNumber === cellPosition;
+        if (!basicRulesValid) return false;
+
+        // FORBID dropping notes with nested children
+        if (hasNestedChildren(noteNumber)) {
+            return false;
+        }
+
+        return true;
     } catch (error) {
         console.warn('Error validating drop target:', error);
         return false;
@@ -520,7 +591,7 @@ function dropActiveNote(x, y) {
 }
 
 /**
- * Handle dropping a note on the opposite side - PRESERVING COUNTERPART LOGIC
+ * Handle dropping a note on the opposite side - WITH NEW VISUAL NESTED CHILDREN LOGIC
  * @param {number} x - The x-coordinate
  * @param {number} y - The y-coordinate
  */
@@ -546,15 +617,6 @@ function handleCrossSideDrop(x, y) {
             }
             targetContainer.appendChild(activeNote);
 
-            // Preserve visual indicators' original player classes
-            const visualIndicators = activeNote.querySelectorAll('.nested-visual');
-            visualIndicators.forEach(indicator => {
-                indicator.classList.remove(`note-${player}`);
-                indicator.classList.remove(`note-${originalPlayer}`);
-                const indicatorPlayer = player === 'a' ? 'b' : 'a';
-                indicator.classList.add(`note-${indicatorPlayer}`);
-            });
-
             // Handle portal counterpart
             const counterpartId = activeNote.getAttribute('data-counterpart-id');
             const portalCounterpart = counterpartId ? document.getElementById(counterpartId) : null;
@@ -567,13 +629,17 @@ function handleCrossSideDrop(x, y) {
             createPortalCounterpart(activeNote, noteNumber, player, globalElements);
             activeNote.setAttribute('data-counterpart-id', `counterpart-${player}-${noteNumber}`);
         }
+
+        // Update visual nested children visibility based on new side
+        updateVisualNestedChildrenVisibility(activeNote, player);
+
     } catch (error) {
         console.error('Error handling cross side drop:', error);
     }
 }
 
 /**
- * Handle dropping a note on a cell
+ * Handle dropping a note on a cell - HIDES ALL VISUAL CHILDREN
  * @param {HTMLElement} cell - The cell element
  */
 function handleDrop(cell) {
