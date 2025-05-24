@@ -1,190 +1,272 @@
-// screen-split.js - Handles screen splitting and panel clipping
+// screen-split.js - Handles screen splitting and panel clipping with improved validation
 
 /**
- * Initialize the screen split
+ * Validate elements for screen splitting
+ * @param {Object} elements - DOM elements
+ * @returns {boolean} Whether elements are valid
+ */
+function validateElements(elements) {
+    return elements &&
+        elements.playerASide &&
+        elements.playerBSide &&
+        elements.divider;
+}
+
+/**
+ * Validate position percentage
+ * @param {number} positionPercent - Position percentage
+ * @returns {number} Clamped position percentage
+ */
+function validatePosition(positionPercent) {
+    if (typeof positionPercent !== 'number' || isNaN(positionPercent)) {
+        console.warn('Invalid position percentage, using 50%');
+        return 50;
+    }
+    return Math.max(0, Math.min(100, positionPercent));
+}
+
+/**
+ * Initialize the screen split with validation
  * @param {Object} elements - DOM elements
  * @param {number} initialPositionPercent - Initial position percentage (0-100)
  */
 export function initializeScreenSplit(elements, initialPositionPercent = 50) {
-    updateScreenSplit(initialPositionPercent, elements);
+    if (!validateElements(elements)) {
+        console.error('Invalid elements provided to initializeScreenSplit');
+        return;
+    }
 
-    // Set the appropriate z-index values
-    elements.playerASide.style.zIndex = 2;
-    elements.playerBSide.style.zIndex = 1;
-    elements.divider.style.zIndex = 10;
+    const validPosition = validatePosition(initialPositionPercent);
+
+    try {
+        updateScreenSplit(validPosition, elements);
+
+        // Set the appropriate z-index values safely
+        if (elements.playerASide) {
+            elements.playerASide.style.zIndex = '2';
+        }
+        if (elements.playerBSide) {
+            elements.playerBSide.style.zIndex = '1';
+        }
+        if (elements.divider) {
+            elements.divider.style.zIndex = '10';
+        }
+
+        console.log(`Screen split initialized at ${validPosition}%`);
+    } catch (error) {
+        console.error('Error initializing screen split:', error);
+    }
 }
 
 /**
- * Update the screen split based on divider position
+ * Update the screen split based on divider position with validation
  * @param {number} positionPercent - Divider position as percentage (0-100)
  * @param {Object} elements - DOM elements
  */
 export function updateScreenSplit(positionPercent, elements) {
-    // Clip the player A side (left)
-    elements.playerASide.style.clipPath = `inset(0 ${100 - positionPercent}% 0 0)`;
-    
-    // Clip the player B side (right)
-    elements.playerBSide.style.clipPath = `inset(0 0 0 ${positionPercent}%)`;
-}
+    if (!validateElements(elements)) {
+        console.warn('Invalid elements provided to updateScreenSplit');
+        return;
+    }
 
-/**
- * Apply special screen splitting effects
- * @param {Object} elements - DOM elements
- * @param {string} effect - The effect to apply ('wave', 'zigzag', 'curved')
- * @param {number} positionPercent - Divider position as percentage (0-100)
- */
-export function applySpecialSplitEffect(elements, effect, positionPercent) {
-    switch(effect) {
-        case 'wave':
-            applyWaveEffect(elements, positionPercent);
-            break;
-        case 'zigzag':
-            applyZigzagEffect(elements, positionPercent);
-            break;
-        case 'curved':
-            applyCurvedEffect(elements, positionPercent);
-            break;
-        default:
-            // Default straight line
-            updateScreenSplit(positionPercent, elements);
+    const validPosition = validatePosition(positionPercent);
+
+    try {
+        // Check if clip-path is supported
+        const supportsClipPath = CSS.supports('clip-path', 'inset(0)');
+
+        if (supportsClipPath) {
+            // Use modern clip-path
+            if (elements.playerASide) {
+                elements.playerASide.style.clipPath = `inset(0 ${100 - validPosition}% 0 0)`;
+            }
+            if (elements.playerBSide) {
+                elements.playerBSide.style.clipPath = `inset(0 0 0 ${validPosition}%)`;
+            }
+        } else {
+            // Fallback for older browsers
+            console.warn('clip-path not supported, using fallback positioning');
+            fallbackScreenSplit(validPosition, elements);
+        }
+    } catch (error) {
+        console.error('Error updating screen split:', error);
+        // Attempt fallback
+        fallbackScreenSplit(validPosition, elements);
     }
 }
 
 /**
- * Apply a wave effect to the split
+ * Fallback screen split for browsers without clip-path support
+ * @param {number} positionPercent - Position percentage
  * @param {Object} elements - DOM elements
- * @param {number} positionPercent - Divider position as percentage (0-100)
  */
-function applyWaveEffect(elements, positionPercent) {
-    const amplitude = 5; // Wave amplitude in percentage
-    const frequency = 3; // Number of waves
-    
-    // Create SVG path for wave
-    const wavePath = createWavePath(positionPercent, amplitude, frequency);
-    
-    // Apply clip paths with the wave effect
-    elements.playerASide.style.clipPath = `path('${wavePath.left}')`;
-    elements.playerBSide.style.clipPath = `path('${wavePath.right}')`;
-}
+function fallbackScreenSplit(positionPercent, elements) {
+    if (!elements) return;
 
-/**
- * Create wave paths for left and right panels
- * @param {number} positionPercent - Divider position as percentage
- * @param {number} amplitude - Wave amplitude
- * @param {number} frequency - Number of waves
- * @returns {Object} Left and right path strings
- */
-function createWavePath(positionPercent, amplitude, frequency) {
-    // Calculate position in viewport coordinates
-    const position = positionPercent / 100;
-    
-    // Create wave path
-    let leftPath = `M${position * 100},0 `;
-    let rightPath = `M${position * 100},0 `;
-    
-    // Add wave segments
-    const segments = 20;
-    for (let i = 0; i <= segments; i++) {
-        const y = (i / segments) * 100;
-        const waveX = amplitude * Math.sin((y / 100) * Math.PI * 2 * frequency);
-        
-        leftPath += `L${position * 100 + waveX},${y} `;
-        rightPath += `L${position * 100 + waveX},${y} `;
+    try {
+        // Use width and overflow as fallback
+        if (elements.playerASide) {
+            elements.playerASide.style.width = `${positionPercent}%`;
+            elements.playerASide.style.overflow = 'hidden';
+        }
+        if (elements.playerBSide) {
+            elements.playerBSide.style.width = `${100 - positionPercent}%`;
+            elements.playerBSide.style.left = `${positionPercent}%`;
+            elements.playerBSide.style.overflow = 'hidden';
+        }
+    } catch (error) {
+        console.warn('Error in fallback screen split:', error);
     }
-    
-    // Close the paths
-    leftPath += `L0,100 L0,0 Z`;
-    rightPath += `L100,100 L100,0 Z`;
-    
-    return { left: leftPath, right: rightPath };
 }
 
 /**
- * Apply a zigzag effect to the split
+ * Reset screen split to default state
  * @param {Object} elements - DOM elements
- * @param {number} positionPercent - Divider position as percentage (0-100)
  */
-function applyZigzagEffect(elements, positionPercent) {
-    const amplitude = 3; // Zigzag amplitude in percentage
-    const segments = 10; // Number of zigzag segments
-    
-    // Create SVG path for zigzag
-    const zigzagPath = createZigzagPath(positionPercent, amplitude, segments);
-    
-    // Apply clip paths with the zigzag effect
-    elements.playerASide.style.clipPath = `path('${zigzagPath.left}')`;
-    elements.playerBSide.style.clipPath = `path('${zigzagPath.right}')`;
-}
-
-/**
- * Create zigzag paths for left and right panels
- * @param {number} positionPercent - Divider position as percentage
- * @param {number} amplitude - Zigzag amplitude
- * @param {number} segments - Number of zigzag segments
- * @returns {Object} Left and right path strings
- */
-function createZigzagPath(positionPercent, amplitude, segments) {
-    // Calculate position in viewport coordinates
-    const position = positionPercent / 100;
-    
-    // Create zigzag path
-    let leftPath = `M${position * 100},0 `;
-    let rightPath = `M${position * 100},0 `;
-    
-    // Add zigzag segments
-    for (let i = 1; i <= segments; i++) {
-        const y = (i / segments) * 100;
-        const x = (i % 2 === 0) ? position * 100 + amplitude : position * 100 - amplitude;
-        
-        leftPath += `L${x},${y} `;
-        rightPath += `L${x},${y} `;
+export function resetScreenSplit(elements) {
+    if (!validateElements(elements)) {
+        console.warn('Invalid elements provided to resetScreenSplit');
+        return;
     }
-    
-    // Close the paths
-    leftPath += `L0,100 L0,0 Z`;
-    rightPath += `L100,100 L100,0 Z`;
-    
-    return { left: leftPath, right: rightPath };
+
+    try {
+        updateScreenSplit(50, elements);
+        console.log('Screen split reset to 50%');
+    } catch (error) {
+        console.error('Error resetting screen split:', error);
+    }
 }
 
 /**
- * Apply a curved effect to the split
+ * Get current screen split position
  * @param {Object} elements - DOM elements
- * @param {number} positionPercent - Divider position as percentage (0-100)
+ * @returns {number} Current position percentage or 50 as fallback
  */
-function applyCurvedEffect(elements, positionPercent) {
-    const curvature = 15; // Curve amount in percentage
-    
-    // Create SVG path for curve
-    const curvedPath = createCurvedPath(positionPercent, curvature);
-    
-    // Apply clip paths with the curved effect
-    elements.playerASide.style.clipPath = `path('${curvedPath.left}')`;
-    elements.playerBSide.style.clipPath = `path('${curvedPath.right}')`;
+export function getCurrentSplitPosition(elements) {
+    if (!validateElements(elements)) {
+        console.warn('Invalid elements provided to getCurrentSplitPosition');
+        return 50;
+    }
+
+    try {
+        const playerAClipPath = elements.playerASide.style.clipPath;
+
+        if (playerAClipPath && playerAClipPath.includes('inset')) {
+            // Extract percentage from clip-path
+            const match = playerAClipPath.match(/inset\(0\s+(\d+(?:\.\d+)?)%/);
+            if (match) {
+                const rightInset = parseFloat(match[1]);
+                return 100 - rightInset;
+            }
+        }
+
+        // Fallback: check width
+        const playerAWidth = elements.playerASide.style.width;
+        if (playerAWidth && playerAWidth.includes('%')) {
+            const widthPercent = parseFloat(playerAWidth);
+            if (!isNaN(widthPercent)) {
+                return widthPercent;
+            }
+        }
+
+        // Default fallback
+        return 50;
+    } catch (error) {
+        console.warn('Error getting current split position:', error);
+        return 50;
+    }
 }
 
 /**
- * Create curved paths for left and right panels
- * @param {number} positionPercent - Divider position as percentage
- * @param {number} curvature - Amount of curvature
- * @returns {Object} Left and right path strings
+ * Animate screen split transition
+ * @param {Object} elements - DOM elements
+ * @param {number} targetPosition - Target position percentage
+ * @param {number} duration - Animation duration in milliseconds
+ * @returns {Promise} Promise that resolves when animation completes
  */
-function createCurvedPath(positionPercent, curvature) {
-    // Calculate position in viewport coordinates
-    const position = positionPercent / 100;
-    
-    // Create curved path using cubic bezier
-    const leftPath = `
-        M${position * 100},0 
-        C${(position + curvature/100) * 100},33 ${(position - curvature/100) * 100},66 ${position * 100},100 
-        L0,100 L0,0 Z
-    `;
-    
-    const rightPath = `
-        M${position * 100},0 
-        C${(position + curvature/100) * 100},33 ${(position - curvature/100) * 100},66 ${position * 100},100 
-        L100,100 L100,0 Z
-    `;
-    
-    return { left: leftPath, right: rightPath };
+export function animateScreenSplit(elements, targetPosition, duration = 500) {
+    return new Promise((resolve) => {
+        if (!validateElements(elements)) {
+            console.warn('Invalid elements provided to animateScreenSplit');
+            resolve();
+            return;
+        }
+
+        const validTarget = validatePosition(targetPosition);
+        const validDuration = Math.max(100, Math.min(5000, duration || 500));
+
+        try {
+            const startPosition = getCurrentSplitPosition(elements);
+            const startTime = Date.now();
+
+            function animate() {
+                try {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / validDuration, 1);
+
+                    // Easing function (ease-out)
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+
+                    const currentPosition = startPosition + (validTarget - startPosition) * easeOut;
+                    updateScreenSplit(currentPosition, elements);
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        resolve();
+                    }
+                } catch (error) {
+                    console.error('Error during screen split animation:', error);
+                    resolve();
+                }
+            }
+
+            animate();
+        } catch (error) {
+            console.error('Error starting screen split animation:', error);
+            resolve();
+        }
+    });
+}
+
+/**
+ * Check if screen split is supported
+ * @returns {boolean} Whether advanced screen splitting is supported
+ */
+export function isScreenSplitSupported() {
+    try {
+        return CSS.supports('clip-path', 'inset(0)') &&
+            typeof requestAnimationFrame === 'function';
+    } catch (error) {
+        console.warn('Error checking screen split support:', error);
+        return false;
+    }
+}
+
+/**
+ * Cleanup screen split (reset to neutral state)
+ * @param {Object} elements - DOM elements
+ */
+export function cleanupScreenSplit(elements) {
+    if (!elements) return;
+
+    try {
+        // Reset clip paths
+        if (elements.playerASide) {
+            elements.playerASide.style.clipPath = '';
+            elements.playerASide.style.width = '';
+            elements.playerASide.style.overflow = '';
+        }
+
+        if (elements.playerBSide) {
+            elements.playerBSide.style.clipPath = '';
+            elements.playerBSide.style.width = '';
+            elements.playerBSide.style.left = '';
+            elements.playerBSide.style.overflow = '';
+        }
+
+        console.log('Screen split cleaned up');
+    } catch (error) {
+        console.error('Error cleaning up screen split:', error);
+    }
 }

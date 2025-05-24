@@ -1,32 +1,125 @@
-// main.js - Main entry point for the split-screen sequencer application
+// main.js - Main entry point with improved error handling and validation
 
-// Import modules
+// Import modules with error handling
 import { createAudioElements, playSound } from './audio.js';
 import { createSequencerCells, setupSequencerEvents, startPlayback, stopPlayback, resetSequencer } from './sequencer.js';
 import { createNotes, getShapeForNote } from './notes.js';
 import { makeClickDraggable, setupNoteDragEvents } from './note-drag.js';
-import { initCrossoverDetection, updatePortalEffects, createAllPortalCounterparts } from './portal-effects.js';
+import { initCrossoverDetection, createAllPortalCounterparts } from './portal-effects.js';
 import { setupDividerDrag, initializeDividerPosition, initializePortalEffects } from './divider-drag.js';
 import { initializeScreenSplit, updateScreenSplit } from './screen-split.js';
 import { bpmToMs } from './utils.js';
 import { initializeParticleSystems } from './visual_effects.js';
 
+/**
+ * Validate DOM element exists
+ * @param {string} id - Element ID
+ * @param {string} description - Description for error messages
+ * @returns {HTMLElement|null} Element or null if not found
+ */
+function validateElement(id, description) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.error(`Required element not found: ${id} (${description})`);
+    }
+    return element;
+}
 
-// Get DOM Elements
-const appContainer = document.getElementById('app-container');
-const playerASide = document.getElementById('player-a-side');
-const playerBSide = document.getElementById('player-b-side');
-const divider = document.getElementById('divider');
-const notesAreaA = document.getElementById('notes-area-a');
-const notesAreaB = document.getElementById('notes-area-b');
-const sequencerA = document.getElementById('sequencer-a');
-const sequencerB = document.getElementById('sequencer-b');
-const playButton = document.getElementById('play-button');
-const stopButton = document.getElementById('stop-button');
-const resetButton = document.getElementById('reset-button');
-const audioContainer = document.getElementById('audio-container');
+/**
+ * Get and validate all required DOM elements
+ * @returns {Object|null} Elements object or null if validation fails
+ */
+function getElements() {
+    const elements = {
+        appContainer: validateElement('app-container', 'Main application container'),
+        playerASide: validateElement('player-a-side', 'Player A side panel'),
+        playerBSide: validateElement('player-b-side', 'Player B side panel'),
+        divider: validateElement('divider', 'Screen divider'),
+        notesAreaA: validateElement('notes-area-a', 'Player A notes area'),
+        notesAreaB: validateElement('notes-area-b', 'Player B notes area'),
+        sequencerA: validateElement('sequencer-a', 'Player A sequencer'),
+        sequencerB: validateElement('sequencer-b', 'Player B sequencer'),
+        playButton: validateElement('play-button', 'Play button'),
+        stopButton: validateElement('stop-button', 'Stop button'),
+        resetButton: validateElement('reset-button', 'Reset button'),
+        audioContainer: validateElement('audio-container', 'Audio container')
+    };
 
-// Application configuration
+    // Check if all required elements exist
+    const requiredElements = [
+        'appContainer', 'playerASide', 'playerBSide', 'divider',
+        'notesAreaA', 'notesAreaB', 'sequencerA', 'sequencerB',
+        'playButton', 'stopButton', 'audioContainer'
+    ];
+
+    const missingElements = requiredElements.filter(key => !elements[key]);
+
+    if (missingElements.length > 0) {
+        console.error('Missing required elements:', missingElements);
+        return null;
+    }
+
+    return elements;
+}
+
+/**
+ * Validate configuration structure
+ * @param {Object} config - Configuration object
+ * @returns {boolean} Whether config is valid
+ */
+function validateConfig(config) {
+    const requiredFields = [
+        'totalCells', 'tempo', 'playerACells', 'playerBCells',
+        'playerANotes', 'playerBNotes', 'audioFiles', 'stepDuration', 'nestedItems'
+    ];
+
+    const missingFields = requiredFields.filter(field => config[field] === undefined);
+
+    if (missingFields.length > 0) {
+        console.error('Missing required config fields:', missingFields);
+        return false;
+    }
+
+    // Validate specific field types
+    if (typeof config.totalCells !== 'number' || config.totalCells <= 0) {
+        console.error('totalCells must be a positive number');
+        return false;
+    }
+
+    if (typeof config.tempo !== 'number' || config.tempo <= 0) {
+        console.error('tempo must be a positive number');
+        return false;
+    }
+
+    if (!Array.isArray(config.playerACells) || !Array.isArray(config.playerBCells)) {
+        console.error('playerACells and playerBCells must be arrays');
+        return false;
+    }
+
+    if (!Array.isArray(config.playerANotes) || !Array.isArray(config.playerBNotes)) {
+        console.error('playerANotes and playerBNotes must be arrays');
+        return false;
+    }
+
+    if (typeof config.audioFiles !== 'object' || config.audioFiles === null) {
+        console.error('audioFiles must be an object');
+        return false;
+    }
+
+    if (typeof config.stepDuration !== 'number' || config.stepDuration <= 0) {
+        console.error('stepDuration must be a positive number');
+        return false;
+    }
+
+    if (typeof config.nestedItems !== 'object' || config.nestedItems === null) {
+        console.error('nestedItems must be an object');
+        return false;
+    }
+
+    return true;
+}
+
+// Application configuration with validation
 const config = {
     totalCells: 8,
     tempo: 120,
@@ -50,6 +143,7 @@ const config = {
     }
 };
 
+// Application state with initialization
 const state = {
     isPlaying: false,
     currentStep: 0,
@@ -65,50 +159,234 @@ const state = {
     }
 };
 
-// Collect DOM elements for sharing with modules
-const elements = {
-    appContainer,
-    playerASide,
-    playerBSide,
-    divider,
-    notesAreaA,
-    notesAreaB,
-    sequencerA,
-    sequencerB,
-    audioContainer,
-    playButton,
-    stopButton,
-    resetButton
-};
+// Global elements reference
+let elements = null;
 
 /**
- * Initialize the application
+ * Initialize UI elements with error handling
+ * @returns {boolean} Whether initialization was successful
  */
-function init() {
-    // Create UI elements
-    createNotes(config, elements, makeClickDraggable);
-    createSequencerCells(config, elements, getShapeForNote);
-    createAudioElements(config, audioContainer);
+function initializeUI() {
+    try {
+        console.log('Creating notes...');
+        createNotes(config, elements, makeClickDraggable);
 
-    // Set up event handlers
-    setupNoteDragEvents(elements, state, config);
-    setupDividerDrag(elements, updateScreenSplit);
-    initializePortalEffects(elements);
-    setupSequencerEvents(elements, state, config, () => createNotes(config, elements, makeClickDraggable));
+        console.log('Creating sequencer cells...');
+        createSequencerCells(config, elements, getShapeForNote);
 
-    // Initialize screen splitting
-    initializeDividerPosition(elements);
-    initializeScreenSplit(elements);
+        console.log('Creating audio elements...');
+        createAudioElements(config, elements.audioContainer);
 
-    // Start playback immediately
-    startPlayback(state, config, elements);
-
-    // Initialize particle systems for enhanced visual effects
-    initializeParticleSystems();
+        return true;
+    } catch (error) {
+        console.error('Failed to initialize UI elements:', error);
+        return false;
+    }
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', init);
+/**
+ * Set up event handlers with error handling
+ * @returns {boolean} Whether event setup was successful
+ */
+function setupEvents() {
+    try {
+        console.log('Setting up note drag events...');
+        setupNoteDragEvents(elements, state, config);
 
-// Export anything that might be needed by other modules
+        console.log('Setting up divider drag...');
+        setupDividerDrag(elements, updateScreenSplit);
+
+        console.log('Initializing portal effects...');
+        initializePortalEffects(elements);
+
+        console.log('Setting up sequencer events...');
+        setupSequencerEvents(elements, state, config, () => createNotes(config, elements, makeClickDraggable));
+
+        return true;
+    } catch (error) {
+        console.error('Failed to set up events:', error);
+        return false;
+    }
+}
+
+/**
+ * Initialize screen and positioning with error handling
+ * @returns {boolean} Whether initialization was successful
+ */
+function initializeScreen() {
+    try {
+        console.log('Initializing divider position...');
+        initializeDividerPosition(elements);
+
+        console.log('Initializing screen split...');
+        initializeScreenSplit(elements);
+
+        return true;
+    } catch (error) {
+        console.error('Failed to initialize screen:', error);
+        return false;
+    }
+}
+
+/**
+ * Start initial playback with delay for audio loading
+ * @returns {Promise<boolean>} Whether playback started successfully
+ */
+async function startInitialPlayback() {
+    return new Promise((resolve) => {
+        // Wait for audio elements to potentially load
+        setTimeout(() => {
+            try {
+                console.log('Starting initial playback...');
+
+                // Check if document is ready and elements are still valid
+                if (document.readyState === 'complete' && elements.playButton) {
+                    startPlayback(state, config, elements);
+                    resolve(true);
+                } else {
+                    console.warn('Document not ready or elements invalid, skipping initial playback');
+                    resolve(false);
+                }
+            } catch (error) {
+                console.error('Failed to start initial playback:', error);
+                resolve(false);
+            }
+        }, 1000); // Give audio elements time to load
+    });
+}
+
+/**
+ * Initialize visual effects with error handling
+ * @returns {boolean} Whether initialization was successful
+ */
+function initializeVisuals() {
+    try {
+        console.log('Initializing particle systems...');
+        initializeParticleSystems();
+        return true;
+    } catch (error) {
+        console.error('Failed to initialize visual effects:', error);
+        return false;
+    }
+}
+
+/**
+ * Main initialization function with comprehensive error handling
+ */
+async function init() {
+    console.log('Starting application initialization...');
+
+    try {
+        // Validate configuration
+        if (!validateConfig(config)) {
+            console.error('Configuration validation failed');
+            return;
+        }
+
+        // Get and validate DOM elements
+        elements = getElements();
+        if (!elements) {
+            console.error('DOM element validation failed');
+            return;
+        }
+
+        // Initialize UI elements
+        if (!initializeUI()) {
+            console.error('UI initialization failed');
+            return;
+        }
+
+        // Set up event handlers
+        if (!setupEvents()) {
+            console.error('Event setup failed');
+            return;
+        }
+
+        // Initialize screen and positioning
+        if (!initializeScreen()) {
+            console.error('Screen initialization failed');
+            return;
+        }
+
+        // Initialize visual effects
+        if (!initializeVisuals()) {
+            console.warn('Visual effects initialization failed, continuing without them');
+        }
+
+        // Start initial playback (with delay for audio)
+        const playbackStarted = await startInitialPlayback();
+        if (!playbackStarted) {
+            console.warn('Initial playback failed to start');
+        }
+
+        console.log('Application initialization completed successfully');
+
+    } catch (error) {
+        console.error('Critical error during initialization:', error);
+
+        // Attempt basic cleanup
+        try {
+            if (state.intervalId) {
+                clearInterval(state.intervalId);
+            }
+        } catch (cleanupError) {
+            console.error('Error during cleanup:', cleanupError);
+        }
+    }
+}
+
+/**
+ * Cleanup function for page unload
+ */
+function cleanup() {
+    try {
+        console.log('Cleaning up application...');
+
+        // Stop playback
+        if (state && elements) {
+            stopPlayback(state, elements);
+        }
+
+        // Clear any intervals
+        if (state.intervalId) {
+            clearInterval(state.intervalId);
+            state.intervalId = null;
+        }
+
+        // Reset state
+        state.isPlaying = false;
+        state.draggedNote = null;
+        state.draggedNoteData = null;
+
+        console.log('Cleanup completed');
+    } catch (error) {
+        console.error('Error during cleanup:', error);
+    }
+}
+
+// Set up page lifecycle events
+window.addEventListener('beforeunload', cleanup);
+window.addEventListener('unload', cleanup);
+
+// Handle visibility change (for mobile/tab switching)
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden && state.isPlaying) {
+        console.log('Page hidden, stopping playback');
+        try {
+            stopPlayback(state, elements);
+        } catch (error) {
+            console.error('Error stopping playback on visibility change:', error);
+        }
+    }
+});
+
+// Initialize on page load with proper timing
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    // DOM already loaded
+    init();
+}
+
+// Export for potential use by other modules
 export { config, state, elements, playSound };

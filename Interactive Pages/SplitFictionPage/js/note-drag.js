@@ -1,4 +1,4 @@
-// note-drag.js - Handles note dragging and dropping
+// note-drag.js - Handles note dragging and dropping with improved error handling while preserving core logic
 
 import { addNoteToCell, removeNoteFromCell } from './sequencer.js';
 import { getShapeForNote, updateVisibilityAfterExtraction } from './notes.js';
@@ -8,193 +8,237 @@ import {
     createPortalCounterpart
 } from './portal-effects.js';
 
-// Global dragging state
+// Global dragging state - kept for compatibility but with validation
 let activeNote = null;
 let offsetX = 0;
 let offsetY = 0;
-let targetX = 0;  // Target position for smooth movement
+let targetX = 0;
 let targetY = 0;
-let currentX = 0; // Current position during animation
+let currentX = 0;
 let currentY = 0;
 let isAnimating = false;
 let animationFrameId = null;
-let globalElements = null; // Reference to the elements object
-let globalState = null;    // Reference to the state object
+let globalElements = null;
+let globalState = null;
 
 // Movement speed factors
-const MOVEMENT_SPEED = 0.1; // Adjust this value to control speed
+const MOVEMENT_SPEED = 0.1;
 const MIN_DISTANCE_THRESHOLD = 0;
+
+/**
+ * Validate global references are set
+ * @returns {boolean} Whether globals are valid
+ */
+function validateGlobals() {
+    return globalElements &&
+        globalState &&
+        globalElements.appContainer &&
+        globalElements.divider;
+}
 
 /**
  * Make an element draggable with click/touch
  * @param {HTMLElement} element - The element to make draggable
  */
 export function makeClickDraggable(element) {
-    // Event handler for starting a drag operation
+    if (!element) {
+        console.warn('Cannot make null element draggable');
+        return;
+    }
+
     const startDrag = function (e) {
-        e.preventDefault(); // Prevent default browser drag
-
-        // Get offset within the element
-        const rect = element.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-
-        // Initialize current position
-        currentX = rect.left;
-        currentY = rect.top;
-
-        // Set initial target (same as current)
-        targetX = currentX;
-        targetY = currentY;
-
-        // Check if this nested object is being extracted
-        const noteNumber = parseInt(element.getAttribute('data-note'));
-        if (globalState.nestedRelationships[noteNumber]) {
-            extractFromParent(noteNumber);
+        if (!validateGlobals()) {
+            console.warn('Global references not properly initialized');
+            return;
         }
 
-        // Set as active element
-        activeNote = element;
-        element.classList.add('dragging');
+        try {
+            e.preventDefault();
 
-        // Fill the shape by removing hollow class
-        element.classList.remove('hollow');
+            const rect = element.getBoundingClientRect();
+            if (!rect.width || !rect.height) {
+                console.warn('Element has no dimensions, cannot drag');
+                return;
+            }
 
-        // Set dragging state for other functions
-        globalState.draggedNote = element;
-        globalState.draggedNoteData = {
-            note: parseInt(element.getAttribute('data-note')),
-            player: element.getAttribute('data-player')
-        };
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            currentX = rect.left;
+            currentY = rect.top;
+            targetX = currentX;
+            targetY = currentY;
 
-        // Set high z-index to be above all panels
-        element.style.zIndex = '30';
+            const noteNumber = parseInt(element.getAttribute('data-note'));
+            if (isNaN(noteNumber)) {
+                console.warn('Element missing valid data-note attribute');
+                return;
+            }
 
-        // Add dragging class to container to disable pointer events
-        globalElements.appContainer.classList.add('dragging-active');
+            // Check if this nested object is being extracted
+            if (globalState.nestedRelationships && globalState.nestedRelationships[noteNumber]) {
+                extractFromParent(noteNumber);
+            }
 
-        // Start the animation loop if not already running
-        if (!isAnimating) {
-            isAnimating = true;
-            animateMovement();
+            // Set as active element
+            activeNote = element;
+            element.classList.add('dragging');
+            element.classList.remove('hollow');
+
+            // Set dragging state for other functions
+            globalState.draggedNote = element;
+            globalState.draggedNoteData = {
+                note: noteNumber,
+                player: element.getAttribute('data-player') || 'a'
+            };
+
+            element.style.zIndex = '30';
+            globalElements.appContainer.classList.add('dragging-active');
+
+            // Start the animation loop if not already running
+            if (!isAnimating) {
+                isAnimating = true;
+                animateMovement();
+            }
+        } catch (error) {
+            console.error('Error starting drag:', error);
         }
     };
 
-    // Pick up on first click or touch
+    // Event listeners with error handling
     element.addEventListener('mousedown', startDrag);
 
-    // Touch version
     element.addEventListener('touchstart', function (e) {
-        const touch = e.touches[0];
-        startDrag({
-            preventDefault: () => e.preventDefault(),
-            clientX: touch.clientX,
-            clientY: touch.clientY
-        });
+        if (!e.touches || e.touches.length !== 1) return;
+
+        try {
+            const touch = e.touches[0];
+            startDrag({
+                preventDefault: () => e.preventDefault(),
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+        } catch (error) {
+            console.error('Error in touch start:', error);
+        }
     });
 }
 
 /**
- * Extract nested object from parent
+ * Extract nested object from parent with validation
  * @param {number} nestedNoteNumber - The nested note number to extract
  */
 function extractFromParent(nestedNoteNumber) {
-    const parentNoteNumber = globalState.nestedRelationships[nestedNoteNumber];
+    if (!globalState.nestedRelationships) {
+        console.warn('No nested relationships available');
+        return;
+    }
 
-    // Remove visual indicator from parent
-    const parentNotes = document.querySelectorAll(`[data-note="${parentNoteNumber}"]:not(.nested-visual)`);
-    parentNotes.forEach(parentNote => {
-        const visualIndicator = parentNote.querySelector(`.nested-visual[data-note="${nestedNoteNumber}"]`);
-        if (visualIndicator) {
-            parentNote.removeChild(visualIndicator);
+    try {
+        const parentNoteNumber = globalState.nestedRelationships[nestedNoteNumber];
+        if (!parentNoteNumber) return;
 
-            // Remove has-nested-child class if no more visual indicators
-            if (!parentNote.querySelector('.nested-visual')) {
-                parentNote.classList.remove('has-nested-child');
+        // Remove visual indicator from parent
+        const parentNotes = document.querySelectorAll(`[data-note="${parentNoteNumber}"]:not(.nested-visual)`);
+        parentNotes.forEach(parentNote => {
+            try {
+                const visualIndicator = parentNote.querySelector(`.nested-visual[data-note="${nestedNoteNumber}"]`);
+                if (visualIndicator) {
+                    parentNote.removeChild(visualIndicator);
+
+                    if (!parentNote.querySelector('.nested-visual')) {
+                        parentNote.classList.remove('has-nested-child');
+                    }
+                }
+            } catch (error) {
+                console.warn('Error removing visual indicator:', error);
             }
-        }
-    });
-
-    // Remove from nested relationships
-    delete globalState.nestedRelationships[nestedNoteNumber];
-
-    // Make nested object visible and draggable
-    const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual)`);
-    nestedObjects.forEach(note => {
-        note.classList.remove('nested-hidden');
-    });
-
-    // Use imported function to update visibility after extraction
-    updateVisibilityAfterExtraction(nestedNoteNumber, globalElements.config);
-}
-
-// New function to update visibility when extraction happens
-function updateNestedVisibility(parentNoteNumber) {
-    // Import config from main.js scope or pass it as parameter
-    // For now, assume we have access to config through global scope or import
-    const config = globalElements.config || window.config;
-
-    if (config && config.nestedItems[parentNoteNumber]) {
-        config.nestedItems[parentNoteNumber].forEach(nestedNoteNumber => {
-            const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual)`);
-            nestedObjects.forEach(note => {
-                note.classList.remove('nested-hidden');
-            });
         });
+
+        // Remove from nested relationships
+        delete globalState.nestedRelationships[nestedNoteNumber];
+
+        // Make nested object visible and draggable
+        const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual)`);
+        nestedObjects.forEach(note => {
+            note.classList.remove('nested-hidden');
+        });
+
+        // Use imported function to update visibility after extraction
+        if (globalElements.config) {
+            updateVisibilityAfterExtraction(nestedNoteNumber, globalElements.config);
+        }
+    } catch (error) {
+        console.error('Error extracting from parent:', error);
     }
 }
 
 /**
- * Set up note drag events on document
+ * Set up note drag events on document with validation
  * @param {Object} elements - DOM elements
  * @param {Object} state - Application state
+ * @param {Object} config - Application configuration
  */
 export function setupNoteDragEvents(elements, state, config) {
-    // Store references to elements and state for global access
+    if (!elements || !state || !config) {
+        console.error('Missing required parameters for setupNoteDragEvents');
+        return;
+    }
+
     globalElements = elements;
     globalState = state;
     globalElements.config = config;
 
-    // Store config reference for easier access
-    globalElements.config = elements.config || window.config;
+    try {
+        // Global document mouse move
+        document.addEventListener('mousemove', function (e) {
+            if (activeNote) {
+                targetX = e.clientX - offsetX;
+                targetY = e.clientY - offsetY;
+            }
+        });
 
-    // Global document mouse move
-    document.addEventListener('mousemove', function (e) {
-        if (activeNote) {
-            // Update the target position (where the note should move to)
-            targetX = e.clientX - offsetX;
-            targetY = e.clientY - offsetY;
-        }
-    });
+        // Touch move
+        document.addEventListener('touchmove', function (e) {
+            if (activeNote && e.touches && e.touches.length === 1) {
+                const touch = e.touches[0];
+                targetX = touch.clientX - offsetX;
+                targetY = touch.clientY - offsetY;
+                e.preventDefault();
+            }
+        });
 
-    // Touch move
-    document.addEventListener('touchmove', function (e) {
-        if (activeNote) {
-            const touch = e.touches[0];
-            // Update the target position (where the note should move to)
-            targetX = touch.clientX - offsetX;
-            targetY = touch.clientY - offsetY;
-            e.preventDefault(); // Prevent scrolling
-        }
-    });
+        // Mouse up - drop the element
+        document.addEventListener('mouseup', function (e) {
+            if (activeNote) {
+                try {
+                    dropActiveNote(currentX + activeNote.offsetWidth / 2, currentY + activeNote.offsetHeight / 2);
+                } catch (error) {
+                    console.error('Error during mouse up drop:', error);
+                }
+            }
+        });
 
-    // Mouse up - drop the element
-    document.addEventListener('mouseup', function (e) {
-        if (activeNote) {
-            dropActiveNote(currentX + activeNote.offsetWidth / 2, currentY + activeNote.offsetHeight / 2);
-        }
-    });
+        // Touch end
+        document.addEventListener('touchend', function (e) {
+            if (activeNote) {
+                try {
+                    dropActiveNote(currentX + activeNote.offsetWidth / 2, currentY + activeNote.offsetHeight / 2);
+                } catch (error) {
+                    console.error('Error during touch end drop:', error);
+                }
+            }
+        });
 
-    // Touch end
-    document.addEventListener('touchend', function (e) {
-        if (activeNote) {
-            dropActiveNote(currentX + activeNote.offsetWidth / 2, currentY + activeNote.offsetHeight / 2);
-        }
-    });
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', cleanup);
+
+    } catch (error) {
+        console.error('Error setting up note drag events:', error);
+    }
 }
 
 /**
- * Animate the movement of the active note
+ * Animate the movement of the active note - PRESERVING CRITICAL NESTED VISIBILITY LOGIC
  */
 function animateMovement() {
     if (!isAnimating || !activeNote) {
@@ -202,135 +246,137 @@ function animateMovement() {
         return;
     }
 
-    // Calculate distance to target
-    const dx = targetX - currentX;
-    const dy = targetY - currentY;
+    try {
+        // Calculate distance to target
+        const dx = targetX - currentX;
+        const dy = targetY - currentY;
 
-    // Check if movement is small enough to stop
-    if (Math.abs(dx) < MIN_DISTANCE_THRESHOLD && Math.abs(dy) < MIN_DISTANCE_THRESHOLD) {
-        // Just set to exact target
-        currentX = targetX;
-        currentY = targetY;
-    } else {
-        // Move a percentage of the distance to the target (smooth follow)
-        currentX += dx * MOVEMENT_SPEED;
-        currentY += dy * MOVEMENT_SPEED;
-    }
-
-    // Update the position of the active note
-    activeNote.style.left = `${currentX}px`;
-    activeNote.style.top = `${currentY}px`;
-
-    // Update positions of linked nested objects
-    updateLinkedNestedPositions();
-
-    // Get the portal counterpart
-    const counterpartId = activeNote.getAttribute('data-counterpart-id');
-    const portalCounterpart = document.getElementById(counterpartId);
-
-    if (portalCounterpart) {
-        // Update position of counterpart
-        portalCounterpart.style.left = `${currentX}px`;
-        portalCounterpart.style.top = `${currentY}px`;
-
-        // Handle portal effects using the imported function
-        updatePortalEffectsDuringDrag(portalCounterpart, currentX, activeNote, globalElements);
-    }
-
-    // Get note dimensions for center calculation
-    const rect = activeNote.getBoundingClientRect();
-
-    // Check which side the note is on for drop targeting
-    const noteSide = checkNoteSide(currentX + rect.width / 2);
-
-    // Track previous side for crossing detection
-    const previousSide = globalState.draggedNoteData ? globalState.draggedNoteData.player : null;
-
-    if (globalState.draggedNoteData && globalState.draggedNoteData.player !== noteSide) {
-        globalState.draggedNoteData.player = noteSide;
-
-        // Handle nested object visibility when crossing screens
-        const activeNoteNumber = parseInt(activeNote.getAttribute('data-note'));
-
-        // Determine the note's TRUE native screen from config
-        const activeNoteNativeScreen = globalElements.config.playerANotes.includes(activeNoteNumber) ? 'a' : 'b';
-
-        // Check if this note has nested items
-        if (globalElements.config.nestedItems[activeNoteNumber]) {
-            const nestedItems = globalElements.config.nestedItems[activeNoteNumber];
-
-            nestedItems.forEach(nestedNoteNumber => {
-                // Determine the nested item's native screen (opposite of its parent's TRUE native screen)
-                const nestedItemNativeScreen = activeNoteNativeScreen === 'a' ? 'b' : 'a';
-
-                // If we're moving TO the nested item's native screen, hide it
-                // If we're moving AWAY from the nested item's native screen, show it
-                const shouldHide = noteSide === nestedItemNativeScreen;
-
-                // Handle visual indicators inside the active note
-                const visualIndicators = activeNote.querySelectorAll(`.nested-visual[data-note="${nestedNoteNumber}"]`);
-                visualIndicators.forEach(indicator => {
-                    if (shouldHide) {
-                        indicator.style.display = 'none';
-                    } else {
-                        indicator.style.display = '';
-                    }
-                });
-
-                // Handle actual nested objects that are following
-                const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual):not(.note-in-cell)`);
-                nestedObjects.forEach(nestedObject => {
-                    // Only handle objects that are still linked (not extracted)
-                    if (globalState.nestedRelationships[nestedNoteNumber] === activeNoteNumber) {
-                        if (shouldHide) {
-                            nestedObject.style.display = 'none';
-                        } else {
-                            // Only show if not multi-level nested
-                            if (!nestedObject.classList.contains('nested-hidden')) {
-                                nestedObject.style.display = '';
-                            }
-                        }
-                    }
-                });
-            });
+        if (Math.abs(dx) < MIN_DISTANCE_THRESHOLD && Math.abs(dy) < MIN_DISTANCE_THRESHOLD) {
+            currentX = targetX;
+            currentY = targetY;
+        } else {
+            currentX += dx * MOVEMENT_SPEED;
+            currentY += dy * MOVEMENT_SPEED;
         }
+
+        // Update the position of the active note
+        activeNote.style.left = `${currentX}px`;
+        activeNote.style.top = `${currentY}px`;
+
+        // Update positions of linked nested objects
+        updateLinkedNestedPositions();
+
+        // Get the portal counterpart
+        const counterpartId = activeNote.getAttribute('data-counterpart-id');
+        const portalCounterpart = counterpartId ? document.getElementById(counterpartId) : null;
+
+        if (portalCounterpart) {
+            portalCounterpart.style.left = `${currentX}px`;
+            portalCounterpart.style.top = `${currentY}px`;
+
+            if (validateGlobals()) {
+                updatePortalEffectsDuringDrag(portalCounterpart, currentX, activeNote, globalElements);
+            }
+        }
+
+        // Get note dimensions for center calculation
+        const rect = activeNote.getBoundingClientRect();
+        const noteSide = checkNoteSide(currentX + rect.width / 2);
+
+        // CRITICAL NESTED VISIBILITY LOGIC - PRESERVED FROM ORIGINAL
+        if (globalState.draggedNoteData && globalState.draggedNoteData.player !== noteSide) {
+            globalState.draggedNoteData.player = noteSide;
+
+            // Handle nested object visibility when crossing screens
+            const activeNoteNumber = parseInt(activeNote.getAttribute('data-note'));
+
+            if (globalElements.config && globalElements.config.playerANotes && globalElements.config.playerBNotes) {
+                // Determine the note's TRUE native screen from config
+                const activeNoteNativeScreen = globalElements.config.playerANotes.includes(activeNoteNumber) ? 'a' : 'b';
+
+                // Check if this note has nested items
+                if (globalElements.config.nestedItems && globalElements.config.nestedItems[activeNoteNumber]) {
+                    const nestedItems = globalElements.config.nestedItems[activeNoteNumber];
+
+                    nestedItems.forEach(nestedNoteNumber => {
+                        try {
+                            // Determine the nested item's native screen (opposite of its parent's TRUE native screen)
+                            const nestedItemNativeScreen = activeNoteNativeScreen === 'a' ? 'b' : 'a';
+
+                            // If we're moving TO the nested item's native screen, hide it
+                            // If we're moving AWAY from the nested item's native screen, show it
+                            const shouldHide = noteSide === nestedItemNativeScreen;
+
+                            // Handle visual indicators inside the active note
+                            const visualIndicators = activeNote.querySelectorAll(`.nested-visual[data-note="${nestedNoteNumber}"]`);
+                            visualIndicators.forEach(indicator => {
+                                indicator.style.display = shouldHide ? 'none' : '';
+                            });
+
+                            // Handle actual nested objects that are following
+                            const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual):not(.note-in-cell)`);
+                            nestedObjects.forEach(nestedObject => {
+                                // Only handle objects that are still linked (not extracted)
+                                if (globalState.nestedRelationships && globalState.nestedRelationships[nestedNoteNumber] === activeNoteNumber) {
+                                    if (shouldHide) {
+                                        nestedObject.style.display = 'none';
+                                    } else {
+                                        // Only show if not multi-level nested
+                                        if (!nestedObject.classList.contains('nested-hidden')) {
+                                            nestedObject.style.display = '';
+                                        }
+                                    }
+                                }
+                            });
+                        } catch (error) {
+                            console.warn(`Error handling nested visibility for note ${nestedNoteNumber}:`, error);
+                        }
+                    });
+                }
+            }
+        }
+
+        // Check if over any sequencer cell
+        checkDropTargets(currentX + rect.width / 2, currentY + rect.height / 2);
+
+        // Continue the animation loop
+        animationFrameId = requestAnimationFrame(animateMovement);
+    } catch (error) {
+        console.error('Error in animation movement:', error);
+        isAnimating = false;
     }
-
-    // Check if over any sequencer cell - based on the NOTE'S actual position
-    checkDropTargets(currentX + rect.width / 2, currentY + rect.height / 2);
-
-    // Continue the animation loop
-    animationFrameId = requestAnimationFrame(animateMovement);
 }
 
 /**
  * Update positions of linked nested objects
  */
 function updateLinkedNestedPositions() {
-    if (!activeNote) return;
+    if (!activeNote || !globalState.nestedRelationships) return;
 
-    const activeNoteNumber = parseInt(activeNote.getAttribute('data-note'));
+    try {
+        const activeNoteNumber = parseInt(activeNote.getAttribute('data-note'));
 
-    // Find nested objects that should move with this parent
-    Object.entries(globalState.nestedRelationships).forEach(([nestedNoteStr, parentNoteNumber]) => {
-        if (parentNoteNumber === activeNoteNumber) {
-            const nestedNoteNumber = parseInt(nestedNoteStr);
-            const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual)`);
+        Object.entries(globalState.nestedRelationships).forEach(([nestedNoteStr, parentNoteNumber]) => {
+            if (parentNoteNumber === activeNoteNumber) {
+                const nestedNoteNumber = parseInt(nestedNoteStr);
+                const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual)`);
 
-            nestedObjects.forEach(nestedObject => {
-                nestedObject.style.left = `${currentX}px`;
-                nestedObject.style.top = `${currentY}px`;
+                nestedObjects.forEach(nestedObject => {
+                    nestedObject.style.left = `${currentX}px`;
+                    nestedObject.style.top = `${currentY}px`;
 
-                // Also update portal counterpart position if it exists
-                const counterpartId = nestedObject.getAttribute('data-counterpart-id');
-                const portalCounterpart = document.getElementById(counterpartId);
-                if (portalCounterpart) {
-                    portalCounterpart.style.left = `${currentX}px`;
-                    portalCounterpart.style.top = `${currentY}px`;
-                }
-            });
-        }
-    });
+                    const counterpartId = nestedObject.getAttribute('data-counterpart-id');
+                    const portalCounterpart = counterpartId ? document.getElementById(counterpartId) : null;
+                    if (portalCounterpart) {
+                        portalCounterpart.style.left = `${currentX}px`;
+                        portalCounterpart.style.top = `${currentY}px`;
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        console.warn('Error updating linked nested positions:', error);
+    }
 }
 
 /**
@@ -339,8 +385,21 @@ function updateLinkedNestedPositions() {
  * @returns {string} The side ('a' or 'b')
  */
 export function checkNoteSide(x) {
-    const dividerPosition = parseInt(globalElements.divider.style.left);
-    return x < dividerPosition ? 'a' : 'b';
+    if (!validateGlobals()) {
+        return 'a'; // Default fallback
+    }
+
+    try {
+        const dividerPosition = parseInt(globalElements.divider.style.left);
+        if (isNaN(dividerPosition)) {
+            console.warn('Invalid divider position');
+            return 'a';
+        }
+        return x < dividerPosition ? 'a' : 'b';
+    } catch (error) {
+        console.warn('Error checking note side:', error);
+        return 'a';
+    }
 }
 
 /**
@@ -351,46 +410,51 @@ export function checkNoteSide(x) {
 function checkDropTargets(x, y) {
     if (!globalState.draggedNote) return;
 
-    // Remove highlight from all cells
-    const cells = document.querySelectorAll('.sequencer-cell');
-    cells.forEach(cell => cell.classList.remove('drag-over'));
+    try {
+        const cells = document.querySelectorAll('.sequencer-cell');
+        cells.forEach(cell => cell.classList.remove('drag-over'));
 
-    // Check if the note is over any cell
-    cells.forEach(cell => {
-        const rect = cell.getBoundingClientRect();
-        const inBounds = (
-            x >= rect.left &&
-            x <= rect.right &&
-            y >= rect.top &&
-            y <= rect.bottom
-        );
+        cells.forEach(cell => {
+            try {
+                const rect = cell.getBoundingClientRect();
+                const inBounds = (
+                    x >= rect.left &&
+                    x <= rect.right &&
+                    y >= rect.top &&
+                    y <= rect.bottom
+                );
 
-        // If in bounds and a valid target, highlight the cell
-        if (inBounds) {
-            const validTarget = isValidDropTarget(cell);
-            if (validTarget) {
-                cell.classList.add('drag-over');
+                if (inBounds && isValidDropTarget(cell)) {
+                    cell.classList.add('drag-over');
+                }
+            } catch (error) {
+                console.warn('Error checking drop target:', error);
             }
-        }
-    });
+        });
+    } catch (error) {
+        console.warn('Error in checkDropTargets:', error);
+    }
 }
 
 /**
- * Check if a cell is a valid drop target for the current dragged note
+ * Check if a cell is a valid drop target
  * @param {HTMLElement} cell - The cell element
  * @returns {boolean} Whether the cell is a valid drop target
  */
 function isValidDropTarget(cell) {
-    if (!globalState.draggedNoteData) return false;
+    if (!globalState.draggedNoteData || !cell) return false;
 
-    const cellPlayer = cell.getAttribute('data-player');
-    const notePlayer = globalState.draggedNoteData.player;
-    const cellPosition = parseInt(cell.getAttribute('data-position'));
-    const noteNumber = globalState.draggedNoteData.note;
+    try {
+        const cellPlayer = cell.getAttribute('data-player');
+        const notePlayer = globalState.draggedNoteData.player;
+        const cellPosition = parseInt(cell.getAttribute('data-position'));
+        const noteNumber = globalState.draggedNoteData.note;
 
-    // Notes can only be dropped in cells belonging to the same player
-    // AND the note number must match the cell position
-    return cellPlayer === notePlayer && noteNumber === cellPosition;
+        return cellPlayer === notePlayer && noteNumber === cellPosition;
+    } catch (error) {
+        console.warn('Error validating drop target:', error);
+        return false;
+    }
 }
 
 /**
@@ -399,112 +463,112 @@ function isValidDropTarget(cell) {
  * @param {number} y - The y-coordinate
  */
 function dropActiveNote(x, y) {
-    // Stop the animation
-    isAnimating = false;
-    if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
+    try {
+        // Stop the animation
+        isAnimating = false;
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+
+        const dropCell = document.querySelector('.sequencer-cell.drag-over');
+        const counterpartId = activeNote ? activeNote.getAttribute('data-counterpart-id') : null;
+        const portalCounterpart = counterpartId ? document.getElementById(counterpartId) : null;
+
+        if (dropCell) {
+            handleDrop(dropCell);
+        } else if (x && y) {
+            if (activeNote) {
+                activeNote.classList.add('hollow');
+            }
+            handleCrossSideDrop(x, y);
+        }
+
+        // Reset active note appearance
+        if (activeNote) {
+            activeNote.style.zIndex = '5';
+        }
+
+        // Hide portal counterpart
+        if (portalCounterpart) {
+            hideCounterpart(portalCounterpart);
+        }
+
+        // Remove dragging class
+        if (activeNote) {
+            activeNote.classList.remove('dragging');
+        }
+        activeNote = null;
+
+        // Clear drag state
+        if (globalState) {
+            globalState.draggedNote = null;
+            globalState.draggedNoteData = null;
+        }
+
+        // Remove highlights
+        const cells = document.querySelectorAll('.sequencer-cell');
+        cells.forEach(cell => cell.classList.remove('drag-over'));
+
+        // Remove dragging-active class
+        if (globalElements && globalElements.appContainer) {
+            globalElements.appContainer.classList.remove('dragging-active');
+        }
+    } catch (error) {
+        console.error('Error dropping active note:', error);
     }
-
-    // Check for drop on a cell
-    const dropCell = document.querySelector('.sequencer-cell.drag-over');
-
-    // Get the portal counterpart
-    const counterpartId = activeNote.getAttribute('data-counterpart-id');
-    const portalCounterpart = document.getElementById(counterpartId);
-
-    if (dropCell) {
-        // Note is dropped on a cell - keep it filled
-        handleDrop(dropCell);
-    } else if (x && y) {
-        // Return to hollow state when not dropped on a cell
-        activeNote.classList.add('hollow');
-
-        // Handle possibly dropping on opposite side
-        handleCrossSideDrop(x, y);
-    }
-
-    // Reset active note appearance
-    activeNote.style.zIndex = '5';
-
-    // Hide portal counterpart and remove effect classes
-    if (portalCounterpart) {
-        // Use the imported hideCounterpart function
-        hideCounterpart(portalCounterpart, activeNote.classList.contains('shape-triangle'));
-    }
-
-    // Remove dragging class
-    activeNote.classList.remove('dragging');
-    activeNote = null;
-
-    // Clear drag state
-    globalState.draggedNote = null;
-    globalState.draggedNoteData = null;
-
-    // Remove highlight from all cells
-    const cells = document.querySelectorAll('.sequencer-cell');
-    cells.forEach(cell => cell.classList.remove('drag-over'));
-
-    // Remove dragging-active class from container
-    globalElements.appContainer.classList.remove('dragging-active');
 }
 
 /**
- * Handle dropping a note on the opposite side
+ * Handle dropping a note on the opposite side - PRESERVING COUNTERPART LOGIC
  * @param {number} x - The x-coordinate
  * @param {number} y - The y-coordinate
  */
 function handleCrossSideDrop(x, y) {
-    // Get divider position
-    const dividerPosition = parseInt(globalElements.divider.style.left);
+    if (!activeNote || !validateGlobals()) return;
 
-    // Note is dropped outside a cell - let it stay where it was dropped
-    const player = checkNoteSide(x);
-    const noteNumber = parseInt(activeNote.getAttribute('data-note'));
-    const originalPlayer = activeNote.getAttribute('data-player');
+    try {
+        const player = checkNoteSide(x);
+        const noteNumber = parseInt(activeNote.getAttribute('data-note'));
+        const originalPlayer = activeNote.getAttribute('data-player');
 
-    // If dropped on the opposite side, update the note's player attribute
-    if (player !== originalPlayer) {
-        // Update the note to reflect its new side
-        activeNote.setAttribute('data-player', player);
-        activeNote.classList.remove(`note-${originalPlayer}`);
-        activeNote.classList.add(`note-${player}`);
+        if (player !== originalPlayer) {
+            // Update the note to reflect its new side
+            activeNote.setAttribute('data-player', player);
+            activeNote.classList.remove(`note-${originalPlayer}`);
+            activeNote.classList.add(`note-${player}`);
 
-        // Move the note to the appropriate container
-        const targetContainer = player === 'a' ? globalElements.playerASide : globalElements.playerBSide;
+            // Move to appropriate container
+            const targetContainer = player === 'a' ? globalElements.playerASide : globalElements.playerBSide;
 
-        // Remove from current container and add to target container
-        if (activeNote.parentNode) {
-            activeNote.parentNode.removeChild(activeNote);
+            if (activeNote.parentNode) {
+                activeNote.parentNode.removeChild(activeNote);
+            }
+            targetContainer.appendChild(activeNote);
+
+            // Preserve visual indicators' original player classes
+            const visualIndicators = activeNote.querySelectorAll('.nested-visual');
+            visualIndicators.forEach(indicator => {
+                indicator.classList.remove(`note-${player}`);
+                indicator.classList.remove(`note-${originalPlayer}`);
+                const indicatorPlayer = player === 'a' ? 'b' : 'a';
+                indicator.classList.add(`note-${indicatorPlayer}`);
+            });
+
+            // Handle portal counterpart
+            const counterpartId = activeNote.getAttribute('data-counterpart-id');
+            const portalCounterpart = counterpartId ? document.getElementById(counterpartId) : null;
+
+            if (portalCounterpart && portalCounterpart.parentNode) {
+                portalCounterpart.parentNode.removeChild(portalCounterpart);
+            }
+
+            // Create new portal counterpart
+            createPortalCounterpart(activeNote, noteNumber, player, globalElements);
+            activeNote.setAttribute('data-counterpart-id', `counterpart-${player}-${noteNumber}`);
         }
-        targetContainer.appendChild(activeNote);
-
-        // Preserve visual indicators' original player classes
-        const visualIndicators = activeNote.querySelectorAll('.nested-visual');
-        visualIndicators.forEach(indicator => {
-            // Visual indicators should always have the opposite player class from their parent
-            indicator.classList.remove(`note-${player}`);
-            indicator.classList.remove(`note-${originalPlayer}`);
-            const indicatorPlayer = player === 'a' ? 'b' : 'a';
-            indicator.classList.add(`note-${indicatorPlayer}`);
-        });
-
-        // Get the portal counterpart
-        const counterpartId = activeNote.getAttribute('data-counterpart-id');
-        const portalCounterpart = document.getElementById(counterpartId);
-
-        // Remove the portal counterpart from its container
-        if (portalCounterpart && portalCounterpart.parentNode) {
-            portalCounterpart.parentNode.removeChild(portalCounterpart);
-        }
-
-        // Create a new portal counterpart using the imported function
-        const oppositePlayer = player === 'a' ? 'b' : 'a';
-        createPortalCounterpart(activeNote, noteNumber, player, globalElements);
-
-
-        // Update the link in the original note
-        activeNote.setAttribute('data-counterpart-id', `counterpart-${player}-${noteNumber}`);
+    } catch (error) {
+        console.error('Error handling cross side drop:', error);
     }
 }
 
@@ -515,37 +579,56 @@ function handleCrossSideDrop(x, y) {
 function handleDrop(cell) {
     if (!globalState.draggedNoteData) return;
 
-    // Stop the animation
-    isAnimating = false;
-    if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
+    try {
+        isAnimating = false;
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+
+        const position = parseInt(cell.getAttribute('data-position'));
+        const player = cell.getAttribute('data-player');
+        const noteNumber = globalState.draggedNoteData.note;
+
+        removeNoteFromCell(cell, globalState);
+        addNoteToCell(cell, noteNumber, player, getShapeForNote, globalState);
+
+        const draggedNote = globalState.draggedNote;
+        if (draggedNote) {
+            const counterpartId = draggedNote.getAttribute('data-counterpart-id');
+            const portalCounterpart = counterpartId ? document.getElementById(counterpartId) : null;
+
+            if (portalCounterpart && portalCounterpart.parentNode) {
+                portalCounterpart.parentNode.removeChild(portalCounterpart);
+            }
+
+            if (draggedNote.parentNode) {
+                draggedNote.parentNode.removeChild(draggedNote);
+            }
+        }
+    } catch (error) {
+        console.error('Error handling drop:', error);
     }
+}
 
-    const position = parseInt(cell.getAttribute('data-position'));
-    const player = cell.getAttribute('data-player');
-    const noteNumber = globalState.draggedNoteData.note;
+/**
+ * Cleanup function for page unload
+ */
+function cleanup() {
+    try {
+        isAnimating = false;
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
 
-    // Remove existing note in this cell if any
-    removeNoteFromCell(cell, globalState);
+        // Clear global state
+        activeNote = null;
+        globalElements = null;
+        globalState = null;
 
-    // Add the new note to the cell
-    addNoteToCell(cell, noteNumber, player, getShapeForNote, globalState);
-
-    // Move the original note to the appropriate side based on the drop position
-    const draggedNote = globalState.draggedNote;
-
-    // Get the portal counterpart
-    const counterpartId = draggedNote.getAttribute('data-counterpart-id');
-    const portalCounterpart = document.getElementById(counterpartId);
-
-    // Remove the portal counterpart if it exists
-    if (portalCounterpart && portalCounterpart.parentNode) {
-        portalCounterpart.parentNode.removeChild(portalCounterpart);
-    }
-
-    // Remove the dragged note from wherever it is
-    if (draggedNote.parentNode) {
-        draggedNote.parentNode.removeChild(draggedNote);
+        console.log('Note drag cleanup completed');
+    } catch (error) {
+        console.error('Error during note drag cleanup:', error);
     }
 }
