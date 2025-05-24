@@ -479,6 +479,16 @@ function handleCrossSideDrop(x, y) {
         }
         targetContainer.appendChild(activeNote);
 
+        // Preserve visual indicators' original player classes
+        const visualIndicators = activeNote.querySelectorAll('.nested-visual');
+        visualIndicators.forEach(indicator => {
+            // Visual indicators should always have the opposite player class from their parent
+            indicator.classList.remove(`note-${player}`);
+            indicator.classList.remove(`note-${originalPlayer}`);
+            const indicatorPlayer = player === 'a' ? 'b' : 'a';
+            indicator.classList.add(`note-${indicatorPlayer}`);
+        });
+
         // Get the portal counterpart
         const counterpartId = activeNote.getAttribute('data-counterpart-id');
         const portalCounterpart = document.getElementById(counterpartId);
