@@ -243,8 +243,57 @@ function animateMovement() {
     // Check which side the note is on for drop targeting
     const noteSide = checkNoteSide(currentX + rect.width / 2);
 
+    // Track previous side for crossing detection
+    const previousSide = globalState.draggedNoteData ? globalState.draggedNoteData.player : null;
+
     if (globalState.draggedNoteData && globalState.draggedNoteData.player !== noteSide) {
         globalState.draggedNoteData.player = noteSide;
+
+        // Handle nested object visibility when crossing screens
+        const activeNoteNumber = parseInt(activeNote.getAttribute('data-note'));
+
+        // Determine the note's TRUE native screen from config
+        const activeNoteNativeScreen = globalElements.config.playerANotes.includes(activeNoteNumber) ? 'a' : 'b';
+
+        // Check if this note has nested items
+        if (globalElements.config.nestedItems[activeNoteNumber]) {
+            const nestedItems = globalElements.config.nestedItems[activeNoteNumber];
+
+            nestedItems.forEach(nestedNoteNumber => {
+                // Determine the nested item's native screen (opposite of its parent's TRUE native screen)
+                const nestedItemNativeScreen = activeNoteNativeScreen === 'a' ? 'b' : 'a';
+
+                // If we're moving TO the nested item's native screen, hide it
+                // If we're moving AWAY from the nested item's native screen, show it
+                const shouldHide = noteSide === nestedItemNativeScreen;
+
+                // Handle visual indicators inside the active note
+                const visualIndicators = activeNote.querySelectorAll(`.nested-visual[data-note="${nestedNoteNumber}"]`);
+                visualIndicators.forEach(indicator => {
+                    if (shouldHide) {
+                        indicator.style.display = 'none';
+                    } else {
+                        indicator.style.display = '';
+                    }
+                });
+
+                // Handle actual nested objects that are following
+                const nestedObjects = document.querySelectorAll(`[data-note="${nestedNoteNumber}"]:not(.nested-visual):not(.note-in-cell)`);
+                nestedObjects.forEach(nestedObject => {
+                    // Only handle objects that are still linked (not extracted)
+                    if (globalState.nestedRelationships[nestedNoteNumber] === activeNoteNumber) {
+                        if (shouldHide) {
+                            nestedObject.style.display = 'none';
+                        } else {
+                            // Only show if not multi-level nested
+                            if (!nestedObject.classList.contains('nested-hidden')) {
+                                nestedObject.style.display = '';
+                            }
+                        }
+                    }
+                });
+            });
+        }
     }
 
     // Check if over any sequencer cell - based on the NOTE'S actual position
@@ -442,6 +491,7 @@ function handleCrossSideDrop(x, y) {
         // Create a new portal counterpart using the imported function
         const oppositePlayer = player === 'a' ? 'b' : 'a';
         createPortalCounterpart(activeNote, noteNumber, player, globalElements);
+
 
         // Update the link in the original note
         activeNote.setAttribute('data-counterpart-id', `counterpart-${player}-${noteNumber}`);
