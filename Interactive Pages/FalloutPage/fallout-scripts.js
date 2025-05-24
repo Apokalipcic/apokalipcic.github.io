@@ -1,154 +1,192 @@
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        const main = document.querySelector('main');
+/* ===========================
+   Theme Color System
+   =========================== */
+const root = document.querySelector(":root");
 
-        if (targetElement) {
-            // Hide all sections
-            document.querySelectorAll('section').forEach(section => {
-                section.style.display = 'none';
-            });
-            
-            // Show the target section
-            targetElement.style.display = 'block';
-            
-            // Scroll to the top of the content
-            main.scrollTo({
-                top: targetElement.offsetTop - main.offsetTop,
-                behavior: 'smooth'
-            });
-            
-            // Update active navigation state
-            document.querySelectorAll('nav a').forEach(link => {
-                link.classList.remove('active');
-            });
-            this.classList.add('active');
-        }
+// Color theme switcher
+function initColorTheme() {
+  const colorInputs = document.getElementsByName("colors");
+  
+  colorInputs.forEach(input => {
+    input.addEventListener('change', function() {
+      if (this.checked) {
+        root.className = this.value;
+      }
     });
-});
+  });
+}
 
-// Add active state to current navigation item
-function updateActiveNav() {
-    const hash = window.location.hash;
-    if (hash) {
-        document.querySelectorAll('nav a').forEach(link => {
-            if (link.getAttribute('href') === hash) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
+/* ===========================
+   Tab Navigation System
+   =========================== */
+function initTabNavigation() {
+  // Handle all links with data-toggle="tab"
+  const tabLinks = document.querySelectorAll('[data-toggle="tab"]');
+  
+  tabLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href');
+      const targetTab = document.querySelector(targetId);
+      
+      if (!targetTab) return;
+      
+      // Remove active states from current tab group
+      const tabGroup = targetTab.closest('.tab-content');
+      const currentActive = tabGroup.querySelector('.tab-pane.active');
+      
+      if (currentActive) {
+        currentActive.classList.remove('active', 'in', 'fade');
+      }
+      
+      // Add active state to new tab
+      targetTab.classList.add('active', 'in');
+      
+      // Update link active states
+      const linkContainer = this.closest('ul');
+      if (linkContainer) {
+        linkContainer.querySelectorAll('li').forEach(li => {
+          li.classList.remove('active');
         });
-    }
-}
-
-// Update on page load and hash change
-window.addEventListener('load', updateActiveNav);
-window.addEventListener('hashchange', updateActiveNav);
-
-// CRT flicker effect
-function addCRTFlicker() {
-    const container = document.querySelector('.retro-container');
-    setInterval(() => {
-        const opacity = 0.95 + Math.random() * 0.05;
-        container.style.opacity = opacity;
-    }, 100);
-}
-
-// Initialize CRT flicker
-addCRTFlicker();
-
-// Add typing effect for alerts
-function typeAlert(element, text, speed = 50) {
-    let i = 0;
-    element.textContent = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    
-    type();
-}
-
-// Apply typing effect to all alert elements
-document.querySelectorAll('.alert').forEach(alert => {
-    const originalText = alert.textContent;
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                typeAlert(alert, originalText);
-                observer.unobserve(alert);
-            }
-        });
-    });
-    
-    observer.observe(alert);
-});
-
-// Add random glitch effect
-function glitchEffect() {
-    const container = document.querySelector('.retro-container');
-    const glitchChance = 0.05; // 5% chance of glitch
-    
-    setInterval(() => {
-        if (Math.random() < glitchChance) {
-            container.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
-            setTimeout(() => {
-                container.style.transform = 'translate(0, 0)';
-            }, 100);
-        }
-    }, 500);
-}
-
-// Initialize glitch effect
-glitchEffect();
-
-// Add boot sequence animation
-function bootSequence() {
-    const bootOverlay = document.createElement('div');
-    bootOverlay.className = 'boot-overlay';
-    bootOverlay.innerHTML = `
-        <div class="boot-text">
-            <p>ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM</p>
-            <p>COPYRIGHT 2075-2077 ROBCO INDUSTRIES</p>
-            <p>-SERVER 1-</p>
-            <p>INITIALIZING PIP-BOY 3000...</p>
-        </div>
-    `;
-    
-    document.body.appendChild(bootOverlay);
-    
-    setTimeout(() => {
-        bootOverlay.classList.add('fade-out');
-        setTimeout(() => {
-            bootOverlay.remove();
-        }, 2000);
-    }, 3000);
-}
-
-// Run boot sequence on page load
-window.addEventListener('load', bootSequence);
-
-// Add keyboard navigation
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        const links = Array.from(document.querySelectorAll('nav a'));
-        const activeLink = document.querySelector('nav a.active') || links[0];
-        const currentIndex = links.indexOf(activeLink);
-        
-        let nextIndex;
-        if (e.key === 'ArrowLeft') {
-            nextIndex = currentIndex - 1 < 0 ? links.length - 1 : currentIndex - 1;
+        this.closest('li').classList.add('active');
+      }
+      
+      // Handle direct link active state
+      const allLinks = document.querySelectorAll(`[href="${targetId}"]`);
+      allLinks.forEach(l => {
+        const parent = l.closest('li');
+        if (parent) {
+          parent.classList.add('active');
         } else {
-            nextIndex = currentIndex + 1 >= links.length ? 0 : currentIndex + 1;
+          l.classList.add('active');
         }
-        
-        links[nextIndex].click();
-    }
+      });
+    });
+  });
+}
+
+/* ===========================
+   Basic Interactive Elements
+   =========================== */
+function initInteractiveElements() {
+  // Handle hover states for all interactive elements
+  const interactiveElements = document.querySelectorAll('a, button, label, input[type="button"], input[type="submit"]');
+  
+  interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', function() {
+      this.classList.add('hover');
+    });
+    
+    element.addEventListener('mouseleave', function() {
+      this.classList.remove('hover');
+    });
+  });
+}
+
+/* ===========================
+   Utility Functions
+   =========================== */
+function addClass(element, className) {
+  if (element && !element.classList.contains(className)) {
+    element.classList.add(className);
+  }
+}
+
+function removeClass(element, className) {
+  if (element && element.classList.contains(className)) {
+    element.classList.remove(className);
+  }
+}
+
+function toggleClass(element, className) {
+  if (element) {
+    element.classList.toggle(className);
+  }
+}
+
+/* ===========================
+   CRT Effect Animation
+   =========================== */
+function initCRTEffects() {
+  // Add subtle flicker to the frame
+  const frame = document.querySelector('.frame');
+  
+  if (frame) {
+    setInterval(() => {
+      const opacity = 0.98 + Math.random() * 0.02;
+      frame.style.opacity = opacity;
+    }, 100);
+  }
+}
+
+/* ===========================
+   Initialize Everything
+   =========================== */
+document.addEventListener('DOMContentLoaded', function() {
+  initColorTheme();
+  initTabNavigation();
+  initInteractiveElements();
+  initCRTEffects();
+  
+  // Set initial active states
+  const firstTab = document.querySelector('.tab-pane');
+  if (firstTab) {
+    firstTab.classList.add('active', 'in');
+  }
 });
+
+/* ===========================
+   Optional: Simple Custom Cursor
+   =========================== */
+function initCustomCursor() {
+  const cursor = document.createElement('div');
+  cursor.className = 'cursor cursor-default';
+  document.body.appendChild(cursor);
+  
+  let mouseX = 0;
+  let mouseY = 0;
+  
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+  });
+  
+  function updateCursor() {
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+    requestAnimationFrame(updateCursor);
+  }
+  
+  updateCursor();
+  
+  // Change cursor on interactive elements
+  const interactiveElements = document.querySelectorAll('a, button, label, input');
+  
+  interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', function() {
+      cursor.classList.remove('cursor-default');
+      cursor.classList.add('cursor-active');
+    });
+    
+    element.addEventListener('mouseleave', function() {
+      cursor.classList.remove('cursor-active');
+      cursor.classList.add('cursor-default');
+    });
+  });
+  
+  // Hide cursor when outside frame
+  const frame = document.querySelector('.frame');
+  if (frame) {
+    frame.addEventListener('mouseenter', function() {
+      cursor.classList.remove('cursor-hidden');
+    });
+    
+    frame.addEventListener('mouseleave', function() {
+      cursor.classList.add('cursor-hidden');
+    });
+  }
+}
+
+// Uncomment to enable custom cursor
+// document.addEventListener('DOMContentLoaded', initCustomCursor);

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="amber">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fallout UI - Basic Structure</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&display=swap" rel="stylesheet">
+    
+    <!-- Your CSS files -->
+     <link rel="stylesheet" href="fallout-styles.css"> 
+    <!-- <link rel="stylesheet" href="fallout-cursor.css"> -->
+
+</head>
+<body>
+    <!-- Main CRT Frame -->
+    <div class="frame">
+        
+        <!-- Output Container with CRT effect -->
+        <div class="output">
+            
+            <!-- PipBoy Container -->
+            <div class="pipboy">
+                
+                <!-- Top Header Stats -->
+                <ul class="pip-head">
+                    <li><b>HP</b> 100/100</li>
+                    <li><b>AP</b> 50/50</li>
+                    <li><b>LVL</b> 1</li>
+                    <li><b>Caps</b> 0</li>
+                </ul>
+                
+                <!-- Main Content Area -->
+                <div class="tab-content">
+                    
+                    <!-- Tab 1 -->
+                    <div class="tab-pane active" id="tab1">
+                        <h3 class="pip-title">Title Here</h3>
+                        
+                        <h1>Heading 1</h1>
+                        <h2>Heading 2</h2>
+                        <h3>Heading 3</h3>
+                        <h4>Heading 4</h4>
+                        
+                        <p>This is a paragraph of text. It demonstrates the basic typography and styling.</p>
+                        
+                        <ul>
+                            <li>List item 1</li>
+                            <li>List item 2</li>
+                            <li>List item 3</li>
+                        </ul>
+                        
+                        <button>Click Me</button>
+                        
+                        <!-- Radio buttons -->
+                        <input type="radio" id="option1" name="options">
+                        <label for="option1">Option 1</label>
+                        
+                        <input type="radio" id="option2" name="options">
+                        <label for="option2">Option 2</label>
+                        
+                        <!-- Color theme selector -->
+                        <form>
+                            <input type="radio" id="c-amber" name="colors" value="amber" checked>
+                            <label for="c-amber">Amber</label>
+                            
+                            <input type="radio" id="c-green" name="colors" value="green">
+                            <label for="c-green">Green</label>
+                            
+                            <input type="radio" id="c-red" name="colors" value="red">
+                            <label for="c-red">Red</label>
+                            
+                            <input type="radio" id="c-blue" name="colors" value="blue">
+                            <label for="c-blue">Blue</label>
+                            
+                            <input type="radio" id="c-white" name="colors" value="white">
+                            <label for="c-white">White</label>
+                            
+                            <input type="radio" id="c-black" name="colors" value="black">
+                            <label for="c-black">Black</label>
+                        </form>
+                    </div>
+                    
+                    <!-- Tab 2 -->
+                    <div class="tab-pane" id="tab2">
+                        <h3 class="pip-title">Another Tab</h3>
+                        <p>Content for tab 2</p>
+                    </div>
+                </div>
+                
+                <!-- Bottom Navigation -->
+                <ul class="pip-foot">
+                    <li class="active"><a href="#tab1" data-toggle="tab">Tab 1</a></li>
+                    <li><a href="#tab2" data-toggle="tab">Tab 2</a></li>
+                    <li><a href="#tab3" data-toggle="tab">Tab 3</a></li>
+                    <li><a href="#tab4" data-toggle="tab">Tab 4</a></li>
+                    <li><a href="#tab5" data-toggle="tab">Tab 5</a></li>
+                </ul>
+                
+            </div>
+            
+            <!-- Visual Effects Layers -->
+            <div class="glow noclick"></div>
+            <div class="scanlines noclick"></div>
+            
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+     <script src="fallout-scripts.js"></script> 
+</body>
+</html>
