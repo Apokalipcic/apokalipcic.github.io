@@ -127,38 +127,39 @@ function createNoteTrack(noteNumber, audioPath, container) {
         const audio = new Audio(audioPath);
         audio.id = `audio-${noteNumber}`;
         audio.loop = true;
-        audio.volume = 0; // Start muted
+        audio.volume = 0; // fallback volume (only used if no gainNode)
 
         container.appendChild(audio);
 
-        // Store track initially without Web Audio API connection
-        audioState.noteTracks.set(noteNumber, { audio });
+        // Default track entry
+        const track = { audio };
 
-        // Connect to Web Audio API when audio is ready
-        audio.addEventListener('canplaythrough', () => {
-            if (audioState.audioContext && audioState.masterGainNode && !audioState.noteTracks.get(noteNumber).source) {
-                try {
-                    const source = audioState.audioContext.createMediaElementSource(audio);
-                    const gainNode = audioState.audioContext.createGain();
-                    gainNode.gain.value = 0; // Start muted
+        // Connect to Web Audio API immediately (before play)
+        if (audioState.audioContext && audioState.masterGainNode) {
+            try {
+                const source = audioState.audioContext.createMediaElementSource(audio);
+                const gainNode = audioState.audioContext.createGain();
+                gainNode.gain.value = 0; // start muted
 
-                    source.connect(gainNode);
-                    gainNode.connect(audioState.masterGainNode);
+                source.connect(gainNode);
+                gainNode.connect(audioState.masterGainNode);
 
-                    // Update the track with Web Audio API nodes
-                    audioState.noteTracks.set(noteNumber, { audio, gainNode, source });
-                    console.log(`Note track ${noteNumber} connected to Web Audio API`);
-                } catch (error) {
-                    console.warn(`Could not connect note ${noteNumber} to Web Audio API:`, error);
-                }
+                track.source = source;
+                track.gainNode = gainNode;
+
+                console.log(`Note track ${noteNumber} connected to Web Audio API`);
+            } catch (error) {
+                console.warn(`Could not connect note ${noteNumber} to Web Audio API:`, error);
             }
-        }, { once: true });
+        }
 
+        audioState.noteTracks.set(noteNumber, track);
         console.log(`Note track ${noteNumber} created`);
     } catch (error) {
         console.error(`Error creating note track ${noteNumber}:`, error);
     }
 }
+
 
 /**
  * Start playback of all tracks
@@ -280,18 +281,20 @@ export function enableNote(noteNumber) {
 
     try {
         if (track.gainNode) {
-            // Smooth fade in
-            track.gainNode.gain.cancelScheduledValues(audioState.audioContext.currentTime);
-            track.gainNode.gain.setValueAtTime(track.gainNode.gain.value, audioState.audioContext.currentTime);
-            track.gainNode.gain.linearRampToValueAtTime(1, audioState.audioContext.currentTime + 0.1);
+            // Smooth fade in via gainNode
+            const now = audioState.audioContext.currentTime;
+            track.gainNode.gain.cancelScheduledValues(now);
+            track.gainNode.gain.setValueAtTime(track.gainNode.gain.value, now);
+            track.gainNode.gain.linearRampToValueAtTime(1, now + 0.1);
         } else {
-            // IMPORTANT: Set volume to the global volume, not 0
+            // Fallback for browsers not supporting Web Audio API
             track.audio.volume = audioState.volume;
         }
 
+            track.audio.volume = audioState.volume;
         console.log(`Note ${noteNumber} enabled`);
 
-        // Start playback if this is the first note and no background music
+        // Start playback if not already playing
         if (!audioState.isPlaying && !audioState.backgroundTrack) {
             startLayeredPlayback(true);
         }
@@ -299,6 +302,7 @@ export function enableNote(noteNumber) {
         console.error(`Error enabling note ${noteNumber}:`, error);
     }
 }
+
 
 /**
  * Disable/mute a specific note

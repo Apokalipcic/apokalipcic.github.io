@@ -112,42 +112,24 @@ function validateConfig(config) {
 // Application configuration with validation (BACKUP)
 const config = {
     totalCells: 6,
-    playerACells: [1, 3, 5],
-    playerBCells: [2, 4],
-    playerANotes: [1, 4, 3],
-    playerBNotes: [2, 5],
+    playerACells: [1, 2],
+    playerBCells: [3, 4],
+    playerANotes: [1, 2],
+    playerBNotes: [3, 4],
     audioFiles: {
-        1: 'Audio/note1.ogg',
-        2: 'Audio/note2.ogg',
-        3: 'Audio/note3.ogg',
-        4: 'Audio/note4.ogg',
-        5: 'Audio/note5.ogg'
+        1: 'Audio/01_GtrMic1.wav',
+        2: 'Audio/02_GtrMic2.wav',
+        3: 'Audio/03_GtrRevSFXMic1.wav',
+        4: 'Audio/04_GtrRevSFXMic2.wav'
     },
-    backgroundMusic: 'Audio/Queen - Killer Queen(Official Lyric Video) [bass].wav', // Set to 'Audio/background.ogg' if you have background music
+    backgroundMusic: null, // Set to 'Audio/background.ogg' if you have background music
     nestedItems: {
-        1: [2],
-        2: [3],
-        4: [5],
+        //1: [2],
+        //2: [3],
+        //4: [5],
     }
 };
-//const config = {
-//    totalCells: 3,
-//    playerACells: [1, 2, 3],
-//    playerBCells: [4,5],
-//    playerANotes: [1,2, 3],
-//    playerBNotes: [4, 5],
-//    audioFiles: {
-//                1: 'Audio/note1.ogg',
-//                2: 'Audio/note2.ogg',
-//                3: 'Audio/note3.ogg',
-//                4: 'Audio/note4.ogg',
-//                5: 'Audio/note5.ogg'
-//    },
-//    backgroundMusic: null, // Set to 'Audio/background.ogg' if you have background music
-//    nestedItems: {
-        
-//    }   
-//};
+
 
 // Application state with initialization
 const state = {
@@ -159,9 +141,9 @@ const state = {
     draggedNote: null,
     draggedNoteData: null,
     nestedRelationships: {
-        2: 1,
-        3: 2,
-        5: 4
+        //2: 1,
+        //3: 2,
+        //5: 4
     }
 };
 
