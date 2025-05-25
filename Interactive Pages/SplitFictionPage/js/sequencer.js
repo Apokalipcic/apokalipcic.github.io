@@ -1,6 +1,6 @@
-// sequencer.js - Handles sequencer grid creation and playback with improved validation
+// sequencer.js - Handles sequencer grid creation with layered audio system
 
-import { playSound } from './audio.js';
+import { enableNote, disableNote, startLayeredPlayback, stopLayeredPlayback, hasEnabledNotes } from './audio.js';
 
 /**
  * Validate configuration structure
@@ -12,9 +12,7 @@ function validateConfig(config) {
         Array.isArray(config.playerACells) &&
         Array.isArray(config.playerBCells) &&
         typeof config.totalCells === 'number' &&
-        config.totalCells > 0 &&
-        typeof config.stepDuration === 'number' &&
-        config.stepDuration > 0;
+        config.totalCells > 0;
 }
 
 /**
@@ -38,7 +36,6 @@ function validateElements(elements) {
 function validateState(state) {
     return state &&
         typeof state.isPlaying === 'boolean' &&
-        typeof state.currentStep === 'number' &&
         state.playerACellsContent &&
         state.playerBCellsContent;
 }
@@ -139,7 +136,7 @@ function createCellElement(position, player, getShapeForNote) {
 }
 
 /**
- * Start the sequencer playback with validation
+ * Start the layered audio playback
  * @param {Object} state - Application state
  * @param {Object} config - Application configuration
  * @param {Object} elements - DOM elements
@@ -157,22 +154,13 @@ export function startPlayback(state, config, elements) {
 
     try {
         state.isPlaying = true;
-        state.currentStep = 0;
 
         // Update button state safely
         if (elements.playButton) elements.playButton.disabled = true;
         if (elements.stopButton) elements.stopButton.disabled = false;
 
-        // Start the sequence
-        playStep(state, config);
-        state.intervalId = setInterval(() => {
-            try {
-                playStep(state, config);
-            } catch (error) {
-                console.error('Error during step playback:', error);
-                stopPlayback(state, elements);
-            }
-        }, config.stepDuration);
+        // Start layered playback
+        startLayeredPlayback(false); // Resume if paused
 
         // Add cleanup on page unload
         window.addEventListener('beforeunload', () => stopPlayback(state, elements));
@@ -185,95 +173,7 @@ export function startPlayback(state, config, elements) {
 }
 
 /**
- * Play a single step of the sequence with validation
- * @param {Object} state - Application state
- * @param {Object} config - Application configuration
- */
-function playStep(state, config) {
-    if (!validateState(state) || !validateConfig(config)) {
-        console.warn('Invalid state or config for playStep');
-        return;
-    }
-
-    try {
-        // Calculate current position with bounds checking
-        const currentPosition = state.currentStep + 1;
-        if (currentPosition < 1 || currentPosition > config.totalCells) {
-            console.warn(`Current position ${currentPosition} out of bounds`);
-            return;
-        }
-
-        // Highlight active position
-        highlightActivePosition(currentPosition);
-
-        // Player A cell
-        if (config.playerACells.includes(currentPosition)) {
-            const noteNumber = state.playerACellsContent[currentPosition];
-            if (noteNumber && typeof noteNumber === 'number') {
-                try {
-                    playSound(noteNumber);
-                } catch (error) {
-                    console.warn(`Failed to play sound for note ${noteNumber}:`, error);
-                }
-            }
-        }
-
-        // Player B cell
-        if (config.playerBCells.includes(currentPosition)) {
-            const noteNumber = state.playerBCellsContent[currentPosition];
-            if (noteNumber && typeof noteNumber === 'number') {
-                try {
-                    playSound(noteNumber);
-                } catch (error) {
-                    console.warn(`Failed to play sound for note ${noteNumber}:`, error);
-                }
-            }
-        }
-
-        // Move to the next step with wraparound
-        state.currentStep = (state.currentStep + 1) % config.totalCells;
-    } catch (error) {
-        console.error('Error in playStep:', error);
-    }
-}
-
-/**
- * Highlight the active position during playback with validation
- * @param {number} position - The current position to highlight
- */
-function highlightActivePosition(position) {
-    if (typeof position !== 'number' || position < 1) {
-        console.warn('Invalid position for highlighting:', position);
-        return;
-    }
-
-    try {
-        // Remove existing highlights
-        const allCells = document.querySelectorAll('.sequencer-cell');
-        allCells.forEach(cell => {
-            try {
-                cell.classList.remove('active');
-            } catch (error) {
-                console.warn('Error removing active class from cell:', error);
-            }
-        });
-
-        // Add highlight to cells at the current position
-        const activeCells = document.querySelectorAll(`.sequencer-cell[data-position="${position}"]`);
-        activeCells.forEach(cell => {
-            try {
-                cell.classList.add('active');
-            } catch (error) {
-                console.warn('Error adding active class to cell:', error);
-            }
-        });
-    } catch (error) {
-        console.error('Error highlighting active position:', error);
-    }
-}
-
-/**
- * Stop the sequencer playback with validation
+ * Stop the layered audio playback
  * @param {Object} state - Application state
  * @param {Object} elements - DOM elements
  */
@@ -288,27 +188,14 @@ export function stopPlayback(state, elements) {
     }
 
     try {
-        // Clear the interval safely
-        if (state.intervalId) {
-            clearInterval(state.intervalId);
-            state.intervalId = null;
-        }
-
         state.isPlaying = false;
+
+        // Stop layered playback
+        stopLayeredPlayback();
 
         // Update button state safely
         if (elements && elements.playButton) elements.playButton.disabled = false;
         if (elements && elements.stopButton) elements.stopButton.disabled = true;
-
-        // Remove highlights
-        const allCells = document.querySelectorAll('.sequencer-cell');
-        allCells.forEach(cell => {
-            try {
-                cell.classList.remove('active');
-            } catch (error) {
-                console.warn('Error removing active class during stop:', error);
-            }
-        });
     } catch (error) {
         console.error('Error stopping playback:', error);
     }
@@ -336,7 +223,7 @@ export function resetSequencer(state, config, elements, createNotes) {
         // Stop playback if running
         stopPlayback(state, elements);
 
-        // Clear all cells
+        // Clear all cells and disable all notes
         const cells = document.querySelectorAll('.sequencer-cell');
         cells.forEach(cell => {
             try {
@@ -391,9 +278,12 @@ export function removeNoteFromCell(cell, state) {
     }
 
     try {
-        // Remove existing note element if any
+        // Get note number before removing
         const existingNote = cell.querySelector('.note-in-cell');
+        let noteNumber = null;
+
         if (existingNote) {
+            noteNumber = parseInt(existingNote.getAttribute('data-note'));
             cell.removeChild(existingNote);
         }
 
@@ -413,6 +303,11 @@ export function removeNoteFromCell(cell, state) {
             delete state.playerACellsContent[position];
         } else {
             delete state.playerBCellsContent[position];
+        }
+
+        // Disable the note in audio system
+        if (noteNumber && !isNaN(noteNumber)) {
+            disableNote(noteNumber);
         }
     } catch (error) {
         console.error('Error removing note from cell:', error);
@@ -487,6 +382,9 @@ export function addNoteToCell(cell, noteNumber, player, getShapeForNote, state) 
         } else {
             state.playerBCellsContent[position] = noteNumber;
         }
+
+        // Enable the note in audio system
+        enableNote(noteNumber);
     } catch (error) {
         console.error('Error adding note to cell:', error);
     }

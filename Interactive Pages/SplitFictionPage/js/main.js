@@ -1,7 +1,7 @@
-// main.js - Main entry point with improved error handling and validation
+// main.js - Main entry point with layered audio system
 
 // Import modules with error handling
-import { createAudioElements, playSound } from './audio.js';
+import { createAudioElements, startLayeredPlayback, stopLayeredPlayback, hasEnabledNotes } from './audio.js';
 import { createSequencerCells, setupSequencerEvents, startPlayback, stopPlayback, resetSequencer } from './sequencer.js';
 import { createNotes, getShapeForNote } from './notes.js';
 import { makeClickDraggable, setupNoteDragEvents } from './note-drag.js';
@@ -69,8 +69,8 @@ function getElements() {
  */
 function validateConfig(config) {
     const requiredFields = [
-        'totalCells', 'tempo', 'playerACells', 'playerBCells',
-        'playerANotes', 'playerBNotes', 'audioFiles', 'stepDuration', 'nestedItems'
+        'totalCells', 'playerACells', 'playerBCells',
+        'playerANotes', 'playerBNotes', 'audioFiles', 'nestedItems'
     ];
 
     const missingFields = requiredFields.filter(field => config[field] === undefined);
@@ -83,11 +83,6 @@ function validateConfig(config) {
     // Validate specific field types
     if (typeof config.totalCells !== 'number' || config.totalCells <= 0) {
         console.error('totalCells must be a positive number');
-        return false;
-    }
-
-    if (typeof config.tempo !== 'number' || config.tempo <= 0) {
-        console.error('tempo must be a positive number');
         return false;
     }
 
@@ -106,11 +101,6 @@ function validateConfig(config) {
         return false;
     }
 
-    if (typeof config.stepDuration !== 'number' || config.stepDuration <= 0) {
-        console.error('stepDuration must be a positive number');
-        return false;
-    }
-
     if (typeof config.nestedItems !== 'object' || config.nestedItems === null) {
         console.error('nestedItems must be an object');
         return false;
@@ -119,29 +109,45 @@ function validateConfig(config) {
     return true;
 }
 
-// Application configuration with validation
+// Application configuration with validation (BACKUP)
 const config = {
-    totalCells: 8,
-    tempo: 120,
+    totalCells: 6,
     playerACells: [1, 3, 5],
-    playerBCells: [2, 4, 6],
+    playerBCells: [2, 4],
     playerANotes: [1, 4, 3],
-    playerBNotes: [2, 6, 5],
+    playerBNotes: [2, 5],
     audioFiles: {
         1: 'Audio/note1.ogg',
         2: 'Audio/note2.ogg',
         3: 'Audio/note3.ogg',
         4: 'Audio/note4.ogg',
-        5: 'Audio/note5.ogg',
-        6: 'Audio/note6.ogg'
+        5: 'Audio/note5.ogg'
     },
-    stepDuration: 1650,
+    backgroundMusic: 'Audio/Queen - Killer Queen(Official Lyric Video) [bass].wav', // Set to 'Audio/background.ogg' if you have background music
     nestedItems: {
         1: [2],
         2: [3],
         4: [5],
     }
 };
+//const config = {
+//    totalCells: 3,
+//    playerACells: [1, 2, 3],
+//    playerBCells: [4,5],
+//    playerANotes: [1,2, 3],
+//    playerBNotes: [4, 5],
+//    audioFiles: {
+//                1: 'Audio/note1.ogg',
+//                2: 'Audio/note2.ogg',
+//                3: 'Audio/note3.ogg',
+//                4: 'Audio/note4.ogg',
+//                5: 'Audio/note5.ogg'
+//    },
+//    backgroundMusic: null, // Set to 'Audio/background.ogg' if you have background music
+//    nestedItems: {
+        
+//    }   
+//};
 
 // Application state with initialization
 const state = {
@@ -237,11 +243,22 @@ async function startInitialPlayback() {
         // Wait for audio elements to potentially load
         setTimeout(() => {
             try {
-                console.log('Starting initial playback...');
+                console.log('Checking for initial playback...');
 
                 // Check if document is ready and elements are still valid
                 if (document.readyState === 'complete' && elements.playButton) {
-                    startPlayback(state, config, elements);
+                    // With layered audio, we start playback if there's background music
+                    if (config.backgroundMusic) {
+                        console.log('Starting background music playback...');
+                        startLayeredPlayback(true);
+                        state.isPlaying = true;
+
+                        // Update button states
+                        if (elements.playButton) elements.playButton.disabled = true;
+                        if (elements.stopButton) elements.stopButton.disabled = false;
+                    } else {
+                        console.log('No background music configured, waiting for user interaction');
+                    }
                     resolve(true);
                 } else {
                     console.warn('Document not ready or elements invalid, skipping initial playback');
@@ -316,7 +333,7 @@ async function init() {
         // Start initial playback (with delay for audio)
         const playbackStarted = await startInitialPlayback();
         if (!playbackStarted) {
-            console.warn('Initial playback failed to start');
+            console.warn('Initial playback not started (this is normal if no background music)');
         }
 
         console.log('Application initialization completed successfully');
@@ -371,11 +388,12 @@ window.addEventListener('unload', cleanup);
 // Handle visibility change (for mobile/tab switching)
 document.addEventListener('visibilitychange', () => {
     if (document.hidden && state.isPlaying) {
-        console.log('Page hidden, stopping playback');
+        console.log('Page hidden, pausing playback');
         try {
-            stopPlayback(state, elements);
+            // For layered audio, we might want to pause instead of stop
+            stopLayeredPlayback();
         } catch (error) {
-            console.error('Error stopping playback on visibility change:', error);
+            console.error('Error pausing playback on visibility change:', error);
         }
     }
 });
@@ -389,4 +407,4 @@ if (document.readyState === 'loading') {
 }
 
 // Export for potential use by other modules
-export { config, state, elements, playSound };
+export { config, state, elements };

@@ -1,38 +1,20 @@
-// audio.js - Handles audio elements and sound playback with improved validation and error handling
+// audio.js - Layered audio system for simultaneous playback with mute/unmute
 
 // Audio state management
 let audioState = {
-    loadedAudio: new Map(),
     audioContext: null,
     isInitialized: false,
+    isPlaying: false,
+    backgroundTrack: null,
+    noteTracks: new Map(), // Map of noteNumber -> {audio, gainNode}
+    masterGainNode: null,
+    startTime: 0,
+    pauseTime: 0,
     volume: 1.0
 };
 
 /**
- * Validate configuration for audio creation
- * @param {Object} config - Application configuration
- * @returns {boolean} Whether config is valid
- */
-function validateConfig(config) {
-    return config &&
-        config.audioFiles &&
-        typeof config.audioFiles === 'object' &&
-        Object.keys(config.audioFiles).length > 0;
-}
-
-/**
- * Validate audio container
- * @param {HTMLElement} audioContainer - Container for audio elements
- * @returns {boolean} Whether container is valid
- */
-function validateContainer(audioContainer) {
-    return audioContainer &&
-        audioContainer.nodeType === Node.ELEMENT_NODE &&
-        audioContainer.parentNode;
-}
-
-/**
- * Initialize audio context for better performance (optional)
+ * Initialize Web Audio API context
  */
 function initializeAudioContext() {
     try {
@@ -43,41 +25,26 @@ function initializeAudioContext() {
         }
 
         if (audioState.audioContext) {
-            console.log('Audio context initialized');
+            // Create master gain node
+            audioState.masterGainNode = audioState.audioContext.createGain();
+            audioState.masterGainNode.connect(audioState.audioContext.destination);
+            audioState.masterGainNode.gain.value = audioState.volume;
+
+            console.log('Audio context initialized with master gain');
         }
     } catch (error) {
         console.warn('Could not initialize audio context:', error);
-        // Continue without audio context - basic audio will still work
     }
 }
 
 /**
- * Resume audio context if it's suspended (required by some browsers)
- */
-async function resumeAudioContext() {
-    if (audioState.audioContext && audioState.audioContext.state === 'suspended') {
-        try {
-            await audioState.audioContext.resume();
-            console.log('Audio context resumed');
-        } catch (error) {
-            console.warn('Could not resume audio context:', error);
-        }
-    }
-}
-
-/**
- * Create audio elements for all notes with improved error handling
+ * Create audio elements for all tracks
  * @param {Object} config - Application configuration
  * @param {HTMLElement} audioContainer - Container for audio elements
  */
 export function createAudioElements(config, audioContainer) {
-    if (!validateConfig(config)) {
-        console.error('Invalid configuration provided to createAudioElements');
-        return;
-    }
-
-    if (!validateContainer(audioContainer)) {
-        console.error('Invalid audio container provided to createAudioElements');
+    if (!config || !config.audioFiles || !audioContainer) {
+        console.error('Invalid parameters for createAudioElements');
         return;
     }
 
@@ -90,153 +57,289 @@ export function createAudioElements(config, audioContainer) {
 
         // Clear existing audio elements
         audioContainer.innerHTML = '';
-        audioState.loadedAudio.clear();
+        audioState.noteTracks.clear();
 
-        let successCount = 0;
-        let errorCount = 0;
+        // Create background track if specified
+        if (config.backgroundMusic) {
+            createBackgroundTrack(config.backgroundMusic, audioContainer);
+        }
 
+        // Create note tracks
         Object.entries(config.audioFiles).forEach(([noteNumber, audioPath]) => {
             try {
                 const noteNum = parseInt(noteNumber);
-                if (isNaN(noteNum)) {
-                    console.warn(`Invalid note number: ${noteNumber}`);
-                    errorCount++;
-                    return;
-                }
+                if (isNaN(noteNum)) return;
 
-                if (!audioPath || typeof audioPath !== 'string') {
-                    console.warn(`Invalid audio path for note ${noteNumber}: ${audioPath}`);
-                    errorCount++;
-                    return;
-                }
-
-                const audio = document.createElement('audio');
-                audio.id = `audio-${noteNum}`;
-                audio.src = audioPath;
-                audio.preload = 'auto';
-                audio.volume = audioState.volume;
-
-                // Track loading state
-                let isLoaded = false;
-                let hasErrored = false;
-
-                // Success handler
-                audio.addEventListener('canplaythrough', () => {
-                    if (!isLoaded) {
-                        isLoaded = true;
-                        audioState.loadedAudio.set(noteNum, audio);
-                        successCount++;
-                        console.log(`Audio loaded successfully for note ${noteNum}`);
-                    }
-                });
-
-                // Error handler
-                audio.addEventListener('error', (event) => {
-                    if (!hasErrored) {
-                        hasErrored = true;
-                        errorCount++;
-                        console.warn(`Audio file failed to load for note ${noteNum}: ${audioPath}`, event);
-
-                        // Remove from loaded audio map if it was added
-                        audioState.loadedAudio.delete(noteNum);
-                    }
-                });
-
-                // Fallback timeout for loading
-                setTimeout(() => {
-                    if (!isLoaded && !hasErrored) {
-                        console.warn(`Audio loading timeout for note ${noteNum}`);
-                        errorCount++;
-                    }
-                }, 10000); // 10 second timeout
-
-                audioContainer.appendChild(audio);
+                createNoteTrack(noteNum, audioPath, audioContainer);
             } catch (error) {
-                console.warn(`Error creating audio element for note ${noteNumber}:`, error);
-                errorCount++;
+                console.warn(`Error creating track for note ${noteNumber}:`, error);
             }
         });
 
-        // Log summary
-        setTimeout(() => {
-            console.log(`Audio creation summary - Success: ${successCount}, Errors: ${errorCount}`);
-            if (errorCount > 0) {
-                console.warn('Some audio files failed to load. Playback will continue silently for missing files.');
-            }
-        }, 1000);
-
+        console.log('Audio elements created successfully');
     } catch (error) {
         console.error('Critical error in createAudioElements:', error);
     }
 }
 
 /**
- * Play a sound for a specific note with comprehensive error handling
- * @param {number} noteNumber - The note number to play
+ * Create background music track
+ * @param {string} audioPath - Path to background music file
+ * @param {HTMLElement} container - Audio container
  */
-export function playSound(noteNumber) {
-    // Validate input
-    if (typeof noteNumber !== 'number' || isNaN(noteNumber)) {
-        console.warn('Invalid note number provided to playSound:', noteNumber);
+function createBackgroundTrack(audioPath, container) {
+    try {
+        const audio = new Audio(audioPath);
+        audio.id = 'background-music';
+        audio.loop = true;
+        audio.volume = audioState.volume;
+
+        container.appendChild(audio);
+
+        // Connect to Web Audio API if available
+        if (audioState.audioContext && audioState.masterGainNode) {
+            const source = audioState.audioContext.createMediaElementSource(audio);
+            const gainNode = audioState.audioContext.createGain();
+            gainNode.gain.value = 1; // Background always plays at full volume
+
+            source.connect(gainNode);
+            gainNode.connect(audioState.masterGainNode);
+
+            audioState.backgroundTrack = { audio, gainNode, source };
+        } else {
+            audioState.backgroundTrack = { audio };
+        }
+
+        console.log('Background track created');
+    } catch (error) {
+        console.error('Error creating background track:', error);
+    }
+}
+
+/**
+ * Create a note track with gain control
+ * @param {number} noteNumber - The note number
+ * @param {string} audioPath - Path to audio file
+ * @param {HTMLElement} container - Audio container
+ */
+function createNoteTrack(noteNumber, audioPath, container) {
+    try {
+        const audio = new Audio(audioPath);
+        audio.id = `audio-${noteNumber}`;
+        audio.loop = true;
+        audio.volume = 0; // Start muted
+
+        container.appendChild(audio);
+
+        // Store track initially without Web Audio API connection
+        audioState.noteTracks.set(noteNumber, { audio });
+
+        // Connect to Web Audio API when audio is ready
+        audio.addEventListener('canplaythrough', () => {
+            if (audioState.audioContext && audioState.masterGainNode && !audioState.noteTracks.get(noteNumber).source) {
+                try {
+                    const source = audioState.audioContext.createMediaElementSource(audio);
+                    const gainNode = audioState.audioContext.createGain();
+                    gainNode.gain.value = 0; // Start muted
+
+                    source.connect(gainNode);
+                    gainNode.connect(audioState.masterGainNode);
+
+                    // Update the track with Web Audio API nodes
+                    audioState.noteTracks.set(noteNumber, { audio, gainNode, source });
+                    console.log(`Note track ${noteNumber} connected to Web Audio API`);
+                } catch (error) {
+                    console.warn(`Could not connect note ${noteNumber} to Web Audio API:`, error);
+                }
+            }
+        }, { once: true });
+
+        console.log(`Note track ${noteNumber} created`);
+    } catch (error) {
+        console.error(`Error creating note track ${noteNumber}:`, error);
+    }
+}
+
+/**
+ * Start playback of all tracks
+ * @param {boolean} fromBeginning - Whether to start from the beginning
+ */
+export function startLayeredPlayback(fromBeginning = true) {
+    if (audioState.isPlaying && !fromBeginning) return;
+
+    try {
+        // Resume audio context if suspended
+        if (audioState.audioContext && audioState.audioContext.state === 'suspended') {
+            audioState.audioContext.resume();
+        }
+
+        const currentTime = audioState.audioContext ? audioState.audioContext.currentTime : Date.now() / 1000;
+
+        if (fromBeginning || audioState.startTime === 0) {
+            audioState.startTime = currentTime;
+            audioState.pauseTime = 0;
+        } else {
+            // Resume from pause
+            audioState.startTime = currentTime - audioState.pauseTime;
+        }
+
+        // Start background track if it exists
+        if (audioState.backgroundTrack) {
+            const { audio } = audioState.backgroundTrack;
+            if (fromBeginning) {
+                audio.currentTime = 0;
+            }
+            audio.play().catch(e => console.warn('Background playback failed:', e));
+        }
+
+        // Start all note tracks (muted or unmuted based on current state)
+        audioState.noteTracks.forEach((track, noteNumber) => {
+            const { audio } = track;
+            if (fromBeginning) {
+                audio.currentTime = 0;
+            } else if (audioState.pauseTime > 0) {
+                // Sync to current playback position
+                audio.currentTime = audioState.pauseTime;
+            }
+            audio.play().catch(e => console.warn(`Note ${noteNumber} playback failed:`, e));
+        });
+
+        audioState.isPlaying = true;
+        console.log('Layered playback started');
+    } catch (error) {
+        console.error('Error starting layered playback:', error);
+    }
+}
+
+/**
+ * Stop all playback
+ */
+export function stopLayeredPlayback() {
+    if (!audioState.isPlaying) return;
+
+    try {
+        // Stop background track
+        if (audioState.backgroundTrack) {
+            audioState.backgroundTrack.audio.pause();
+            audioState.backgroundTrack.audio.currentTime = 0;
+        }
+
+        // Stop all note tracks
+        audioState.noteTracks.forEach(track => {
+            track.audio.pause();
+            track.audio.currentTime = 0;
+        });
+
+        audioState.isPlaying = false;
+        audioState.startTime = 0;
+        audioState.pauseTime = 0;
+
+        console.log('Layered playback stopped');
+    } catch (error) {
+        console.error('Error stopping layered playback:', error);
+    }
+}
+
+/**
+ * Pause all playback
+ */
+export function pauseLayeredPlayback() {
+    if (!audioState.isPlaying) return;
+
+    try {
+        const currentTime = audioState.audioContext ? audioState.audioContext.currentTime : Date.now() / 1000;
+        audioState.pauseTime = currentTime - audioState.startTime;
+
+        // Pause background track
+        if (audioState.backgroundTrack) {
+            audioState.backgroundTrack.audio.pause();
+        }
+
+        // Pause all note tracks
+        audioState.noteTracks.forEach(track => {
+            track.audio.pause();
+        });
+
+        audioState.isPlaying = false;
+        console.log('Layered playback paused');
+    } catch (error) {
+        console.error('Error pausing layered playback:', error);
+    }
+}
+
+/**
+ * Enable/unmute a specific note
+ * @param {number} noteNumber - The note number to enable
+ */
+export function enableNote(noteNumber) {
+    const track = audioState.noteTracks.get(noteNumber);
+    if (!track) {
+        console.warn(`Note ${noteNumber} track not found`);
         return;
     }
 
     try {
-        // Resume audio context if needed (for browsers that require user interaction)
-        resumeAudioContext();
-
-        // Try to get from loaded audio map first
-        let audio = audioState.loadedAudio.get(noteNumber);
-
-        // Fallback to DOM query if not in map
-        if (!audio) {
-            audio = document.getElementById(`audio-${noteNumber}`);
-
-            if (audio && audio.readyState >= 2) { // HAVE_CURRENT_DATA or better
-                audioState.loadedAudio.set(noteNumber, audio);
-            }
+        if (track.gainNode) {
+            // Smooth fade in
+            track.gainNode.gain.cancelScheduledValues(audioState.audioContext.currentTime);
+            track.gainNode.gain.setValueAtTime(track.gainNode.gain.value, audioState.audioContext.currentTime);
+            track.gainNode.gain.linearRampToValueAtTime(1, audioState.audioContext.currentTime + 0.1);
+        } else {
+            // IMPORTANT: Set volume to the global volume, not 0
+            track.audio.volume = audioState.volume;
         }
 
-        if (!audio) {
-            console.warn(`No audio element found for note ${noteNumber}`);
-            return;
-        }
+        console.log(`Note ${noteNumber} enabled`);
 
-        // Check if audio is ready to play
-        if (audio.readyState < 2) {
-            console.warn(`Audio not ready for note ${noteNumber} (readyState: ${audio.readyState})`);
-            return;
-        }
-
-        // Reset and play audio
-        try {
-            // Reset to start position
-            audio.currentTime = 0;
-
-            // Set volume
-            audio.volume = audioState.volume;
-
-            // Play with promise handling
-            const playPromise = audio.play();
-
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    // Common reasons: user hasn't interacted with page, audio blocked, etc.
-                    if (error.name === 'NotAllowedError') {
-                        console.warn(`Audio autoplay blocked for note ${noteNumber}. User interaction required.`);
-                    } else if (error.name === 'AbortError') {
-                        console.warn(`Audio playback aborted for note ${noteNumber}`);
-                    } else {
-                        console.warn(`Audio playback failed for note ${noteNumber}:`, error.message);
-                    }
-                });
-            }
-        } catch (error) {
-            console.warn(`Error during audio playback for note ${noteNumber}:`, error);
+        // Start playback if this is the first note and no background music
+        if (!audioState.isPlaying && !audioState.backgroundTrack) {
+            startLayeredPlayback(true);
         }
     } catch (error) {
-        console.error(`Critical error in playSound for note ${noteNumber}:`, error);
+        console.error(`Error enabling note ${noteNumber}:`, error);
     }
+}
+
+/**
+ * Disable/mute a specific note
+ * @param {number} noteNumber - The note number to disable
+ */
+export function disableNote(noteNumber) {
+    const track = audioState.noteTracks.get(noteNumber);
+    if (!track) {
+        console.warn(`Note ${noteNumber} track not found`);
+        return;
+    }
+
+    try {
+        if (track.gainNode) {
+            // Smooth fade out
+            track.gainNode.gain.cancelScheduledValues(audioState.audioContext.currentTime);
+            track.gainNode.gain.setValueAtTime(track.gainNode.gain.value, audioState.audioContext.currentTime);
+            track.gainNode.gain.linearRampToValueAtTime(0, audioState.audioContext.currentTime + 0.1);
+        } else {
+            track.audio.volume = 0;
+        }
+
+        console.log(`Note ${noteNumber} disabled`);
+    } catch (error) {
+        console.error(`Error disabling note ${noteNumber}:`, error);
+    }
+}
+
+/**
+ * Check if any notes are currently enabled
+ * @returns {boolean} Whether any notes are enabled
+ */
+export function hasEnabledNotes() {
+    for (const [noteNumber, track] of audioState.noteTracks) {
+        if (track.gainNode && track.gainNode.gain.value > 0) {
+            return true;
+        } else if (!track.gainNode && track.audio.volume > 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -244,33 +347,24 @@ export function playSound(noteNumber) {
  * @param {number} volume - Volume level (0.0 to 1.0)
  */
 export function setGlobalVolume(volume) {
-    if (typeof volume !== 'number' || isNaN(volume)) {
-        console.warn('Invalid volume value provided');
-        return;
-    }
-
     const clampedVolume = Math.max(0, Math.min(1, volume));
     audioState.volume = clampedVolume;
 
     try {
-        // Update all loaded audio elements
-        audioState.loadedAudio.forEach((audio, noteNumber) => {
-            try {
-                audio.volume = clampedVolume;
-            } catch (error) {
-                console.warn(`Error setting volume for note ${noteNumber}:`, error);
+        if (audioState.masterGainNode) {
+            audioState.masterGainNode.gain.value = clampedVolume;
+        } else {
+            // Fallback for non-Web Audio API
+            if (audioState.backgroundTrack) {
+                audioState.backgroundTrack.audio.volume = clampedVolume;
             }
-        });
 
-        // Update any audio elements not in the map
-        const allAudio = document.querySelectorAll('audio[id^="audio-"]');
-        allAudio.forEach(audio => {
-            try {
-                audio.volume = clampedVolume;
-            } catch (error) {
-                console.warn('Error setting volume for audio element:', error);
-            }
-        });
+            audioState.noteTracks.forEach(track => {
+                if (track.audio.volume > 0) {
+                    track.audio.volume = clampedVolume;
+                }
+            });
+        }
 
         console.log(`Global volume set to ${clampedVolume}`);
     } catch (error) {
@@ -279,43 +373,25 @@ export function setGlobalVolume(volume) {
 }
 
 /**
- * Check if audio is supported and enabled
- * @returns {boolean} Whether audio functionality is available
+ * Get current playback state
+ * @returns {Object} Playback state information
  */
-export function isAudioSupported() {
-    try {
-        return typeof Audio !== 'undefined' &&
-            audioState.loadedAudio.size > 0;
-    } catch (error) {
-        console.warn('Error checking audio support:', error);
-        return false;
-    }
-}
-
-/**
- * Get audio loading status
- * @returns {Object} Status information about loaded audio
- */
-export function getAudioStatus() {
-    try {
-        const totalExpected = document.querySelectorAll('audio[id^="audio-"]').length;
-        const loadedCount = audioState.loadedAudio.size;
-
-        return {
-            totalExpected,
-            loadedCount,
-            loadingComplete: loadedCount === totalExpected,
-            loadedNotes: Array.from(audioState.loadedAudio.keys()).sort()
-        };
-    } catch (error) {
-        console.error('Error getting audio status:', error);
-        return {
-            totalExpected: 0,
-            loadedCount: 0,
-            loadingComplete: false,
-            loadedNotes: []
-        };
-    }
+export function getPlaybackState() {
+    return {
+        isPlaying: audioState.isPlaying,
+        hasBackgroundMusic: !!audioState.backgroundTrack,
+        enabledNotes: Array.from(audioState.noteTracks.entries())
+            .filter(([noteNumber, track]) => {
+                if (track.gainNode) {
+                    return track.gainNode.gain.value > 0;
+                }
+                return track.audio.volume > 0;
+            })
+            .map(([noteNumber]) => noteNumber),
+        currentTime: audioState.isPlaying ?
+            (audioState.audioContext ? audioState.audioContext.currentTime - audioState.startTime : 0) :
+            audioState.pauseTime
+    };
 }
 
 /**
@@ -325,29 +401,29 @@ export function cleanupAudio() {
     try {
         console.log('Cleaning up audio resources...');
 
-        // Pause and cleanup all audio elements
-        audioState.loadedAudio.forEach((audio, noteNumber) => {
-            try {
-                audio.pause();
-                audio.currentTime = 0;
-                audio.removeAttribute('src');
-                audio.load(); // Reset the audio element
-            } catch (error) {
-                console.warn(`Error cleaning up audio for note ${noteNumber}:`, error);
-            }
-        });
+        // Stop playback
+        stopLayeredPlayback();
 
-        // Clear the loaded audio map
-        audioState.loadedAudio.clear();
-
-        // Close audio context if it exists
-        if (audioState.audioContext && audioState.audioContext.state !== 'closed') {
-            audioState.audioContext.close().catch(error => {
-                console.warn('Error closing audio context:', error);
-            });
+        // Cleanup all tracks
+        if (audioState.backgroundTrack) {
+            audioState.backgroundTrack.audio.removeAttribute('src');
+            audioState.backgroundTrack.audio.load();
         }
 
-        // Reset state
+        audioState.noteTracks.forEach(track => {
+            track.audio.removeAttribute('src');
+            track.audio.load();
+        });
+
+        // Clear state
+        audioState.noteTracks.clear();
+        audioState.backgroundTrack = null;
+
+        // Close audio context
+        if (audioState.audioContext && audioState.audioContext.state !== 'closed') {
+            audioState.audioContext.close();
+        }
+
         audioState.audioContext = null;
         audioState.isInitialized = false;
 
@@ -357,22 +433,12 @@ export function cleanupAudio() {
     }
 }
 
+// Legacy compatibility - redirect old playSound to enable/disable pattern
+export function playSound(noteNumber) {
+    console.warn('playSound is deprecated, using enableNote instead');
+    enableNote(noteNumber);
+}
+
 // Set up cleanup on page unload
 window.addEventListener('beforeunload', cleanupAudio);
 window.addEventListener('unload', cleanupAudio);
-
-// Handle page visibility change
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        // Pause all playing audio when page becomes hidden
-        audioState.loadedAudio.forEach((audio) => {
-            try {
-                if (!audio.paused) {
-                    audio.pause();
-                }
-            } catch (error) {
-                console.warn('Error pausing audio on visibility change:', error);
-            }
-        });
-    }
-});
