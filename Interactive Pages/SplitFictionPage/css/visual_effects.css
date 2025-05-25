@@ -167,3 +167,392 @@
         font-size: 14px;
     }
 }
+
+/* =================================
+   3D Sci-Fi Sun - Complete CSS
+   ================================= */
+
+/* Main Sun Container */
+.scifi-sun {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    z-index: 2;
+    pointer-events: none;
+    perspective: 1000px;
+}
+
+/* 3D Sun Core */
+.sun-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse 60px 80px at 40% 30%, rgba(255, 255, 200, 0.9) 0%, transparent 50%), radial-gradient(ellipse 80px 60px at 60% 70%, rgba(255, 180, 0, 0.7) 0%, transparent 50%), radial-gradient(circle at 30% 40%, rgba(255, 100, 0, 0.8) 0%, transparent 70%), radial-gradient(circle at 70% 60%, rgba(255, 50, 0, 0.6) 0%, transparent 60%), radial-gradient(circle, #ffeb3b 0%, #ff9800 25%, #ff5722 60%, #d32f2f 85%, #b71c1c 100%);
+    box-shadow: 0 0 40px #ffeb3b, 0 0 80px rgba(255, 235, 59, 0.8), 0 0 120px rgba(255, 152, 0, 0.6), 0 0 160px rgba(255, 87, 34, 0.4), inset -20px -20px 40px rgba(180, 50, 0, 0.4), inset 15px 15px 30px rgba(255, 255, 100, 0.3);
+    animation: sun3DRotate 30s linear infinite, sunPulse3D 6s ease-in-out infinite alternate;
+    transform-style: preserve-3d;
+}
+
+    /* Sun Surface Details Layer 1 */
+    .sun-core::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: radial-gradient(ellipse 40px 60px at 25% 25%, rgba(255, 255, 150, 0.4) 0%, transparent 70%), radial-gradient(ellipse 50px 40px at 75% 80%, rgba(255, 100, 0, 0.5) 0%, transparent 60%), radial-gradient(ellipse 30px 50px at 60% 20%, rgba(255, 200, 0, 0.3) 0%, transparent 80%);
+        animation: sunSurfaceRotate 25s linear infinite reverse;
+    }
+
+    /* Sun Surface Texture Layer 2 */
+    .sun-core::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: radial-gradient(ellipse 20px 30px at 80% 30%, rgba(255, 50, 0, 0.6) 0%, transparent 50%), radial-gradient(ellipse 35px 25px at 20% 70%, rgba(255, 150, 0, 0.4) 0%, transparent 60%), radial-gradient(ellipse 25px 35px at 50% 50%, rgba(255, 0, 0, 0.3) 0%, transparent 70%);
+        animation: sunTextureRotate 40s linear infinite;
+    }
+
+/* Corona Rays Container */
+.sun-rays {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    animation: coronaRotate 35s linear infinite;
+}
+
+/* Individual Corona Rays */
+.ray {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 100px;
+    background: linear-gradient(to top, transparent 0%, rgba(255, 235, 59, 0.9) 15%, rgba(255, 193, 7, 1) 40%, rgba(255, 235, 59, 0.8) 70%, rgba(255, 255, 255, 0.6) 85%, transparent 100%);
+    transform-origin: bottom center;
+    box-shadow: 0 0 8px #ffeb3b, 0 0 16px rgba(255, 235, 59, 0.5);
+    filter: blur(0.5px);
+}
+
+    /* Individual Ray Positioning and Animations */
+    .ray:nth-child(1) {
+        transform: translate(-50%, -100%) rotate(0deg);
+        animation: rayFlicker 3s ease-in-out infinite;
+        animation-delay: 0s;
+    }
+
+    .ray:nth-child(2) {
+        transform: translate(-50%, -100%) rotate(45deg);
+        animation: rayFlicker 3.2s ease-in-out infinite;
+        animation-delay: 0.4s;
+    }
+
+    .ray:nth-child(3) {
+        transform: translate(-50%, -100%) rotate(90deg);
+        animation: rayFlicker 2.8s ease-in-out infinite;
+        animation-delay: 0.8s;
+    }
+
+    .ray:nth-child(4) {
+        transform: translate(-50%, -100%) rotate(135deg);
+        animation: rayFlicker 3.1s ease-in-out infinite;
+        animation-delay: 1.2s;
+    }
+
+    .ray:nth-child(5) {
+        transform: translate(-50%, -100%) rotate(180deg);
+        animation: rayFlicker 2.9s ease-in-out infinite;
+        animation-delay: 1.6s;
+    }
+
+    .ray:nth-child(6) {
+        transform: translate(-50%, -100%) rotate(225deg);
+        animation: rayFlicker 3.3s ease-in-out infinite;
+        animation-delay: 2s;
+    }
+
+    .ray:nth-child(7) {
+        transform: translate(-50%, -100%) rotate(270deg);
+        animation: rayFlicker 3s ease-in-out infinite;
+        animation-delay: 2.4s;
+    }
+
+    .ray:nth-child(8) {
+        transform: translate(-50%, -100%) rotate(315deg);
+        animation: rayFlicker 2.7s ease-in-out infinite;
+        animation-delay: 2.8s;
+    }
+
+/* Solar Wind Particle Rings */
+.sun-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid rgba(255, 235, 59, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, transparent 80%, rgba(255, 235, 59, 0.1) 85%, transparent 100%);
+}
+
+.ring-1 {
+    width: 220px;
+    height: 220px;
+    animation: solarWind1 18s linear infinite;
+    border-color: rgba(255, 235, 59, 0.4);
+    box-shadow: 0 0 10px rgba(255, 235, 59, 0.2);
+}
+
+.ring-2 {
+    width: 280px;
+    height: 280px;
+    animation: solarWind2 28s linear infinite reverse;
+    border-color: rgba(255, 193, 7, 0.3);
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.1);
+}
+
+.ring-3 {
+    width: 340px;
+    height: 340px;
+    animation: solarWind3 38s linear infinite;
+    border-color: rgba(255, 152, 0, 0.2);
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.1);
+}
+
+/* =================================
+   ANIMATIONS
+   ================================= */
+
+/* Main 3D Sun Rotation */
+@keyframes sun3DRotate {
+    0% {
+        transform: translate(-50%, -50%) rotateY(0deg) rotateX(5deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotateY(360deg) rotateX(5deg);
+    }
+}
+
+/* Sun Pulsing Glow Effect */
+@keyframes sunPulse3D {
+    0% {
+        transform: translate(-50%, -50%) rotateY(0deg) rotateX(5deg) scale(1);
+        box-shadow: 0 0 40px #ffeb3b, 0 0 80px rgba(255, 235, 59, 0.8), 0 0 120px rgba(255, 152, 0, 0.6), 0 0 160px rgba(255, 87, 34, 0.4), inset -20px -20px 40px rgba(180, 50, 0, 0.4), inset 15px 15px 30px rgba(255, 255, 100, 0.3);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotateY(0deg) rotateX(5deg) scale(1.05);
+        box-shadow: 0 0 60px #ffeb3b, 0 0 120px rgba(255, 235, 59, 1), 0 0 180px rgba(255, 152, 0, 0.8), 0 0 240px rgba(255, 87, 34, 0.6), inset -25px -25px 50px rgba(180, 50, 0, 0.6), inset 20px 20px 40px rgba(255, 255, 100, 0.5);
+    }
+}
+
+/* Surface Detail Rotation (Layer 1) */
+@keyframes sunSurfaceRotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.02);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* Surface Texture Rotation (Layer 2) */
+@keyframes sunTextureRotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.8;
+    }
+
+    33% {
+        transform: rotate(120deg) scale(0.98);
+        opacity: 1;
+    }
+
+    66% {
+        transform: rotate(240deg) scale(1.01);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* Corona Rays Rotation */
+@keyframes coronaRotate {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Individual Ray Flickering */
+@keyframes rayFlicker {
+    0%, 100% {
+        opacity: 0.8;
+        transform: translate(-50%, -100%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1.1);
+    }
+}
+
+/* Solar Wind Ring 1 */
+@keyframes solarWind1 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) rotate(180deg) scale(1.05);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) scale(1);
+        opacity: 0.4;
+    }
+}
+
+/* Solar Wind Ring 2 */
+@keyframes solarWind2 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        opacity: 0.3;
+    }
+
+    33% {
+        transform: translate(-50%, -50%) rotate(120deg) scale(0.98);
+        opacity: 0.5;
+    }
+
+    66% {
+        transform: translate(-50%, -50%) rotate(240deg) scale(1.02);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) scale(1);
+        opacity: 0.3;
+    }
+}
+
+/* Solar Wind Ring 3 */
+@keyframes solarWind3 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        opacity: 0.2;
+    }
+
+    25% {
+        transform: translate(-50%, -50%) rotate(90deg) scale(1.01);
+        opacity: 0.3;
+    }
+
+    75% {
+        transform: translate(-50%, -50%) rotate(270deg) scale(0.99);
+        opacity: 0.25;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) scale(1);
+        opacity: 0.2;
+    }
+}
+
+/* =================================
+   RESPONSIVE DESIGN
+   ================================= */
+
+/* Tablet and smaller */
+@media (max-width: 768px) {
+    .scifi-sun {
+        width: 200px;
+        height: 200px;
+    }
+
+    .sun-core {
+        width: 120px;
+        height: 120px;
+    }
+
+    .ray {
+        height: 70px;
+    }
+
+    .ring-1 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .ring-2 {
+        width: 180px;
+        height: 180px;
+    }
+
+    .ring-3 {
+        width: 210px;
+        height: 210px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .scifi-sun {
+        width: 150px;
+        height: 150px;
+    }
+
+    .sun-core {
+        width: 90px;
+        height: 90px;
+    }
+
+    .ray {
+        height: 50px;
+        width: 2px;
+    }
+
+    .ring-1 {
+        width: 110px;
+        height: 110px;
+    }
+
+    .ring-2 {
+        width: 130px;
+        height: 130px;
+    }
+
+    .ring-3 {
+        width: 150px;
+        height: 150px;
+    }
+}
