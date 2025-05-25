@@ -23,13 +23,25 @@
 }
 
 @keyframes starFloat {
-    0%, 100% { 
+    0% {
+        background-color: #833e64;
+        transform: scale(1);
         transform: translateY(0) translateX(0);
         opacity: 0.4;
     }
-    50% { 
+
+    50% {
         transform: translateY(-15px) translateX(8px);
         opacity: 1;
+        background-color: #ff35a3;
+        transform: scale(1.25);
+    }
+
+    100% {
+        background-color: #833e64;
+        transform: scale(1);
+        transform: translateY(0) translateX(0);
+        opacity: 0.4;
     }
 }
 
