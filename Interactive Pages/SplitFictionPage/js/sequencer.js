@@ -1,6 +1,7 @@
 // sequencer.js - Handles sequencer grid creation with layered audio system
 
 import { enableNote, disableNote, startLayeredPlayback, stopLayeredPlayback, hasEnabledNotes } from './audio.js';
+import { startSynchronizedPulse, stopSynchronizedPulse } from './pulse-synchronizer.js';
 
 /**
  * Validate configuration structure
@@ -162,6 +163,8 @@ export function startPlayback(state, config, elements) {
         // Start layered playback
         startLayeredPlayback(false); // Resume if paused
 
+        startSynchronizedPulse(116);
+
         // Add cleanup on page unload
         window.addEventListener('beforeunload', () => stopPlayback(state, elements));
     } catch (error) {
@@ -182,6 +185,8 @@ export function stopPlayback(state, elements) {
         console.warn('No state provided to stopPlayback');
         return;
     }
+
+    stopSynchronizedPulse();
 
     if (!state.isPlaying) {
         return; // Already stopped

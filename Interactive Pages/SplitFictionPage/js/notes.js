@@ -96,7 +96,7 @@ export function getShapeForNote(noteNumber) {
         return 'shape-square'; // Default fallback
     }
 
-    if ([1, 3, 5].includes(noteNumber)) {
+    if ([1, 5].includes(noteNumber)) {
         return 'shape-triangle';
     } else if (noteNumber === 2) {
         return 'shape-diamond';

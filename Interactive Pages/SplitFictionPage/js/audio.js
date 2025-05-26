@@ -1,5 +1,7 @@
 // audio.js - Layered audio system for simultaneous playback with mute/unmute
 
+import { startSynchronizedPulse } from './pulse-synchronizer.js';
+
 // Audio state management
 let audioState = {
     audioContext: null,
@@ -204,6 +206,8 @@ export function startLayeredPlayback(fromBeginning = true) {
             }
             audio.play().catch(e => console.warn(`Note ${noteNumber} playback failed:`, e));
         });
+
+        startSynchronizedPulse(116);
 
         audioState.isPlaying = true;
         console.log('Layered playback started');

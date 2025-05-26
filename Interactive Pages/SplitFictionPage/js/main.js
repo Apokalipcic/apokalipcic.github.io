@@ -10,6 +10,7 @@ import { setupDividerDrag, initializeDividerPosition, initializePortalEffects } 
 import { initializeScreenSplit, updateScreenSplit } from './screen-split.js';
 import { bpmToMs } from './utils.js';
 import { initializeParticleSystems } from './visual_effects.js';
+import { cleanupPulseSystem } from './pulse-synchronizer.js';
 
 /**
  * Validate DOM element exists
@@ -357,6 +358,9 @@ function cleanup() {
         state.isPlaying = false;
         state.draggedNote = null;
         state.draggedNoteData = null;
+
+        // Cleanup pulse system
+        cleanupPulseSystem();
 
         console.log('Cleanup completed');
     } catch (error) {
