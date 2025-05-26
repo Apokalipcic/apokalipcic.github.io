@@ -112,15 +112,16 @@ function validateConfig(config) {
 // Application configuration with validation (BACKUP)
 const config = {
     totalCells: 6,
-    playerACells: [1, 2],
+    playerACells: [1, 2,5],
     playerBCells: [3, 4],
-    playerANotes: [1, 2],
+    playerANotes: [1, 2,5],
     playerBNotes: [3, 4],
     audioFiles: {
-        1: 'Audio/01_GtrMic1.wav',
-        2: 'Audio/02_GtrMic2.wav',
-        3: 'Audio/03_GtrRevSFXMic1.wav',
-        4: 'Audio/04_GtrRevSFXMic2.wav'
+        1: 'Audio/Daft_Punk_Get_Lucky_Drums.wav',
+        2: 'Audio/Daft_Punk_Get_Lucky_Guitars.wav',
+        3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.wav',
+        4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
+        5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
     },
     backgroundMusic: null, // Set to 'Audio/background.ogg' if you have background music
     nestedItems: {
