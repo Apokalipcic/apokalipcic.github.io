@@ -44,15 +44,28 @@
 }
 
 /* Cell with note */
-.sequencer-cell.has-note {
-    background: rgba(255, 255, 255, 0.2);
-    border-style: solid;
-}
+    .sequencer-cell.has-note {
+        background: rgba(255, 255, 255, 0.2);
+        border-style: solid;
+        animation: pulse-beat 0.517s infinite ease-in-out;
+    }
 
 /* Active cell during playback */
-.sequencer-cell.active {
-    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    .sequencer-cell.active {
+        box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+    }
+
+@keyframes pulse-beat {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1
+    }
 }
 
 /* Drop target highlight */
