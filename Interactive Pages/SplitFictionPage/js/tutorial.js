@@ -213,8 +213,3 @@ let tutorial;
 export function initTutorial() {
     tutorial = new Tutorial();
 }
-
-// Export for potential external use
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { Tutorial, initTutorial };
-}

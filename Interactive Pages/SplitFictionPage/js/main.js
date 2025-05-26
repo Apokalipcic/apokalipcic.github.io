@@ -127,9 +127,9 @@ const config = {
     },
     backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav', 
     nestedItems: {
-        //1: [2],
-        //2: [3],
-        //4: [5],
+        2: [3],
+        3: [5],
+        5: [4],
     }
 };
 
@@ -143,10 +143,11 @@ const state = {
     playerBCellsContent: {},
     draggedNote: null,
     draggedNoteData: null,
+    // Reversed of nested items
     nestedRelationships: {
-        //2: 1,
-        //3: 2,
-        //5: 4
+        3: 2,
+        5: 3,
+        4: 5
     }
 };
 
