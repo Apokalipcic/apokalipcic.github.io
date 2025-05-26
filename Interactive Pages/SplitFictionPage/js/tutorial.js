@@ -1,9 +1,10 @@
-// tutorial.js - Tutorial popup functionality
+// tutorial.js - Tutorial popup functionality with background music integration
 
 class Tutorial {
     constructor() {
         this.currentPage = 0;
         this.isVisible = false;
+        this.hasBeenClosedBefore = false; // Track if tutorial was closed before
         this.tutorialPages = [
             {
                 title: "Welcome to Split Fiction!",
@@ -186,6 +187,23 @@ class Tutorial {
         this.isVisible = false;
         document.getElementById('tutorial-overlay').style.display = 'none';
         document.getElementById('tutorial-reopen').style.display = 'block';
+
+        // Trigger background music if this is the first time closing tutorial
+        if (!this.hasBeenClosedBefore) {
+            this.hasBeenClosedBefore = true;
+            this.triggerBackgroundMusic();
+        }
+    }
+
+    // New method to trigger background music after first tutorial close
+    triggerBackgroundMusic() {
+        // Dispatch custom event that main.js can listen for
+        const event = new CustomEvent('tutorialFirstClose', {
+            detail: { message: 'Tutorial closed for first time, can start background music' }
+        });
+        document.dispatchEvent(event);
+
+        console.log('Tutorial closed for first time - triggering background music');
     }
 }
 

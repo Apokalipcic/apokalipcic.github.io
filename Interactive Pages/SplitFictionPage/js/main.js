@@ -114,22 +114,22 @@ function validateConfig(config) {
 // Application configuration with validation (BACKUP)
 const config = {
     totalCells: 6,
-    playerACells: [1, 2,5],
+    playerACells: [1, 2, 5],
     playerBCells: [3, 4],
-    playerANotes: [1, 2,5],
+    playerANotes: [1, 2, 5],
     playerBNotes: [3, 4],
     audioFiles: {
-        1: 'Audio/Daft_Punk_Get_Lucky_Drums.wav',
+        1: 'Audio/Daft_Punk_Get_Lucky_Bass.wav',
         2: 'Audio/Daft_Punk_Get_Lucky_Guitars.wav',
         3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.wav',
         4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
         5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
     },
-    backgroundMusic: null, // Set to 'Audio/background.ogg' if you have background music
+    backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav', 
     nestedItems: {
-        1: [2],
-        2: [3],
-        4: [5],
+        //1: [2],
+        //2: [3],
+        //4: [5],
     }
 };
 
@@ -144,9 +144,9 @@ const state = {
     draggedNote: null,
     draggedNoteData: null,
     nestedRelationships: {
-        2: 1,
-        3: 2,
-        5: 4
+        //2: 1,
+        //3: 2,
+        //5: 4
     }
 };
 
@@ -193,11 +193,41 @@ function setupEvents() {
         console.log('Setting up sequencer events...');
         setupSequencerEvents(elements, state, config, () => createNotes(config, elements, makeClickDraggable));
 
+        // Set up tutorial background music trigger
+        setupTutorialMusicTrigger();
+
         return true;
     } catch (error) {
         console.error('Failed to set up events:', error);
         return false;
     }
+}
+
+/**
+ * Set up listener for tutorial close event to trigger background music
+ */
+function setupTutorialMusicTrigger() {
+    document.addEventListener('tutorialFirstClose', (event) => {
+        console.log('Tutorial first close event received:', event.detail.message);
+
+        if (config.backgroundMusic) {
+            try {
+                console.log('Starting background music after tutorial close...');
+                startLayeredPlayback(true);
+                state.isPlaying = true;
+
+                // Update button states
+                if (elements.playButton) elements.playButton.disabled = true;
+                if (elements.stopButton) elements.stopButton.disabled = false;
+
+                console.log('Background music started successfully');
+            } catch (error) {
+                console.error('Failed to start background music after tutorial:', error);
+            }
+        } else {
+            console.log('No background music configured');
+        }
+    });
 }
 
 /**
@@ -217,44 +247,6 @@ function initializeScreen() {
         console.error('Failed to initialize screen:', error);
         return false;
     }
-}
-
-/**
- * Start initial playback with delay for audio loading
- * @returns {Promise<boolean>} Whether playback started successfully
- */
-async function startInitialPlayback() {
-    return new Promise((resolve) => {
-        // Wait for audio elements to potentially load
-        setTimeout(() => {
-            try {
-                console.log('Checking for initial playback...');
-
-                // Check if document is ready and elements are still valid
-                if (document.readyState === 'complete' && elements.playButton) {
-                    // With layered audio, we start playback if there's background music
-                    if (config.backgroundMusic) {
-                        console.log('Starting background music playback...');
-                        startLayeredPlayback(true);
-                        state.isPlaying = true;
-
-                        // Update button states
-                        if (elements.playButton) elements.playButton.disabled = true;
-                        if (elements.stopButton) elements.stopButton.disabled = false;
-                    } else {
-                        console.log('No background music configured, waiting for user interaction');
-                    }
-                    resolve(true);
-                } else {
-                    console.warn('Document not ready or elements invalid, skipping initial playback');
-                    resolve(false);
-                }
-            } catch (error) {
-                console.error('Failed to start initial playback:', error);
-                resolve(false);
-            }
-        }, 1000); // Give audio elements time to load
-    });
 }
 
 /**
@@ -315,15 +307,11 @@ async function init() {
             console.warn('Visual effects initialization failed, continuing without them');
         }
 
-        // Start initial playback (with delay for audio)
-        const playbackStarted = await startInitialPlayback();
-        if (!playbackStarted) {
-            console.warn('Initial playback not started (this is normal if no background music)');
-        }
-
+        // Initialize tutorial (background music will start when tutorial closes)
         initTutorial();
 
         console.log('Application initialization completed successfully');
+        console.log('Background music will start after tutorial is closed for the first time');
 
     } catch (error) {
         console.error('Critical error during initialization:', error);
@@ -375,18 +363,6 @@ function cleanup() {
 window.addEventListener('beforeunload', cleanup);
 window.addEventListener('unload', cleanup);
 
-// Handle visibility change (for mobile/tab switching)
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden && state.isPlaying) {
-        console.log('Page hidden, pausing playback');
-        try {
-            // For layered audio, we might want to pause instead of stop
-            stopLayeredPlayback();
-        } catch (error) {
-            console.error('Error pausing playback on visibility change:', error);
-        }
-    }
-});
 
 // Initialize on page load with proper timing
 if (document.readyState === 'loading') {
