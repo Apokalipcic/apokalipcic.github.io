@@ -1,0 +1,207 @@
+/* Tutorial popup styles */
+.tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.tutorial-popup {
+    background: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    max-width: 28rem;
+    width: 100%;
+    margin: 1rem;
+    overflow: hidden;
+    border: 1px solid #374151;
+}
+
+.tutorial-header {
+    background: #374151;
+    padding: 1rem;
+    color: white;
+    position: relative;
+}
+
+.tutorial-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.tutorial-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.tutorial-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding-right: 2rem;
+}
+
+.tutorial-step {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    opacity: 0.9;
+}
+
+.tutorial-progress {
+    background: #4b5563;
+    height: 4px;
+}
+
+.tutorial-progress-bar {
+    background: #4c8eff;
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.tutorial-content {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.tutorial-image {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.tutorial-image img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.tutorial-text {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+}
+
+.tutorial-navigation {
+    background: #374151;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tutorial-nav-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background: none;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tutorial-nav-button:hover:not(:disabled) {
+    background: #4b5563;
+}
+
+.tutorial-nav-button:disabled {
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+.tutorial-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tutorial-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #6b7280;
+    transition: background-color 0.3s;
+}
+
+    .tutorial-dot.active {
+        background: #4c8eff;
+    }
+
+.tutorial-get-started {
+    background: #4b5563;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tutorial-get-started:hover {
+    background: #6b7280;
+}
+
+.tutorial-skip {
+    background: #111827;
+    padding: 0.5rem 1rem;
+    text-align: center;
+}
+
+.tutorial-skip button {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.tutorial-skip button:hover {
+    color: white;
+}
+
+.tutorial-reopen {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: #4b55634f;
+    color: #d1d5db78;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s;
+    z-index: 20;
+}
+
+.tutorial-reopen:hover {
+    background: #6b7280;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .tutorial-popup {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+    }
+    
+    .tutorial-image img {
+        width: 6rem;
+        height: 6rem;
+    }
+}

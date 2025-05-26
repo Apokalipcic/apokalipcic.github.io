@@ -11,6 +11,7 @@ import { initializeScreenSplit, updateScreenSplit } from './screen-split.js';
 import { bpmToMs } from './utils.js';
 import { initializeParticleSystems } from './visual_effects.js';
 import { cleanupPulseSystem } from './pulse-synchronizer.js';
+import { initTutorial } from './tutorial.js';
 
 /**
  * Validate DOM element exists
@@ -319,6 +320,8 @@ async function init() {
         if (!playbackStarted) {
             console.warn('Initial playback not started (this is normal if no background music)');
         }
+
+        initTutorial();
 
         console.log('Application initialization completed successfully');
 
