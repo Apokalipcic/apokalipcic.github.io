@@ -7,28 +7,28 @@ class Tutorial {
         this.tutorialPages = [
             {
                 title: "Welcome to Split Fiction!",
-                content: "Learn how to use this interactive music sequencer where fantasy meets sci-fi.",
-                image: "images/tutorial/welcome.png"
+                content: "Let's quickly learn how to use this page",
+                image: "images/tutorial/Tutorial 0.png"
             },
             {
                 title: "Drag Notes Around",
                 content: "Click and drag any note to move it around the screen.",
-                image: "images/tutorial/drag-notes.png"
+                image: "images/tutorial/Tutorial 1.png"
             },
             {
                 title: "Place Notes in Sequencer",
-                content: "Drag notes into the sequencer cells at the bottom to create your music.",
-                image: "images/tutorial/sequencer.png"
+                content: "Drag notes into the sequencer cells at the bottom to play a song",
+                image: "images/tutorial/Tutorial 2.png"
             },
             {
                 title: "Nested Notes Restriction",
                 content: "Notes containing other notes cannot be placed in the sequencer.",
-                image: "images/tutorial/nested-restriction.png"
+                image: "images/tutorial/Tutorial 3.png"
             },
             {
                 title: "Adjust the Divider",
-                content: "Drag the central divider to change the balance between fantasy and sci-fi sides.",
-                image: "images/tutorial/divider.png"
+                content: "Drag the central divider to reavel one of the sides",
+                image: "images/tutorial/Tutorial 4.png"
             }
         ];
 

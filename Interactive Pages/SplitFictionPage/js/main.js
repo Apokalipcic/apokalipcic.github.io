@@ -127,9 +127,9 @@ const config = {
     },
     backgroundMusic: null, // Set to 'Audio/background.ogg' if you have background music
     nestedItems: {
-        //1: [2],
-        //2: [3],
-        //4: [5],
+        1: [2],
+        2: [3],
+        4: [5],
     }
 };
 
@@ -144,9 +144,9 @@ const state = {
     draggedNote: null,
     draggedNoteData: null,
     nestedRelationships: {
-        //2: 1,
-        //3: 2,
-        //5: 4
+        2: 1,
+        3: 2,
+        5: 4
     }
 };
 
