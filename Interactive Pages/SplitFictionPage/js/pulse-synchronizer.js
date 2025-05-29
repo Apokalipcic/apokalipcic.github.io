@@ -1,4 +1,4 @@
-// pulse-synchronizer.js - Synchronized pulse system for sequencer notes
+// pulse-synchronizer.js - Synchronized pulse system for sequencer notes with hidden elements activation
 
 // Global pulse state
 let pulseState = {
@@ -7,6 +7,7 @@ let pulseState = {
     bpm: 116, // Default BPM (matches your 0.517s timing)
     phase: 0, // 0 or 1 for pulse phase
     diamondRotation: 45, // Track cumulative diamond rotation
+    activeSpecialEffects: new Set(), // Track active hidden elements
     config: {
         // Animation configuration for each shape
         'shape-diamond': {
@@ -116,10 +117,106 @@ function applySynchronizedPulse() {
             });
         });
 
+        const phase = pulseState.phase === 0 ? 'active' : 'rest';
+        updateBeatVisualEffects(phase);
+
         // Toggle phase for next pulse
         pulseState.phase = pulseState.phase === 0 ? 1 : 0;
     } catch (error) {
         console.error('Error applying synchronized pulse:', error);
+    }
+}
+
+function updateBeatVisualEffects(phase) {
+    if (phase === 'active') {
+        // Beat is active - high intensity
+        document.documentElement.style.setProperty('--tree-shadow', '#7d7d7d');
+        document.documentElement.style.setProperty('--beat-opacity', '1');
+        document.documentElement.style.setProperty('--beat-scale', '1.1');
+        document.documentElement.style.setProperty('--beat-brightness', '1.2');
+    } else {
+        // Beat is resting - low intensity  
+        document.documentElement.style.setProperty('--tree-shadow', '#202020');
+        document.documentElement.style.setProperty('--beat-opacity', '0.7');
+        document.documentElement.style.setProperty('--beat-scale', '1');
+        document.documentElement.style.setProperty('--beat-brightness', '1');
+    }
+}
+
+/**
+ * Activate hidden elements for a specific cell number
+ * @param {number} cellNumber - The cell number that was activated
+ */
+export function activateSpecialEffect(cellNumber) {
+    if (typeof cellNumber !== 'number' || isNaN(cellNumber)) {
+        console.warn('Invalid cell number provided to activateSpecialEffect:', cellNumber);
+        return;
+    }
+
+    try {
+        // Find elements with class that matches the cell number pattern
+        const hiddenElements = document.querySelectorAll(`.hidden-element-${cellNumber}`);
+
+        if (hiddenElements.length === 0) {
+            console.log(`No hidden elements found for cell ${cellNumber}`);
+            return;
+        }
+
+        hiddenElements.forEach(element => {
+            try {
+                // Remove display: none to show the element
+                element.style.display = '';
+
+                // Add active class for potential CSS animations
+                element.classList.add('activated-hidden-element');
+
+                console.log(`Hidden element activated for cell ${cellNumber}`);
+            } catch (error) {
+                console.warn(`Error activating hidden element for cell ${cellNumber}:`, error);
+            }
+        });
+
+        // Track active special effects
+        pulseState.activeSpecialEffects.add(cellNumber);
+
+    } catch (error) {
+        console.error(`Error in activateSpecialEffect for cell ${cellNumber}:`, error);
+    }
+}
+
+/**
+ * Deactivate hidden elements for a specific cell number
+ * @param {number} cellNumber - The cell number that was deactivated
+ */
+export function deactivateSpecialEffect(cellNumber) {
+    if (typeof cellNumber !== 'number' || isNaN(cellNumber)) {
+        console.warn('Invalid cell number provided to deactivateSpecialEffect:', cellNumber);
+        return;
+    }
+
+    try {
+        // Find elements with class that matches the cell number pattern
+        const hiddenElements = document.querySelectorAll(`.hidden-element-${cellNumber}`);
+
+        hiddenElements.forEach(element => {
+            try {
+                // Hide the element by setting display: none
+                element.style.display = 'none';
+
+                // Remove active class
+                element.classList.remove('active');
+
+                console.log(`Hidden element deactivated for cell ${cellNumber}`);
+            } catch (error) {
+                console.warn(`Error deactivating hidden element for cell ${cellNumber}:`, error);
+            }
+        });
+
+        // Remove from tracking
+        pulseState.activeSpecialEffects.delete(cellNumber);
+
+    } catch (error) {
+        console.error(`Error in deactivateSpecialEffect for cell ${cellNumber}:`, error);
     }
 }
 
@@ -168,7 +265,7 @@ export function startSynchronizedPulse(bpm = null) {
     }
 
     try {
-        if (bpm && typeof bpm === 'number' && bpm > 0) {
+        if (bpm && typeof bpm === 'number' && bmp > 0) {
             pulseState.bpm = bpm;
         }
 
@@ -262,7 +359,8 @@ export function getPulseState() {
         bpm: pulseState.bpm,
         phase: pulseState.phase,
         diamondRotation: pulseState.diamondRotation,
-        interval: bpmToInterval(pulseState.bpm)
+        interval: bpmToInterval(pulseState.bpm),
+        activeSpecialEffects: Array.from(pulseState.activeSpecialEffects)
     };
 }
 
@@ -272,6 +370,14 @@ export function getPulseState() {
 export function cleanupPulseSystem() {
     try {
         stopSynchronizedPulse();
+
+        // Reset all hidden elements
+        pulseState.activeSpecialEffects.forEach(cellNumber => {
+            deactivateSpecialEffect(cellNumber);
+        });
+
+        pulseState.activeSpecialEffects.clear();
+
         console.log('Pulse system cleanup completed');
     } catch (error) {
         console.error('Error during pulse system cleanup:', error);

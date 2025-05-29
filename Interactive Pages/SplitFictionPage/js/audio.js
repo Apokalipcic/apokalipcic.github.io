@@ -207,7 +207,7 @@ export function startLayeredPlayback(fromBeginning = true) {
             audio.play().catch(e => console.warn(`Note ${noteNumber} playback failed:`, e));
         });
 
-        startSynchronizedPulse(116);
+        startSynchronizedPulse();
 
         audioState.isPlaying = true;
         console.log('Layered playback started');

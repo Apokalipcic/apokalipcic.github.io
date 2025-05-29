@@ -125,13 +125,35 @@ const config = {
         4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
         5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
     },
-    backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav', 
+    backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav',
     nestedItems: {
         2: [3],
         3: [5],
         5: [4],
     }
 };
+
+// Application configuration with validation (BACKUP)
+//const config = {
+//    totalCells: 6,
+//    playerACells: [1, 2, 5],
+//    playerBCells: [3, 4],
+//    playerANotes: [1, 2, 5],
+//    playerBNotes: [3, 4],
+//    audioFiles: {
+//        1: 'Audio/Daft_Punk_Get_Lucky_Bass.wav',
+//        2: 'Audio/Daft_Punk_Get_Lucky_Guitars.wav',
+//        3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.wav',
+//        4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
+//        5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
+//    },
+//    backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav', 
+//    nestedItems: {
+//        2: [3],
+//        3: [5],
+//        5: [4],
+//    }
+//};
 
 
 // Application state with initialization
@@ -145,9 +167,9 @@ const state = {
     draggedNoteData: null,
     // Reversed of nested items
     nestedRelationships: {
-        3: 2,
-        5: 3,
-        4: 5
+        //3: 2,
+        //5: 3,
+        //4: 5
     }
 };
 

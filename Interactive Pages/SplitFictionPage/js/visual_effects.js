@@ -89,6 +89,9 @@ export function createStarParticles() {
             };
 
             const star = createParticleElement('star-particle', styles);
+
+            star.classList.add('beat-sync');
+
             if (star) {
                 container.appendChild(star);
             }
@@ -130,6 +133,8 @@ export function createMagicalParticles() {
                 };
 
                 const particle = createParticleElement(className, styles);
+
+                particle.classList.add('beat-sync');
                 if (particle) {
                     container.appendChild(particle);
                 }
@@ -177,6 +182,8 @@ export function createFloatingRunes() {
                 if (rune) {
                     rune.textContent = runeText;
                     container.appendChild(rune);
+
+                    rune.classList.add('beat-sync');
 
                     // Remove rune after animation with error handling
                     setTimeout(() => {
@@ -329,6 +336,110 @@ export function adjustParticleDensity(performanceLevel = 1) {
 }
 
 /**
+ * Create grass animation for Screen A (Fantasy) with simple left-right beat sway
+ */
+export function createGrassAnimation() {
+    const container = validateContainer('grass-container-a', 'Grass container');
+    if (!container) return;
+
+    try {
+        const canvas = document.getElementById('grass-canvas');
+        if (!canvas) {
+            console.warn('Grass canvas not found');
+            return;
+        }
+
+        const ctx = canvas.getContext('2d');
+        const stack = [];
+        const w = container.offsetWidth || window.innerWidth;
+        const h = container.offsetHeight || window.innerHeight / 2;
+
+        canvas.width = w;
+        canvas.height = h;
+
+        // Beat tracking - simple left/right alternation
+        let swayDirection = 0; // 0 = center, -1 = left, 1 = right
+        let currentBeatPhase = 0; // Track beat state
+        let swayAmount = 15; // How much to sway
+
+        // Listen for beat changes from pulse synchronizer
+        const checkBeatState = () => {
+            const computedStyle = getComputedStyle(document.documentElement);
+            const brightness = parseFloat(computedStyle.getPropertyValue('--beat-brightness')) || 1;
+
+            // Detect beat phase change
+            if (brightness > 1.1 && currentBeatPhase === 0) {
+                // Beat just started - alternate sway direction
+                currentBeatPhase = 1;
+                swayDirection = swayDirection === 1 ? -1 : 1; // Alternate between left and right
+            } else if (brightness <= 1.1 && currentBeatPhase === 1) {
+                // Beat ended
+                currentBeatPhase = 0;
+            }
+        };
+
+        const drawer = function () {
+            ctx.clearRect(0, 0, w, h);
+            checkBeatState();
+
+            stack.forEach(function (el) {
+                el();
+            });
+            requestAnimationFrame(drawer);
+        };
+
+        const anim = function () {
+            let x = 0;
+            const speed = Math.random() * 7;
+            const position = Math.random() * w - w / 2;
+            const maxTall = (Math.random() * 0.8 + 0.6) * (h * 0.2); // 40%-100% of container height
+            const maxSize = Math.random() * 10 + 5;
+            const c = function (l, u) {
+                return Math.round(Math.random() * (u || 255) + l || 0);
+            };
+            const color = "rgb(" + c(60, 10) + "," + c(201, 50) + "," + c(120, 50) + ")";
+
+            // Store target sway for smooth transitions
+            let currentSway = 0;
+            let targetSway = 0;
+
+            return function () {
+                // Update target sway based on beat
+                targetSway = swayDirection * swayAmount;
+
+                // Smooth transition to target (simulating CSS transition 0.3s)
+                const transitionSpeed = 0.1; // Adjust for smoother/faster transition
+                currentSway += (targetSway - currentSway) * transitionSpeed;
+
+                const tall = Math.min(x / 5, maxTall);
+                const size = Math.min(x / 50, maxSize);
+
+                x += speed;
+                ctx.save();
+                ctx.strokeWidth = 10;
+                ctx.translate(w / 2 + position, h);
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.lineTo(-size, 0);
+                ctx.quadraticCurveTo(-size, -tall / 2, currentSway, -tall);
+                ctx.quadraticCurveTo(size, -tall / 2, size, 0);
+                ctx.fill();
+                ctx.restore();
+            };
+        };
+
+        for (var i = 0; i < 300; i++) {
+            stack.push(anim());
+        }
+
+        drawer();
+        console.log('Simple left-right beat sway animation initialized');
+    } catch (error) {
+        console.error('Error creating grass animation:', error);
+    }
+}
+
+/**
  * Initialize all particle systems with error handling
  */
 export function initializeParticleSystems() {
@@ -339,6 +450,8 @@ export function initializeParticleSystems() {
         createStarParticles();
         createMagicalParticles();
         createFloatingRunes();
+        createGrassAnimation();
+
 
         // Set up performance monitoring
         setTimeout(() => {

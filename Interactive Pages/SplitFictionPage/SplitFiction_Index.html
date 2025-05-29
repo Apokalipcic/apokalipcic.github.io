@@ -60,15 +60,18 @@
 
         <!-- Top layer (Player A) - Enhanced with Fantasy particles -->
         <div id="player-a-side" class="player-side panel top">
+            <div class="fantasy-tree hidden-element-1" style="display: none"></div>
             <!-- Magical particles container for Fantasy effects -->
-            <div class="magical-particles" id="magical-particles-a">
+            <div class="magical-particles hidden-element-1" id="magical-particles-a" style="display: none">
                 <!-- Magical particles will be dynamically created by JavaScript -->
             </div>
 
             <!-- Floating runes container for Fantasy effects -->
-            <div class="floating-runes" id="floating-runes-a">
+            <div class="floating-runes hidden-element-1" id="floating-runes-a" style="display: none">
                 <!-- Floating runes will be dynamically created by JavaScript -->
             </div>
+
+
 
             <div class="content">
                 <div class="side-header">
@@ -77,6 +80,9 @@
 
                 <!-- Notes container for Player A -->
                 <div class="notes-area" id="notes-area-a">
+                    <div class="grass-container hidden-element-1" style="display: none" id="grass-container-a">
+                        <canvas id="grass-canvas" class="grass-canvas"></canvas>
+                    </div>
                     <!-- Notes will be dynamically created by JavaScript -->
                 </div>
 

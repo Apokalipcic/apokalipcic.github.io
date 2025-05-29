@@ -66,21 +66,22 @@
     /* Add this to your player-sides.css file, in the Screen A (top) section */
 
     /* Fantasy tree background for Screen A */
-    .top::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('../images/tree_bw.png');
-        background-repeat: no-repeat;
-        background-position: center bottom;
-        background-size: contain;
-        opacity: 0.25;
-        z-index: -1;
-        filter: blur(0.25px) invert(1) drop-shadow(0px 5px 1.25px #202020);
-    }
+.fantasy-tree {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/tree_bw.png');
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: contain;
+    opacity: 0.25;
+    z-index: -1;
+    filter: blur(0.25px) invert(1) drop-shadow(0px 5px 1.25px var(--tree-shadow));
+    transition: all 0.3s ease;
+}
 
 /* Side headers - Enhanced but preserving structure */
 .side-header {
