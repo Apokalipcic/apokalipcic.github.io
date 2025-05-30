@@ -8,7 +8,7 @@ class Contributors {
                 id: 1,
                 name: "Niccolò Rovai",
                 role: "Music Composer",
-                avatar: "images/music/OST_Thumbnail.jpg",
+                avatar: "images/Music/OST_Thumbnail.jpg",
                 description: "Contributed in creating music composition for this specific page.",
                 links: {
                     website: "https://nickr02vgm.com/",

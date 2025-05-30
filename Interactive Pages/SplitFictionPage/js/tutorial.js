@@ -88,7 +88,7 @@ class Tutorial {
                             
                             <div class="music-option" id="music-option-ost" data-music="ost">
                                 <div class="music-thumbnail">
-                                    <img src="images/music/OST_Thumbnail.jpg" alt="Original Soundtrack" onerror="this.style.display='none'">
+                                    <img src="images/Music/OST_Thumbnail.jpg" alt="Original Soundtrack" onerror="this.style.display='none'">
                                 </div>
                                 <div class="music-info">
                                     <div class="music-title">Original Soundtrack</div>
