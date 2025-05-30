@@ -175,9 +175,6 @@
 }
 
 .tutorial-reopen {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
     background: #4b55634f;
     color: #d1d5db78;
     padding: 0.5rem 1rem;
@@ -186,7 +183,7 @@
     cursor: pointer;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     transition: background-color 0.3s;
-    z-index: 20;
+    flex-shrink: 0;
 }
 
 .tutorial-reopen:hover {

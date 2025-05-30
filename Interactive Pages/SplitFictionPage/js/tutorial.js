@@ -102,7 +102,25 @@ class Tutorial {
         `;
 
         document.body.insertAdjacentHTML('beforeend', tutorialHTML);
+        this.createTopRightContainer();
         this.createDots();
+    }
+
+    createTopRightContainer() {
+        // Create container for top-right buttons if it doesn't exist
+        let container = document.getElementById('top-right-controls');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'top-right-controls';
+            container.className = 'top-right-controls';
+            document.body.appendChild(container);
+        }
+
+        // Move tutorial reopen button to container
+        const tutorialButton = document.getElementById('tutorial-reopen');
+        if (tutorialButton && container) {
+            container.appendChild(tutorialButton);
+        }
     }
 
     createDots() {

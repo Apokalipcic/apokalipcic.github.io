@@ -12,6 +12,7 @@ import { bpmToMs } from './utils.js';
 import { initializeParticleSystems } from './visual_effects.js';
 import { cleanupPulseSystem } from './pulse-synchronizer.js';
 import { initTutorial } from './tutorial.js';
+import { initContributors } from './contributors.js';
 
 /**
  * Validate DOM element exists
@@ -311,6 +312,9 @@ async function init() {
 
         // Initialize tutorial (background music will start when tutorial closes)
         initTutorial();
+
+        // Initialize contributors heart button
+        initContributors();
 
         console.log('Application initialization completed successfully');
         console.log('Background music will start after tutorial is closed for the first time');
