@@ -114,8 +114,8 @@ function validateConfig(config) {
 
 // Multiple music configuration presets
 const musicConfigs = {
-    simple: {
-        name: "Simple Mode",
+    pop: {
+        name: "Daft Punk",
         totalCells: 6,
         playerACells: [1, 2, 5],
         playerBCells: [3, 4],
@@ -132,31 +132,32 @@ const musicConfigs = {
         nestedItems: {}
     },
 
-    complex: {
-        name: "Complex Mode",
+    ost: {
+        name: "OST",
         totalCells: 6,
-        playerACells: [1, 2, 5],
-        playerBCells: [3, 4],
-        playerANotes: [1, 2, 5],
-        playerBNotes: [3, 4],
+        playerACells: [1, 2, 3],
+        playerBCells: [4, 5, 6],
+        playerANotes: [1, 2, 3],
+        playerBNotes: [4, 5, 6],
         audioFiles: {
-            1: 'Audio/Daft_Punk_Get_Lucky_Bass.wav',
-            2: 'Audio/Daft_Punk_Get_Lucky_Guitars.wav',
-            3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.wav',
-            4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
-            5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
+            1: 'Audio/Split Screen[Fantasy](Flutes).mp3',
+            2: 'Audio/Split Screen[Fantasy](Violas & Celli).mp3',
+            3: 'Audio/Split Screen[Fantasy](Violins).mp3',
+            4: 'Audio/Split Screen[Sci-Fi](Lead Synth).mp3',
+            4: 'Audio/Split Screen[Sci-Fi](Rhythm Synth).mp3',
+            5: 'Audio/Split Screen[Sci-Fi](Pad).mp3'
         },
-        backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav',
+        backgroundMusic: 'Audio/Split Screen(Background).mp3',
         nestedItems: {
-            2: [3],
-            3: [5],
-            5: [4]
+            //2: [3],
+            //3: [5],
+            //5: [4]
         }
     }
 };
 
 // Set initial config
-let config = musicConfigs.simple;
+let config = musicConfigs.pop;
 
 // Application state with initialization
 const state = {
@@ -219,24 +220,72 @@ function reinitializeWithNewConfig() {
     }
 
     try {
-        // Clear existing notes
-        if (elements.notesAreaA) elements.notesAreaA.innerHTML = '';
-        if (elements.notesAreaB) elements.notesAreaB.innerHTML = '';
+        // Stop any current playback and clean up audio
+        if (state.isPlaying) {
+            stopPlayback(state, elements);
+        }
+
+        // Clean up sequencer cells and disable all audio notes
+        const cells = document.querySelectorAll('.sequencer-cell');
+        cells.forEach(cell => {
+            try {
+                removeNoteFromCell(cell, state);
+            } catch (error) {
+                console.warn('Error removing note from cell during config change:', error);
+            }
+        });
+
+        // Remove all existing notes from player sides (not notes areas)
+        const existingNotes = document.querySelectorAll('.note:not(.note-in-cell)');
+        existingNotes.forEach(note => {
+            try {
+                if (note.parentNode) {
+                    note.parentNode.removeChild(note);
+                }
+            } catch (error) {
+                console.warn('Error removing existing note:', error);
+            }
+        });
+
+        // Clean up portal counterparts
+        const portalCounterparts = document.querySelectorAll('.portal-counterpart');
+        portalCounterparts.forEach(counterpart => {
+            try {
+                if (counterpart.parentNode) {
+                    counterpart.parentNode.removeChild(counterpart);
+                }
+            } catch (error) {
+                console.warn('Error removing portal counterpart:', error);
+            }
+        });
 
         // Clear existing sequencer cells
         if (elements.sequencerA) elements.sequencerA.innerHTML = '';
         if (elements.sequencerB) elements.sequencerB.innerHTML = '';
 
-        // Reset state
+        // Reset state completely
         state.playerACellsContent = {};
         state.playerBCellsContent = {};
         state.draggedNote = null;
         state.draggedNoteData = null;
+        state.currentStep = 0;
+
+        // Reset nested relationships based on new config
+        state.nestedRelationships = {};
+        Object.entries(config.nestedItems).forEach(([parent, children]) => {
+            children.forEach(child => {
+                state.nestedRelationships[child] = parseInt(parent);
+            });
+        });
 
         // Recreate UI with new config
         createNotes(config, elements, makeClickDraggable);
         createSequencerCells(config, elements, getShapeForNote);
         createAudioElements(config, elements.audioContainer);
+
+        // Recreate portal counterparts for new notes
+        const allNotes = document.querySelectorAll('.note:not(.portal-counterpart):not(.nested-visual)');
+        createAllPortalCounterparts(allNotes, elements);
 
         console.log('Application reinitialized with new config');
     } catch (error) {

@@ -4,7 +4,7 @@
 let pulseState = {
     isActive: false,
     intervalId: null,
-    bpm: 116, // Default BPM (matches your 0.517s timing)
+    bpm: 145, // Default BPM (matches your 0.517s timing)
     phase: 0, // 0 or 1 for pulse phase
     diamondRotation: 45, // Track cumulative diamond rotation
     activeSpecialEffects: new Set(), // Track active hidden elements
