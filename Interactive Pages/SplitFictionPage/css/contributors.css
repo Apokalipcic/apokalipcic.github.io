@@ -127,11 +127,19 @@
 }
 
 .contributor-avatar {
-    font-size: 4rem;
     margin-bottom: 1rem;
     display: flex;
     justify-content: center;
 }
+
+    .contributor-avatar img {
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #4c8eff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
 
 .contributor-name {
     font-size: 1.25rem;
@@ -227,8 +235,9 @@
         max-width: calc(100% - 1rem);
     }
 
-    .contributor-avatar {
-        font-size: 3rem;
+    .contributor-avatar img {
+        width: 6rem;
+        height: 6rem;
     }
 
     .contributor-links {
@@ -252,4 +261,9 @@
             width: 16px;
             height: 16px;
         }
+
+    .contributor-avatar img {
+        width: 5rem;
+        height: 5rem;
+    }
 }

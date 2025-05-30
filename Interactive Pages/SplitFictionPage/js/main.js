@@ -1,4 +1,4 @@
-// main.js - Main entry point with layered audio system
+// main.js - Main entry point with layered audio system and music config selection
 
 // Import modules with error handling
 import { createAudioElements, startLayeredPlayback, stopLayeredPlayback, hasEnabledNotes } from './audio.js';
@@ -112,29 +112,51 @@ function validateConfig(config) {
     return true;
 }
 
-// Application configuration with validation (BACKUP)
-const config = {
-    totalCells: 6,
-    playerACells: [1, 2, 5],
-    playerBCells: [3, 4],
-    playerANotes: [1, 2, 5],
-    playerBNotes: [3, 4],
-    audioFiles: {
-        1: 'Audio/Daft_Punk_Get_Lucky_Bass.wav',
-        2: 'Audio/Daft_Punk_Get_Lucky_Guitars.wav',
-        3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.wav',
-        4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
-        5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
+// Multiple music configuration presets
+const musicConfigs = {
+    simple: {
+        name: "Simple Mode",
+        totalCells: 6,
+        playerACells: [1, 2, 5],
+        playerBCells: [3, 4],
+        playerANotes: [1, 2, 5],
+        playerBNotes: [3, 4],
+        audioFiles: {
+            1: 'Audio/Daft_Punk_Get_Lucky_Bass.wav',
+            2: 'Audio/Daft_Punk_Get_Lucky_Guitars.wav',
+            3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.wav',
+            4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
+            5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
+        },
+        backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav',
+        nestedItems: {}
     },
-    backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav',
-    nestedItems: {
-        //2: [3],
-        //3: [5],
-        //5: [4],
+
+    complex: {
+        name: "Complex Mode",
+        totalCells: 6,
+        playerACells: [1, 2, 5],
+        playerBCells: [3, 4],
+        playerANotes: [1, 2, 5],
+        playerBNotes: [3, 4],
+        audioFiles: {
+            1: 'Audio/Daft_Punk_Get_Lucky_Bass.wav',
+            2: 'Audio/Daft_Punk_Get_Lucky_Guitars.wav',
+            3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.wav',
+            4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
+            5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
+        },
+        backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav',
+        nestedItems: {
+            2: [3],
+            3: [5],
+            5: [4]
+        }
     }
 };
 
-
+// Set initial config
+let config = musicConfigs.simple;
 
 // Application state with initialization
 const state = {
@@ -145,16 +167,82 @@ const state = {
     playerBCellsContent: {},
     draggedNote: null,
     draggedNoteData: null,
-    // Reversed of nested items
-    nestedRelationships: {
-        //3: 2,
-        //5: 3,
-        //4: 5
-    }
+    nestedRelationships: {}
 };
 
 // Global elements reference
 let elements = null;
+
+/**
+ * Apply a music configuration
+ * @param {string} configKey - Key of the config to apply
+ * @returns {boolean} Whether the config was applied successfully
+ */
+function applyMusicConfig(configKey) {
+    if (!musicConfigs[configKey]) {
+        console.warn(`Config "${configKey}" not found`);
+        return false;
+    }
+
+    try {
+        // Stop any current playback
+        if (state.isPlaying && elements) {
+            stopPlayback(state, elements);
+        }
+
+        // Update config
+        config = musicConfigs[configKey];
+
+        // Update nested relationships based on new config
+        state.nestedRelationships = {};
+        Object.entries(config.nestedItems).forEach(([parent, children]) => {
+            children.forEach(child => {
+                state.nestedRelationships[child] = parseInt(parent);
+            });
+        });
+
+        console.log(`Applied music config: ${config.name} (${configKey})`);
+        return true;
+    } catch (error) {
+        console.error('Error applying music config:', error);
+        return false;
+    }
+}
+
+/**
+ * Reinitialize the application with new config
+ */
+function reinitializeWithNewConfig() {
+    if (!elements) {
+        console.warn('Elements not available for reinitialization');
+        return;
+    }
+
+    try {
+        // Clear existing notes
+        if (elements.notesAreaA) elements.notesAreaA.innerHTML = '';
+        if (elements.notesAreaB) elements.notesAreaB.innerHTML = '';
+
+        // Clear existing sequencer cells
+        if (elements.sequencerA) elements.sequencerA.innerHTML = '';
+        if (elements.sequencerB) elements.sequencerB.innerHTML = '';
+
+        // Reset state
+        state.playerACellsContent = {};
+        state.playerBCellsContent = {};
+        state.draggedNote = null;
+        state.draggedNoteData = null;
+
+        // Recreate UI with new config
+        createNotes(config, elements, makeClickDraggable);
+        createSequencerCells(config, elements, getShapeForNote);
+        createAudioElements(config, elements.audioContainer);
+
+        console.log('Application reinitialized with new config');
+    } catch (error) {
+        console.error('Error reinitializing application:', error);
+    }
+}
 
 /**
  * Initialize UI elements with error handling
@@ -199,6 +287,9 @@ function setupEvents() {
         // Set up tutorial background music trigger
         setupTutorialMusicTrigger();
 
+        // Set up tutorial music selection listener
+        setupMusicSelectionListener();
+
         return true;
     } catch (error) {
         console.error('Failed to set up events:', error);
@@ -229,6 +320,20 @@ function setupTutorialMusicTrigger() {
             }
         } else {
             console.log('No background music configured');
+        }
+    });
+}
+
+/**
+ * Set up listener for music selection from tutorial
+ */
+function setupMusicSelectionListener() {
+    document.addEventListener('tutorialMusicSelected', (event) => {
+        const selectedConfig = event.detail.configKey;
+        console.log('Music selection received:', selectedConfig);
+
+        if (applyMusicConfig(selectedConfig)) {
+            reinitializeWithNewConfig();
         }
     });
 }
@@ -369,7 +474,6 @@ function cleanup() {
 window.addEventListener('beforeunload', cleanup);
 window.addEventListener('unload', cleanup);
 
-
 // Initialize on page load with proper timing
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -379,4 +483,4 @@ if (document.readyState === 'loading') {
 }
 
 // Export for potential use by other modules
-export { config, state, elements };
+export { config, state, elements, musicConfigs, applyMusicConfig };

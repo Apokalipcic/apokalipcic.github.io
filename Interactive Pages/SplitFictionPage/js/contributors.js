@@ -8,7 +8,7 @@ class Contributors {
                 id: 1,
                 name: "Niccolò Rovai",
                 role: "Music Composer",
-                avatar: "🎵", // TODO: Replace it with image
+                avatar: "images/music/OST_Thumbnail.jpg",
                 description: "Contributed in creating music composition for this specific page.",
                 links: {
                     website: "https://nickr02vgm.com/",
@@ -120,7 +120,9 @@ class Contributors {
         const contributor = this.contributors[0];
 
         contentContainer.innerHTML = `
-            <div class="contributor-avatar">${contributor.avatar}</div>
+            <div class="contributor-avatar">
+                <img src="${contributor.avatar}" alt="${contributor.name}" onerror="this.style.display='none'">
+            </div>
             <h3 class="contributor-name">${contributor.name}</h3>
             <p class="contributor-role">${contributor.role}</p>
             <p class="contributor-description">${contributor.description}</p>

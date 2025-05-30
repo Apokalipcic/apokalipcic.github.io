@@ -1,4 +1,4 @@
-// tutorial.js - Tutorial popup functionality with background music integration
+// tutorial.js - Tutorial popup functionality with background music integration and music selection
 
 class Tutorial {
     constructor() {
@@ -28,8 +28,13 @@ class Tutorial {
             },
             {
                 title: "Adjust the Divider",
-                content: "Drag the central divider to reavel one of the sides",
+                content: "Drag the central divider to reveal one of the sides",
                 image: "images/tutorial/Tutorial 4.png"
+            },
+            {
+                title: "Choose Your Music",
+                content: "Select a music track to begin your experience",
+                isMusicSelection: true
             }
         ];
 
@@ -54,18 +59,45 @@ class Tutorial {
                             </svg>
                         </button>
                         <h2 class="tutorial-title" id="tutorial-title">Welcome</h2>
-                        <div class="tutorial-step" id="tutorial-step">Step 1 of 5</div>
+                        <div class="tutorial-step" id="tutorial-step">Step 1 of 6</div>
                     </div>
                     
                     <div class="tutorial-progress">
                         <div class="tutorial-progress-bar" id="tutorial-progress-bar"></div>
                     </div>
                     
-                    <div class="tutorial-content">
+                    <div class="tutorial-content" id="tutorial-content">
                         <div class="tutorial-image">
                             <img id="tutorial-image" src="" alt="" style="display: none;">
                         </div>
                         <h3 class="tutorial-text" id="tutorial-text">Content</h3>
+                        
+                        <!-- Music Selection Content (hidden by default) -->
+                        <div class="music-selection-container" id="music-selection-container" style="display: none;">
+                            <div class="music-option" id="music-option-pop" data-music="pop">
+                                <div class="music-thumbnail">
+                                    <img src="images/music/DaftPunk_Thumbnail.jpg" alt="Pop Music" onerror="this.style.display='none'">
+                                </div>
+                                <div class="music-info">
+                                    <div class="music-title">Pop Music</div>
+                                    <div class="music-description">
+                                        Daft Punk - Get Lucky with electronic beats and layered vocals.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="music-option" id="music-option-ost" data-music="ost">
+                                <div class="music-thumbnail">
+                                    <img src="images/music/OST_Thumbnail.jpg" alt="Original Soundtrack" onerror="this.style.display='none'">
+                                </div>
+                                <div class="music-info">
+                                    <div class="music-title">Original Soundtrack</div>
+                                    <div class="music-description">
+                                        Custom composed music for this page.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="tutorial-navigation">
@@ -91,7 +123,7 @@ class Tutorial {
                     </div>
                     
                     <div class="tutorial-skip">
-                        <button id="tutorial-skip">Skip tutorial</button>
+                        <button id="tutorial-skip">Skip to music selection</button>
                     </div>
                 </div>
             </div>
@@ -135,12 +167,16 @@ class Tutorial {
     }
 
     bindEvents() {
-        document.getElementById('tutorial-close').addEventListener('click', () => this.hide());
-        document.getElementById('tutorial-skip').addEventListener('click', () => this.hide());
+        document.getElementById('tutorial-close').addEventListener('click', () => this.handleClose());
+        document.getElementById('tutorial-skip').addEventListener('click', () => this.skipToMusicSelection());
         document.getElementById('tutorial-prev').addEventListener('click', () => this.prevPage());
         document.getElementById('tutorial-next').addEventListener('click', () => this.nextPage());
         document.getElementById('tutorial-get-started').addEventListener('click', () => this.hide());
         document.getElementById('tutorial-reopen').addEventListener('click', () => this.show());
+
+        // Music selection events
+        document.getElementById('music-option-pop').addEventListener('click', () => this.selectMusic('pop'));
+        document.getElementById('music-option-ost').addEventListener('click', () => this.selectMusic('ost'));
     }
 
     updateContent() {
@@ -150,12 +186,26 @@ class Tutorial {
         document.getElementById('tutorial-step').textContent = `Step ${this.currentPage + 1} of ${this.tutorialPages.length}`;
         document.getElementById('tutorial-text').textContent = page.content;
 
-        // Update image
-        const img = document.getElementById('tutorial-image');
-        img.src = page.image;
-        img.alt = page.title;
-        img.style.display = 'block';
-        img.onerror = () => img.style.display = 'none';
+        // Handle music selection page
+        const musicContainer = document.getElementById('music-selection-container');
+        const imageContainer = document.querySelector('.tutorial-image');
+
+        if (page.isMusicSelection) {
+            // Show music selection, hide image
+            musicContainer.style.display = 'grid';
+            imageContainer.style.display = 'none';
+        } else {
+            // Show image, hide music selection
+            musicContainer.style.display = 'none';
+            imageContainer.style.display = 'flex';
+
+            // Update image
+            const img = document.getElementById('tutorial-image');
+            img.src = page.image;
+            img.alt = page.title;
+            img.style.display = 'block';
+            img.onerror = () => img.style.display = 'none';
+        }
 
         // Update progress bar
         const progressBar = document.getElementById('tutorial-progress-bar');
@@ -168,16 +218,51 @@ class Tutorial {
 
         prevBtn.disabled = this.currentPage === 0;
 
-        if (this.currentPage === this.tutorialPages.length - 1) {
+        if (page.isMusicSelection) {
+            // On music selection page, hide Next and Get Started until selection is made
             nextBtn.style.display = 'none';
-            getStartedBtn.style.display = 'block';
+            getStartedBtn.style.display = 'none';
+        } else if (this.currentPage === this.tutorialPages.length - 2) {
+            // Second to last page (before music selection)
+            nextBtn.style.display = 'flex';
+            getStartedBtn.style.display = 'none';
         } else {
+            // Regular pages
             nextBtn.style.display = 'flex';
             getStartedBtn.style.display = 'none';
         }
 
+        // Update skip button text
+        const skipButton = document.getElementById('tutorial-skip');
+        if (page.isMusicSelection) {
+            skipButton.textContent = 'Choose default music';
+        } else {
+            skipButton.textContent = 'Skip to music selection';
+        }
+
         // Update dots
         this.createDots();
+    }
+
+    selectMusic(musicType) {
+        console.log(`Music selected: ${musicType}`);
+
+        // Dispatch music selection event
+        const event = new CustomEvent('tutorialMusicSelected', {
+            detail: { configKey: musicType }
+        });
+        document.dispatchEvent(event);
+
+        // Show Get Started button after music selection
+        const getStartedBtn = document.getElementById('tutorial-get-started');
+        getStartedBtn.style.display = 'block';
+        getStartedBtn.textContent = `Get Started!`;
+
+        // Add visual feedback to selected option
+        document.querySelectorAll('.music-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        document.getElementById(`music-option-${musicType}`).classList.add('selected');
     }
 
     nextPage() {
@@ -191,6 +276,30 @@ class Tutorial {
         if (this.currentPage > 0) {
             this.currentPage--;
             this.updateContent();
+        }
+    }
+
+    skipToMusicSelection() {
+        if (this.tutorialPages[this.currentPage].isMusicSelection) {
+            // If already on music selection page, choose default music
+            this.selectMusic('pop'); // Default to pop music
+        } else {
+            // Skip to music selection page
+            this.currentPage = this.tutorialPages.length - 1; // Last page
+            this.updateContent();
+        }
+    }
+
+    handleClose() {
+        // If on music selection page and no music selected, go to music selection
+        if (!this.tutorialPages[this.currentPage].isMusicSelection) {
+            this.skipToMusicSelection();
+        } else {
+            // If no music selected, choose default
+            if (!document.querySelector('.music-option.selected')) {
+                this.selectMusic('pop');
+            }
+            this.hide();
         }
     }
 
@@ -213,7 +322,7 @@ class Tutorial {
         }
     }
 
-    // New method to trigger background music after first tutorial close
+    // Trigger background music after first tutorial close
     triggerBackgroundMusic() {
         // Dispatch custom event that main.js can listen for
         const event = new CustomEvent('tutorialFirstClose', {

@@ -190,6 +190,86 @@
     background: #6b7280;
 }
 
+/* Music Selection Styles - Add to tutorial.css */
+
+/* Side-by-side grid layout */
+.music-selection-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.music-option {
+    background: #4b5563;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+    .music-option:hover {
+        background: #6b7280;
+        border-color: #4c8eff;
+        transform: translateY(-2px);
+    }
+
+    .music-option.selected {
+        border-color: #4c8eff;
+        background: #5a6577;
+    }
+
+.music-thumbnail {
+    width: 80px;
+    height: 80px;
+    background: #333;
+    border-radius: 8px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+    .music-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+.music-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4c8eff;
+    margin-bottom: 0.5rem;
+}
+
+.music-description {
+    font-size: 0.85rem;
+    color: #d1d5db;
+    line-height: 1.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .music-selection-container {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .music-thumbnail {
+        width: 60px;
+        height: 60px;
+    }
+
+    .music-option {
+        padding: 1rem;
+    }
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .tutorial-popup {
