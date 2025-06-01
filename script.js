@@ -298,21 +298,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 const gameInfoBox = item.querySelector('.game-info-box');
                 if (gameInfoBox) {
                     gameInfoBox.style.opacity = '0';
-                    gameInfoBox.style.maxHeight = '0';
-                    gameInfoBox.style.margin = '0';
-                    gameInfoBox.style.overflow = 'hidden';
+                    gameInfoBox.style.transform = 'translateY(20px)';
+                    gameInfoBox.style.pointerEvents = 'none';
                 }
             });
 
-            // Show only the game info boxes for visible slides
+            // Show only the game info boxes for visible slides with stagger effect
             for (let i = startIndex; i < endIndex; i++) {
                 if (i < carouselItems.length) {
                     const gameInfoBox = carouselItems[i].querySelector('.game-info-box');
                     if (gameInfoBox) {
-                        gameInfoBox.style.opacity = '1';
-                        gameInfoBox.style.maxHeight = '500px'; // Set a reasonable maximum height
-                        gameInfoBox.style.marginBottom = '20px';
-                        gameInfoBox.style.overflow = 'visible';
+                        setTimeout(() => {
+                            gameInfoBox.style.opacity = '1';
+                            gameInfoBox.style.transform = 'translateY(0)';
+                            gameInfoBox.style.pointerEvents = 'auto';
+                        }, (i - startIndex) * 100); // Stagger animation
                     }
                 }
             }
@@ -323,11 +323,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const gameInfoBoxes = document.querySelectorAll('#Mobile-Games .game-info-box');
 
             gameInfoBoxes.forEach(box => {
-                box.style.transition = 'all 0.3s ease-in-out';
+                box.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
                 box.style.opacity = '0';
-                box.style.maxHeight = '0';
-                box.style.margin = '0';
-                box.style.overflow = 'hidden';
+                box.style.transform = 'translateY(20px)';
+                box.style.pointerEvents = 'none';
             });
 
             // Initial update to show the correct boxes

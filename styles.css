@@ -362,6 +362,7 @@ ul {
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     overflow: hidden;
     border: 1px solid #e0e4e8;
+    margin-top: 20px;
     margin-bottom: 20px;
     transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease;
 }
@@ -1268,6 +1269,7 @@ ul {
     }
 
     .game-info-box {
+        margin-top: 15px;
         margin-bottom: 15px;
     }
 
