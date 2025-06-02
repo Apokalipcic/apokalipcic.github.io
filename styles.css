@@ -1826,19 +1826,74 @@ ul {
     align-items: center;
 }
 
-.footer-links {
-    display: flex;
-    gap: 1.5rem;
-}
-
-    .footer-links a {
+    .footer a {
+        display: flex;
+        gap: 1.5rem;
         color: rgba(255, 255, 255, 0.7);
     }
 
-        .footer-links a:hover {
+        .footer a:hover {
             color: white;
         }
 
+/* Glowing Text Styles for Footer - Light Mode */
+.footer-glow-text {
+    font-size: larger;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 10px var(--accent-primary), 0 0 20px var(--accent-primary), 0 0 30px var(--accent-primary);
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .footer-glow-text:hover {
+        text-shadow: 0 0 15px var(--accent-secondary), 0 0 25px var(--accent-secondary), 0 0 35px var(--accent-secondary);
+        color: white;
+    }
+
+/* Subtle glow for footer links */
+.footer-links a.glow-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 0 5px var(--accent-primary), 0 0 10px var(--accent-primary);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .footer-links a.glow-link:hover {
+        text-shadow: 0 0 8px var(--accent-secondary), 0 0 15px var(--accent-secondary);
+        color: white;
+    }
+
+/* Intense glow for copyright text */
+.footer-copyright.glow-intense {
+    color: white;
+    text-shadow: 0 0 5px var(--accent-primary), 0 0 10px var(--accent-primary), 0 0 15px var(--accent-primary), 0 0 20px var(--accent-primary), 0 0 35px var(--accent-primary), 0 0 40px var(--accent-primary);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+}
+
+    .footer-copyright.glow-intense:hover {
+        text-shadow: 0 0 5px var(--accent-secondary), 0 0 10px var(--accent-secondary), 0 0 15px var(--accent-secondary), 0 0 20px var(--accent-secondary), 0 0 35px var(--accent-secondary), 0 0 40px var(--accent-secondary), 0 0 50px var(--accent-secondary);
+    }
+
+/* Pulsing glow for footer text */
+.footer-pulse-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    letter-spacing: 1px;
+    animation: footerGlowPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes footerGlowPulse {
+    from {
+        text-shadow: 0 0 10px var(--accent-primary), 0 0 20px var(--accent-primary), 0 0 30px var(--accent-primary);
+    }
+
+    to {
+        text-shadow: 0 0 15px var(--accent-secondary), 0 0 25px var(--accent-secondary), 0 0 35px var(--accent-secondary);
+    }
+}
 /* ===== MEDIA QUERIES ===== */
 @media screen and (max-width: 992px) {
     html {
