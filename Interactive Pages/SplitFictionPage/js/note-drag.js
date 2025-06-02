@@ -8,6 +8,14 @@ import {
     createPortalCounterpart
 } from './portal-effects.js';
 
+import { 
+    initializeBoundaryEffects, 
+    updateBoundaryEffects, 
+    clearBoundaryEffects, 
+    constrainToBoundaries,
+    cleanupBoundaryEffects 
+} from './boundary-effects.js';
+
 // Global dragging state - kept for compatibility but with validation
 let activeNote = null;
 let offsetX = 0;
@@ -256,6 +264,14 @@ export function setupNoteDragEvents(elements, state, config) {
     globalState = state;
     globalElements.config = config;
 
+    // Initialize responsive boundary effects system
+    initializeBoundaryEffects(elements.appContainer, {
+        noteSize: 80,        // Your note size (will auto-update)
+        marginPercent: 0.02, // 5% boundary margin Assign here margin by some reason :)
+        segmentLength: 120,  // Length of laser segments
+        fadeDuration: 50     // Quick fade
+    });
+
     try {
         // Global document mouse move
         document.addEventListener('mousemove', function (e) {
@@ -327,9 +343,16 @@ function animateMovement() {
             currentY += dy * MOVEMENT_SPEED;
         }
 
+        const constraintResult = constrainToBoundaries(currentX, currentY);
+        currentX = constraintResult.x;
+        currentY = constraintResult.y;
+
         // Update the position of the active note
         activeNote.style.left = `${currentX}px`;
         activeNote.style.top = `${currentY}px`;
+
+        updateBoundaryEffects(currentX, currentY, activeNote);
+
 
         // Update positions of linked nested objects
         updateLinkedNestedPositions();
@@ -565,6 +588,9 @@ function dropActiveNote(x, y) {
             hideCounterpart(portalCounterpart);
         }
 
+        clearBoundaryEffects();
+
+
         // Remove dragging class
         if (activeNote) {
             activeNote.classList.remove('dragging');
@@ -687,6 +713,9 @@ function cleanup() {
             cancelAnimationFrame(animationFrameId);
             animationFrameId = null;
         }
+
+        cleanupBoundaryEffects();
+
 
         // Clear global state
         activeNote = null;

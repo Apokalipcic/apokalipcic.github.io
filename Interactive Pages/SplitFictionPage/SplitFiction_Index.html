@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/visual_effects.css">
     <link rel="stylesheet" href="css/tutorial.css">
     <link rel="stylesheet" href="css/contributors.css">
+    <link rel="stylesheet" href="css/boundary-effects.css">
 </head>
 <body>
     <!-- Main container -->
@@ -22,7 +23,7 @@
         <!-- Bottom layer (Player B) - Enhanced with Sci-Fi particles -->
         <div id="player-b-side" class="player-side panel bottom">
             <!-- Star particles container for Sci-Fi effects -->
-            <div class="star-particles hidden-element-1" style="display: none" id="star-particles-b">
+            <div class="star-particles hidden-element-6" style="display: none" id="star-particles-b">
                 <!-- Star particles will be dynamically created by JavaScript -->
             </div>
 
@@ -30,18 +31,20 @@
                 <div class="side-header">
                     <h2>Screen B</h2>
                 </div>
-                <div class="scifi-sun hidden-element-1" style="display: none">
+                <div class="scifi-sun">
+                    <div class="hidden-element-4" style="display: none">
                     <div class="sun-core"></div>
                     <div class="sun-rays">
                         <div class="ray"></div>
                         <div class="ray"></div>
                     </div>
-                    <div>
+                    </div>
+                    <div class="hidden-element-5" style="display: none">
                         <!-- Energy Collection Nodes -->
-                        <div class="energy-node"></div>
-                        <div class="energy-node"></div>
-                        <div class="energy-node"></div>
-                        <div class="energy-node"></div>
+                        <div class="energy-node beat-sync"></div>
+                        <div class="energy-node beat-sync"></div>
+                        <div class="energy-node beat-sync"></div>
+                        <div class="energy-node beat-sync"></div>
                     </div>
                 </div>
 
@@ -61,14 +64,14 @@
 
         <!-- Top layer (Player A) - Enhanced with Fantasy particles -->
         <div id="player-a-side" class="player-side panel top">
-            <div class="fantasy-tree hidden-element-1" style="display: none"></div>
+            <div class="fantasy-tree hidden-element-3" style="display: none"></div>
             <!-- Magical particles container for Fantasy effects -->
             <div class="magical-particles hidden-element-1" id="magical-particles-a" style="display: none">
                 <!-- Magical particles will be dynamically created by JavaScript -->
             </div>
 
             <!-- Floating runes container for Fantasy effects -->
-            <div class="floating-runes hidden-element-1" id="floating-runes-a" style="display: none">
+            <div class="floating-runes hidden-element-2" id="floating-runes-a" style="display: none">
                 <!-- Floating runes will be dynamically created by JavaScript -->
             </div>
 

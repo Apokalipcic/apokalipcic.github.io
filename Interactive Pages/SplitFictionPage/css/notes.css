@@ -177,3 +177,29 @@
     opacity: 0;
     pointer-events: none;
 }
+
+/* Deactivated note styles */
+.note-deactivated {
+    opacity: 0.5 !important;
+    pointer-events: auto; /* Keep clickable */
+    transition: opacity 0.3s ease;
+}
+
+    .note-deactivated:hover {
+        opacity: 0.7 !important;
+    }
+
+/* Special effect reverse animation */
+.deactivated-hidden-element {
+    animation: fadeOut 0.6s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

@@ -3,6 +3,7 @@
 import { enableNote, disableNote, startLayeredPlayback, stopLayeredPlayback, hasEnabledNotes } from './audio.js';
 import { startSynchronizedPulse, stopSynchronizedPulse, activateSpecialEffect, deactivateSpecialEffect } from './pulse-synchronizer.js';
 
+
 /**
  * Validate configuration structure
  * @param {Object} config - Configuration object
@@ -358,6 +359,7 @@ export function addNoteToCell(cell, noteNumber, player, getShapeForNote, state) 
         const noteClone = document.createElement('div');
         noteClone.className = `note note-${player} ${shapeClass} note-in-cell`;
         noteClone.setAttribute('data-note', noteNumber);
+        noteClone.setAttribute('data-active', 'true'); // Track activation state
 
         // Create DOM structure
         const borderElement = document.createElement('div');
@@ -372,6 +374,12 @@ export function addNoteToCell(cell, noteNumber, player, getShapeForNote, state) 
         const textSpan = document.createElement('span');
         textSpan.textContent = noteNumber;
         noteClone.appendChild(textSpan);
+
+        // Add click handler for deactivation/activation
+        noteClone.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleNoteInCell(noteClone, noteNumber, state);
+        });
 
         // Add note to cell
         cell.appendChild(noteClone);
@@ -396,6 +404,61 @@ export function addNoteToCell(cell, noteNumber, player, getShapeForNote, state) 
         enableNote(noteNumber);
     } catch (error) {
         console.error('Error adding note to cell:', error);
+    }
+}
+
+/**
+ * Toggle note activation/deactivation in cell
+ * @param {HTMLElement} noteElement - The note element in the cell
+ * @param {number} noteNumber - The note number
+ * @param {Object} state - Application state
+ */
+function toggleNoteInCell(noteElement, noteNumber, state) {
+    if (!noteElement || !state) {
+        console.warn('Invalid parameters for toggleNoteInCell');
+        return;
+    }
+
+    try {
+        const isActive = noteElement.getAttribute('data-active') === 'true';
+        
+        if (isActive) {
+            // Deactivate note
+            noteElement.setAttribute('data-active', 'false');
+            noteElement.classList.add('note-deactivated');
+            noteElement.classList.remove('has-note-active');
+            
+            // Remove from beat sync
+            noteElement.parentElement.classList.remove('has-note');
+            noteElement.parentElement.classList.add('has-note-deactivated');
+            
+            // Deactivate special effects
+            deactivateSpecialEffect(noteNumber);
+            
+            // Mute audio
+            disableNote(noteNumber);
+            
+            console.log(`Note ${noteNumber} deactivated`);
+        } else {
+            // Reactivate note
+            noteElement.setAttribute('data-active', 'true');
+            noteElement.classList.remove('note-deactivated');
+            noteElement.classList.add('has-note-active');
+            
+            // Add back to beat sync
+            noteElement.parentElement.classList.add('has-note');
+            noteElement.parentElement.classList.remove('has-note-deactivated');
+            
+            // Reactivate special effects
+            activateSpecialEffect(noteNumber);
+            
+            // Unmute audio
+            enableNote(noteNumber);
+            
+            console.log(`Note ${noteNumber} reactivated`);
+        }
+    } catch (error) {
+        console.error('Error toggling note in cell:', error);
     }
 }
 

@@ -271,15 +271,15 @@
     position: absolute;
     width: 8px;
     height: 8px;
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, rgba(0, 136, 255, 0.2) 50%, transparent 70% );
+    background: radial-gradient(circle, rgba(0, 255, 255, 1) 0%, rgba(0, 136, 255, 0.8) 40%, rgba(0, 255, 255, 0.3) 60%, transparent 80% );
     border-radius: 50%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 4px rgba(0, 136, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 25px rgba(0, 136, 255, 0.5);
     transition: all 0.3s ease;
     z-index: 5;
-    animation: nodeFlare 5s ease-out infinite;
+    /*animation: nodeFlare 5s ease-out infinite;*/
 }
 
     /* Position the nodes around the sun */

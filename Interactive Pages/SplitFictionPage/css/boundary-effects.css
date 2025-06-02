@@ -1,0 +1,113 @@
+/* boundary-effects.css - Clean neon laser boundaries with linear transparency */
+
+/* Base boundary laser segment styling */
+.boundary-laser-segment {
+    position: absolute;
+    pointer-events: none;
+    z-index: 15; /* Above most content but below dragged notes */
+    transform: translateZ(0); /* Force hardware acceleration */
+    transition: all 50ms ease-in-out;
+    border: none; /* Remove all borders - use pure background */
+}
+
+    /* Horizontal boundary segments (top/bottom) - Clean lines with neon glow */
+    .boundary-laser-segment[data-boundary-type="top"],
+    .boundary-laser-segment[data-boundary-type="bottom"] {
+        height: 2px; /* Thin clean line */
+        /* Background set by JavaScript with linear gradient */
+        filter: blur(0.5px) drop-shadow(0 0 4px rgba(255, 196, 0, 0.8)) drop-shadow(0 0 8px rgba(255, 196, 0, 0.4)) drop-shadow(0 0 12px rgba(255, 196, 0, 0.2));
+    }
+
+    /* Vertical boundary segments (left/right) - Clean lines with neon glow */
+    .boundary-laser-segment[data-boundary-type="left"],
+    .boundary-laser-segment[data-boundary-type="right"] {
+        width: 2px; /* Thin clean line */
+        /* Background set by JavaScript with linear gradient */
+        filter: blur(0.5px) drop-shadow(0 0 4px rgba(255, 196, 0, 0.8)) drop-shadow(0 0 8px rgba(255, 196, 0, 0.4)) drop-shadow(0 0 12px rgba(255, 196, 0, 0.2));
+    }
+
+    /* Enhanced neon glow effect */
+    .boundary-laser-segment::before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        background: inherit;
+        opacity: 0.6;
+        filter: blur(1px);
+        z-index: -1;
+    }
+
+    /* Additional outer glow layer */
+    .boundary-laser-segment::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: inherit;
+        opacity: 0.3;
+        filter: blur(2px);
+        z-index: -2;
+    }
+
+/* Pulsing animation for enhanced neon effect (optional) */
+@keyframes neonPulse {
+    0%, 100% {
+        filter: blur(0.5px) drop-shadow(0 0 4px rgba(255, 196, 0, 0.8)) drop-shadow(0 0 8px rgba(255, 196, 0, 0.4)) drop-shadow(0 0 12px rgba(255, 196, 0, 0.2));
+    }
+
+    50% {
+        filter: blur(0.5px) drop-shadow(0 0 6px rgba(255, 196, 0, 1)) drop-shadow(0 0 12px rgba(255, 196, 0, 0.6)) drop-shadow(0 0 18px rgba(255, 196, 0, 0.3));
+    }
+}
+
+/* Apply pulse animation when boundary is actively being hit */
+.boundary-laser-segment.active {
+    animation: neonPulse 2s ease-in-out infinite;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .boundary-laser-segment[data-boundary-type="top"],
+    .boundary-laser-segment[data-boundary-type="bottom"] {
+        height: 1.5px;
+        filter: blur(0.3px) drop-shadow(0 0 3px rgba(255, 196, 0, 0.7)) drop-shadow(0 0 6px rgba(255, 196, 0, 0.3));
+    }
+
+    .boundary-laser-segment[data-boundary-type="left"],
+    .boundary-laser-segment[data-boundary-type="right"] {
+        width: 1.5px;
+        filter: blur(0.3px) drop-shadow(0 0 3px rgba(255, 196, 0, 0.7)) drop-shadow(0 0 6px rgba(255, 196, 0, 0.3));
+    }
+}
+
+@media (max-width: 480px) {
+    .boundary-laser-segment[data-boundary-type="top"],
+    .boundary-laser-segment[data-boundary-type="bottom"] {
+        height: 1px;
+        filter: blur(0.2px) drop-shadow(0 0 2px rgba(255, 196, 0, 0.6)) drop-shadow(0 0 4px rgba(255, 196, 0, 0.2));
+    }
+
+    .boundary-laser-segment[data-boundary-type="left"],
+    .boundary-laser-segment[data-boundary-type="right"] {
+        width: 1px;
+        filter: blur(0.2px) drop-shadow(0 0 2px rgba(255, 196, 0, 0.6)) drop-shadow(0 0 4px rgba(255, 196, 0, 0.2));
+    }
+}
+
+/* Alternative color schemes (add these classes for different themes) */
+.boundary-laser-segment.theme-blue {
+    filter: blur(0.5px) drop-shadow(0 0 4px rgba(0, 196, 255, 0.8)) drop-shadow(0 0 8px rgba(0, 196, 255, 0.4)) drop-shadow(0 0 12px rgba(0, 196, 255, 0.2));
+}
+
+.boundary-laser-segment.theme-red {
+    filter: blur(0.5px) drop-shadow(0 0 4px rgba(255, 96, 96, 0.8)) drop-shadow(0 0 8px rgba(255, 96, 96, 0.4)) drop-shadow(0 0 12px rgba(255, 96, 96, 0.2));
+}
+
+.boundary-laser-segment.theme-green {
+    filter: blur(0.5px) drop-shadow(0 0 4px rgba(96, 255, 96, 0.8)) drop-shadow(0 0 8px rgba(96, 255, 96, 0.4)) drop-shadow(0 0 12px rgba(96, 255, 96, 0.2));
+}

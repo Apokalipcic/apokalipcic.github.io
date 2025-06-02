@@ -73,7 +73,7 @@ function bpmToInterval(bpm) {
  */
 function applySynchronizedPulse() {
     try {
-        const hasNoteElements = document.querySelectorAll('.sequencer-cell.has-note');
+        const hasNoteElements = document.querySelectorAll('.sequencer-cell.has-note:not(.has-note-deactivated)');
 
         // Increment diamond rotation on each beat (every two phases)
         if (pulseState.phase === 0) {
@@ -131,14 +131,14 @@ function updateBeatVisualEffects(phase) {
     if (phase === 'active') {
         // Beat is active - high intensity
         document.documentElement.style.setProperty('--tree-drop-shadow', 'drop-shadow(0px 5px 1.25px #7d7d7d)');
-        document.documentElement.style.setProperty('--sun-core-spread', '5px');
+        document.documentElement.style.setProperty('--sun-core-spread', '0px');
         document.documentElement.style.setProperty('--beat-opacity', '1');
         document.documentElement.style.setProperty('--beat-scale', '1.1');
         document.documentElement.style.setProperty('--beat-brightness', '1.2');
     } else {
         // Beat is resting - low intensity  
         document.documentElement.style.setProperty('--tree-drop-shadow', 'drop-shadow(0px 5px 1.25px #202020)');
-        document.documentElement.style.setProperty('--sun-core-spread', '0px');
+        document.documentElement.style.setProperty('--sun-core-spread', '5px');
         document.documentElement.style.setProperty('--beat-opacity', '0.7');
         document.documentElement.style.setProperty('--beat-scale', '1');
         document.documentElement.style.setProperty('--beat-brightness', '1');
@@ -202,11 +202,15 @@ export function deactivateSpecialEffect(cellNumber) {
 
         hiddenElements.forEach(element => {
             try {
-                // Hide the element by setting display: none
-                element.style.display = 'none';
+                // Add reverse animation class before hiding
+                element.classList.add('deactivated-hidden-element');
+                element.classList.remove('activated-hidden-element');
 
-                // Remove active class
-                element.classList.remove('active');
+                // Hide after animation completes
+                setTimeout(() => {
+                    element.style.display = 'none';
+                    element.classList.remove('deactivated-hidden-element');
+                }, 600); // Match animation duration
 
                 console.log(`Hidden element deactivated for cell ${cellNumber}`);
             } catch (error) {
