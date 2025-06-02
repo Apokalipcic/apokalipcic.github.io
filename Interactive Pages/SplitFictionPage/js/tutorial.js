@@ -76,7 +76,7 @@ class Tutorial {
                         <div class="music-selection-container" id="music-selection-container" style="display: none;">
                             <div class="music-option" id="music-option-pop" data-music="pop">
                                 <div class="music-thumbnail">
-                                    <img src="images/music/DaftPunk_Thumbnail.jpg" alt="Pop Music" onerror="this.style.display='none'">
+                                    <img src="images/Music/DaftPunk_Thumbnail.jpg" alt="Pop Music" onerror="this.style.display='none'">
                                 </div>
                                 <div class="music-info">
                                     <div class="music-title">Pop Music</div>

@@ -394,10 +394,10 @@ function setupMusicSelectionListener() {
 function initializeScreen() {
     try {
         console.log('Initializing divider position...');
-        initializeDividerPosition(elements);
+        initializeDividerPosition(elements, 43);
 
         console.log('Initializing screen split...');
-        initializeScreenSplit(elements);
+        initializeScreenSplit(elements, 43);
 
         return true;
     } catch (error) {
