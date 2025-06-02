@@ -1,7 +1,7 @@
 // main.js - Main entry point with layered audio system and music config selection
 
 // Import modules with error handling
-import { createAudioElements, startLayeredPlayback, stopLayeredPlayback, hasEnabledNotes } from './audio.js';
+import { createAudioElements, startLayeredPlayback, stopLayeredPlayback, hasEnabledNotes, getPlaybackState } from './audio.js';
 import { createSequencerCells, setupSequencerEvents, startPlayback, stopPlayback, resetSequencer } from './sequencer.js';
 import { createNotes, getShapeForNote } from './notes.js';
 import { makeClickDraggable, setupNoteDragEvents } from './note-drag.js';
@@ -122,13 +122,13 @@ const musicConfigs = {
         playerANotes: [1, 2, 5],
         playerBNotes: [3, 4],
         audioFiles: {
-            1: 'Audio/Daft_Punk_Get_Lucky_Bass.wav',
-            2: 'Audio/Daft_Punk_Get_Lucky_Guitars.wav',
-            3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.wav',
-            4: 'Audio/Daft_Punk_Get_Lucky_Vocals.wav',
-            5: 'Audio/Daft_Punk_Get_Lucky_Chorus.wav'
+            1: 'Audio/Daft_Punk_Get_Lucky_Bass.mp3',
+            2: 'Audio/Daft_Punk_Get_Lucky_Guitars.mp3',
+            3: 'Audio/Daft_Punk_Get_Lucky_Keyboards.mp3',
+            4: 'Audio/Daft_Punk_Get_Lucky_Vocals.mp3',
+            5: 'Audio/Daft_Punk_Get_Lucky_Chorus.mp3'
         },
-        backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.wav',
+        backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.mp3',
         nestedItems: {}
     },
 
@@ -158,6 +158,7 @@ const musicConfigs = {
 
 // Set initial config
 let config = musicConfigs.pop;
+let currentConfigKey = 'pop'; // Track current config for comparison
 
 // Application state with initialization
 const state = {
@@ -194,6 +195,8 @@ function applyMusicConfig(configKey) {
         // Update config
         config = musicConfigs[configKey];
 
+        currentConfigKey = configKey;
+
         // Update nested relationships based on new config
         state.nestedRelationships = {};
         Object.entries(config.nestedItems).forEach(([parent, children]) => {
@@ -207,6 +210,62 @@ function applyMusicConfig(configKey) {
     } catch (error) {
         console.error('Error applying music config:', error);
         return false;
+    }
+}
+
+function startBackgroundMusicSmart(requestedConfigKey = null) {
+    try {
+        const playbackState = getPlaybackState();
+
+        // If a specific config is requested and it's different from current, switch configs
+        if (requestedConfigKey && requestedConfigKey !== currentConfigKey) {
+            console.log(`Switching from ${currentConfigKey} to ${requestedConfigKey}`);
+
+            if (applyMusicConfig(requestedConfigKey)) {
+                reinitializeWithNewConfig();
+            }
+
+            // Start the new music
+            if (config.backgroundMusic) {
+                startLayeredPlayback(true); // true = from beginning
+                state.isPlaying = true;
+
+                if (elements.playButton) elements.playButton.disabled = true;
+                if (elements.stopButton) elements.stopButton.disabled = false;
+
+                console.log(`Started new background music: ${config.name}`);
+            }
+        } else if (requestedConfigKey === currentConfigKey) {
+            // Same config requested - don't restart if already playing
+            if (playbackState.isPlaying) {
+                console.log(`Same music (${config.name}) already playing - not restarting`);
+                return;
+            } else {
+                // Same config but not playing - start it
+                if (config.backgroundMusic) {
+                    startLayeredPlayback(true);
+                    state.isPlaying = true;
+
+                    if (elements.playButton) elements.playButton.disabled = true;
+                    if (elements.stopButton) elements.stopButton.disabled = false;
+
+                    console.log(`Resumed background music: ${config.name}`);
+                }
+            }
+        } else {
+            // No specific config requested - just start current config if not playing
+            if (!playbackState.isPlaying && config.backgroundMusic) {
+                startLayeredPlayback(true);
+                state.isPlaying = true;
+
+                if (elements.playButton) elements.playButton.disabled = true;
+                if (elements.stopButton) elements.stopButton.disabled = false;
+
+                console.log(`Started background music: ${config.name}`);
+            }
+        }
+    } catch (error) {
+        console.error('Error in startBackgroundMusicSmart:', error);
     }
 }
 
@@ -352,24 +411,7 @@ function setupEvents() {
 function setupTutorialMusicTrigger() {
     document.addEventListener('tutorialFirstClose', (event) => {
         console.log('Tutorial first close event received:', event.detail.message);
-
-        if (config.backgroundMusic) {
-            try {
-                console.log('Starting background music after tutorial close...');
-                startLayeredPlayback(true);
-                state.isPlaying = true;
-
-                // Update button states
-                if (elements.playButton) elements.playButton.disabled = true;
-                if (elements.stopButton) elements.stopButton.disabled = false;
-
-                console.log('Background music started successfully');
-            } catch (error) {
-                console.error('Failed to start background music after tutorial:', error);
-            }
-        } else {
-            console.log('No background music configured');
-        }
+        startBackgroundMusicSmart(); // Start current config without forcing restart
     });
 }
 
@@ -381,9 +423,8 @@ function setupMusicSelectionListener() {
         const selectedConfig = event.detail.configKey;
         console.log('Music selection received:', selectedConfig);
 
-        if (applyMusicConfig(selectedConfig)) {
-            reinitializeWithNewConfig();
-        }
+        // Use smart music starter that handles config switching
+        startBackgroundMusicSmart(selectedConfig);
     });
 }
 
