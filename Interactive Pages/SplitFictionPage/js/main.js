@@ -143,9 +143,9 @@ const musicConfigs = {
             1: 'Audio/Split Screen[Fantasy](Flutes).mp3',
             2: 'Audio/Split Screen[Fantasy](Violas & Celli).mp3',
             3: 'Audio/Split Screen[Fantasy](Violins).mp3',
-            4: 'Audio/Split Screen[Sci-fi](Lead Synth).mp3',
-            5: 'Audio/Split Screen[Sci-fi](Rhythm Synth).mp3',
-            6: 'Audio/Split Screen[Sci-fi](Pad).mp3'
+            4: 'Audio/Split Screen[Sci-Fi](Lead Synth).mp3',
+            5: 'Audio/Split Screen[Sci-Fi](Rhythm Synth).mp3',
+            6: 'Audio/Split Screen[Sci-Fi](Pad).mp3'
         },
         backgroundMusic: 'Audio/Split Screen(Background).mp3',
         nestedItems: {
