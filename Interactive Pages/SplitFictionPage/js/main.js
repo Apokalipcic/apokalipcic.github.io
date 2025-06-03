@@ -140,14 +140,14 @@ const musicConfigs = {
         playerANotes: [1, 2, 3],
         playerBNotes: [4, 5, 6],
         audioFiles: {
-            1: 'Audio/Split Screen[Fantasy](Flutes).mp3',
-            2: 'Audio/Split Screen[Fantasy](Violas & Celli).mp3',
-            3: 'Audio/Split Screen[Fantasy](Violins).mp3',
-            4: 'Audio/Split Screen[Sci-Fi](Lead Synth).mp3',
-            5: 'Audio/Split Screen[Sci-Fi](Rhythm Synth).mp3',
-            6: 'Audio/Split Screen[Sci-Fi](Pad).mp3'
+            1: 'Audio/Split%20Screen%5BFantasy%5D%28Flutes%29.mp3',           // [Fantasy](Flutes)
+            2: 'Audio/Split%20Screen%5BFantasy%5D%28Violas%20%26%20Celli%29.mp3', // [Fantasy](Violas & Celli)
+            3: 'Audio/Split%20Screen%5BFantasy%5D%28Violins%29.mp3',         // [Fantasy](Violins)
+            4: 'Audio/Split%20Screen%5BSci-Fi%5D%28Lead%20Synth%29.mp3',     // [Sci-Fi](Lead Synth)
+            5: 'Audio/Split%20Screen%5BSci-Fi%5D%28Rhythm%20Synth%29.mp3',   // [Sci-Fi](Rhythm Synth)
+            6: 'Audio/Split%20Screen%5BSci-Fi%5D%28Pad%29.mp3'              // [Sci-Fi](Pad)
         },
-        backgroundMusic: 'Audio/Split Screen(Background).mp3',
+        backgroundMusic: 'Audio/Split%20Screen%28Background%29.mp3',        // (Background)
         nestedItems: {
             //2: [3],
             //3: [5],
