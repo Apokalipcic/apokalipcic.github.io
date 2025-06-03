@@ -14,7 +14,7 @@
     transition: opacity 0.15s ease, clip-path 0.15s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: absolute; /* Make notes absolute positioned */
-    z-index: 5; /* Above panels but below divider */
+    z-index: 15; /* Above panels but below divider */
     background-color: transparent; /* Transparent background by default */
     border: none;
     overflow: visible;

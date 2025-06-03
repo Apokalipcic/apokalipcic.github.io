@@ -578,10 +578,10 @@ function dropActiveNote(x, y) {
             handleCrossSideDrop(x, y);
         }
 
-        // Reset active note appearance
-        if (activeNote) {
-            activeNote.style.zIndex = '5';
-        }
+        //// Reset active note appearance
+        //if (activeNote) {
+        //    activeNote.style.zIndex = '15';
+        //}
 
         // Hide portal counterpart
         if (portalCounterpart) {
