@@ -149,9 +149,9 @@ const musicConfigs = {
         },
         backgroundMusic: 'Audio/Split%20Screen%28Background%29.mp3',        // (Background)
         nestedItems: {
-            //2: [3],
-            //3: [5],
-            //5: [4]
+            1: [4],
+            5: [2],
+            2: [6]
         }
     }
 };
@@ -204,6 +204,9 @@ function applyMusicConfig(configKey) {
                 state.nestedRelationships[child] = parseInt(parent);
             });
         });
+
+        console.log('Setting up note drag events...');
+        setupNoteDragEvents(elements, state, config);
 
         console.log(`Applied music config: ${config.name} (${configKey})`);
         return true;
@@ -380,8 +383,8 @@ function initializeUI() {
  */
 function setupEvents() {
     try {
-        console.log('Setting up note drag events...');
-        setupNoteDragEvents(elements, state, config);
+        //console.log('Setting up note drag events...');
+        //setupNoteDragEvents(elements, state, config);
 
         console.log('Setting up divider drag...');
         setupDividerDrag(elements, updateScreenSplit);
