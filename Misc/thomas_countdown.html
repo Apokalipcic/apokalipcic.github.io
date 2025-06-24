@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thomas's Epic Procrastination Counter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a1a;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            padding: 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            color: #ccc;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+
+        .timer-container {
+            background: transparent;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+        }
+
+        .clock {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .flip-clock-wrapper {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .flip-clock-divider .flip-clock-label {
+            color: #a8b8d3 !important;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .flip-clock-divider {
+            background: transparent !important;
+        }
+
+        .flip-clock-dot {
+            background: #00ff88 !important;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3) !important;
+        }
+
+        @media (max-width: 768px) {
+            .clock {
+                max-width: 100%;
+            }
+            
+            .timer-container {
+                padding: 1rem;
+            }
+        }
+
+        .funny-messages {
+            color: #fff;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin: 1.5rem 0;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            max-width: 600px;
+            backdrop-filter: blur(5px);
+        }
+
+        .cta-button {
+            background: linear-gradient(145deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .timer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .timer-container {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">THOMAS'S PROCRASTINATION TIMER</h1>
+        <p class="subtitle">Time since "Before Your Eyes" was released and Thomas still hasn't played it</p>
+        
+        <div class="timer-container">
+            <div class="clock"></div>
+        </div>
+        
+        <div class="funny-messages">
+            <div class="message" id="funnyMessage">Loading excuse generator...</div>
+        </div>
+        
+        <button class="cta-button" onclick="playNow()">FINE, I'LL PLAY IT NOW!</button>
+    </div>
+
+    <script>
+        const funnyMessages = [
+            "⏰ Time is ticking, Thomas! Unlike your playtime...",
+            "🕹️ Other people have finished the game 47 times by now",
+            "😴 Thomas is too busy sleeping to play a 90-minute game",
+            "🎯 Achievement Unlocked: Master Procrastinator",
+            "🎲 Plot twist: Thomas forgot he even owns the game",
+            "⚡ Breaking: Local man discovers new form of time travel (avoiding games)",
+            "🎪 Thomas's excuses are more creative than the game's story",
+            "🌟 Scientists baffled by Thomas's ability to ignore crying games",
+            "🎨 Thomas is waiting for the Director's Cut... of his motivation",
+            "🚀 NASA could launch a mission to Mars faster than Thomas starts this game",
+            "😄 Thomas rather blink than play a game"
+        ];
+
+        let messageIndex = 0;
+
+        function updateFunnyMessage() {
+            const messageElement = document.getElementById('funnyMessage');
+            messageElement.textContent = funnyMessages[messageIndex];
+            messageIndex = (messageIndex + 1) % funnyMessages.length;
+        }
+
+        function playNow() {
+            try {
+                // Try to open Steam game directly
+                window.open('steam://launch/1082430/dialog', '_self');
+
+                // Show confirmation message
+                setTimeout(() => {
+                    document.getElementById('funnyMessage').textContent = "🎮 Attempting to launch 'Before Your Eyes' in Steam!";
+                }, 500);
+
+            } catch (error) {
+                // Fallback messages if Steam protocol doesn't work
+                const messages = [
+                    "🎮 Steam protocol launched! (If you have Steam installed)",
+                    "🔗 Opening Steam... Make sure Steam is running!",
+                    "⚡ Launching game... or at least trying to! 🚀",
+                    "🎯 If nothing happened, copy this to your cmd: steam://launch/1082430/dialog"
+                ];
+
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                document.getElementById('funnyMessage').textContent = randomMessage;
+            }
+        }
+
+
+        window.addEventListener('load', (event) => {
+            let clock;
+            // Grab the current date
+            let currentDate = new Date();
+            // Target past date when Thomas should have started
+            let targetDate = moment("2025-04-04 19:00");
+            // Calculate the difference in seconds since that date
+            let diff = currentDate.getTime() / 1000 - targetDate / 1000;
+            
+            if (diff <= 0) {
+                // If the date hasn't arrived yet
+                clock = $(".clock").FlipClock(0, {
+                    clockFace: "DailyCounter",
+                    countdown: false,
+                    autostart: false
+                });
+                console.log("Date hasn't arrived yet!")
+                
+            } else {
+                // Run timer counting up from that date
+                clock = $(".clock").FlipClock(diff, {
+                    clockFace: "DailyCounter",
+                    countdown: false
+                });
+            }
+
+            updateFunnyMessage();
+            setInterval(updateFunnyMessage, 5000);
+        });
+    </script>
+</body>
+</html>
