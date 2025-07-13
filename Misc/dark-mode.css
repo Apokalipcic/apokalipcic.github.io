@@ -309,11 +309,21 @@ body {
     color: var(--text-secondary);
 }
 
+[data-theme="dark"] .carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+}
+
 /* Carousel Controls */
-.carousel-btn {
+[data-theme="dark"] .carousel-btn {
     background-color: var(--surface-primary);
     color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    border: 5px solid var(--border-color);
     box-shadow: 0 2px 8px var(--shadow-light);
 }
 
