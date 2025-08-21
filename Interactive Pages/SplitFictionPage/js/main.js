@@ -116,7 +116,7 @@ function validateConfig(config) {
 const musicConfigs = {
     pop: {
         name: "Daft Punk",
-        totalCells: 6,
+        totalCells: 5,
         playerACells: [1, 2, 5],
         playerBCells: [3, 4],
         playerANotes: [1, 2, 5],
@@ -129,7 +129,7 @@ const musicConfigs = {
             5: 'Audio/Daft_Punk_Get_Lucky_Chorus.mp3'
         },
         backgroundMusic: 'Audio/Daft_Punk_Get_Lucky_Drums.mp3',
-        nestedItems: {}
+        nestedItems: {            1: [4]}
     },
 
     ost: {
