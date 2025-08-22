@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Bebas Neue', sans-serif;
+            background: radial-gradient(circle at center, #1a0000 0%, #000000 100%);
+            color: #333;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 2s ease-in-out;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 100px,
+                    rgba(80, 0, 0, 0.03) 100px,
+                    rgba(80, 0, 0, 0.03) 101px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 100px,
+                    rgba(80, 0, 0, 0.03) 100px,
+                    rgba(80, 0, 0, 0.03) 101px
+                );
+            pointer-events: none;
+        }
+
+        .countdown-container {
+            text-align: center;
+            transition: all 2s ease-in-out;
+            position: relative;
+        }
+
+        .countdown-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(139, 0, 0, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: ominousGlow 3s ease-in-out infinite alternate;
+        }
+
+        .heartbeat-container {
+            margin-top: 3rem;
+            width: 600px;
+            height: 80px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .heartbeat-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #ff0000;
+            box-shadow: 0 0 5px #ff0000;
+            opacity: 0.6;
+        }
+
+        .heartbeat-trace {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heartbeat-path {
+            fill: none;
+            stroke: #ff0000;
+            stroke-width: 2;
+            filter: drop-shadow(0 0 8px #ff0000);
+        }
+
+        .heartbeat-mask {
+            animation: revealHeartbeat 6s linear infinite;
+        }
+
+        @keyframes revealHeartbeat {
+            0% { 
+                x: -100px;
+            }
+            100% { 
+                x: 900px;
+            }
+        }
+
+        .countdown {
+            font-size: 8rem;
+            font-weight: 400;
+            color: #ff0000;
+            letter-spacing: 0.05em;
+            text-shadow: 
+                0 0 20px #ff0000,
+                0 0 40px #cc0000,
+                0 0 60px #990000,
+                2px 2px 0px #330000,
+                4px 4px 0px #220000;
+            transition: all 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+            animation: menacing 4s ease-in-out infinite;
+        }
+
+        .countdown.pulse {
+            animation: menacing 4s ease-in-out infinite, brutalpulse 1.5s infinite;
+        }
+
+        @keyframes ominousGlow {
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        @keyframes menacing {
+            0%, 100% { 
+                transform: perspective(1000px) rotateX(0deg) scale(1);
+            }
+            25% { 
+                transform: perspective(1000px) rotateX(-2deg) scale(1.02);
+            }
+            75% { 
+                transform: perspective(1000px) rotateX(2deg) scale(0.98);
+            }
+        }
+
+        @keyframes brutalpulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px #ff0000,
+                    0 0 40px #cc0000,
+                    0 0 60px #990000,
+                    2px 2px 0px #330000,
+                    4px 4px 0px #220000;
+            }
+            50% { 
+                text-shadow: 
+                    0 0 30px #ff3333,
+                    0 0 60px #ff0000,
+                    0 0 90px #cc0000,
+                    3px 3px 0px #550000,
+                    6px 6px 0px #330000;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Christmas Reveal Styles */
+        body.christmas {
+            background: linear-gradient(135deg, #0f4c3a 0%, #1a5c4a 50%, #0f4c3a 100%);
+            color: #fff;
+        }
+
+        .christmas-reveal {
+            display: none;
+            text-align: center;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        .christmas-reveal.show {
+            display: block;
+        }
+
+        .christmas-message {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: glow 2s infinite alternate;
+        }
+
+        .christmas-subtitle {
+            font-size: 1.5rem;
+            color: #4ecdc4;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-in 1s forwards;
+        }
+
+        .christmas-tree {
+            font-size: 2rem;
+            color: #2ecc71;
+            margin: 2rem 0;
+            opacity: 0;
+            animation: treeGrow 2s ease-out 1.5s forwards;
+        }
+
+        .ornaments {
+            display: inline-block;
+            margin: 0 1rem;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: twinkle 1s ease-in 2.5s forwards;
+        }
+
+        .red { color: #e74c3c; }
+        .gold { color: #f39c12; }
+        .blue { color: #3498db; }
+
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 1rem;
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(255, 107, 107, 0.3); }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 30px rgba(255, 107, 107, 0.6); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes treeGrow {
+            from { 
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
+            to { 
+                opacity: 1;
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes twinkle {
+            from { 
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Test button for demo */
+        .test-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .test-btn:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="countdown-container">
+        <div class="countdown pulse" id="countdown">
+            Loading...
+        </div>
+        <div class="heartbeat-container">
+            <div class="heartbeat-line"></div>
+            <svg class="heartbeat-trace" viewBox="0 0 600 80" preserveAspectRatio="none">
+                <defs>
+                    <mask id="heartbeatMask">
+                        <rect class="heartbeat-mask" width="100" height="80" fill="white" x="-100" y="0"/>
+                    </mask>
+                </defs>
+                <path class="heartbeat-path" id="heartbeatPath" d="" mask="url(#heartbeatMask)"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="christmas-reveal" id="christmasReveal">
+        <div class="christmas-message">Merry Christmas!</div>
+        <div class="christmas-subtitle">Hope, Joy & New Beginnings Await</div>
+        <div class="christmas-tree">
+            🌲<span class="ornaments red">●</span><span class="ornaments gold">●</span><span class="ornaments blue">●</span>🌲
+        </div>
+        <div style="margin-top: 2rem; font-size: 1.2rem; color: #95a5a6; opacity: 0; animation: fadeIn 1s ease-in 3s forwards;">
+            The wait is over. Let the magic begin.
+        </div>
+    </div>
+
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <script>
+        // Set target date (Christmas 2025)
+        const targetDate = new Date('December 25, 2025 00:00:00').getTime();
+        
+        function generateAllHeartbeats() {
+            const centerY = 40;
+            const beatWidth = 150; // Width per heartbeat including gap - syncs to 1 beat per second
+            const numBeats = Math.ceil(900 / beatWidth) + 2; // Enough to cover animation range + buffer
+            
+            let pathData = `M0,${centerY} `;
+            
+            for (let i = 0; i < numBeats; i++) {
+                const startX = i * beatWidth;
+                
+                // Flat line before spike with slight pre-curve (45px)
+                pathData += `L${startX + 45},${centerY} `;
+                
+                // Subtle pre-beat curve up (~)
+                pathData += `Q${startX + 48},${centerY - 3} ${startX + 50},${centerY} `;
+                
+                // Sharp spike up (5px wide, 25px high)
+                pathData += `L${startX + 55},${centerY - 25} `;
+                
+                // Sharp spike down (5px wide, 15px below baseline)  
+                pathData += `L${startX + 60},${centerY + 15} `;
+                
+                // Return to baseline with slight curve
+                pathData += `L${startX + 63},${centerY} `;
+                
+                // Subtle post-beat curve down (~)
+                pathData += `Q${startX + 66},${centerY + 3} ${startX + 70},${centerY} `;
+                
+                // Flat line after spike (80px gap to next beat)
+                pathData += `L${startX + 150},${centerY} `;
+            }
+            
+            document.getElementById('heartbeatPath').setAttribute('d', pathData);
+        }
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            if (distance < 0) {
+                revealChristmas();
+                return;
+            }
+            
+            const totalSeconds = Math.floor(distance / 1000);
+            document.getElementById('countdown').textContent = totalSeconds.toLocaleString();
+        }
+        
+        // Generate all heartbeats at startup
+        generateAllHeartbeats();
+        
+        function revealChristmas() {
+            document.body.classList.add('christmas');
+            document.querySelector('.countdown-container').style.display = 'none';
+            document.getElementById('christmasReveal').classList.add('show');
+            createSnowflakes();
+            
+            // Hide test button
+            document.querySelector('.test-btn').style.display = 'none';
+        }
+        
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeSymbols = ['❄', '❅', '✻', '✼', '❆'];
+            
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = Math.random() * 2 + 's';
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+        
+        // Test function for demo purposes
+        function testReveal() {
+            revealChristmas();
+        }
+        
+        // Update countdown every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
